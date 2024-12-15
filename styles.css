@@ -49,7 +49,26 @@ header h1 {
     transform: scale(1.1);
 }
 
-/* Comment Section */
+/* Styling for the Email Me Button */
+.email-button {
+    display: inline-block;
+    background-color: #f39c12;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.3s;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.email-button:hover {
+    background-color: #e67e22;
+    transform: scale(1.05);
+}
+
+/* Styling for the comment section containing Google Form */
 #comments {
     background-color: #f9f9f9;
     padding: 30px;
@@ -57,14 +76,18 @@ header h1 {
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border: 2px solid #e1e1e1;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #comments iframe {
     width: 100%;
-    max-width: 640px;
     height: 600px;
     border: none;
-    margin: 20px 0;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /* Comments Display Section */
@@ -104,39 +127,19 @@ header h1 {
     margin-bottom: 0;  /* Remove bottom margin for the last comment */
 }
 
-/* Footer Section */
+/* Footer Styling */
 footer {
     background-color: #222;
     color: #fff;
     text-align: center;
     padding: 20px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    font-size: 1.2em;
+    margin-top: 30px;
 }
 
 footer p {
     margin: 0;
-    font-size: 1.2em;
-}
-
-/* Media Query for Responsiveness */
-@media (max-width: 768px) {
-    header h1 {
-        font-size: 2.5em;
-    }
-
-    .buttons {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    #comments iframe {
-        height: 500px;
-    }
-
-    #comment-section h3 {
-        font-size: 1.5em;
-    }
-
-    footer p {
-        font-size: 1em;
-    }
 }
