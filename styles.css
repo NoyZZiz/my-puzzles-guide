@@ -1,168 +1,137 @@
-/* General Body Styling */
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #2c3e50; /* Dark background */
-    color: #ecf0f1; /* Light text for contrast */
-    margin: 0;
-    padding: 0;
+    font-family: 'Roboto', sans-serif; /* Choose a clean, modern font */
+    background: #1a1a1a; /* Dark background for the website */
+    color: #fff; /* White text for contrast */
 }
 
-/* Header Section */
 header {
-    background: url('background-image.jpg') no-repeat center center fixed; /* Add your background image URL */
-    background-size: cover;
-    color: #fff;
-    padding: 80px 20px;
+    background-color: #333; /* Dark background for the header */
+    color: #f39c12; /* Gold accent color for the header */
+    padding: 20px 0;
     text-align: center;
 }
-
-header h1 {
-    font-family: 'Bangers', sans-serif;
-    font-size: 3em;
-    margin-bottom: 20px;
-}
-
-header p {
-    font-size: 1.2em;
-    margin-top: 10px;
-}
-
-/* Navigation Bar */
-nav {
+/* Add this to make the navigation sticky */
+header {
     position: sticky;
     top: 0;
-    background-color: #222;
+    z-index: 10;
+    background-color: #333;
+}
+
+nav {
     padding: 10px 0;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    background-color: #2c3e50;
 }
 
 nav a {
-    color: #f39c12;
-    margin: 0 20px;
-    font-size: 1.1em;
+    color: #fff;
+    padding: 10px 20px;
     text-decoration: none;
-    text-transform: uppercase;
+    font-size: 1.1em;
 }
 
 nav a:hover {
-    color: #e67e22;
-}
-
-/* Content Sections */
-.section {
-    padding: 50px 20px;
-    text-align: center;
-}
-
-.section h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 2.5em;
-    color: #f39c12;
-    margin-bottom: 20px;
-}
-
-.card {
-    background-color: #34495e;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
-
-/* Buttons */
-button {
     background-color: #f39c12;
+    color: #fff;
+}
+
+
+h1 {
+    font-size: 2.5em;
+    color: #f39c12; /* Bright accent color */
+    font-weight: bold;
+}
+
+button {
+    background-color: #e67e22; /* CTA button color */
     color: white;
     border: none;
-    padding: 15px 30px;
-    font-size: 1.2em;
-    text-transform: uppercase;
-    border-radius: 10px;
+    padding: 15px 25px;
+    font-size: 1em;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 10px;
 }
 
 button:hover {
-    background-color: #e67e22;
-    transform: scale(1.1);
+    background-color: #d35400;
 }
 
-/* Footer Section */
 footer {
-    background-color: #222;
+    background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 20px;
-    position: relative;
-    bottom: 0;
-    width: 100%;
+    padding: 10px;
+    margin-top: 40px;
 }
 
-/* Styling for the comment section */
 #comments {
-    background-color: #f9f9f9;  /* Light background for comments */
-    padding: 30px;
-    margin: 30px 0;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background: #2c3e50; /* Dark background for the comment section */
+    margin-top: 40px;
+    border-radius: 10px;
+    border: 2px solid #e67e22;
+}
+
+.comment {
+    background: #34495e;
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #e67e22;
+}
+
+#signin-section {
+    padding: 20px;
+    background: #34495e;
+    margin-top: 40px;
+    border-radius: 10px;
+    border: 2px solid #e67e22;
+}
+
+input, textarea {
+    padding: 10px;
+    margin: 10px 0;
     width: 100%;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Optional: Customizing Giscus iframe */
-#comments iframe {
-    width: 100%;
-    height: 600px;
-    border: none;
-    border-radius: 8px;
-}
-
-/* Heading for the comment section */
-#comments h2 {
-    font-size: 2.5em;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* Additional custom styling for the comment button */
-#comments button {
-    background-color: #f39c12;
+    border-radius: 5px;
+    border: 1px solid #e67e22;
+    background: #2c3e50;
     color: white;
-    padding: 12px 24px;
+}
+
+input[type="submit"] {
+    background-color: #e67e22;
+    color: white;
     border: none;
     cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
+    padding: 10px 20px;
 }
 
-#comments button:hover {
-    background-color: #e67e22;
+input[type="submit"]:hover {
+    background-color: #d35400;
 }
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    header h1 {
-        font-size: 2em;
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
     }
 
-    .section {
-        padding: 30px 15px;
+    header, footer {
+        padding: 15px;
     }
 
-    .card {
-        margin: 10px;
-    }
-
-    nav a {
+    .comment {
+        padding: 15px;
         font-size: 1em;
-        margin: 0 10px;
+    }
+
+    input, textarea {
+        font-size: 1em;
+    }
+
+    button {
+        padding: 10px 20px;
     }
 }
