@@ -51,6 +51,22 @@ function loadDisqus() {
         (d.head || d.body).appendChild(s);
     })();
 }
+// Adjust the scroll offset for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute("href");
+        const targetElement = document.querySelector(targetId);
+
+        // Scroll to the target element with a small offset
+        window.scrollTo({
+            top: targetElement.offsetTop - 100, // Adjust this number to control the scroll offset
+            behavior: "smooth"
+        });
+    });
+});
+
 
 // 4. Handle Comment Form Submission
 document.getElementById('commentForm').addEventListener('submit', function(event) {
