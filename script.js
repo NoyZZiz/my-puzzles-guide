@@ -12,6 +12,13 @@ window.onload = function() {
         loadDisqus();
     }
 };
+document.getElementById('submit-button').addEventListener('click', function() {
+    gtag('event', 'button_click', {
+        'event_category': 'form',
+        'event_label': 'Submit Button'
+    });
+ });
+ 
 
 // 2. Handle Sign-In Form Submission
 document.getElementById('signin-form').addEventListener('submit', function(event) {
