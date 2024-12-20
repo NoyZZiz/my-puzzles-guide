@@ -8,12 +8,18 @@ body {
     box-sizing: border-box;
 }
 
-/* Professional Heading Text Effect */
+/* Neon Text Effect */
 .neon-text {
     font-size: 2.5em;
     color: #fff;
-    text-shadow: 0 0 10px rgba(0, 191, 255, 0.5), 0 0 20px rgba(0, 191, 255, 0.3);  /* Subtle glow effect */
+    text-shadow: 0 0 10px rgba(0, 191, 255, 0.5), 0 0 20px rgba(0, 191, 255, 0.3);  /* Subtle neon glow */
     text-align: center;
+}
+
+/* Neon Border for Buttons and Sections */
+.neon-border {
+    border: 2px solid #00bfff;  /* Neon blue border */
+    box-shadow: 0 0 10px 3px #00bfff, 0 0 20px 5px #00bfff, 0 0 30px 7px #00bfff;  /* Neon glow around */
 }
 
 /* Navigation Buttons Styling */
@@ -28,7 +34,7 @@ body {
     padding: 12px 25px;
     background-color: #333;  /* Darker background for better readability */
     color: #fff;  /* White text for contrast */
-    border: 2px solid #00bfff;  /* Light blue border for a modern feel */
+    border: 2px solid #00bfff;  /* Neon blue border */
     border-radius: 5px;
     font-size: 1.2em;
     cursor: pointer;
@@ -53,10 +59,12 @@ body {
 
 /* Content Sections */
 section {
+    background-color: #222;  /* Dark background for better text visibility */
     padding: 40px;
     margin: 20px;
     border-radius: 10px;
-    background-color: #222;  /* Dark background for contrast */
+    border: 2px solid #00bfff;  /* Neon blue border for sections */
+    box-shadow: 0 0 10px #00bfff;  /* Subtle neon glow for sections */
 }
 
 /* Footer Styling */
@@ -66,6 +74,7 @@ footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
+    border-top: 2px solid #00bfff;  /* Neon blue border at the top of the footer */
 }
 
 footer .neon-text {
