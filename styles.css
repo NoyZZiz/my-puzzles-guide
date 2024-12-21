@@ -3,27 +3,26 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #111, #222); /* Dark gradient background */
+    background-color: #222;  /* Dark background for contrast */
     color: #fff;  /* White text for readability */
     box-sizing: border-box;
-    line-height: 1.6;
 }
 
-/* Neon Text Effect */
+/* Metallic Text Effect */
 .neon-text {
     font-size: 2.5em;
     color: #fff;
-    text-shadow: 0 0 10px rgba(0, 191, 255, 0.5), 0 0 20px rgba(0, 191, 255, 0.3);  /* Subtle neon glow */
+    text-shadow: 0 0 15px rgba(192, 192, 192, 0.7), 0 0 30px rgba(192, 192, 192, 0.5);  /* Metallic shine effect */
     text-align: center;
 }
 
-/* Neon Border for Sections */
+/* Metallic Border for Sections */
 .neon-border {
-    border: 2px solid transparent;  /* Transparent border for the glowing effect */
-    background-image: linear-gradient(45deg, #00bfff, #ff00ff); /* Soft gradient for contrast */
+    border: 2px solid transparent;
+    background-image: linear-gradient(45deg, #b9b9b9, #e0e0e0); /* Silver gradient */
     background-origin: border-box;
     background-clip: content-box;
-    box-shadow: 0 0 15px rgba(0, 191, 255, 0.5), 0 0 25px rgba(255, 0, 255, 0.4);  /* Neon glow */
+    box-shadow: 0 0 10px rgba(192, 192, 192, 0.5), 0 0 20px rgba(192, 192, 192, 0.3);  /* Soft metallic glow */
 }
 
 /* Navigation Buttons Styling */
@@ -36,26 +35,26 @@ body {
 
 .buttons button {
     padding: 12px 25px;
-    background-color: #333;  /* Darker background for elegance */
-    color: #fff;  /* White text for contrast */
-    border: 2px solid #00bfff;  /* Neon blue border */
+    background-color: #333;  /* Dark background */
+    color: #fff;
+    border: 2px solid #d4af37;  /* Gold border for luxury feel */
     border-radius: 5px;
     font-size: 1.2em;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px #00bfff;  /* Subtle neon glow */
+    box-shadow: 0 0 10px #d4af37;  /* Subtle gold glow */
 }
 
 .buttons button:hover {
-    background-color: #444;  /* Slightly lighter background on hover */
-    box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff;  /* Stronger glow effect */
+    background-color: #444;  /* Lighter dark background */
+    box-shadow: 0 0 15px #d4af37, 0 0 30px #d4af37;  /* Gold glow effect on hover */
     transform: scale(1.05);  /* Subtle scale effect */
 }
 
-/* Neon Background for Content */
+/* Metallic Background for Content */
 .neon-background {
-    background-color: #111;  /* Dark background for content */
-    box-shadow: 0 0 10px 3px #00bfff, 0 0 20px 5px #00bfff, 0 0 30px 7px #00bfff;  /* Neon glow */
+    background-color: #111; /* Deep dark background */
+    box-shadow: 0 0 10px 3px #d4af37, 0 0 20px 5px #d4af37, 0 0 30px 7px #d4af37;  /* Soft metallic glow */
     padding: 30px;
     border-radius: 10px;
     margin-top: 20px;
@@ -63,12 +62,12 @@ body {
 
 /* Content Sections */
 section {
-    background-color: #222;  /* Dark background for content */
+    background-color: #222;  /* Dark background */
     padding: 40px;
     margin: 20px;
     border-radius: 10px;
-    border: 2px solid #00bfff;  /* Neon blue border */
-    box-shadow: 0 0 10px #00bfff;  /* Subtle glow around sections */
+    border: 2px solid #d4af37;  /* Gold border */
+    box-shadow: 0 0 10px #d4af37;  /* Subtle glow effect */
 }
 
 /* Footer Styling */
@@ -78,7 +77,7 @@ footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
-    border-top: 2px solid #00bfff;  /* Neon blue border for the footer */
+    border-top: 2px solid #d4af37;  /* Gold border for footer */
 }
 
 /* Comment Section Styling */
@@ -101,7 +100,7 @@ footer {
 
 #commentForm button {
     padding: 10px;
-    background-color: #00bfff;
+    background-color: #d4af37; /* Gold color */
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -110,7 +109,7 @@ footer {
 }
 
 #commentForm button:hover {
-    background-color: #00a8cc;  /* Subtle hover effect */
+    background-color: #c59026;  /* Slightly darker gold on hover */
 }
 
 /* Sign-in Form Styling */
@@ -139,7 +138,7 @@ footer {
 
 #signin-form button {
     padding: 10px;
-    background-color: #00bfff;
+    background-color: #d4af37;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -148,7 +147,7 @@ footer {
 }
 
 #signin-form button:hover {
-    background-color: #00a8cc;  /* Subtle hover effect */
+    background-color: #c59026; /* Slightly darker gold on hover */
 }
 
 /* Responsive Design */
