@@ -89,35 +89,35 @@
     }
 
     // 9. Toggle Visibility of the Troop Strength Guide Section
-    const toggleButton = document.getElementById('toggle-troop-guide');
-    const troopImprovementGuide = document.getElementById('troop-improvement-guide');
+    // 1. Main button to toggle "Troop Strength Guide" section
+const toggleButton = document.getElementById('toggle-troop-guide');
+const troopImprovementGuide = document.getElementById('troop-improvement-guide');
 
-    toggleButton.addEventListener('click', function() {
-        if (troopImprovementGuide.style.display === 'none') {
-            troopImprovementGuide.style.display = 'block'; // Show the entire section
+// Toggle visibility of the "Troop Strength Guide" section (only sub-buttons)
+toggleButton.addEventListener('click', function() {
+    if (troopImprovementGuide.style.display === 'none') {
+        troopImprovementGuide.style.display = 'block'; // Show the sub-section buttons
+    } else {
+        troopImprovementGuide.style.display = 'none'; // Hide the sub-section buttons
+    }
+});
+
+// 2. Function to toggle visibility of individual sub-section buttons
+function toggleButtonVisibility(buttonId) {
+    const button = document.getElementById(buttonId);
+
+    button.addEventListener('click', function() {
+        if (this.nextElementSibling.style.display === 'none') {
+            this.nextElementSibling.style.display = 'block'; // Show the content below
         } else {
-            troopImprovementGuide.style.display = 'none'; // Hide the entire section
+            this.nextElementSibling.style.display = 'none'; // Hide the content below
         }
     });
+}
 
-    // 10. Toggle Content for Individual Guide Sections (Troop Types, Building Castle, etc.)
-    function toggleContent(buttonId, contentId) {
-        const button = document.getElementById(buttonId);
-        const content = document.getElementById(contentId);
-
-        button.addEventListener('click', function() {
-            if (content.style.display === 'none') {
-                content.style.display = 'block'; // Show the content
-            } else {
-                content.style.display = 'none'; // Hide the content
-            }
-        });
-    }
-
-    // Apply toggleContent to individual sections
-    toggleContent('toggle-troop-types', 'troop-types');
-    toggleContent('toggle-building-castle', 'building-castle');
-    toggleContent('toggle-producing-troops', 'producing-troops');
-    toggleContent('toggle-increasing-troop-strength', 'increasing-troop-strength');
-    toggleContent('toggle-heroes-curios-runes', 'heroes-curios-runes');
-</script>
+// Apply to all sub-section buttons
+toggleButtonVisibility('toggle-troop-types');
+toggleButtonVisibility('toggle-building-castle');
+toggleButtonVisibility('toggle-producing-troops');
+toggleButtonVisibility('toggle-increasing-troop-strength');
+toggleButtonVisibility('toggle-heroes-curios-runes');
