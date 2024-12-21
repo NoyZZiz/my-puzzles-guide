@@ -1,10 +1,10 @@
 /* Global Styles */
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #111;
-    color: #fff;
+    background-color: #222;  /* Dark grey/charcoal background */
+    color: #fff;  /* White text for readability */
     box-sizing: border-box;
 }
 
@@ -18,11 +18,11 @@ body {
 
 /* Neon Border for Sections */
 .neon-border {
-    border: 2px solid transparent;  /* Transparent base border */
-    background-image: linear-gradient(45deg, #8e8e8e, #00bfff); /* Gradient of soft silver/blue */
+    border: 2px solid transparent;  /* Transparent border for the glowing effect */
+    background-image: linear-gradient(45deg, #8e8e8e, #00bfff); /* Soft gradient for contrast */
     background-origin: border-box;
     background-clip: content-box;
-    box-shadow: 0 0 15px rgba(0, 191, 255, 0.4), 0 0 25px rgba(0, 191, 255, 0.3);  /* Subtle neon glow */
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.4), 0 0 25px rgba(0, 191, 255, 0.3);  /* Neon glow */
 }
 
 /* Navigation Buttons Styling */
@@ -35,25 +35,25 @@ body {
 
 .buttons button {
     padding: 12px 25px;
-    background-color: #444;  /* Slightly lighter background for elegance */
+    background-color: #333;  /* Slightly darker background for elegance */
     color: #fff;  /* White text for contrast */
     border: 2px solid #00bfff;  /* Neon blue border */
     border-radius: 5px;
     font-size: 1.2em;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);  /* Subtle neon glow */
+    box-shadow: 0 0 10px #00bfff;  /* Subtle neon glow */
 }
 
 .buttons button:hover {
-    background-color: #555;  /* Darker background on hover */
-    box-shadow: 0 0 20px rgba(0, 191, 255, 0.4);  /* Stronger glow effect */
+    background-color: #444;  /* Slightly lighter background on hover */
+    box-shadow: 0 0 15px #00bfff;  /* Stronger glow effect on hover */
     transform: scale(1.05);  /* Subtle scale effect */
 }
 
 /* Neon Background for Content */
 .neon-background {
-    background-color: #111;
+    background-color: #111;  /* Dark background for content */
     box-shadow: 0 0 10px 3px #00bfff, 0 0 20px 5px #00bfff, 0 0 30px 7px #00bfff;  /* Neon glow */
     padding: 30px;
     border-radius: 10px;
@@ -62,12 +62,12 @@ body {
 
 /* Content Sections */
 section {
-    background-color: #222;  /* Dark background for better text visibility */
+    background-color: #222;  /* Dark background for content */
     padding: 40px;
     margin: 20px;
     border-radius: 10px;
-    border: 2px solid #00bfff;  /* Neon blue border for sections */
-    box-shadow: 0 0 10px #00bfff;  /* Subtle neon glow for sections */
+    border: 2px solid #00bfff;  /* Neon blue border */
+    box-shadow: 0 0 10px #00bfff;  /* Subtle glow around sections */
 }
 
 /* Footer Styling */
@@ -77,11 +77,7 @@ footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
-    border-top: 2px solid #00bfff;  /* Neon blue border at the top of the footer */
-}
-
-footer .neon-text {
-    font-size: 1.2em;
+    border-top: 2px solid #00bfff;  /* Neon blue border for the footer */
 }
 
 /* Comment Section Styling */
