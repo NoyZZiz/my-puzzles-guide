@@ -170,3 +170,18 @@ footer .neon-text {
         padding: 20px;
     }
 }
+/* Neon Border for Sections */
+.neon-border {
+    border: 2px solid #00bfff;  /* Neon blue border */
+    box-shadow: 0 0 10px 3px #00bfff, 0 0 20px 5px #00bfff, 0 0 30px 7px #00bfff;  /* Neon glow around */
+}
+
+/* Content Sections */
+section {
+    background-color: #222;  /* Dark background for better text visibility */
+    padding: 40px;
+    margin: 20px;
+    border-radius: 10px;
+    border: 2px solid #00bfff;  /* Neon blue border for sections */
+    box-shadow: 0 0 10px #00bfff;  /* Subtle neon glow for sections */
+}
