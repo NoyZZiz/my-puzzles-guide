@@ -27,12 +27,10 @@
 
         <!-- Navigation Buttons -->
         <div class="buttons">
-            <button class="neon-border" onclick="location.href='#troop-types'">Troop Types and Counters</button>
-            <button class="neon-border" onclick="location.href='#building-castle'">Building Your Castle</button>
-            <button class="neon-border" onclick="location.href='#producing-troops'">Producing Troops</button>
-            <button class="neon-border" onclick="location.href='#increasing-strength'">Increasing Troop Strength</button>
-            <button class="neon-border" onclick="location.href='#heroes'">Heroes, Curios, and Runes</button>
+            <button id="toggle-troop-guide">Troop Strength Guide</button>
             <button onclick="location.href='#talent-memory-guide'">Talent Memory Guide</button>
+            <section id="troop-improvement-guide" style="display: none;">
+                <h2>Troop Strength Guides</h2>
 
         </div>
     </header>
@@ -187,7 +185,8 @@
     
 
     <!-- Section 1: Troop Types and Counters -->
-    <section id="troop-types"class="neon-background">
+    <button class="toggle-content-btn" id="toggle-troop-types">Troop Types and Counters</button>
+    <section id="troop-types" style="display: none;">
         <h2>1. Troop Types and Counters</h2>
         <p>Understanding troop interactions is crucial to success:</p>
         <ul>
@@ -199,7 +198,8 @@
     </section>
 
     <!-- Section 2: Building Your Castle -->
-    <section id="building-castle"class="neon-background">
+    <button class="toggle-content-btn" id="toggle-building-castle">Building Your Castle</button>
+    <section id="building-castle" style="display: none;">
         <h2>2. Building Your Castle</h2>
         <p>Your castle is the core of your kingdom. To progress, focus on:</p>
         <ul>
@@ -210,7 +210,8 @@
     </section>
 
     <!-- Section 3: Producing Troops -->
-    <section id="producing-troops"class="neon-background">
+    <button class="toggle-content-btn" id="toggle-producing-troops">Producing Troops</button>
+    <section id="producing-troops" style="display: none;">
         <h2>3. Producing Troops</h2>
         <p>Once you reach Castle Level 22 and upgrade your Barracks, focus on producing as many troops as possible. Key tips:</p>
         <ul>
@@ -222,7 +223,8 @@
 
     <!-- Section 4: Increasing Troop Strength -->
    <!-- Section 4: Increasing Troop Strength -->
-<section id="increasing-strength"class="neon-background">
+   <button class="toggle-content-btn" id="toggle-increasing-troop-strength">Increasing Troop Strength</button>
+   <section id="increasing-troop-strength" style="display: none;">
     <h2>4. Increasing Troop Strength</h2>
     <p>There are multiple ways to boost your troop strength:</p>
     
@@ -281,7 +283,8 @@
     </ul>
 </section>
 <!-- Section 6: Heroes, Curios, and Runes -->
-<section id="heroes"class="neon-background">
+<button class="toggle-content-btn" id="toggle-heroes-curios-runes">Heroes, Curios, and Runes</button>
+    <section id="heroes-curios-runes" style="display: none;">
     <h2>6. Heroes, Curios, and Runes</h2>
 
     <h3>Hero Buffs</h3>
@@ -384,7 +387,7 @@
         <li>Training (capacity and speed)</li>
         <li>Healing (capacity and speed)</li>
         <li>Wall defense, storage capacity, troop load</li>
-        <li>Stamina replenishment and march speed toward monsters</li>
+        <li>Stamina replenishment and march speed</li>
     </ul>
     <p><strong>Special Talents:</strong></p>
     <ul>
