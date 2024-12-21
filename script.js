@@ -61,6 +61,23 @@ document.getElementById('commentForm').addEventListener('submit', function(event
     document.getElementById('name').value = '';  // Clear form after submission
     document.getElementById('comment').value = '';
 });
+// Toggle Section Visibility for Buttons
+// Toggle Section Visibility for Buttons
+document.querySelector('.button-selector').addEventListener('click', function () {
+    document.querySelector('#target-section').classList.toggle('active');
+});
+
+// Handling the talent-memory guide button
+document.querySelector('#talent-memory-guide-button').addEventListener('click', function () {
+    document.querySelector('#talent-memory-guide').classList.toggle('active');
+});
+
+// Handling other buttons dynamically if needed
+document.querySelector('.button-for-other-sections').addEventListener('click', function () {
+    document.querySelector('#other-section').classList.toggle('active');
+});
+
+
 
 // Load saved comments from local storage
 window.onload = function() {
