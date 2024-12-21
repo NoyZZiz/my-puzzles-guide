@@ -4,7 +4,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: #111;
-    color: #fff;                                     
+    color: #fff;
     box-sizing: border-box;
 }
 
@@ -16,10 +16,13 @@ body {
     text-align: center;
 }
 
-/* Neon Border for Buttons and Sections */
+/* Neon Border for Sections */
 .neon-border {
-    border: 2px solid #00bfff;  /* Neon blue border */
-    box-shadow: 0 0 10px 3px #00bfff, 0 0 20px 5px #00bfff, 0 0 30px 7px #00bfff;  /* Neon glow around */
+    border: 2px solid transparent;  /* Transparent base border */
+    background-image: linear-gradient(45deg, #8e8e8e, #00bfff); /* Gradient of soft silver/blue */
+    background-origin: border-box;
+    background-clip: content-box;
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.4), 0 0 25px rgba(0, 191, 255, 0.3);  /* Subtle neon glow */
 }
 
 /* Navigation Buttons Styling */
@@ -32,23 +35,23 @@ body {
 
 .buttons button {
     padding: 12px 25px;
-    background-color: #333;  /* Darker background for better readability */
+    background-color: #444;  /* Slightly lighter background for elegance */
     color: #fff;  /* White text for contrast */
     border: 2px solid #00bfff;  /* Neon blue border */
     border-radius: 5px;
     font-size: 1.2em;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff;  /* Subtle neon glow */
+    box-shadow: 0 0 15px rgba(0, 191, 255, 0.2);  /* Subtle neon glow */
 }
 
 .buttons button:hover {
-    background-color: #444;  /* Slightly lighter background on hover */
-    box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff;  /* Stronger glow effect */
+    background-color: #555;  /* Darker background on hover */
+    box-shadow: 0 0 20px rgba(0, 191, 255, 0.4);  /* Stronger glow effect */
     transform: scale(1.05);  /* Subtle scale effect */
 }
 
-/* Neon Background */
+/* Neon Background for Content */
 .neon-background {
     background-color: #111;
     box-shadow: 0 0 10px 3px #00bfff, 0 0 20px 5px #00bfff, 0 0 30px 7px #00bfff;  /* Neon glow */
@@ -79,42 +82,6 @@ footer {
 
 footer .neon-text {
     font-size: 1.2em;
-}
-
-/* Sign-In Form Styling */
-#signin-section {
-    background-color: #222;
-    padding: 40px;
-    margin: 20px;
-    border-radius: 10px;
-    border: 2px solid #00bfff;
-    box-shadow: 0 0 10px 3px #00bfff;
-    text-align: center;
-}
-
-#signin-form input, #signin-form button {
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-}
-
-#signin-form input {
-    background-color: #333;
-    color: #fff;
-    border: 1px solid #444;
-    font-size: 1.1em;
-}
-
-#signin-form button {
-    background-color: #00bfff;
-    color: #fff;
-    border: none;
-    font-size: 1.1em;
-    cursor: pointer;
-}
-
-#signin-form button:hover {
-    background-color: #00a8cc;
 }
 
 /* Comment Section Styling */
@@ -149,6 +116,44 @@ footer .neon-text {
     background-color: #00a8cc;  /* Subtle hover effect */
 }
 
+/* Sign-in Form Styling */
+#signin-section {
+    display: block;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#signin-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#signin-form input {
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #fff;
+    width: 250px;
+}
+
+#signin-form button {
+    padding: 10px;
+    background-color: #00bfff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#signin-form button:hover {
+    background-color: #00a8cc;  /* Subtle hover effect */
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .buttons {
@@ -165,23 +170,4 @@ footer .neon-text {
         padding: 20px;
         margin: 10px;
     }
-
-    #signin-section {
-        padding: 20px;
-    }
-}
-/* Neon Border for Sections */
-.neon-border {
-    border: 2px solid #00bfff;  /* Neon blue border */
-    box-shadow: 0 0 10px 3px #00bfff, 0 0 20px 5px #00bfff, 0 0 30px 7px #00bfff;  /* Neon glow around */
-}
-
-/* Content Sections */
-section {
-    background-color: #222;  /* Dark background for better text visibility */
-    padding: 40px;
-    margin: 20px;
-    border-radius: 10px;
-    border: 2px solid #00bfff;  /* Neon blue border for sections */
-    box-shadow: 0 0 10px #00bfff;  /* Subtle neon glow for sections */
 }
