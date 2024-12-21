@@ -61,7 +61,7 @@ document.getElementById('commentForm').addEventListener('submit', function(event
     document.getElementById('name').value = '';  // Clear form after submission
     document.getElementById('comment').value = '';
 });
-// Toggle Section Visibility for Buttons
+
 // Toggle Section Visibility for Buttons
 document.querySelector('.button-selector').addEventListener('click', function () {
     document.querySelector('#target-section').classList.toggle('active');
@@ -76,8 +76,6 @@ document.querySelector('#talent-memory-guide-button').addEventListener('click', 
 document.querySelector('.button-for-other-sections').addEventListener('click', function () {
     document.querySelector('#other-section').classList.toggle('active');
 });
-
-
 
 // Load saved comments from local storage
 window.onload = function() {
@@ -104,3 +102,38 @@ function loadComments() {
         commentsList.appendChild(commentDiv);
     });
 }
+
+// Sign-In Form Logic
+document.getElementById('signin-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form from refreshing the page
+
+    // Get email and password from the form
+    const email = document.getElementById('signin-email').value;
+    const password = document.getElementById('signin-password').value;
+
+    // Simple validation (expand as needed)
+    if (email && password) {
+        // Store the user in localStorage
+        localStorage.setItem('user', JSON.stringify({ email, name: 'User' }));
+
+        // Hide sign-in form and show comment section
+        document.getElementById('signin-section').style.display = 'none';
+        document.getElementById('comments').style.display = 'block';
+
+        // Load Disqus comment section
+        loadDisqus();
+    } else {
+        alert("Please enter valid email and password.");
+    }
+});
+
+// Check if user is already logged in on page load
+window.onload = function() {
+    const user = localStorage.getItem('user');
+    if (user) {
+        // If user is logged in, hide the sign-in form and show the comment section
+        document.getElementById('signin-section').style.display = 'none';
+        document.getElementById('comments').style.display = 'block';
+        loadDisqus(); // Load Disqus comments if user is logged in
+    }
+};

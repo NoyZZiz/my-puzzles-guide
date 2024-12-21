@@ -25,12 +25,14 @@
         <section id="troop-strength-guide">
             <h2>Troop Strength Guide</h2>
             <p>Description of the guide content goes here.</p>
-            <button class="button-selector" onclick="toggleVisibility('troop-guide')">Troop Strength Guide</button>
+            <div class="buttons">
+                <button class="main-button" onclick="toggleVisibility('troop-strength-guide')">Troop Strength Guide</button>
+                <button class="main-button" onclick="location.href='#talent-memory-guide'">Talent Memory Guide</button>
+            </div>
 
             <!-- Hidden Sub Buttons for Troop Strength Guide -->
             <div class="buttons">
                 <!-- Talent Memory Guide Button -->
-                <button onclick="location.href='#talent-memory-guide'">Talent Memory Guide</button>
                 <button onclick="location.href='#troop-types'">Troop Types and Counters</button>
                 <button onclick="location.href='#building-castle'">Building Your Castle</button>
                 <button onclick="location.href='#producing-troops'">Producing Troops</button>
@@ -191,7 +193,7 @@
     
 
     <!-- Section 1: Troop Types and Counters -->
-    <sdiv id="troop-types">
+    <div id="troop-types">
         <h2>1. Troop Types and Counters</h2>
         <p>Understanding troop interactions is crucial to success:</p>
         <ul>
@@ -203,7 +205,7 @@
     </div>
 
     <!-- Section 2: Building Your Castle -->
-    <sdiv id="building-castle">
+    <div id="building-castle">
         <h2>2. Building Your Castle</h2>
         <p>Your castle is the core of your kingdom. To progress, focus on:</p>
         <ul>
@@ -370,7 +372,7 @@
 </div>
 
 <!-- Talent Sets Overview -->
-<section id="talent-sets">
+<div id="talent-sets">
     <h2>Talent Sets Overview</h2>
     <p>There are three main <strong>Talent Sets</strong> to focus on at <strong>VIP 10</strong>:</p>
     <ul>
@@ -378,10 +380,10 @@
         <li><strong>Attack Set</strong></li>
         <li><strong>Production Set</strong></li>
     </ul>
-</section>
+</div>
 
 <!-- Balance Set -->
-<section id="balance-set">
+<div id="balance-set">
     <h3>Balance Set</h3>
     <p>The <strong>Balance Set</strong> provides buffs for:</p>
     <ul>
@@ -395,10 +397,10 @@
         <li><strong>Hunt Master:</strong> Reduces stamina cost by <strong>20%</strong> for <strong>10 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
         <li><strong>Cost Reduction:</strong> Reduces the cost of training and healing troops by <strong>25%</strong> for <strong>60 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
     </ul>
-</section>
+</div>
 
 <!-- Attack Set -->
-<section id="attack-set">
+<div id="attack-set">
     <h3>Attack Set</h3>
     <p>The <strong>Attack Set</strong> enhances:</p>
     <ul>
@@ -411,10 +413,10 @@
         <li><strong>Recall:</strong> Instantly recalls all troops in <strong>3 seconds</strong> (with an <strong>8-hour cooldown</strong>).</li>
         <li><strong>Mega March:</strong> Increases max troop size by <strong>10%</strong> for <strong>30 minutes</strong> (with a <strong>12-hour cooldown</strong>).</li>
     </ul>
-</section>
+</div>
 
 <!-- Production Set -->
-<section id="production-set">
+<div id="production-set">
     <h3>Production Set</h3>
     <p>The <strong>Production Set</strong> focuses on improving:</p>
     <ul>
@@ -426,10 +428,10 @@
         <li><strong>Fast Build:</strong> Reduces building time for constructions started within <strong>5 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
         <li><strong>Swift Gatherer:</strong> Instantly grants the maximum amount of resources for your gathering troops (excluding alliance and diamond mines) with a <strong>24-hour cooldown</strong>.</li>
     </ul>
-</section>
+</div>
 
 <!-- Talent Set Strategy -->
-<section id="talent-strategy">
+<div id="talent-strategy">
     <h3 class="neon-text">Talent Set Strategy</h3>
     <p>With <strong>three preset talent sets</strong> at VIP 10 and the ability to have <strong>four sets</strong> at VIP 11, you have a great deal of flexibility. You are free to <strong>change your set anytime</strong> based on your needs:</p>
     <ul>
@@ -447,4 +449,4 @@
     <p>By constantly adapting and switching between these sets, you can optimize your growth and strategy, depending on your in-game needs.</p>
 
     <p>-Lisette</p>
-</section>
+</div>
