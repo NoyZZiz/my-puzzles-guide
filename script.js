@@ -62,48 +62,7 @@ document.getElementById('commentForm').addEventListener('submit', function(event
     document.getElementById('comment').value = '';
 });
 
-// Toggle Section Visibility for Buttons
-document.querySelector('.button-selector').addEventListener('click', function () {
-    document.querySelector('#target-section').classList.toggle('active');
-});
-
-// Handling the talent-memory guide button
-document.querySelector('#talent-memory-guide-button').addEventListener('click', function () {
-    document.querySelector('#talent-memory-guide').classList.toggle('active');
-});
-
-// Handling other buttons dynamically if needed
-document.querySelector('.button-for-other-sections').addEventListener('click', function () {
-    document.querySelector('#other-section').classList.toggle('active');
-});
-
-// Load saved comments from local storage
-window.onload = function() {
-    alert("Welcome to the Puzzles and Conquest Guide by Noyzzing! Let’s conquer together!");
-    loadComments();
-};
-
-// Save comment to local storage
-function saveCommentToLocalStorage(name, comment) {
-    let comments = JSON.parse(localStorage.getItem('comments')) || [];
-    comments.push({ name, comment });
-    localStorage.setItem('comments', JSON.stringify(comments));
-}
-
-// Load comments from local storage
-function loadComments() {
-    let comments = JSON.parse(localStorage.getItem('comments')) || [];
-    const commentsList = document.getElementById('commentsList');
-
-    comments.forEach(comment => {
-        const commentDiv = document.createElement('div');
-        commentDiv.classList.add('comment');
-        commentDiv.innerHTML = `<strong>${comment.name}</strong><p>${comment.comment}</p>`;
-        commentsList.appendChild(commentDiv);
-    });
-}
-
-// Sign-In Form Logic
+// Sign-In Form Logic (added consolidated handling)
 document.getElementById('signin-form').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent form from refreshing the page
 
@@ -127,13 +86,44 @@ document.getElementById('signin-form').addEventListener('submit', function(event
     }
 });
 
-// Check if user is already logged in on page load
-window.onload = function() {
-    const user = localStorage.getItem('user');
-    if (user) {
-        // If user is logged in, hide the sign-in form and show the comment section
-        document.getElementById('signin-section').style.display = 'none';
-        document.getElementById('comments').style.display = 'block';
-        loadDisqus(); // Load Disqus comments if user is logged in
-    }
-};
+// Check if user is already logged in on page load (only once)
+if (localStorage.getItem('user')) {
+    // If user is logged in, hide the sign-in form and show the comment section
+    document.getElementById('signin-section').style.display = 'none';
+    document.getElementById('comments').style.display = 'block';
+    loadDisqus(); // Load Disqus comments if user is logged in
+}
+
+// Handling visibility of sections for better user experience
+document.querySelector('.button-selector').addEventListener('click', function () {
+    document.querySelector('#target-section').classList.toggle('active');
+});
+
+document.querySelector('#talent-memory-guide-button').addEventListener('click', function () {
+    document.querySelector('#talent-memory-guide').classList.toggle('active');
+});
+
+// Handling other buttons dynamically if needed
+document.querySelector('.button-for-other-sections').addEventListener('click', function () {
+    document.querySelector('#other-section').classList.toggle('active');
+});
+
+// Save comment to local storage
+function saveCommentToLocalStorage(name, comment) {
+    let comments = JSON.parse(localStorage.getItem('comments')) || [];
+    comments.push({ name, comment });
+    localStorage.setItem('comments', JSON.stringify(comments));
+}
+
+// Load comments from local storage
+function loadComments() {
+    let comments = JSON.parse(localStorage.getItem('comments')) || [];
+    const commentsList = document.getElementById('commentsList');
+
+    comments.forEach(comment => {
+        const commentDiv = document.createElement('div');
+        commentDiv.classList.add('comment');
+        commentDiv.innerHTML = `<strong>${comment.name}</strong><p>${comment.comment}</p>`;
+        commentsList.appendChild(commentDiv);
+    });
+}
