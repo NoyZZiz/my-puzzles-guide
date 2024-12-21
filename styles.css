@@ -1,28 +1,24 @@
 /* Global Styles */
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #222;  /* Dark background for contrast */
+    background-color: #1a1a1a;  /* Dark background for luxury feel */
     color: #fff;  /* White text for readability */
     box-sizing: border-box;
 }
 
-/* Metallic Text Effect */
-.neon-text {
-    font-size: 2.5em;
-    color: #fff;
-    text-shadow: 0 0 15px rgba(192, 192, 192, 0.7), 0 0 30px rgba(192, 192, 192, 0.5);  /* Metallic shine effect */
+/* Headings Styling */
+h1, h2, h3 {
+    color: #d4af37;  /* Luxurious gold color */
     text-align: center;
+    font-weight: bold;
 }
 
-/* Metallic Border for Sections */
+/* Metallic Gold Border for Buttons and Sections */
 .neon-border {
-    border: 2px solid transparent;
-    background-image: linear-gradient(45deg, #b9b9b9, #e0e0e0); /* Silver gradient */
-    background-origin: border-box;
-    background-clip: content-box;
-    box-shadow: 0 0 10px rgba(192, 192, 192, 0.5), 0 0 20px rgba(192, 192, 192, 0.3);  /* Soft metallic glow */
+    border: 2px solid #d4af37;  /* Gold border */
+    box-shadow: 0 0 5px #d4af37, 0 0 10px 3px #d4af37;  /* Soft gold shadow */
 }
 
 /* Navigation Buttons Styling */
@@ -35,26 +31,26 @@ body {
 
 .buttons button {
     padding: 12px 25px;
-    background-color: #333;  /* Dark background */
-    color: #fff;
-    border: 2px solid #d4af37;  /* Gold border for luxury feel */
+    background-color: #333;  /* Darker background for better readability */
+    color: #fff;  /* White text for contrast */
+    border: 2px solid #d4af37;  /* Gold metallic border */
     border-radius: 5px;
     font-size: 1.2em;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px #d4af37;  /* Subtle gold glow */
+    box-shadow: 0 0 5px #d4af37, 0 0 10px #d4af37;  /* Soft gold shadow */
 }
 
 .buttons button:hover {
-    background-color: #444;  /* Lighter dark background */
-    box-shadow: 0 0 15px #d4af37, 0 0 30px #d4af37;  /* Gold glow effect on hover */
+    background-color: #444;  /* Slightly lighter background on hover */
+    box-shadow: 0 0 15px #d4af37, 0 0 25px #d4af37;  /* Darker gold shadow on hover */
     transform: scale(1.05);  /* Subtle scale effect */
 }
 
-/* Metallic Background for Content */
+/* Metallic Gold Background */
 .neon-background {
-    background-color: #111; /* Deep dark background */
-    box-shadow: 0 0 10px 3px #d4af37, 0 0 20px 5px #d4af37, 0 0 30px 7px #d4af37;  /* Soft metallic glow */
+    background-color: #111;  /* Darker background to highlight the gold */
+    box-shadow: 0 0 5px #d4af37, 0 0 10px #d4af37;  /* Gold glow */
     padding: 30px;
     border-radius: 10px;
     margin-top: 20px;
@@ -62,12 +58,12 @@ body {
 
 /* Content Sections */
 section {
-    background-color: #222;  /* Dark background */
+    background-color: #222;  /* Dark background for contrast */
     padding: 40px;
     margin: 20px;
     border-radius: 10px;
-    border: 2px solid #d4af37;  /* Gold border */
-    box-shadow: 0 0 10px #d4af37;  /* Subtle glow effect */
+    border: 2px solid #d4af37;  /* Gold metallic border for sections */
+    box-shadow: 0 0 5px #d4af37, 0 0 10px #d4af37;  /* Soft gold glow for sections */
 }
 
 /* Footer Styling */
@@ -77,7 +73,7 @@ footer {
     text-align: center;
     padding: 20px;
     margin-top: 40px;
-    border-top: 2px solid #d4af37;  /* Gold border for footer */
+    border-top: 2px solid #d4af37;  /* Gold metallic border at the top of the footer */
 }
 
 /* Comment Section Styling */
@@ -100,7 +96,7 @@ footer {
 
 #commentForm button {
     padding: 10px;
-    background-color: #d4af37; /* Gold color */
+    background-color: #d4af37;  /* Gold background for buttons */
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -109,45 +105,7 @@ footer {
 }
 
 #commentForm button:hover {
-    background-color: #c59026;  /* Slightly darker gold on hover */
-}
-
-/* Sign-in Form Styling */
-#signin-section {
-    display: block;
-    text-align: center;
-    margin-top: 20px;
-}
-
-#signin-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-#signin-form input {
-    padding: 10px;
-    font-size: 1.1em;
-    border-radius: 5px;
-    border: 1px solid #444;
-    background-color: #333;
-    color: #fff;
-    width: 250px;
-}
-
-#signin-form button {
-    padding: 10px;
-    background-color: #d4af37;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#signin-form button:hover {
-    background-color: #c59026; /* Slightly darker gold on hover */
+    background-color: #b38b2b;  /* Slightly darker gold on hover */
 }
 
 /* Responsive Design */
