@@ -35,17 +35,23 @@ body {
 }
 .calculator-link {
     display: inline-block;
-    padding: 12px 20px;
-    background-color: rgba(72, 191, 227, 0.2);
-    color: #48bfe3;
-    text-decoration: none;
+    padding: 10px 20px;
+    background-color: #222;
+    color: #fff;
+    text-decoration: none; /* Remove underline from link */
+    border: 2px solid #00bfff;  /* Neon border */
     border-radius: 5px;
-    transition: background-color 0.3s, color 0.3s;
-  }
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 10px;
+}
+  
   
   .calculator-link:hover {
-    background-color: #48bfe3;
-    color: #000;
+    background-color: #444;
+    box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff; /* Neon glow effect */
+    transform: scale(1.05); /* Slight enlargement on hover */
   }
   
 
