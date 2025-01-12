@@ -1,0 +1,182 @@
+/* Global Styles */ 
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #111;
+    color: #fff;
+    box-sizing: border-box;
+}
+.military-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #222;
+    color: #fff;
+    text-decoration: none; /* Remove underline from link */
+    border: 2px solid #00bfff;  /* Neon border */
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 10px;  /* Adding space around the link to separate it from other elements */
+    text-align: center; /* Center the text inside the link */
+}
+
+.military-button:hover {
+    background-color: #444;
+    box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff; /* Neon glow effect */
+    transform: scale(1.05); /* Slight enlargement on hover */
+}
+
+/* Additional container styling for alignment */
+.container {
+    text-align: center;  /* Center all child elements, including the link */
+    margin-top: 20px;  /* Add space above the container */
+}
+.calculator-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #222;
+    color: #fff;
+    text-decoration: none; /* Remove underline from link */
+    border: 2px solid #00bfff;  /* Neon border */
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 10px;
+    text-align: center;
+}
+  
+  
+  .calculator-link:hover {
+    background-color: #444;
+    box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff; /* Neon glow effect */
+    transform: scale(1.05); /* Slight enlargement on hover */
+  }
+  
+
+
+
+/* Neon Text Effect */
+.neon-text {
+    font-size: 2.5em;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.3); /* Gold glow */
+    text-align: center;
+}
+
+/* Metallic Gold Border for Buttons and Sections */
+.neon-border {
+    border: 2px solid #FFD700;  /* Metallic gold border */
+    box-shadow: 0 0 10px 3px #FFD700, 0 0 20px 5px #FFD700, 0 0 30px 7px #FFD700; /* Metallic gold glow */
+}
+
+/* Navigation Buttons Styling */
+.buttons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.buttons button {
+    padding: 12px 25px;
+    background-color: #333;  /* Darker background for better readability */
+    color: #fff;  /* White text for contrast */
+    border: 2px solid #FFD700;  /* Metallic gold border */
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700; /* Subtle gold glow */
+}
+
+.buttons button:hover {
+    background-color: #444;  /* Slightly lighter background on hover */
+    box-shadow: 0 0 15px #FFD700, 0 0 30px #FFD700; /* Stronger glow effect */
+    transform: scale(1.05);  /* Subtle scale effect */
+}
+
+/* Metallic Gold Background */
+.neon-background {
+    background-color: #111;
+    box-shadow: 0 0 10px 3px #FFD700, 0 0 20px 5px #FFD700, 0 0 30px 7px #FFD700;  /* Metallic gold glow */
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+/* Content Sections */
+section {
+    background-color: #222;  /* Dark background for better text visibility */
+    padding: 40px;
+    margin: 20px;
+    border-radius: 10px;
+    border: 2px solid #FFD700;  /* Metallic gold border for sections */
+    box-shadow: 0 0 10px #FFD700;  /* Subtle gold glow for sections */
+}
+
+/* Footer Styling */
+footer {
+    background-color: #222;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    border-top: 2px solid #FFD700;  /* Metallic gold border at the top of the footer */
+}
+
+footer .neon-text {
+    font-size: 1.2em;
+}
+
+/* Comment Section Styling */
+#commentForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+#commentForm input,
+#commentForm textarea {
+    padding: 10px;
+    font-size: 1.1em;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #fff;
+}
+
+#commentForm button {
+    padding: 10px;
+    background-color: #FFD700;  /* Metallic gold */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#commentForm button:hover {
+    background-color: #FFCC00;  /* Subtle hover effect */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .buttons button {
+        width: 100%;
+        padding: 12px;
+    }
+
+    section {
+        padding: 20px;
+        margin: 10px;
+    }
+}
