@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troop & Resource Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="calculator-styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Links -->
+        <a href="index.html" class="back-button">Back to Home</a>
+        <a href="military-expedition-guide.html" class="back-button">Back to Military Expedition Guide</a>
+
+        <!-- Title -->
+        <h1>Troop & Resource Calculator</h1>
+
+        <!-- Tab Buttons -->
+        <div class="tab-buttons">
+            <button id="troop-tab" onclick="showTroopCalculator()">Troop Calculator</button>
+            <button id="resource-needed-tab" onclick="showResourceNeededCalculator()">Resources Needed Calculator</button>
+            <button id="resource-produce-tab" onclick="showResourceProduceCalculator()">Troops from Resources Calculator</button>
+            <button id="speedup-tab" onclick="showSpeedupCalculator()">Speed-Up Calculator</button>
+        </div>
+
+        <!-- Troop Calculator Section -->
+        <div id="troop-calculator" class="calculator-section active">
+            <h2>Calculate Number of Troops with Given Speed-Ups</h2>
+            <label for="training-cap">Training Capacity (number of troops per batch):</label>
+            <input type="number" id="training-cap" placeholder="Enter training capacity">
+
+            <label for="run-time-hours">Run Time (Hours):</label>
+            <input type="number" id="run-time-hours" placeholder="Enter hours">
+
+            <label for="run-time-minutes">Run Time (Minutes):</label>
+            <input type="number" id="run-time-minutes" placeholder="Enter minutes">
+
+            <label for="buff-slider">Training Speed Buff (%):</label>
+            <input type="range" id="buff-slider" min="0" max="1000" step="1" oninput="updateBuffValue()">
+            <span id="buff-value">0%</span>
+
+            <label for="troop-might">Troop Might per Unit:</label>
+            <input type="number" id="troop-might" placeholder="Enter troop might (e.g., 45)">
+
+            <h3>Speed-Ups</h3>
+            <label for="1hr-speedups">1-Hour Speed-Ups:</label>
+            <input type="number" id="1hr-speedups" placeholder="Enter number of 1-hour speed-ups">
+
+            <label for="30min-speedups">30-Minute Speed-Ups:</label>
+            <input type="number" id="30min-speedups" placeholder="Enter number of 30-minute speed-ups">
+
+            <label for="15min-speedups">15-Minute Speed-Ups:</label>
+            <input type="number" id="15min-speedups" placeholder="Enter number of 15-minute speed-ups">
+
+            <label for="10min-speedups">10-Minute Speed-Ups:</label>
+            <input type="number" id="10min-speedups" placeholder="Enter number of 10-minute speed-ups">
+
+            <label for="5min-speedups">5-Minute Speed-Ups:</label>
+            <input type="number" id="5min-speedups" placeholder="Enter number of 5-minute speed-ups">
+
+            <button onclick="calculateTroops()">Calculate Troops</button>
+
+            <div id="troop-result"></div>
+        </div>
+
+        <!-- Resource Needed Calculator Section -->
+        <div id="resource-needed-calculator" class="calculator-section">
+            <h2>Resources Needed Calculator</h2>
+            <label for="troop-count">Number of Troops:</label>
+            <input type="number" id="troop-count" placeholder="Enter troop count">
+
+            <label for="food-cost">Food:</label>
+            <input type="number" id="food-cost" placeholder="Enter food cost per troop">
+
+            <label for="wood-cost">Wood:</label>
+            <input type="number" id="wood-cost" placeholder="Enter wood cost per troop">
+
+            <label for="iron-cost">Iron:</label>
+            <input type="number" id="iron-cost" placeholder="Enter iron cost per troop">
+
+            <label for="gold-cost">Gold:</label>
+            <input type="number" id="gold-cost" placeholder="Enter gold cost per troop">
+
+            <label for="resource-buff">Resource Boost (%):</label>
+            <input type="range" id="resource-buff" min="0" max="50" step="1" oninput="updateResourceBuffValue()">
+            <span id="resource-buff-value">0%</span>
+
+            <button onclick="calculateResourcesNeeded()">Calculate Resources Needed</button>
+
+            <div id="resource-needed-result"></div>
+        </div>
+
+        <!-- Troops from Resources Calculator Section -->
+        <div id="resource-produce-calculator" class="calculator-section">
+        
+            <h2>Troops from Resources Calculator</h2>
+    
+            <p><strong>This feature is coming soon! Stay tuned for updates.</strong></p>
+           <!--  <label for="available-food">Available Food:</label>
+            <input type="number" id="available-food" placeholder="Enter available food">
+
+            <label for="available-wood">Available Wood:</label>
+            <input type="number" id="available-wood" placeholder="Enter available wood">
+
+            <label for="available-iron">Available Iron:</label>
+            <input type="number" id="available-iron" placeholder="Enter available iron">
+
+            <label for="available-gold">Available Gold:</label>
+            <input type="number" id="available-gold" placeholder="Enter available gold">
+
+            <label for="troop-food-cost">Food Cost per Troop:</label>
+            <input type="number" id="troop-food-cost" placeholder="Enter food cost per troop">
+
+            <label for="troop-wood-cost">Wood Cost per Troop:</label>
+            <input type="number" id="troop-wood-cost" placeholder="Enter wood cost per troop">
+
+            <label for="troop-iron-cost">Iron Cost per Troop:</label>
+            <input type="number" id="troop-iron-cost" placeholder="Enter iron cost per troop">
+
+            <label for="troop-gold-cost">Gold Cost per Troop:</label>
+            <input type="number" id="troop-gold-cost" placeholder="Enter gold cost per troop">
+
+            <label for="produce-resource-buff">Resource Boost (%):</label>
+            <input type="range" id="produce-resource-buff" min="0" max="50" step="1" oninput="updateProduceResourceBuffValue()">
+            <span id="produce-resource-buff-value">0%</span> 
+
+            <button onclick="calculateTroopsFromResources()">Calculate Troops from Resources</button>  -->
+
+            <div id="resource-produce-result"></div>
+        </div>
+
+        <!-- Speed-Up Calculator Section -->
+        <div id="speedup-calculator" class="calculator-section">
+            <h2>Calculate Speed-Ups Required for Target Troops</h2>
+            <label for="target-troop-count">Target Number of Troops:</label>
+            <input type="number" id="target-troop-count" placeholder="Enter target number of troops">
+
+            <label for="current-training-cap">Training Capacity per Batch:</label>
+            <input type="number" id="current-training-cap" placeholder="Enter training capacity per batch">
+
+            <label for="batch-time-hours">Batch Time (Hours):</label>
+            <input type="number" id="batch-time-hours" placeholder="Enter batch time in hours">
+
+            <label for="batch-time-minutes">Batch Time (Minutes):</label>
+            <input type="number" id="batch-time-minutes" placeholder="Enter batch time in minutes">
+
+            <button onclick="calculateSpeedUps()">Calculate Speed-Ups</button>
+
+            <div id="speedup-result"></div>
+        </div>
+    </div>
+
+    <script src="calculator_logic.js"></script>
+</body>
+</html>
