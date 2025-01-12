@@ -9,24 +9,31 @@ body {
 }
 .military-button {
     display: inline-block;
-    padding: 12px 25px;
-    background-color: #333; /* Darker background for better readability */
-    color: #fff; /* White text for contrast */
-    border: 2px solid #00bfff; /* Neon blue border */
+    padding: 10px 20px;
+    background-color: #222;
+    color: #fff;
+    text-decoration: none; /* Remove underline from link */
+    border: 2px solid #00bfff;  /* Neon border */
     border-radius: 5px;
-    font-size: 1.2em;
+    font-size: 1.1em;
     cursor: pointer;
-    text-align: center;
-    text-decoration: none; /* Remove underline */
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 0 10px #00bfff, 0 0 20px #00bfff; /* Subtle neon glow */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin: 10px;  /* Adding space around the link to separate it from other elements */
+    text-align: center; /* Center the text inside the link */
 }
 
 .military-button:hover {
-    background-color: #444; /* Slightly lighter background on hover */
-    box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff; /* Stronger glow effect */
-    transform: scale(1.05); /* Subtle scale effect */
+    background-color: #444;
+    box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff; /* Neon glow effect */
+    transform: scale(1.05); /* Slight enlargement on hover */
 }
+
+/* Additional container styling for alignment */
+.container {
+    text-align: center;  /* Center all child elements, including the link */
+    margin-top: 20px;  /* Add space above the container */
+}
+
 
 
 /* Neon Text Effect */
