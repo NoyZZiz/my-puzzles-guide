@@ -110,6 +110,17 @@ button:hover {
   color: #000;
   box-shadow: 0 0 25px rgba(72, 191, 227, 1);
 }
+/* Resource Buff Slider Styling */
+#produce-resource-buff-value {
+  display: block;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  color: #48bfe3;
+  text-align: right;
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(72, 191, 227, 0.7);
+}
+
 
 #troop-result,
 #resource-needed-result,

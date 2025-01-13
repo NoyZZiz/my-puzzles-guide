@@ -100,11 +100,52 @@ function calculateResourcesNeeded() {
 }
 
 // Function to display "Coming Soon" placeholder message
+f// Function to calculate troops that can be trained with available resources and buff
 function calculateTroopsFromResources() {
+  const availableFood = parseInt(document.getElementById('available-food').value) || 0;
+  const availableWood = parseInt(document.getElementById('available-wood').value) || 0;
+  const availableIron = parseInt(document.getElementById('available-iron').value) || 0;
+  const availableGold = parseInt(document.getElementById('available-gold').value) || 0;
+
+  const foodCostPerTroop = parseFloat(document.getElementById('troop-food-cost').value) || 0;
+  const woodCostPerTroop = parseFloat(document.getElementById('troop-wood-cost').value) || 0;
+  const ironCostPerTroop = parseFloat(document.getElementById('troop-iron-cost').value) || 0;
+  const goldCostPerTroop = parseFloat(document.getElementById('troop-gold-cost').value) || 0;
+
+  const resourceBuff = parseFloat(document.getElementById('produce-resource-buff').value) || 0;
+
+  // Calculate the effective costs after applying the resource buff
+  const adjustedFoodCost = foodCostPerTroop * (1 - resourceBuff / 100);
+  const adjustedWoodCost = woodCostPerTroop * (1 - resourceBuff / 100);
+  const adjustedIronCost = ironCostPerTroop * (1 - resourceBuff / 100);
+  const adjustedGoldCost = goldCostPerTroop * (1 - resourceBuff / 100);
+
+  // Calculate the number of troops that can be trained with the available resources
+  const troopsFromFood = Math.floor(availableFood / adjustedFoodCost);
+  const troopsFromWood = Math.floor(availableWood / adjustedWoodCost);
+  const troopsFromIron = Math.floor(availableIron / adjustedIronCost);
+  const troopsFromGold = Math.floor(availableGold / adjustedGoldCost);
+
+  // Find the limiting factor
+  const maxTroops = Math.min(troopsFromFood, troopsFromWood, troopsFromIron, troopsFromGold);
+
+  // Display the result
   document.getElementById('resource-produce-result').innerHTML = `
-      <strong>This feature is coming soon! Stay tuned for updates.</strong>
+      <strong>You can train approximately ${formatNumberWithCommas(maxTroops)} troops with the available resources.</strong><br>
+      <strong>Adjusted Costs Per Troop:</strong><br>
+      Food: ${adjustedFoodCost.toFixed(2)}<br>
+      Wood: ${adjustedWoodCost.toFixed(2)}<br>
+      Iron: ${adjustedIronCost.toFixed(2)}<br>
+      Gold: ${adjustedGoldCost.toFixed(2)}
   `;
 }
+
+// Function to update the Resource Buff value display
+function updateProduceResourceBuffValue() {
+  const produceResourceBuffSlider = document.getElementById('produce-resource-buff');
+  document.getElementById('produce-resource-buff-value').textContent = `${produceResourceBuffSlider.value}%`;
+}
+
 
 // Updated Speed-Up Calculation Logic
 function calculateSpeedUps() {
