@@ -48,12 +48,13 @@ function calculateTroops() {
   const trainingCap = parseInt(document.getElementById('training-cap').value) || 0;
   const runTimeHours = parseInt(document.getElementById('run-time-hours').value) || 0;
   const runTimeMinutes = parseInt(document.getElementById('run-time-minutes').value) || 0;
-  const buffPercent = parseInt(document.getElementById('buff-slider').value) || 0;
-  const troopMight = parseInt(document.getElementById('troop-might').value) || 45;
   
   if (buffPercent > 300) {
     buffPercent = 300;
 }
+  const buffPercent = parseInt(document.getElementById('buff-slider').value) || 0;
+  const troopMight = parseInt(document.getElementById('troop-might').value) || 45;
+
 
 
   const totalRunTimeMinutes = runTimeHours * 60 + runTimeMinutes;
