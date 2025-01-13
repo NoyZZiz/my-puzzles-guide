@@ -44,15 +44,28 @@ function updateProduceResourceBuffValue() {
 }
 
 // Function to calculate the number of troops that can be trained with given speed-ups
+function calculateAdjustedTime(baseTimeMinutes, buffPercent) {
+  // Adjusted diminishing returns formula based on game observations
+  const diminishingFactor = 1 - ((Math.log(1 + buffPercent / 100) * 0.915) / 2);
+  const adjustedTimeMinutes = baseTimeMinutes * diminishingFactor;
+
+  // Ensure the adjusted time doesn't go negative
+  return Math.max(adjustedTimeMinutes, 0);
+}
+
+// Function to calculate the number of troops that can be trained with given speed-ups
 function calculateTroops() {
   const trainingCap = parseInt(document.getElementById('training-cap').value) || 0;
   const runTimeHours = parseInt(document.getElementById('run-time-hours').value) || 0;
   const runTimeMinutes = parseInt(document.getElementById('run-time-minutes').value) || 0;
   const buffPercent = parseInt(document.getElementById('buff-slider').value) || 0;
-  const troopMight = parseInt(document.getElementById('troop-might').value) || 45;
+  const troopMight = parseInt(document.getElementById('troop-might-input').value) || 45;
 
+  // Convert run time to total minutes
   const totalRunTimeMinutes = runTimeHours * 60 + runTimeMinutes;
-  const adjustedRunTime = totalRunTimeMinutes * (1 + buffPercent / 100);
+
+  // Apply the adjusted time formula
+  const adjustedRunTime = calculateAdjustedTime(totalRunTimeMinutes, buffPercent);
 
   const oneHourSpeedUps = parseInt(document.getElementById('1hr-speedups').value) || 0;
   const thirtyMinSpeedUps = parseInt(document.getElementById('30min-speedups').value) || 0;
@@ -61,18 +74,20 @@ function calculateTroops() {
   const fiveMinSpeedUps = parseInt(document.getElementById('5min-speedups').value) || 0;
 
   const totalMinutesFromSpeedUps =
-      oneHourSpeedUps * 60 +
-      thirtyMinSpeedUps * 30 +
-      fifteenMinSpeedUps * 15 +
-      tenMinSpeedUps * 10 +
-      fiveMinSpeedUps * 5;
+    oneHourSpeedUps * 60 +
+    thirtyMinSpeedUps * 30 +
+    fifteenMinSpeedUps * 15 +
+    tenMinSpeedUps * 10 +
+    fiveMinSpeedUps * 5;
 
+  // Calculate the number of troops trained
   const troopsTrained = Math.floor((totalMinutesFromSpeedUps / adjustedRunTime) * trainingCap);
   const totalMight = troopsTrained * troopMight;
 
+  // Display the result
   document.getElementById('troop-result').innerHTML = `
-      <strong>You can train approximately ${formatNumberWithCommas(troopsTrained)} troops.</strong><br>
-      Total Might: ${formatNumberWithCommas(totalMight)}
+    <strong>You can train approximately ${formatNumberWithCommas(troopsTrained)} troops.</strong><br>
+    <strong>Total Might: ${formatNumberWithCommas(totalMight)}</strong>
   `;
 }
 
