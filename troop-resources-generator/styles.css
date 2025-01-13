@@ -54,7 +54,31 @@ body {
     box-shadow: 0 0 15px #00bfff, 0 0 30px #00bfff; /* Neon glow effect */
     transform: scale(1.05); /* Slight enlargement on hover */
   }
-  
+  /* Styling the navigation buttons to look like neon buttons */
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.back-button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: rgba(72, 191, 227, 0.2);
+    color: #48bfe3;
+    text-decoration: none;
+    border-radius: 5px;
+    border: 1px solid #48bfe3;
+    box-shadow: 0 0 15px rgba(72, 191, 227, 0.5);
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #48bfe3;
+    color: #000;
+    box-shadow: 0 0 25px rgba(72, 191, 227, 1);
+}
+
 
 
 
