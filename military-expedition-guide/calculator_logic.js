@@ -50,9 +50,14 @@ function calculateTroops() {
   const runTimeMinutes = parseInt(document.getElementById('run-time-minutes').value) || 0;
   const buffPercent = parseInt(document.getElementById('buff-slider').value) || 0;
   const troopMight = parseInt(document.getElementById('troop-might').value) || 45;
+  
+  if (buffPercent > 300) {
+    buffPercent = 300;
+}
+
 
   const totalRunTimeMinutes = runTimeHours * 60 + runTimeMinutes;
-  const adjustedRunTime = totalRunTimeMinutes * (1 + buffPercent / 100);
+  const adjustedRunTime = totalRunTimeMinutes / (1 + Math.log(1 + buffPercent / 100));
 
   const oneHourSpeedUps = parseInt(document.getElementById('1hr-speedups').value) || 0;
   const thirtyMinSpeedUps = parseInt(document.getElementById('30min-speedups').value) || 0;
@@ -69,6 +74,7 @@ function calculateTroops() {
 
   const troopsTrained = Math.floor((totalMinutesFromSpeedUps / adjustedRunTime) * trainingCap);
   const totalMight = troopsTrained * troopMight;
+
 
   document.getElementById('troop-result').innerHTML = `
       <strong>You can train approximately ${formatNumberWithCommas(troopsTrained)} troops.</strong><br>
@@ -163,7 +169,9 @@ function calculateSpeedUps() {
   const batchTimeInMinutes = batchTimeHours * 60 + batchTimeMinutes;
 
   // Calculate time per troop
-  const timePerTroop = batchTimeInMinutes / trainingCapacity;
+  const adjustedBatchTime = batchTimeInMinutes / (1 + Math.log(1 + buffPercent / 100));
+  const timePerTroop = adjustedBatchTime / trainingCapacity;
+
 
   // Calculate total time required in minutes
   const totalTimeInMinutes = targetTroops * timePerTroop;
