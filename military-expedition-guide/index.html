@@ -17,6 +17,26 @@
         </nav>
 
     </header>
+    <!-- Your home page content goes here -->
+
+<!-- Chatbox container -->
+<!-- Chatbox container -->
+<div id="chatbox" class="chatbox">
+    <div id="chat-header" class="chat-header">
+        <span>NoyzBot</span>
+        <button onclick="toggleChat()">X</button>
+    </div>
+    <div id="chat-messages" class="chat-messages"></div>
+    <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter'){ sendMessage(); }">
+    <button id="send-btn" onclick="sendMessage()">Send</button>
+</div>
+
+<!-- Button to open chat -->
+<button id="open-chat-btn" onclick="openChat()">Chat with NoyzBot</button>
+
+<script src="script.js"></script> <!-- Ensure JS file is linked -->
+
+
 
     <!-- Military Expedition Content Section -->
     <section id="military-expedition">

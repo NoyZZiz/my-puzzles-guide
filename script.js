@@ -126,4 +126,61 @@ function loadComments() {
         commentDiv.innerHTML = `<strong>${comment.name}</strong><p>${comment.comment}</p>`;
         commentsList.appendChild(commentDiv);
     });
+    // Open the chat when the button is clicked
+    // Open the chat when the button is clicked
+// Open the chat when the button is clicked
+function openChat() {
+    document.getElementById('chatbox').style.display = 'flex';  // Ensure chatbox is shown
+    
+    // Optional: Send a greeting message from NoyzBot
+    fetch("http://localhost:5000/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ user_input: "open chat" })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('chat-messages').innerHTML = `<p><b>NoyzBot:</b> ${data.response}</p>`;
+    });
+
+    // Add glowing effect to the button
+    const openButton = document.getElementById('open-chat-btn');
+    openButton.style.boxShadow = '0 0 10px rgba(40, 167, 69, 0.9)'; // Apply glowing effect
+    openButton.style.transition = 'box-shadow 0.3s ease'; // Smooth transition effect
+}
+
+    
+
+// Send user message and display it in the chat
+function sendMessage() {
+    const userMessage = document.getElementById('user-input').value;
+    if (userMessage.trim() === "") return;
+
+    const chatMessages = document.getElementById('chat-messages');
+    
+    // Add user's message to chat
+    chatMessages.innerHTML += `<p><b>You:</b> ${userMessage}</p>`;
+    document.getElementById('user-input').value = ""; // Clear the input field
+
+    // Send user message to the backend and get the chatbot response
+    fetch("http://localhost:5000/chat", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ user_input: userMessage })
+    })
+    .then(response => response.json())
+    .then(data => {
+        chatMessages.innerHTML += `<p><b>NoyzBot:</b> ${data.response}</p>`;
+        chatMessages.scrollTop = chatMessages.scrollHeight;  // Auto-scroll to bottom
+    });
+}
+
+// Close the chat when the X button is clicked
+function toggleChat() {
+    document.getElementById('chatbox').style.display = 'none';
+}
 }
