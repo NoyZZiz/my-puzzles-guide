@@ -3,38 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Military Expedition Guide - Puzzles and Conquest</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Include your main stylesheet -->
+    <title>Military Expedition Guide</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Header Section -->
     <header>
         <h1>Military Expedition Guide</h1>
-        <nav>
-            <a href="/" class="back-button"> Home</a>
-            <a href="troop-resources-generator" class="calculator-link">Troop & Resource Calculator</a>
-
+        <nav class="navigation-buttons">
+            <button class="military-button" onclick="window.location.href='index.html'">Home</button>
+            <button class="military-button" onclick="window.location.href='troop-calculator.html'">Troop & Resource Calculator</button>
         </nav>
-
     </header>
-    <!-- Your home page content goes here -->
 
-<!-- Chatbox container -->
-<!-- Chatbox container -->
-<div id="chatbox" class="chatbox">
-    <div id="chat-header" class="chat-header">
-        <span>NoyzBot</span>
-        <button onclick="toggleChat()">X</button>
+    <button id="open-chat-btn" class="chat-btn">Chat with NoyzBot</button>
+    <div id="chatbox" class="chatbox" style="display: none;">
+        <div class="chat-header">
+            <span>NoyzBot</span>
+            <button id="close-chat-btn">X</button>
+        </div>
+        <div id="chat-messages" class="chat-messages"></div>
+        <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter'){ sendMessage(); }">
+        <button id="send-btn" onclick="sendMessage()">Send</button>
     </div>
-    <div id="chat-messages" class="chat-messages"></div>
-    <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter'){ sendMessage(); }">
-    <button id="send-btn" onclick="sendMessage()">Send</button>
-</div>
 
-<!-- Button to open chat -->
-<button id="open-chat-btn" onclick="openChat()">Chat with NoyzBot</button>
-
-<script src="script.js"></script> <!-- Ensure JS file is linked -->
+    <script src="script.js"></script>
+</body>
+</html>
 
 
 

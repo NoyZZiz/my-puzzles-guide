@@ -193,6 +193,10 @@ body {
         right: 5%;
     }
 }
+#chatbox {
+    z-index: 9999 !important;
+}
+
 
 
 
