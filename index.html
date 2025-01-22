@@ -15,10 +15,20 @@
 
 </head>
 <body>
-    <!-- Your home page content goes here -->
-<!-- Chatbox container -->
-
-
+        <!-- Your page content -->
+    
+        <button id="open-chat-btn">Chat with NoyzBot</button>
+    
+        <!-- Chatbox container (hidden by default) -->
+        <div id="chatbox" class="chatbox" style="display: none;">
+            <div id="chat-header" class="chat-header">
+                <span>NoyzBot</span>
+                <button onclick="toggleChat()">X</button>
+            </div>
+            <div id="chat-messages" class="chat-messages"></div>
+            <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter'){ sendMessage(); }">
+            <button id="send-btn" onclick="sendMessage()">Send</button>
+        </div>
 <body>
 
     <!-- Header Section -->
@@ -44,21 +54,8 @@
                 <button onclick="location.href='#increasing-troop-strength'">increasing-troop-strength</button>
                 <button onclick="location.href='#heroes-curios-runes'">heroes-curios-runes</button>
             </div>
-            <!-- Chatbox container -->
-<div id="chatbox" class="chatbox">
-    <div id="chat-header" class="chat-header">
-        <span>NoyzBot</span>
-        <button onclick="toggleChat()">X</button>
-    </div>
-    <div id="chat-messages" class="chat-messages"></div>
-    <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter'){ sendMessage(); }">
-    <button id="send-btn" onclick="sendMessage()">Send</button>
-</div>
+ 
 
-<!-- Button to open chat -->
-<button id="open-chat-btn" onclick="openChat()">Chat with NoyzBot</button>
-
-<script src="script.js"></script> <!-- Ensure JS file is linked -->
 
 
             
@@ -216,7 +213,8 @@
     </script>
     
     <!-- Disqus Comment Count Script -->
-    <script id="dsq-count-scr" src="//noyzzing.disqus.com/count.js" async></script>
+    <script id="dsq-count-scr" src="https://noyzzing.disqus.com/count.js" async></script>
+
     
     <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>    
     </body>

@@ -60,84 +60,23 @@ body {
 /* Chatbox container */
 /* Chatbox container */
 /* Chatbox container */
-.chatbox {
-    position: fixed;
-    bottom: 70px;      /* Adjust to make space for the button */
-    right: 20px;
-    width: 300px;
-    background-color: #28a745;  /* Match the Troop & Resource Calculator button color */
-    color: white;       /* Text color */
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.6); /* Subtle glow effect */
-    display: none;     /* Hidden by default */
-    flex-direction: column;
-    padding: 10px;
-    z-index: 9999;     /* Ensure it’s above other content */
-}
-
-/* Chat header */
-.chat-header {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    color: white;      /* Ensure the header text is white */
-    padding-bottom: 10px;
-}
-
-/* Chat messages area */
-.chat-messages {
-    overflow-y: auto;
-    height: 250px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    padding: 5px;
-    border-radius: 5px;
-    background-color: #f0f0f0;  /* Light gray background for messages */
-}
-
-/* User input field */
-#user-input {
-    width: calc(100% - 80px);
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f0f0f0;
-    color: #333;
-}
-
-/* Send button */
-#send-btn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#send-btn:hover {
-    background-color: #0056b3;
-}
-
-/* Button to open chat */
-/* Button to open chat with glowing effect */
-/* Styling for the Chat with NoyzBot button */
+/* Chatbox container (hidden by default) */
+/* Chatbox container (hidden by default) */
+/* Chatbox container (hidden by default) */
 /* Chatbox container (hidden by default) */
 .chatbox {
     position: fixed;
-    bottom: 70px;      /* Adjust space for button */
+    bottom: 70px;
     right: 20px;
     width: 300px;
-    background-color: #28a745;  /* Green color for the chatbox */
-    color: white;       /* Text color */
+    background-color: red;  /* Change background color to red for testing */
+    color: white;  /* Text color */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 123, 255, 0.6); /* Glow effect */
-    display: none;     /* Hidden by default */
+    display: none;  /* Hidden by default */
     flex-direction: column;
     padding: 10px;
-    z-index: 9999;     /* Ensure it's above other content */
+    z-index: 9999;  /* Ensure this is correct */
 }
 
 /* Chat header (the bar with the title and close button) */
@@ -192,7 +131,7 @@ body {
 #open-chat-btn {
     position: fixed;
     bottom: 20px;
-    right: 350px;  /* Distance from the chatbox */
+    right: 20px;  /* Space the chat open button from the chatbox */
     padding: 10px 20px;
     background-color: #28a745;  /* Green color for the button */
     color: white;
@@ -201,6 +140,7 @@ body {
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 
 #open-chat-btn:hover {
     background-color: #218838;  /* Darker green on hover */
@@ -230,7 +170,6 @@ body {
         right: 20px;  /* Position the button to the right */
     }
 }
-
 
 /* Neon Text Effect */
 .neon-text {
