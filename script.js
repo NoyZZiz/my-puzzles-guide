@@ -1,6 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOM fully loaded.");
 
+    function fetchRandomIntro() {
+        fetch("http://127.0.0.1:5000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_input: "intro" }) // Custom trigger for intros
+        })
+        .then(response => response.json())
+        .then(data => {
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.innerHTML += `<p><b>NoyzBot:</b> ${data.response}</p>`;
+            chatMessages.scrollTop = chatMessages.scrollHeight; 
+        })
+        .catch(error => console.error('❌ Error fetching intro:', error));
+    }
+    
+
     // ✅ Chatbox Toggle Function
     function toggleChat() {
         const chatbox = document.getElementById('chatbox');
@@ -12,10 +28,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeChatBtn = document.querySelector('#chat-header button');
 
     if (openChatBtn) {
-        openChatBtn.addEventListener('click', function () {
-            console.log("💬 Chat button clicked.");
-            toggleChat();
-        });
+       openChatBtn.addEventListener('click', function () {
+       console.log("💬 Chat button clicked.");
+       toggleChat();
+       fetchRandomIntro(); // Call function to fetch an intro when chat opens
+});
     }
 
     if (closeChatBtn) {
