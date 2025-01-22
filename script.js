@@ -2,21 +2,38 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOM fully loaded.");
 
     function fetchRandomIntro() {
+        const chatMessages = document.getElementById('chat-messages');
+    
+        // Clear previous messages (optional)
+        chatMessages.innerHTML = '';
+    
+        // Add a placeholder before the bot replies
+        chatMessages.innerHTML += `
+            <div class="bot-message">
+                <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                <p><b>NoyzBot:</b> Thinking... 🤔</p>
+            </div>
+        `;
+    
         fetch("http://127.0.0.1:5000/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_input: "intro" }) // Custom trigger for intros
+            body: JSON.stringify({ user_input: "intro" }) // Triggers bot intro
         })
         .then(response => response.json())
         .then(data => {
-            const chatMessages = document.getElementById('chat-messages');
-            chatMessages.innerHTML += `<p><b>NoyzBot:</b> ${data.response}</p>`;
-            chatMessages.scrollTop = chatMessages.scrollHeight; 
+            // Replace placeholder with actual response
+            chatMessages.innerHTML = `
+                <div class="bot-message">
+                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                    <p><b>NoyzBot:</b> ${data.response}</p>
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
         })
         .catch(error => console.error('❌ Error fetching intro:', error));
     }
     
-
     // ✅ Chatbox Toggle Function
     function toggleChat() {
         const chatbox = document.getElementById('chatbox');
@@ -28,11 +45,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const closeChatBtn = document.querySelector('#chat-header button');
 
     if (openChatBtn) {
-       openChatBtn.addEventListener('click', function () {
-       console.log("💬 Chat button clicked.");
-       toggleChat();
-       fetchRandomIntro(); // Call function to fetch an intro when chat opens
-});
+        openChatBtn.addEventListener('click', function () {
+            console.log("💬 Chat button clicked.");
+            chatbox.style.display = 'flex';  // Ensure visibility
+            chatbox.style.zIndex = "9999";   // Make sure it's on top
+            fetchRandomIntro();              // Fetch intro when chat opens
+        });
+        
     }
 
     if (closeChatBtn) {
