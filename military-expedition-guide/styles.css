@@ -83,28 +83,33 @@ body {
 /* Chatbox container */
 /* Chatbox container */
 /* Chatbox container */
+/* Updated Chatbox Styles to Match Website Theme */
 .chatbox {
     position: fixed;
-    bottom: 70px;      /* Adjust to make space for the button */
+    bottom: 70px;
     right: 20px;
-    width: 300px;
-    background-color: #28a745;  /* Match the Troop & Resource Calculator button color */
-    color: white;       /* Text color */
+    width: 350px;
+    background-color: #222;  /* Dark theme to match website */
+    color: white;  /* Text color */
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.6); /* Subtle glow effect */
-    display: none;     /* Hidden by default */
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.5); /* Subtle glow effect */
+    display: none;
     flex-direction: column;
     padding: 10px;
-    z-index: 9999;     /* Ensure it’s above other content */
+    z-index: 9999;
+    border: 2px solid #00bfff; /* Neon border similar to site */
 }
 
-/* Chat header */
+/* Chat header styling */
 .chat-header {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
-    color: white;      /* Ensure the header text is white */
-    padding-bottom: 10px;
+    color: white;
+    background-color: #111; /* Darker header for contrast */
+    padding: 10px;
+    border-bottom: 2px solid #00bfff; /* Matching border */
+    font-size: 18px;
 }
 
 /* Chat messages area */
@@ -112,27 +117,28 @@ body {
     overflow-y: auto;
     height: 250px;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
-    padding: 5px;
+    border: 1px solid #444;
+    padding: 10px;
     border-radius: 5px;
-    background-color: #f0f0f0;  /* Light gray background for messages */
+    background-color: #333;  /* Dark background */
+    color: white;
 }
 
-/* User input field */
+/* Message input field */
 #user-input {
     width: calc(100% - 80px);
     padding: 10px;
     margin-right: 10px;
-    border: 1px solid #ddd;
+    border: 1px solid #444;
     border-radius: 5px;
-    background-color: #f0f0f0;
-    color: #333;
+    background-color: #444;
+    color: white;
 }
 
-/* Send button */
+/* Send button styling */
 #send-btn {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #00bfff;
     color: white;
     border: none;
     border-radius: 5px;
@@ -141,44 +147,50 @@ body {
 }
 
 #send-btn:hover {
-    background-color: #0056b3;
+    background-color: #008fcc; /* Slightly darker on hover */
 }
 
-/* Button to open chat */
+/* Open Chat Button */
 #open-chat-btn {
     position: fixed;
     bottom: 20px;
-    right: 350px;  /* Space the chat open button from the chatbox */
+    right: 20px;
     padding: 10px 20px;
-    background-color: #28a745;  /* Green button to match chatbox */
+    background-color: #00bfff;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 #open-chat-btn:hover {
-    background-color: #218838;
+    background-color: #008fcc;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.8);
 }
 
-/* Hover effect for chat window close button */
+#open-chat-btn:focus {
+    box-shadow: 0 0 20px rgba(0, 123, 255, 0.9);
+}
+
+/* Close button styling */
 #chat-header button {
     background: none;
     border: none;
-    color: #f44336;  /* Red color for close button */
+    color: #ff4444;
     font-size: 18px;
     cursor: pointer;
 }
 
-/* Responsiveness for smaller screens */
+#chat-header button:hover {
+    color: #ff2222;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .chatbox {
-        width: 80%;
-    }
-
-    #open-chat-btn {
-        right: 20px;
+        width: 90%;
+        right: 5%;
     }
 }
 
