@@ -58,14 +58,16 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOM fully loaded.");
 
+    // ✅ Fix Home Button Navigation
     const homeBtn = document.getElementById("home-btn");
     if (homeBtn) {
         homeBtn.addEventListener("click", function () {
             console.log("🏠 Home button clicked. Navigating...");
-            window.location.href = "index.html"; // Adjust this path if needed
+            window.location.href = "index.html"; // Adjust path if needed
         });
     } else {
-        console.warn("⚠️ Home button not found.");
+        console.warn("⚠️ Home button not found on this page.");
     }
 });
+
 
