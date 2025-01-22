@@ -1,94 +1,88 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOM fully loaded.");
 
-    function fetchRandomIntro() {
-        const chatMessages = document.getElementById('chat-messages');
-    
-        // Clear previous messages (optional)
-        chatMessages.innerHTML = '';
-    
-        // Add a placeholder before the bot replies
-        chatMessages.innerHTML += `
-            <div class="bot-message">
-                <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                <p><b>NoyzBot:</b> Thinking... 🤔</p>
-            </div>
-        `;
-    
-        fetch("http://127.0.0.1:5000/chat", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_input: "intro" }) // Triggers bot intro
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Replace placeholder with actual response
-            chatMessages.innerHTML = `
-                <div class="bot-message">
-                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                    <p><b>NoyzBot:</b> ${data.response}</p>
-                </div>
-            `;
-            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
-        })
-        .catch(error => console.error('❌ Error fetching intro:', error));
-    }
-    
-    // ✅ Chatbox Toggle Function
-    function toggleChat() {
-        const chatbox = document.getElementById('chatbox');
-        chatbox.style.display = chatbox.style.display === 'none' ? 'block' : 'none';
-    }
-
-    // ✅ Assign Chat Toggle to Open/Close Buttons
+    const chatbox = document.getElementById('chatbox');
+    const chatMessages = document.getElementById('chat-messages');
     const openChatBtn = document.getElementById('open-chat-btn');
     const closeChatBtn = document.querySelector('#chat-header button');
 
-    if (openChatBtn) {
-        openChatBtn.addEventListener('click', function () {
-            console.log("💬 Chat button clicked.");
-            chatbox.style.display = 'flex';  // Ensure visibility
-            chatbox.style.zIndex = "9999";   // Make sure it's on top
-            fetchRandomIntro();              // Fetch intro when chat opens
-        });
-        
+    if (!chatbox || !chatMessages || !openChatBtn || !closeChatBtn) {
+        console.error("❌ One or more required elements are missing in HTML.");
+        return;
     }
 
-    if (closeChatBtn) {
-        closeChatBtn.addEventListener('click', function () {
-            console.log("❌ Chatbox closed.");
-            toggleChat();
-        });
+    // ✅ Function to Fetch Random Sassy Intro
+    function fetchRandomIntro() {
+        chatMessages.innerHTML = '';
+        chatMessages.innerHTML += `
+            <div class="bot-message">
+                <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                <p>Thinking... 🤔</p>
+            </div>
+        `;
+
+        fetch("http://127.0.0.1:5000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_input: "intro" })
+        })
+        .then(response => response.json())
+        .then(data => {
+            chatMessages.innerHTML += `
+                <div class="bot-message">
+                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                    <p>${data.response}</p>
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        })
+        .catch(error => console.error('❌ Error fetching intro:', error));
     }
+
+    // ✅ Function to Toggle Chatbox Visibility
+    function toggleChat() {
+        if (chatbox.style.display === 'none' || chatbox.style.display === '') {
+            chatbox.style.display = 'flex';
+            chatbox.style.zIndex = "9999";
+            fetchRandomIntro();
+        } else {
+            chatbox.style.display = 'none';
+        }
+    }
+
+    // ✅ Open Chatbox on Button Click
+    openChatBtn.addEventListener('click', function () {
+        console.log("💬 Chat button clicked.");
+        toggleChat();
+    });
+
+    // ✅ Close Chatbox on 'X' Button Click
+    closeChatBtn.addEventListener('click', function () {
+        console.log("❌ Chatbox closed.");
+        chatbox.style.display = 'none';
+    });
 
     // ✅ Send Message Function
     function sendMessage() {
         const userInput = document.getElementById('user-input').value.trim();
         if (userInput !== '') {
-            const chatMessages = document.getElementById('chat-messages');
-
-            // Append User Message
             chatMessages.innerHTML += `<p><b>You:</b> ${userInput}</p>`;
-            document.getElementById('user-input').value = '';  // Clear input field
+            document.getElementById('user-input').value = '';
 
-            // Send message to NoyzBot API
-            fetch("http://localhost:5000/chat", {
+            fetch("http://127.0.0.1:5000/chat", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ user_input: userInput })
             })
             .then(response => response.json())
             .then(data => {
-                // Append Bot Reply with Logo
                 chatMessages.innerHTML += `
                     <div class="bot-message">
                         <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                        <p><b>NoyzBot:</b> ${data.response}</p>
+                        <p>${data.response}</p>
                     </div>
                 `;
-                chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             })
             .catch(error => {
                 console.error('❌ Error sending message:', error);
@@ -105,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ✅ Assign Function to Send Button
     document.getElementById("send-btn").addEventListener("click", sendMessage);
+
 
     // ✅ Home Button Navigation Fix
     const homeBtn = document.querySelectorAll(".home-button");
