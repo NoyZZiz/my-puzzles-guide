@@ -55,3 +55,17 @@ document.addEventListener("DOMContentLoaded", function () {
         console.warn("⚠️ 'send-btn' not found, skipping.");
     }
 });
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("✅ DOM fully loaded.");
+
+    const homeBtn = document.getElementById("home-btn");
+    if (homeBtn) {
+        homeBtn.addEventListener("click", function () {
+            console.log("🏠 Home button clicked. Navigating...");
+            window.location.href = "index.html"; // Adjust this path if needed
+        });
+    } else {
+        console.warn("⚠️ Home button not found.");
+    }
+});
+
