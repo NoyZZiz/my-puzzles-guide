@@ -2,8 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOM fully loaded.");
 
     const openChatBtn = document.getElementById('open-chat-btn');
-    const closeChatBtn = document.getElementById('close-chat-btn');
+    const closeChatBtn = document.querySelector('#chat-header button');
     const chatbox = document.getElementById('chatbox');
+    const chatLogo = document.querySelector('.chat-logo');
+    const closeChatText = document.getElementById('close-chat-text'); // Ensure this is correctly referenced
 
     if (!openChatBtn || !chatbox) {
         console.error("❌ 'open-chat-btn' or 'chatbox' is missing in HTML.");
@@ -13,17 +15,35 @@ document.addEventListener("DOMContentLoaded", function () {
     openChatBtn.addEventListener('click', function () {
         console.log("💬 Chat button clicked.");
         chatbox.style.display = 'flex';
-        chatbox.style.zIndex = "9999";
-        console.log("✅ Chatbox forced open.");
+        chatbox.style.zIndex = "9999"; // Ensure it's on top
+        console.log("✅ Chatbox opened.");
     });
 
     if (closeChatBtn) {
         closeChatBtn.addEventListener('click', function () {
+            console.log("❌ Chatbox closed via close button.");
             chatbox.style.display = 'none';
-            console.log("✅ Chatbox closed via close button.");
         });
+    } else {
+        console.warn("⚠️ 'close-chat-btn' not found, skipping.");
     }
 
+    if (closeChatText) {
+        closeChatText.addEventListener('click', function () {
+            console.log("❌ Chatbox closed via close text.");
+            chatbox.style.display = 'none';
+        });
+    } else {
+        console.warn("⚠️ 'close-chat-text' not found, skipping.");
+    }
+
+    // ✅ Ensure Correct Logo Path for Chatbox
+    if (chatLogo) {
+        chatLogo.src = "../assets/images/noyzbot-logo.png"; // Adjusted for subfolder
+        console.log("✅ Chat logo path set correctly.");
+    } else {
+        console.warn("⚠️ Chat logo not found.");
+    }
 
     // ✅ Function to send messages in the chatbox
     function sendMessage() {
@@ -40,7 +60,12 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(response => response.json())
             .then(data => {
-                chatMessages.innerHTML += `<p><b>NoyzBot:</b> ${data.response}</p>`;
+                chatMessages.innerHTML += `
+                    <div class="bot-message">
+                        <img src="../assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                        <p><b>NoyzBot:</b> ${data.response}</p>
+                    </div>
+                `;
                 chatMessages.scrollTop = chatMessages.scrollHeight;
             })
             .catch(error => console.error('Error sending message:', error));
@@ -54,9 +79,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
         console.warn("⚠️ 'send-btn' not found, skipping.");
     }
-});
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("✅ DOM fully loaded.");
 
     // ✅ Fix Home Button Navigation
     const homeBtn = document.getElementById("home-btn");
@@ -69,5 +91,3 @@ document.addEventListener("DOMContentLoaded", function () {
         console.warn("⚠️ Home button not found on this page.");
     }
 });
-
-

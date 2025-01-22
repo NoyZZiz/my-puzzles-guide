@@ -16,12 +16,12 @@
 </head>
 <body>
         <!-- Your page content -->
-    
         <button id="open-chat-btn">Chat with NoyzBot</button>
-    
+
         <!-- Chatbox container (hidden by default) -->
         <div id="chatbox" class="chatbox" style="display: none;">
             <div id="chat-header" class="chat-header">
+                <img src="assets/images/noyzbot-logo.png" alt="NoyzBot Logo" class="chat-logo">
                 <span>NoyzBot</span>
                 <button onclick="toggleChat()">X</button>
             </div>
@@ -29,7 +29,7 @@
             <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter'){ sendMessage(); }">
             <button id="send-btn" onclick="sendMessage()">Send</button>
         </div>
-<body>
+        
 
     <!-- Header Section -->
     <header>

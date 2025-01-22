@@ -15,9 +15,12 @@
         </nav>
     </header>
 
-    <button id="open-chat-btn" class="chat-btn">Chat with NoyzBot</button>
+    <button id="open-chat-btn">Chat with NoyzBot</button>
+
+    <!-- Chatbox container (hidden by default) -->
     <div id="chatbox" class="chatbox" style="display: none;">
-        <div class="chat-header">
+        <div id="chat-header" class="chat-header">
+            <img src="../assets/images/noyzbot-logo.png" alt="NoyzBot Logo" class="chat-logo">
             <span>NoyzBot</span>
             <button id="close-chat-btn">X</button>
         </div>
@@ -25,7 +28,7 @@
         <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter'){ sendMessage(); }">
         <button id="send-btn" onclick="sendMessage()">Send</button>
     </div>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
