@@ -132,6 +132,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // ✅ Assign Function to Send Button
     document.getElementById("send-btn").addEventListener("click", sendMessage);
 
+
+
     // ✅ Home Button Navigation Fix
     const homeBtn = document.querySelectorAll(".home-button");
     homeBtn.forEach(btn => {
