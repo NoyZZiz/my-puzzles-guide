@@ -5,10 +5,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const chatMessages = document.getElementById('chat-messages');
     const openChatBtn = document.getElementById('open-chat-btn');
     const closeChatBtn = document.querySelector('#chat-header button');
+    let playerName = ""; // Stores user's in-game name
 
     if (!chatbox || !chatMessages || !openChatBtn || !closeChatBtn) {
         console.error("❌ One or more required elements are missing in HTML.");
         return;
+    }
+
+    // ✅ Function to Ask for In-Game Name
+    function askForGameName() {
+        playerName = prompt("What’s your legendary in-game name, warrior? 🏆😏") || "Nameless Hero";
+        chatMessages.innerHTML += `
+            <div class="bot-message">
+                <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                <p>Nice to meet you, <b>${playerName}</b>. Try not to embarrass yourself. 😎</p>
+            </div>
+        `;
     }
 
     // ✅ Function to Fetch Random Sassy Intro
@@ -19,8 +31,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p>Thinking... 🤔</p>
             </div>
         `;
-    
-        fetch("http://127.0.0.1:5000/intro", { // ✅ Fix: Now calls /intro instead of /chat
+
+        fetch("http://127.0.0.1:5000/intro", {
             method: "GET",
             headers: { "Content-Type": "application/json" }
         })
@@ -36,12 +48,13 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error('❌ Error fetching intro:', error));
     }
-    
+
     // ✅ Function to Toggle Chatbox Visibility
     function toggleChat() {
         if (chatbox.style.display === 'none' || chatbox.style.display === '') {
             chatbox.style.display = 'flex';
             chatbox.style.zIndex = "9999";
+            if (!playerName) askForGameName(); // Ask for name if not set
             fetchRandomIntro();
         } else {
             chatbox.style.display = 'none';
@@ -64,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function sendMessage() {
         const userInput = document.getElementById('user-input').value.trim();
         if (userInput !== '') {
-            chatMessages.innerHTML += `<p><b>You:</b> ${userInput}</p>`;
+            chatMessages.innerHTML += `<p><b>${playerName}:</b> ${userInput}</p>`;
             document.getElementById('user-input').value = '';
 
             fetch("http://127.0.0.1:5000/chat", {
@@ -77,7 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 chatMessages.innerHTML += `
                     <div class="bot-message">
                         <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                        <p>${data.response}</p>
+                        <p>${data.response.replace("{player}", playerName)}</p>
                     </div>
                 `;
                 chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -97,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ✅ Assign Function to Send Button
     document.getElementById("send-btn").addEventListener("click", sendMessage);
+
 
 
     // ✅ Home Button Navigation Fix
