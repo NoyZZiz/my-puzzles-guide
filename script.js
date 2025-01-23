@@ -13,20 +13,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ✅ Function to Fetch Random Sassy Intro
     function fetchRandomIntro() {
-        chatMessages.innerHTML = '';
         chatMessages.innerHTML += `
             <div class="bot-message">
                 <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                 <p>Thinking... 🤔</p>
             </div>
         `;
-        fetch("http://127.0.0.1:5000/chat", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"  // ✅ Ensure CORS is enabled
-            },
-            body: JSON.stringify({ user_input: userInput })
+    
+        fetch("http://127.0.0.1:5000/intro", { // ✅ Fix: Now calls /intro instead of /chat
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
         })
         .then(response => response.json())
         .then(data => {
@@ -40,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .catch(error => console.error('❌ Error fetching intro:', error));
     }
-
+    
     // ✅ Function to Toggle Chatbox Visibility
     function toggleChat() {
         if (chatbox.style.display === 'none' || chatbox.style.display === '') {
