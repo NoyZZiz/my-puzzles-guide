@@ -95,34 +95,30 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ✅ Send Message Function
-    function sendMessage() {
-        const userInput = document.getElementById('user-input').value.trim();
-        if (userInput !== '') {
-            chatMessages.innerHTML += `
-                <p><b>${userName}:</b> ${userInput}</p>
-            `;
-            document.getElementById('user-input').value = '';
+    // ✅ Function to Set User Name and Continue Conversation
+function setUserName() {
+    const nameInput = document.getElementById("name-input");
+    const nameContainer = document.getElementById("name-container");
 
-            fetch("http://127.0.0.1:5000/chat", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ user_input: userInput })
-            })
-            .then(response => response.json())
-            .then(data => {
-                chatMessages.innerHTML += `
-                    <div class="bot-message">
-                        <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                        <p>${data.response}</p>
-                    </div>
-                `;
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            })
-            .catch(error => {
-                console.error('❌ Error sending message:', error);
-            });
+    if (nameInput.value.trim() !== "") {
+        userName = nameInput.value.trim();
+
+        // ✅ Remove the name input field
+        if (nameContainer) {
+            nameContainer.remove();
         }
+
+        // ✅ Show confirmation message after setting name
+        chatMessages.innerHTML += `
+            <div class="bot-message">
+                <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                <p>Alright, ${userName}, don’t embarrass yourself now. 😏</p>
+            </div>
+        `;
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
+}
 
     // ✅ Allow Enter Key to Send Message
     document.getElementById("user-input").addEventListener("keydown", function (event) {
