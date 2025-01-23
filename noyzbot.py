@@ -1,11 +1,12 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from transformers import pipeline
-import random
 
 app = Flask(__name__)
+CORS(app)  # ✅ Allows API requests from external sources
 
-# Load Hugging Face's text-generation model
 chatbot = pipeline("text-generation", model="microsoft/DialoGPT-medium")
+
 
 # List of random sassy intros
 sassy_intros = [
@@ -24,6 +25,8 @@ def generate_intro():
 def chat():
     """Handles incoming chat messages and returns a response."""
     user_input = request.json.get("user_input", "")
+    bot_response = chatbot(user_input, max_length=50, num_return_sequences=1)[0]['generated_text']
+    return jsonify({"response": bot_response})
 
     if not user_input:
         return jsonify({"response": "Speak up! I don’t have time for silence. 😏"}), 400
@@ -38,5 +41,5 @@ def intro():
     return jsonify({"response": generate_intro()})
 
 if __name__ == "__main__":
-   app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)
+    app.run(host="0.0.0.0", port=5000, debug=True, use_reloader=False)
 

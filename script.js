@@ -20,11 +20,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 <p>Thinking... 🤔</p>
             </div>
         `;
-
         fetch("http://127.0.0.1:5000/chat", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_input: "intro" })
+            headers: {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"  // ✅ Ensure CORS is enabled
+            },
+            body: JSON.stringify({ user_input: userInput })
         })
         .then(response => response.json())
         .then(data => {
