@@ -2,30 +2,21 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOM fully loaded.");
 
     const chatbox = document.getElementById('chatbox');
-    const chatMessages = document.getElementById('chat-messages');
     const openChatBtn = document.getElementById('open-chat-btn');
     const closeChatBtn = document.querySelector('#chat-header button');
-    let userName = "";
+    const chatMessages = document.getElementById('chat-messages');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
 
-    if (!chatbox || !chatMessages || !openChatBtn || !closeChatBtn) {
-        console.error("❌ One or more required elements are missing in HTML.");
-        return;
+    function toggleChat() {
+        chatbox.style.display = chatbox.style.display === 'none' ? 'block' : 'none';
     }
 
-    // ✅ Function to Fetch Random Sassy Intro
-    function fetchRandomIntro() {
-        chatMessages.innerHTML = '';
-        chatMessages.innerHTML += `
-            <div class="bot-message">
-                <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                <p>Thinking... 🤔</p>
-            </div>
-        `;
-
+    function fetchIntroMessage() {
         fetch("http://127.0.0.1:5000/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_input: "intro" })
+            body: JSON.stringify({ user_input: "intro" }) // Request an intro message
         })
         .then(response => response.json())
         .then(data => {
@@ -36,99 +27,57 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
             chatMessages.scrollTop = chatMessages.scrollHeight;
-            setTimeout(askForName, 2000); // Ask for name after intro
         })
-        .catch(error => console.error('❌ Error fetching intro:', error));
+        .catch(error => console.error("❌ Error fetching intro message:", error));
     }
 
-    // ✅ Function to Ask for In-Game Name
-    function askForName() {
-        chatMessages.innerHTML += `
-            <div class="bot-message" id="name-container">
-                <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                <p>Before we start, what's your legendary in-game name? 🏆😏</p>
-                <input type="text" id="name-input" placeholder="Type your name...">
-                <button id="set-name-btn">Set Name</button>
-            </div>
-        `;
-        document.getElementById("set-name-btn").addEventListener("click", setUserName);
-    }
-
-    // ✅ Function to Set User Name and Continue Conversation
-    function setUserName() {
-        const nameInput = document.getElementById("name-input");
-        const nameContainer = document.getElementById("name-container");
-        if (nameInput.value.trim() !== "") {
-            userName = nameInput.value.trim();
-            nameContainer.remove(); // ✅ Remove name input field
-            chatMessages.innerHTML += `
-                <div class="bot-message">
-                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                    <p>Alright, ${userName}, don’t embarrass yourself now. 😏</p>
-                </div>
-            `;
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-    }
-
-    // ✅ Function to Toggle Chatbox Visibility
-    function toggleChat() {
-        if (chatbox.style.display === 'none' || chatbox.style.display === '') {
-            chatbox.style.display = 'flex';
-            chatbox.style.zIndex = "9999";
-            fetchRandomIntro();
-        } else {
-            chatbox.style.display = 'none';
-        }
-    }
-
-    // ✅ Open Chatbox on Button Click
     openChatBtn.addEventListener('click', function () {
         console.log("💬 Chat button clicked.");
+        chatbox.style.display = 'flex';  // Ensure visibility
+        chatbox.style.zIndex = "9999";   // Make sure it's on top
+        fetchIntroMessage();              // Fetch intro when chat opens
+    });
+
+    closeChatBtn.addEventListener('click', function () {
+        console.log("❌ Chatbox closed.");
         toggleChat();
     });
 
-    // ✅ Close Chatbox on 'X' Button Click
-    closeChatBtn.addEventListener('click', function () {
-        console.log("❌ Chatbox closed.");
-        chatbox.style.display = 'none';
-    });
+    function sendMessage() {
+        const userText = userInput.value.trim();
+        if (userText !== '') {
+            chatMessages.innerHTML += `<p><b>You:</b> ${userText}</p>`;
+            userInput.value = '';
 
-    // ✅ Send Message Function
-    // ✅ Function to Set User Name and Continue Conversation
-function setUserName() {
-    const nameInput = document.getElementById("name-input");
-    const nameContainer = document.getElementById("name-container");
-
-    if (nameInput.value.trim() !== "") {
-        userName = nameInput.value.trim();
-
-        // ✅ Remove the name input field
-        if (nameContainer) {
-            nameContainer.remove();
+            fetch("http://127.0.0.1:5000/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ user_input: userText })
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatMessages.innerHTML += `
+                    <div class="bot-message">
+                        <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                        <p>${data.response}</p>
+                    </div>
+                `;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            })
+            .catch(error => console.error("❌ Error sending message:", error));
         }
-
-        // ✅ Show confirmation message after setting name
-        chatMessages.innerHTML += `
-            <div class="bot-message">
-                <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                <p>Alright, ${userName}, don’t embarrass yourself now. 😏</p>
-            </div>
-        `;
-
-        chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-}
 
-    // ✅ Allow Enter Key to Send Message
-    document.getElementById("user-input").addEventListener("keydown", function (event) {
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             sendMessage();
         }
+        document.getElementById("send-btn").addEventListener("click", sendMessage)
     });
 
+
     // ✅ Assign Function to Send Button
-    document.getElementById("send-btn").addEventListener("click", sendMessage)
 
     // ✅ Home Button Navigation Fix
     const homeBtn = document.querySelectorAll(".home-button");
