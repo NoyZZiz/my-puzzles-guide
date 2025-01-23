@@ -209,6 +209,34 @@ body {
     background: rgba(255, 255, 0, 0.2); /* Soft glow */
     padding: 3px;
 }
+/* Name Input Field in Chat */
+.name-input {
+    width: 70%; /* Adjust width to fit nicely */
+    padding: 8px;
+    border: 1px solid #00bfff;
+    border-radius: 5px;
+    background-color: #222;
+    color: white;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Set Name Button */
+#set-name-btn {
+    padding: 8px;
+    background-color: #00bfff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 5px; /* Adds space between input and button */
+    font-size: 14px;
+}
+
+#set-name-btn:hover {
+    background-color: #008fcc;
+}
+
 
 
 /* Neon Text Effect */

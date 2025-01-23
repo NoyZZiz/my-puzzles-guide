@@ -15,55 +15,64 @@ document.addEventListener("DOMContentLoaded", function () {
     // ✅ Function to Ask for In-Game Name (Inside Chatbox)
     function askForGameName() {
         chatMessages.innerHTML += `
-            <div class="bot-message">
+            <div class="bot-message name-box">
                 <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                 <p>Before we start, what’s your legendary in-game name? 🏆😏</p>
-                <input type="text" id="player-name-input" placeholder="Type your name..." class="name-input">
-                <button id="set-name-btn">Set Name</button>
+                <div class="name-input-container">
+                    <input type="text" id="player-name-input" placeholder="Type your name..." class="name-input">
+                    <button id="set-name-btn">Set Name</button>
+                </div>
             </div>
         `;
-
+    
+        // ✅ Attach event listener to the Set Name button
         document.getElementById("set-name-btn").addEventListener("click", function () {
-            let nameInput = document.getElementById("player-name-input").value.trim();
-            playerName = nameInput ? nameInput : "Nameless Hero";
-            
-            chatMessages.innerHTML += `
-                <div class="bot-message">
-                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                    <p>Nice to meet you, <b>${playerName}</b>. Try not to embarrass yourself. 😎</p>
-                </div>
-            `;
-
-            fetchRandomIntro(); // After name is set, display intro
+            const playerName = document.getElementById("player-name-input").value.trim();
+            if (playerName) {
+                localStorage.setItem("playerName", playerName);
+                chatMessages.innerHTML += `
+                    <div class="bot-message">
+                        <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                        <p>Alright, ${playerName}, let’s get this party started! 🚀</p>
+                    </div>
+                `;
+            }
         });
     }
+    
 
     // ✅ Function to Fetch Random Sassy Intro (Only Once)
     function fetchRandomIntro() {
+        chatMessages.innerHTML = ''; // Clear previous messages
+    
+        // Add a placeholder before the bot replies
         chatMessages.innerHTML += `
-            <div class="bot-message" id="thinking-message">
+            <div class="bot-message">
                 <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                 <p>Thinking... 🤔</p>
             </div>
         `;
-
-        fetch("http://127.0.0.1:5000/intro", {
-            method: "GET",
-            headers: { "Content-Type": "application/json" }
+    
+        fetch("http://127.0.0.1:5000/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_input: "intro" }) // Bot will return a sassy intro
         })
         .then(response => response.json())
         .then(data => {
-            document.getElementById("thinking-message").remove(); // Remove "Thinking..."
             chatMessages.innerHTML += `
                 <div class="bot-message">
                     <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                     <p>${data.response}</p>
                 </div>
             `;
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+    
+            // 🏆 After intro, ask for the in-game name!
+            askForGameName();
         })
         .catch(error => console.error('❌ Error fetching intro:', error));
     }
+    
 
     // ✅ Function to Toggle Chatbox Visibility (Fixing the Order)
     function toggleChat() {
