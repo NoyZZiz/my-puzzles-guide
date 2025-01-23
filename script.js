@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ✅ Function to Ask for In-Game Name
     function askForName() {
         chatMessages.innerHTML += `
-            <div class="bot-message">
+            <div class="bot-message" id="name-container">
                 <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                 <p>Before we start, what's your legendary in-game name? 🏆😏</p>
                 <input type="text" id="name-input" placeholder="Type your name...">
@@ -56,26 +56,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ✅ Function to Set User Name and Continue Conversation
     function setUserName() {
-        const nameInputContainer = document.getElementById("name-input").parentElement;
         const nameInput = document.getElementById("name-input");
-        
+        const nameContainer = document.getElementById("name-container");
         if (nameInput.value.trim() !== "") {
             userName = nameInput.value.trim();
+            nameContainer.remove(); // ✅ Remove name input field
             chatMessages.innerHTML += `
                 <div class="bot-message">
                     <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                     <p>Alright, ${userName}, don’t embarrass yourself now. 😏</p>
                 </div>
             `;
-    
-            // ✅ Remove the input field after setting the name
-            nameInputContainer.remove();
-    
-            // ✅ Continue with normal chat after setting the name
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     }
-    
 
     // ✅ Function to Toggle Chatbox Visibility
     function toggleChat() {
@@ -138,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ✅ Assign Function to Send Button
-    document.getElementById("send-btn").addEventListener("click", sendMessage);
+    document.getElementById("send-btn").addEventListener("click", sendMessage)
 
     // ✅ Home Button Navigation Fix
     const homeBtn = document.querySelectorAll(".home-button");
