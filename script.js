@@ -12,21 +12,36 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // ✅ Function to Ask for In-Game Name
+    // ✅ Function to Ask for In-Game Name (Inside Chatbox)
     function askForGameName() {
-        playerName = prompt("What’s your legendary in-game name, warrior? 🏆😏") || "Nameless Hero";
         chatMessages.innerHTML += `
             <div class="bot-message">
                 <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                <p>Nice to meet you, <b>${playerName}</b>. Try not to embarrass yourself. 😎</p>
+                <p>Before we start, what’s your legendary in-game name? 🏆😏</p>
+                <input type="text" id="player-name-input" placeholder="Type your name..." class="name-input">
+                <button id="set-name-btn">Set Name</button>
             </div>
         `;
+
+        document.getElementById("set-name-btn").addEventListener("click", function () {
+            let nameInput = document.getElementById("player-name-input").value.trim();
+            playerName = nameInput ? nameInput : "Nameless Hero";
+            
+            chatMessages.innerHTML += `
+                <div class="bot-message">
+                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                    <p>Nice to meet you, <b>${playerName}</b>. Try not to embarrass yourself. 😎</p>
+                </div>
+            `;
+
+            fetchRandomIntro(); // After name is set, display intro
+        });
     }
 
-    // ✅ Function to Fetch Random Sassy Intro
+    // ✅ Function to Fetch Random Sassy Intro (Only Once)
     function fetchRandomIntro() {
         chatMessages.innerHTML += `
-            <div class="bot-message">
+            <div class="bot-message" id="thinking-message">
                 <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                 <p>Thinking... 🤔</p>
             </div>
@@ -38,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(response => response.json())
         .then(data => {
+            document.getElementById("thinking-message").remove(); // Remove "Thinking..."
             chatMessages.innerHTML += `
                 <div class="bot-message">
                     <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
@@ -49,13 +65,16 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error('❌ Error fetching intro:', error));
     }
 
-    // ✅ Function to Toggle Chatbox Visibility
+    // ✅ Function to Toggle Chatbox Visibility (Fixing the Order)
     function toggleChat() {
         if (chatbox.style.display === 'none' || chatbox.style.display === '') {
             chatbox.style.display = 'flex';
             chatbox.style.zIndex = "9999";
-            if (!playerName) askForGameName(); // Ask for name if not set
-            fetchRandomIntro();
+            if (!playerName) {
+                askForGameName(); // Ask for the name only once
+            } else {
+                fetchRandomIntro();
+            }
         } else {
             chatbox.style.display = 'none';
         }
@@ -80,6 +99,13 @@ document.addEventListener("DOMContentLoaded", function () {
             chatMessages.innerHTML += `<p><b>${playerName}:</b> ${userInput}</p>`;
             document.getElementById('user-input').value = '';
 
+            chatMessages.innerHTML += `
+                <div class="bot-message" id="thinking-message">
+                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                    <p>Thinking... 🤔</p>
+                </div>
+            `;
+
             fetch("http://127.0.0.1:5000/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -87,6 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .then(response => response.json())
             .then(data => {
+                document.getElementById("thinking-message").remove(); // Remove "Thinking..."
                 chatMessages.innerHTML += `
                     <div class="bot-message">
                         <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
@@ -110,7 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ✅ Assign Function to Send Button
     document.getElementById("send-btn").addEventListener("click", sendMessage);
-
 
 
     // ✅ Home Button Navigation Fix
