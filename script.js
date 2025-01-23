@@ -36,13 +36,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            setTimeout(askForName, 2000); // Ask for name after intro
         })
         .catch(error => console.error('❌ Error fetching intro:', error));
     }
 
     // ✅ Function to Ask for In-Game Name
     function askForName() {
-        chatMessages.innerHTML = `
+        chatMessages.innerHTML += `
             <div class="bot-message">
                 <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                 <p>Before we start, what's your legendary in-game name? 🏆😏</p>
@@ -53,18 +54,18 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("set-name-btn").addEventListener("click", setUserName);
     }
 
-    // ✅ Function to Set User Name and Show Intro Message
+    // ✅ Function to Set User Name and Continue Conversation
     function setUserName() {
         const nameInput = document.getElementById("name-input");
         if (nameInput.value.trim() !== "") {
             userName = nameInput.value.trim();
-            chatMessages.innerHTML = `
+            chatMessages.innerHTML += `
                 <div class="bot-message">
                     <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                     <p>Alright, ${userName}, let's see if you can impress me. 😎</p>
                 </div>
             `;
-            fetchRandomIntro();
+            nameInput.parentElement.remove(); // Remove name input field after setting name
         }
     }
 
@@ -73,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (chatbox.style.display === 'none' || chatbox.style.display === '') {
             chatbox.style.display = 'flex';
             chatbox.style.zIndex = "9999";
-            askForName();
+            fetchRandomIntro();
         } else {
             chatbox.style.display = 'none';
         }
@@ -95,7 +96,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function sendMessage() {
         const userInput = document.getElementById('user-input').value.trim();
         if (userInput !== '') {
-            chatMessages.innerHTML += `<p><b>${userName}:</b> ${userInput}</p>`;
+            chatMessages.innerHTML += `
+                <p><b>${userName}:</b> ${userInput}</p>
+            `;
             document.getElementById('user-input').value = '';
 
             fetch("http://127.0.0.1:5000/chat", {
@@ -128,7 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ✅ Assign Function to Send Button
     document.getElementById("send-btn").addEventListener("click", sendMessage);
-
 
     // ✅ Home Button Navigation Fix
     const homeBtn = document.querySelectorAll(".home-button");
