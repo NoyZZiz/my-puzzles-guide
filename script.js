@@ -44,32 +44,28 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function sendMessage() {
-        const userText = userInput.value.trim();
+        const userText = document.getElementById('user-input').value.trim();
         if (userText !== '') {
-            chatMessages.innerHTML += `<p><b>You:</b> ${userText}</p>`;
-            userInput.value = '';
-
-            fetch("http://127.0.0.1:5000/chat", {
+            fetch("http://127.0.0.1:5000/chat", {  // ✅ Ensure this URL matches Flask
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ user_input: userText })
             })
             .then(response => response.json())
             .then(data => {
-                chatMessages.innerHTML += `
+                document.getElementById('chat-messages').innerHTML += `
                     <div class="bot-message">
                         <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                         <p>${data.response}</p>
                     </div>
                 `;
-                chatMessages.scrollTop = chatMessages.scrollHeight;
             })
             .catch(error => console.error("❌ Error sending message:", error));
         }
     }
-
-    sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keydown", function (event) {
+    
+    document.getElementById("send-btn").addEventListener("click", sendMessage);
+    document.getElementById("user-input").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             sendMessage();
         }

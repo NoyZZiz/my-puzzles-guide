@@ -1,3 +1,5 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 import random
 import pinecone
@@ -5,7 +7,6 @@ from dotenv import load_dotenv
 from pinecone import Pinecone
 from transformers import AutoTokenizer, AutoModel
 import torch
-from flask import Flask, request, jsonify
 
 # ✅ Load environment variables
 load_dotenv()
@@ -19,6 +20,10 @@ index_name = os.getenv("PINECONE_INDEX_NAME")
 # ✅ Connect to the existing Pinecone index
 index = pc.Index(index_name)
 print(f"✅ Connected to Pinecone index: {index_name}")
+
+# ✅ Enable CORS
+app = Flask(__name__)
+CORS(app, resources={r"/chat": {"origins": "*"}})  # Allow requests from any domain
 
 # ✅ Load Hugging Face Embedding Model
 tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-large-en")
@@ -45,8 +50,6 @@ def get_random_intro():
     return random.choice(sassy_intros)
 
 # ✅ Flask App Setup
-app = Flask(__name__)
-
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("user_input", "").lower()
