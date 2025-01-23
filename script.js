@@ -56,18 +56,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ✅ Function to Set User Name and Continue Conversation
     function setUserName() {
+        const nameInputContainer = document.getElementById("name-input").parentElement;
         const nameInput = document.getElementById("name-input");
+        
         if (nameInput.value.trim() !== "") {
             userName = nameInput.value.trim();
             chatMessages.innerHTML += `
                 <div class="bot-message">
                     <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                    <p>Alright, ${userName}, Don't embarrass yourself". 😎</p>
+                    <p>Alright, ${userName}, don’t embarrass yourself now. 😏</p>
                 </div>
             `;
-            nameInput.parentElement.remove(); // Remove name input field after setting name
+    
+            // ✅ Remove the input field after setting the name
+            nameInputContainer.remove();
+    
+            // ✅ Continue with normal chat after setting the name
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
     }
+    
 
     // ✅ Function to Toggle Chatbox Visibility
     function toggleChat() {
