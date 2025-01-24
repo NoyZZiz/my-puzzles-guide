@@ -9,14 +9,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const sendBtn = document.getElementById('send-btn');
 
     function toggleChat() {
-        chatbox.style.display = chatbox.style.display === 'none' ? 'block' : 'none';
+        chatbox.style.display = 'block';  // ✅ Ensure chatbox opens properly
     }
 
     function fetchIntroMessage() {
-        fetch("http://127.0.0.1:5000/chat", {
+        fetch("http://127.0.0.1:5000/chat", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_input: "intro" }) // Request an intro message
+            body: JSON.stringify({ user_input: "intro" })
         })
         .then(response => response.json())
         .then(data => {
@@ -31,46 +31,51 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("❌ Error fetching intro message:", error));
     }
 
-    openChatBtn.addEventListener('click', function () {
-        console.log("💬 Chat button clicked.");
-        chatbox.style.display = 'flex';  // Ensure visibility
-        chatbox.style.zIndex = "9999";   // Make sure it's on top
-        fetchIntroMessage();              // Fetch intro when chat opens
-    });
-
-    closeChatBtn.addEventListener('click', function () {
-        console.log("❌ Chatbox closed.");
-        toggleChat();
-    });
-
     function sendMessage() {
-        const userText = document.getElementById('user-input').value.trim();
+        const userText = userInput.value.trim();
         if (userText !== '') {
-            fetch("http://127.0.0.1:5000/chat", {  // ✅ Ensure this URL matches Flask
+            chatMessages.innerHTML += `<p><b>You:</b> ${userText}</p>`;
+            userInput.value = '';
+
+            fetch("http://127.0.0.1:5000/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ user_input: userText })
             })
             .then(response => response.json())
             .then(data => {
-                document.getElementById('chat-messages').innerHTML += `
+                chatMessages.innerHTML += `
                     <div class="bot-message">
                         <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                         <p>${data.response}</p>
                     </div>
                 `;
+                chatMessages.scrollTop = chatMessages.scrollHeight;
             })
             .catch(error => console.error("❌ Error sending message:", error));
         }
     }
-    
-    document.getElementById("send-btn").addEventListener("click", sendMessage);
-    document.getElementById("user-input").addEventListener("keydown", function (event) {
+
+    openChatBtn.addEventListener('click', function () {
+        console.log("💬 Chat button clicked.");
+        toggleChat();
+        fetchIntroMessage();
+    });
+
+    closeChatBtn.addEventListener('click', function () {
+        console.log("❌ Chatbox closed.");
+        chatbox.style.display = 'none';
+    });
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             sendMessage();
         }
-        document.getElementById("send-btn").addEventListener("click", sendMessage)
     });
+
+
+    
 
 
     // ✅ Assign Function to Send Button
