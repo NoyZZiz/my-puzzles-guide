@@ -54,9 +54,21 @@ def get_random_intro():
 def chat():
     user_input = request.json.get("user_input", "").lower()
 
-    # ✅ If user opens chat, return a random intro
-    if user_input == "intro":
-        return jsonify({"response": get_random_intro()})
+    # ✅ Handle Greetings
+    greetings = ["hi", "hello", "hey"]
+    if user_input in greetings:
+        return jsonify({"response": random.choice([
+            "Hey there! What's up? 😏",
+            "Hello, fellow strategist! What’s on your mind? 🔥",
+            "Hey, let’s get to business. What do you need? 😉"
+        ])})
+
+    # ✅ Handle Specific Questions
+    if "lisette" in user_input:
+        return jsonify({"response": "Lisette wrote the Talent Memory Guide on this site!"})
+
+    if "talent memory" in user_input:
+        return jsonify({"response": "The Talent Memory Guide is written by Lisette. It’s all about maximizing hero potential!"})
 
     # ✅ Convert user input into an embedding
     query_vector = get_embedding(user_input)
@@ -64,13 +76,17 @@ def chat():
     # ✅ Search Pinecone for the best matching response
     search_results = index.query(vector=query_vector, top_k=1, include_metadata=True)
 
-    # ✅ If a match is found, return the stored answer
-    if search_results and search_results["matches"]:
+    # ✅ If a confident match is found, return the stored answer
+    if search_results and search_results["matches"] and search_results["matches"][0]["score"] > 0.7:
         best_match = search_results["matches"][0]["metadata"]["answer"]
         return jsonify({"response": best_match})
 
-    # ✅ If no match is found, return a default message
+    # ✅ If no good match is found, return a default message
     return jsonify({"response": "Hmm... I don't have an answer for that yet. Try asking something else!"})
+
+
+
+
 
 # ✅ Run Flask App
 if __name__ == "__main__":
