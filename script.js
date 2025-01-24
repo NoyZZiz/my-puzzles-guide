@@ -32,29 +32,35 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ✅ Define sendMessage function BEFORE calling it
-function sendMessage() {
-    const userText = document.getElementById('user-input').value.trim();
-    if (userText !== '') {
-        console.log(`📤 Sending Message: ${userText}`);
+    window.sendMessage = function() {
+    console.log("📤 Sending message...");
+    const userText = document.getElementById("user-input").value.trim();
+    
+    if (userText !== "") {
+        const chatMessages = document.getElementById("chat-messages");
+        
+        chatMessages.innerHTML += `<p><b>You:</b> ${userText}</p>`;
+        document.getElementById("user-input").value = '';
 
-        fetch("http://127.0.0.1:5000/chat", { 
+        fetch("http://127.0.0.1:5000/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ user_input: userText })
         })
         .then(response => response.json())
         .then(data => {
-            console.log(`✅ Bot Response: ${data.response}`);
-            document.getElementById('chat-messages').innerHTML += `
+            chatMessages.innerHTML += `
                 <div class="bot-message">
                     <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
                     <p>${data.response}</p>
                 </div>
             `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
         })
         .catch(error => console.error("❌ Error sending message:", error));
     }
 }
+
 
 // ✅ Ensure event listeners are AFTER defining sendMessage
 document.getElementById("send-btn").addEventListener("click", sendMessage);
