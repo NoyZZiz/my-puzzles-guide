@@ -1,5 +1,3 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 import os
 import random
 import pinecone
@@ -7,6 +5,8 @@ from dotenv import load_dotenv
 from pinecone import Pinecone
 from transformers import AutoTokenizer, AutoModel
 import torch
+from flask import Flask, request, jsonify
+from sentence_transformers import SentenceTransformer
 
 # ✅ Load environment variables
 load_dotenv()
@@ -21,19 +21,28 @@ index_name = os.getenv("PINECONE_INDEX_NAME")
 index = pc.Index(index_name)
 print(f"✅ Connected to Pinecone index: {index_name}")
 
-# ✅ Enable CORS
-app = Flask(__name__)
-CORS(app, resources={r"/chat": {"origins": "*"}})  # Allow requests from any domain
-
 # ✅ Load Hugging Face Embedding Model
 tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-large-en")
 model = AutoModel.from_pretrained("BAAI/bge-large-en")
+intent_model = SentenceTransformer("all-MiniLM-L6-v2")  # ✅ Intent detection model
 
 # ✅ Function to convert user queries into embeddings
 def get_embedding(text):
     inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
     outputs = model(**inputs)
     return outputs.last_hidden_state.mean(dim=1).detach().numpy().tolist()[0]
+
+# ✅ Function to detect intent
+def detect_intent(text):
+    keywords = {
+        "strategy": ["strategy", "troop", "battle", "attack", "defense"],
+        "guides": ["guide", "help", "how to", "tips", "advice"],
+        "calculator": ["calculate", "troop calculator", "resource calculator"],
+    }
+    for intent, words in keywords.items():
+        if any(word in text.lower() for word in words):
+            return intent
+    return "general"
 
 # ✅ List of Random Sassy Intros
 sassy_intros = [
@@ -50,43 +59,37 @@ def get_random_intro():
     return random.choice(sassy_intros)
 
 # ✅ Flask App Setup
+app = Flask(__name__)
+
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("user_input", "").lower()
 
-    # ✅ Handle Greetings
-    greetings = ["hi", "hello", "hey"]
-    if user_input in greetings:
-        return jsonify({"response": random.choice([
-            "Hey there! What's up? 😏",
-            "Hello, fellow strategist! What’s on your mind? 🔥",
-            "Hey, let’s get to business. What do you need? 😉"
-        ])})
+    # ✅ If user opens chat, return a random intro
+    if user_input == "intro":
+        return jsonify({"response": get_random_intro()})
 
-    # ✅ Handle Specific Questions
-    if "lisette" in user_input:
-        return jsonify({"response": "Lisette wrote the Talent Memory Guide on this site!"})
-
-    if "talent memory" in user_input:
-        return jsonify({"response": "The Talent Memory Guide is written by Lisette. It’s all about maximizing hero potential!"})
+    # ✅ Detect intent
+    intent = detect_intent(user_input)
+    print(f"🔍 Detected Intent: {intent}")
 
     # ✅ Convert user input into an embedding
     query_vector = get_embedding(user_input)
 
     # ✅ Search Pinecone for the best matching response
-    search_results = index.query(vector=query_vector, top_k=1, include_metadata=True)
+    search_results = index.query(vector=query_vector, top_k=3, include_metadata=True)
 
-    # ✅ If a confident match is found, return the stored answer
-    if search_results and search_results["matches"] and search_results["matches"][0]["score"] > 0.7:
+    # ✅ If a match is found, return the best ranked answer
+    if search_results and search_results["matches"]:
         best_match = search_results["matches"][0]["metadata"]["answer"]
         return jsonify({"response": best_match})
 
-    # ✅ If no good match is found, return a default message
+    # ✅ Custom responses based on intent
+    if intent == "calculator":
+        return jsonify({"response": "Why did we create a calculator if you're just going to ask me? 🤨"})
+
+    # ✅ If no match is found, return a default message
     return jsonify({"response": "Hmm... I don't have an answer for that yet. Try asking something else!"})
-
-
-
-
 
 # ✅ Run Flask App
 if __name__ == "__main__":
