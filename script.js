@@ -31,34 +31,38 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("❌ Error fetching intro message:", error));
     }
 
-    function sendMessage() {
-        const userText = userInput.value.trim();
-        if (userText !== '') {
-            console.log(`📤 Sending Message: ${userText}`); // ✅ Debugging Log
-    
-            fetch("http://127.0.0.1:5000/chat", { 
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ user_input: userText })
-            })
-            .then(response => {
-                console.log("📥 Received response from server:", response); // ✅ Debugging Log
-                return response.json();
-            })
-            .then(data => {
-                console.log(`✅ Bot Response: ${data.response}`); // ✅ Debugging Log
-                chatMessages.innerHTML += `
-                    <div class="bot-message">
-                        <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                        <p>${data.response}</p>
-                    </div>
-                `;
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            })
-            .catch(error => console.error("❌ Error sending message:", error));
-        }
+    // ✅ Define sendMessage function BEFORE calling it
+function sendMessage() {
+    const userText = document.getElementById('user-input').value.trim();
+    if (userText !== '') {
+        console.log(`📤 Sending Message: ${userText}`);
+
+        fetch("http://127.0.0.1:5000/chat", { 
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ user_input: userText })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(`✅ Bot Response: ${data.response}`);
+            document.getElementById('chat-messages').innerHTML += `
+                <div class="bot-message">
+                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                    <p>${data.response}</p>
+                </div>
+            `;
+        })
+        .catch(error => console.error("❌ Error sending message:", error));
     }
-    
+}
+
+// ✅ Ensure event listeners are AFTER defining sendMessage
+document.getElementById("send-btn").addEventListener("click", sendMessage);
+document.getElementById("user-input").addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+        sendMessage();
+    }
+});
 
     openChatBtn.addEventListener('click', function () {
         console.log("💬 Chat button clicked.");
