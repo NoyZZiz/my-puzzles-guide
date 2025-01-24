@@ -34,16 +34,19 @@ document.addEventListener("DOMContentLoaded", function () {
     function sendMessage() {
         const userText = userInput.value.trim();
         if (userText !== '') {
-            chatMessages.innerHTML += `<p><b>You:</b> ${userText}</p>`;
-            userInput.value = '';
-
-            fetch("http://127.0.0.1:5000/chat", {
+            console.log(`📤 Sending Message: ${userText}`); // ✅ Debugging Log
+    
+            fetch("http://127.0.0.1:5000/chat", { 
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ user_input: userText })
             })
-            .then(response => response.json())
+            .then(response => {
+                console.log("📥 Received response from server:", response); // ✅ Debugging Log
+                return response.json();
+            })
             .then(data => {
+                console.log(`✅ Bot Response: ${data.response}`); // ✅ Debugging Log
                 chatMessages.innerHTML += `
                     <div class="bot-message">
                         <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
@@ -55,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error("❌ Error sending message:", error));
         }
     }
+    
 
     openChatBtn.addEventListener('click', function () {
         console.log("💬 Chat button clicked.");

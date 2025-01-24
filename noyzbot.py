@@ -6,10 +6,13 @@ from pinecone import Pinecone
 from transformers import AutoTokenizer, AutoModel
 import torch
 from flask import Flask, request, jsonify
+from flask_cors import CORS  # Import CORS
 from sentence_transformers import SentenceTransformer
 
 # ✅ Load environment variables
 load_dotenv()
+app = Flask(__name__)
+CORS(app) 
 
 # ✅ Initialize Pinecone client
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
@@ -64,32 +67,27 @@ app = Flask(__name__)
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("user_input", "").lower()
-
-    # ✅ If user opens chat, return a random intro
-    if user_input == "intro":
-        return jsonify({"response": get_random_intro()})
+    print(f"📥 Received Message from User: {user_input}")  # ✅ Debugging Log
 
     # ✅ Detect intent
     intent = detect_intent(user_input)
-    print(f"🔍 Detected Intent: {intent}")
+    print(f"🔍 Detected Intent: {intent}")  # ✅ Debugging Log
 
     # ✅ Convert user input into an embedding
     query_vector = get_embedding(user_input)
 
     # ✅ Search Pinecone for the best matching response
-    search_results = index.query(vector=query_vector, top_k=3, include_metadata=True)
+    search_results = index.query(vector=query_vector, top_k=1, include_metadata=True)
 
     # ✅ If a match is found, return the best ranked answer
     if search_results and search_results["matches"]:
         best_match = search_results["matches"][0]["metadata"]["answer"]
+        print(f"✅ Returning Response: {best_match}")  # ✅ Debugging Log
         return jsonify({"response": best_match})
 
-    # ✅ Custom responses based on intent
-    if intent == "calculator":
-        return jsonify({"response": "Why did we create a calculator if you're just going to ask me? 🤨"})
-
-    # ✅ If no match is found, return a default message
+    print("❌ No good match found, returning fallback.")
     return jsonify({"response": "Hmm... I don't have an answer for that yet. Try asking something else!"})
+
 
 # ✅ Run Flask App
 if __name__ == "__main__":
