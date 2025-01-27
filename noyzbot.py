@@ -12,8 +12,7 @@ from sentence_transformers import SentenceTransformer
 # ✅ Load environment variables
 load_dotenv()
 app = Flask(__name__)
-from flask_cors import CORS
-CORS(app, resources={r"/*": {"origins": ["http://127.0.0.1:5000", "https://guidesbynoyzzing.com"]}})
+CORS(app, origins="https://guidesbynoyzzing.com")
 
 
 # ✅ Initialize Pinecone client
