@@ -40,21 +40,25 @@ def get_embedding(text):
 
 # ✅ Example game knowledge to store
 game_data = {
-    "What is Noyzzing?": "Noyzzing is the creator of this guide and a strategist in Puzzles and Conquest.",
-    "Who wrote the Talent Memory Guide?": "Lisette wrote the Talent Memory Guide.",
-    "How do I use this guide?": "Oh, come on! This isn't a puzzle itself. Just explore the sections and get smarter. 😏",
-    "What about the troop calculator?": "Why did we create a calculator if you're just going to ask me? 😆",
+    "Welcome to the official Puzzles and Conquest guide, curated by Noyzzing. This platform is built to provide in-depth knowledge and strategic insights to help players master the game.",
+    "Noyzzing is the creator of this guide and a strategist in Puzzles and Conquest.",
+    "Lisette wrote the Talent Memory Guide.",
+    "This guide is designed for both beginners and experienced players, offering well-researched strategies, tips, and techniques to improve gameplay and achieve success in Puzzles and Conquest.",
+    "The mission of this guide is to build a community of strategy gamers who share a passion for learning and improving together. It focuses on collaboration, continuous learning, and sharing valuable game insights.",
+    "If you're confused about how to use this guide, just explore the sections. It's not a puzzle itself—figure it out and get smarter. 😏"
+    "The Troop Calculator was made so you don’t have to ask me! Just use it to calculate troop costs, resources, and training units. 😆"
+    "If you have any questions or feedback, feel free to reach out! Noyzzing is always open to improving this guide for the community. You can contact via email at pranoykrishna944@gmail.com."
 }
 
 # ✅ Function to create embeddings and store in Pinecone
 def store_embeddings():
-    for question, answer in game_data.items():
-        vector = get_embedding(question)  # ✅ Convert text to embedding
+    for i, sentence in enumerate(game_data):
+        vector = get_embedding(sentence)  # ✅ Convert text to embedding
 
         # ✅ Store in Pinecone
-        index.upsert([(question, vector, {"answer": answer})])
+        index.upsert([(str(i), vector, {"text": sentence})])
 
-        print(f"✅ Stored: {question}")
+        print(f"✅ Stored: {sentence}")
 
 # ✅ Run the function
 if __name__ == "__main__":

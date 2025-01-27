@@ -12,7 +12,8 @@ from sentence_transformers import SentenceTransformer
 # ✅ Load environment variables
 load_dotenv()
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "https://guidesbynoyzzing.com"}})
+CORS(app, origins=["https://guidesbynoyzzing.com"], supports_credentials=True)
+
 
 # ✅ Initialize Pinecone client
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
@@ -67,8 +68,8 @@ app = Flask(__name__)
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("user_input", "").lower()
-    return jsonify({"response": f"You said: {user_input}"})
-    print(f"📥 Received Message from User: {user_input}")  # ✅ Debugging Log
+    
+    print(f"📥 Received Message from User: {user_input}")  # ✅ Keep Debug Log
 
     # ✅ Detect intent
     intent = detect_intent(user_input)
@@ -80,7 +81,7 @@ def chat():
     # ✅ Search Pinecone for the best matching response
     search_results = index.query(vector=query_vector, top_k=1, include_metadata=True)
 
-    # ✅ If a match is found, return the best ranked answer
+    # ✅ If a match is found, return the best-ranked answer
     if search_results and search_results["matches"]:
         best_match = search_results["matches"][0]["metadata"]["answer"]
         print(f"✅ Returning Response: {best_match}")  # ✅ Debugging Log

@@ -13,10 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function fetchIntroMessage() {
-        fetch("https://noyzbot-production.up.railway.app/chat", { 
+        fetch("https://noyzbot-production.up.railway.app/chat", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_input: "intro" })
+            headers: { 
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({ user_input: userText })
         })
         .then(response => response.json())
         .then(data => {
