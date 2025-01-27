@@ -3,4 +3,6 @@ flask-cors
 pinecone-client
 torch
 transformers
-gunicorn  
+python-dotenv
+gunicorn
+
