@@ -3,6 +3,6 @@ flask-cors
 pinecone-client
 torch
 transformers
+sentence-transformers
 python-dotenv
-gunicorn
-
+gunicorn  # ✅ Ensure this is listed
