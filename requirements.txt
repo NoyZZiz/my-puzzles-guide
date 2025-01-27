@@ -1,7 +1,6 @@
 flask
 flask-cors
-transformers
-torch
 pinecone-client
-python-dotenv
-sentence-transformers
+torch
+transformers
+gunicorn  

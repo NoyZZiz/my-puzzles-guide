@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         chatMessages.innerHTML += `<p><b>You:</b> ${userText}</p>`;
         document.getElementById("user-input").value = '';
 
-        fetch("http://127.0.0.1:5000/chat", {
+        fetch("https://noyzbot-production.up.railway.app/chat", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ user_input: userText })
