@@ -26,8 +26,8 @@ index = pc.Index(index_name)
 print(f"✅ Connected to Pinecone index: {index_name}")
 
 # ✅ Load Hugging Face Embedding Model
-tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-large-en")
-model = AutoModel.from_pretrained("BAAI/bge-large-en")
+tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-small-en")
+model = AutoModel.from_pretrained("BAAI/bge-small-en", torch_dtype="auto", device_map="auto")
 intent_model = SentenceTransformer("all-MiniLM-L6-v2")  # ✅ Intent detection model
 
 # ✅ Function to convert user queries into embeddings
@@ -68,6 +68,7 @@ app = Flask(__name__)
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("user_input", "").lower()
+    return jsonify({"response": f"You said: {user_input}"})
     print(f"📥 Received Message from User: {user_input}")  # ✅ Debugging Log
 
     # ✅ Detect intent
