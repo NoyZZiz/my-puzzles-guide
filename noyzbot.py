@@ -11,7 +11,7 @@ from sentence_transformers import SentenceTransformer
 
 # ✅ Load environment variables
 load_dotenv()
-app = Flask(_name_)
+app = Flask(__name__)
 CORS(app)  # ✅ Allow all origins locally for testing
 
 # ✅ Initialize Pinecone client
@@ -80,6 +80,12 @@ def chat():
     user_input = request.json.get("user_input", "").lower()
     print(f"📥 Received Message from User: {user_input}")  # ✅ Debug Log
 
+    # ✅ Check if it's the first message (e.g., "intro_message")
+    if user_input in ["intro_message", "start", "hello", "hi"]:
+        intro = get_random_intro()
+        print(f"🎤 Sassy Intro: {intro}")
+        return jsonify({"response": intro})
+
     # ✅ Detect intent
     detected_intent = detect_intent(user_input)
     print(f"🔍 Detected Intent: {detected_intent}")  # ✅ Debugging Log
@@ -109,6 +115,6 @@ def chat():
     return jsonify({"response": "Hmm... I don't have an answer for that yet. Try asking something else!"})
 
 # ✅ Run Flask Locally
-if _name_ == "_main_":
+if __name__ == "__main__":
     print("🚀 Starting Flask server...")
     app.run(host="127.0.0.1", port=5000, debug=True)  # ✅ Run locally at http://127.0.0.1:5000
