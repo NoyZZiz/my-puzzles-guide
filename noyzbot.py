@@ -78,54 +78,50 @@ def home():
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("user_input", "").lower()
-    print(f"📥 Received Message from User: {user_input}")
+    print(f"📥 Received Message from User: {user_input}")  # ✅ Debug Log
 
-    # ✅ Step 1: Check Custom Responses First
-    custom_responses = {
-        "who created this website": "Noyzzing created this platform to help players master Puzzles and Conquest!",
-        "who made this guide": "This guide was made by Noyzzing with contributions from Lisette and the community.",
-        "what is siege troop": "Siege troops? Really? They are *useless*. You should never train them. 🚨"
-    }
-
-    if user_input in custom_responses:
-        print(f"🎯 Matched Custom Response: {custom_responses[user_input]}")
-        return jsonify({"response": custom_responses[user_input]})
-
-    # ✅ Step 2: Detect Intent
+    # ✅ Step 1: Detect Intent
     intent = detect_intent(user_input)
     print(f"🔍 Detected Intent: {intent}")
 
-    # ✅ Step 3: Handle Broad Questions (Ask for Clarification)
-    if intent == "general":
-        return jsonify({"response": "Hmm... can you be more specific? Are you asking about troops, battles, or guides?"})
+    # ✅ Step 2: If the message is too general, return a sassy intro instead
+    if intent == "general" and len(user_input.split()) < 4:  # If it's short & general
+        response = get_random_intro()
+        print(f"🗣 Sassy Intro: {response}")
+        return jsonify({"response": response})
 
-    # ✅ Step 4: Convert to Embedding & Query Pinecone
+    # ✅ Step 3: Convert user input into an embedding
     query_vector = get_embedding(user_input)
     print(f"🔍 Query Embedding Shape: {len(query_vector)}")
-
+    
+    # ✅ Step 4: Search Pinecone for the best matching response
     search_results = index.query(vector=query_vector, top_k=1, include_metadata=True)
     print(f"🔍 Search Results: {search_results}")
 
+    # ✅ Step 5: Process search results
     if search_results and "matches" in search_results and search_results["matches"]:
         best_match = search_results["matches"][0]
-        metadata = best_match["metadata"]
         
-        # ✅ Fix: Check if "text" exists, otherwise check for "answer"
-        response = metadata.get("text") or metadata.get("answer") or "I couldn't find an answer for that!"
-        
-        category = metadata.get("category", "general")
+        # ✅ Handle missing 'text' key properly
+        if "text" not in best_match["metadata"]:
+            print("❌ Error: No valid text response found in metadata.")
+            return jsonify({"response": "Oops! Something went wrong. Try again later."})
 
-        # ✅ Fix: Only roast Siege users if they are asking about Siege
-        if category == "siege" and "siege" in user_input.lower():
+        category = best_match["metadata"].get("category", "general")
+        response = best_match["metadata"]["text"]
+
+        # ✅ Special Roast Response for Siege Users
+        if category == "siege":
             print(f"🔥 Roasting Siege Users: {response}")
             return jsonify({"response": response})
 
+        # ✅ Normal response for other categories
         print(f"✅ Returning Response: {response}")
         return jsonify({"response": response})
 
-    # ✅ Step 5: Fallback Response
-    print("❌ No match found, returning fallback.")
-    return jsonify({"response": "I don't have that answer yet, but I'm learning! Try something else."})
+    # ✅ Step 6: If no good match found, return a fallback response
+    print("❌ No good match found, returning fallback.")
+    return jsonify({"response": "Hmm... I don't have an answer for that yet. Try asking something else!"})
 # ✅ Run Flask Locally
 if __name__ == "__main__":
     print("🚀 Starting Flask server...")
