@@ -13,23 +13,28 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
+    // ✅ Open chat on button click
     openChatBtn.addEventListener("click", function () {
         console.log("💬 Chat button clicked.");
         chatbox.style.display = 'block';
         fetchIntroMessage();
     });
 
+    // ✅ Close chat on button click
     closeChatBtn.addEventListener("click", function () {
         console.log("❌ Chatbox closed.");
         chatbox.style.display = 'none';
     });
 
-    sendBtn.addEventListener("click", sendMessage);
+    // ✅ Send Message on "Enter" Key Press
     userInput.addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             sendMessage();
         }
     });
+
+    // ✅ Attach Send Button Click Event
+    sendBtn.addEventListener("click", sendMessage);
 
     function fetchIntroMessage() {
         fetch("http://127.0.0.1:5000/chat", {
@@ -91,25 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>
             `;
         });
-    }
-});
-
-    // ✅ Send Message on "Enter" Key Press
-    userInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            sendMessage();
-        }
-
-    // ✅ Attach Send Button Click Event
-    sendBtn.addEventListener("click", sendMessage);
-});
-
-
-// ✅ Ensure event listeners are AFTER defining sendMessage
-document.getElementById("send-btn").addEventListener("click", sendMessage);
-document.getElementById("user-input").addEventListener("keydown", function (event) {
-    if (event.key === "Enter") {
-        sendMessage();
     }
 });
 
