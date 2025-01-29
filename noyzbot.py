@@ -55,6 +55,37 @@ def detect_intent(text):
         if any(word in text.lower() for word in words):
             return intent
     return "general"
+# ✅ Troop Unlock Levels by Castle Level (Max T14)
+troop_tier_mapping = {
+    "T1": 1, "T2": 4, "T3": 7, "T4": 10, "T5": 13,
+    "T6": 16, "T7": 19, "T8": 22, "T9": 26, "T10": 30,
+    "T11": 34, "T12": 38, "T13": 40, "T14": 44
+}
+
+# ✅ Function to check troop unlock levels
+def get_troop_unlock_level(tier, troop_type):
+    """
+    Returns the Castle Level required to unlock the specified troop type and tier.
+    """
+    if tier in troop_tier_mapping:
+        return f"{tier} {troop_type.capitalize()} unlocks at *Castle Level {troop_tier_mapping[tier]}*."
+    return "That troop tier doesn't exist. The highest available is *T14*."
+
+# ✅ Function to detect troop level questions
+def detect_troop_tier_question(user_input):
+    """
+    Detects if the user is asking about troop tier unlock levels.
+    """
+    words = user_input.lower().split()
+    troop_types = ["infantry", "cavalry", "ranged"]
+    for word in words:
+        if word.startswith("t") and word[1:].isdigit():  # Detects "T1" to "T14"
+            troop_tier = word.upper()
+            if troop_tier in troop_tier_mapping:  # Ensures it's within T1-T14
+                for troop_type in troop_types:
+                    if troop_type in words:
+                        return get_troop_unlock_level(troop_tier, troop_type)
+    return None
 
 # ✅ List of Random Sassy Intros
 sassy_intros = [
@@ -82,15 +113,21 @@ def chat():
 
     # ✅ Step 1: Detect Intent
     intent = detect_intent(user_input)
-    print(f"🔍 Detected Intent: {intent}")
+    print(f"🔍 Detected Intent: {intent}")  # ✅ Debugging Log
 
     # ✅ Step 2: If the message is too general, return a sassy intro instead
     if intent == "general" and len(user_input.split()) < 4:  # If it's short & general
         response = get_random_intro()
-        print(f"🗣 Sassy Intro: {response}")
+        print(f"😏 Sassy Intro: {response}")
         return jsonify({"response": response})
 
-    # ✅ Step 3: Convert user input into an embedding
+    # ✅ Step 2.5: Check for troop tier unlock questions BEFORE querying Pinecone
+    troop_unlock_response = detect_troop_tier_question(user_input)
+    if troop_unlock_response:
+        print(f"🎖 Troop Unlock Response: {troop_unlock_response}")  # ✅ Debugging Log
+        return jsonify({"response": troop_unlock_response})  # ✅ Return response instantly
+
+    # ✅ Step 3: Convert user input into an embedding (Proceed to Pinecone)
     query_vector = get_embedding(user_input)
     print(f"🔍 Query Embedding Shape: {len(query_vector)}")
     
