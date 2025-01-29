@@ -8,9 +8,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
 
-    function toggleChat() {
-        chatbox.style.display = 'block';  // ✅ Ensure chatbox opens properly
+    if (!chatbox || !openChatBtn || !closeChatBtn || !chatMessages || !userInput || !sendBtn) {
+        console.error("❌ One or more chat elements not found!");
+        return;
     }
+
+    openChatBtn.addEventListener("click", function () {
+        console.log("💬 Chat button clicked.");
+        chatbox.style.display = 'block';
+        fetchIntroMessage();
+    });
+
+    closeChatBtn.addEventListener("click", function () {
+        console.log("❌ Chatbox closed.");
+        chatbox.style.display = 'none';
+    });
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    });
 
     function fetchIntroMessage() {
         fetch("https://noyzbot-production.up.railway.app/chat", {
@@ -19,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
-            body: JSON.stringify({ user_input: userText })
+            body: JSON.stringify({ user_input: "intro_message" })  
         })
         .then(response => response.json())
         .then(data => {
@@ -34,21 +53,22 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => console.error("❌ Error fetching intro message:", error));
     }
 
-    // ✅ Define sendMessage function BEFORE calling it
-    window.sendMessage = function() {
-    console.log("📤 Sending message...");
-    const userText = document.getElementById("user-input").value.trim();
-    
-    if (userText !== "") {
-        const chatMessages = document.getElementById("chat-messages");
-        
-        chatMessages.innerHTML += `<p><b>You:</b> ${userText}</p>`;
-        document.getElementById("user-input").value = '';
+    function sendMessage() {
+        console.log("📤 Sending message...");
+        const userText = userInput.value.trim();  
+        if (userText === "") return;  
+
+        chatMessages.innerHTML += `
+            <div class="user-message">
+                <p><b>You:</b> ${userText}</p>
+            </div>
+        `;
+        userInput.value = '';  
 
         fetch("https://noyzbot-production.up.railway.app/chat", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ user_input: userText })
+            body: JSON.stringify({ user_input: userText })  
         })
         .then(response => response.json())
         .then(data => {
@@ -60,9 +80,27 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
             chatMessages.scrollTop = chatMessages.scrollHeight;
         })
-        .catch(error => console.error("❌ Error sending message:", error));
+        .catch(error => {
+            console.error("❌ Error sending message:", error);
+            chatMessages.innerHTML += `
+                <div class="bot-message error">
+                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
+                    <p>❌ Oops! Something went wrong. Try again later.</p>
+                </div>
+            `;
+        });
     }
-}
+});
+
+    // ✅ Send Message on "Enter" Key Press
+    userInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+
+    // ✅ Attach Send Button Click Event
+    sendBtn.addEventListener("click", sendMessage);
+});
 
 
 // ✅ Ensure event listeners are AFTER defining sendMessage
@@ -140,4 +178,3 @@ document.getElementById("user-input").addEventListener("keydown", function (even
     function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
     gtag('config', 'G-VYP41CV8E4');
-});

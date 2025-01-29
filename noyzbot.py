@@ -12,8 +12,7 @@ from sentence_transformers import SentenceTransformer
 # ✅ Load environment variables
 load_dotenv()
 app = Flask(__name__)
-CORS(app, origins=["https://guidesbynoyzzing.com"], supports_credentials=True)
-
+CORS(app, origins=["*"])  # ✅ Allow all origins locally for testing
 
 # ✅ Initialize Pinecone client
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
@@ -22,8 +21,11 @@ pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 index_name = os.getenv("PINECONE_INDEX_NAME")
 
 # ✅ Connect to the existing Pinecone index
-index = pc.Index(index_name)
-print(f"✅ Connected to Pinecone index: {index_name}")
+if index_name not in pc.list_indexes().names():
+    print(f"❌ Index '{index_name}' not found. Ensure Pinecone is properly set up.")
+else:
+    index = pc.Index(index_name)
+    print(f"✅ Connected to Pinecone index: {index_name}")
 
 # ✅ Load Hugging Face Embedding Model
 tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-small-en")
@@ -63,13 +65,10 @@ def get_random_intro():
     return random.choice(sassy_intros)
 
 # ✅ Flask App Setup
-app = Flask(__name__)
-
 @app.route("/chat", methods=["POST"])
 def chat():
     user_input = request.json.get("user_input", "").lower()
-    
-    print(f"📥 Received Message from User: {user_input}")  # ✅ Keep Debug Log
+    print(f"📥 Received Message from User: {user_input}")  # ✅ Debug Log
 
     # ✅ Detect intent
     intent = detect_intent(user_input)
@@ -81,16 +80,23 @@ def chat():
     # ✅ Search Pinecone for the best matching response
     search_results = index.query(vector=query_vector, top_k=1, include_metadata=True)
 
-    # ✅ If a match is found, return the best-ranked answer
     if search_results and search_results["matches"]:
-        best_match = search_results["matches"][0]["metadata"]["answer"]
-        print(f"✅ Returning Response: {best_match}")  # ✅ Debugging Log
-        return jsonify({"response": best_match})
+        best_match = search_results["matches"][0]
+        category = best_match["metadata"].get("category", "general")
+        response = best_match["metadata"]["text"]
+
+        # ✅ Roast Siege users
+        if category == "siege":
+            print(f"🔥 Roasting Siege Users: {response}")
+            return jsonify({"response": response})
+
+        # ✅ Normal response for other categories
+        print(f"✅ Returning Response: {response}")
+        return jsonify({"response": response})
 
     print("❌ No good match found, returning fallback.")
     return jsonify({"response": "Hmm... I don't have an answer for that yet. Try asking something else!"})
 
-
-# ✅ Run Flask App
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+# ✅ Run Flask Locally
+if __name__== "_main_":
+    app.run(host="127.0.0.1", port=5000, debug=True)  # ✅ Run locally at http://127.0.0.1:5000
