@@ -8,69 +8,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const userInput = document.getElementById('user-input');
     const sendBtn = document.getElementById('send-btn');
 
+    // ✅ Check if elements exist
     if (!chatbox || !openChatBtn || !closeChatBtn || !chatMessages || !userInput || !sendBtn) {
         console.error("❌ One or more chat elements not found!");
         return;
     }
 
-    // ✅ Open chat on button click
-    openChatBtn.addEventListener("click", function () {
-        console.log("💬 Chat button clicked.");
-        chatbox.style.display = 'block';
-        fetchIntroMessage();
-    });
-
-    // ✅ Close chat on button click
-    closeChatBtn.addEventListener("click", function () {
-        console.log("❌ Chatbox closed.");
-        chatbox.style.display = 'none';
-    });
-
-    // ✅ Send Message on "Enter" Key Press
-    userInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            sendMessage();
-        }
-    });
-
-    // ✅ Attach Send Button Click Event
-    sendBtn.addEventListener("click", sendMessage);
-
-    function fetchIntroMessage() {
-        fetch("http://127.0.0.1:5000/chat", {
-            method: "POST",
-            headers: { 
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify({ user_input: "intro_message" })  
-        })
-        .then(response => response.json())
-        .then(data => {
-            chatMessages.innerHTML += `
-                <div class="bot-message">
-                    <img src="assets/images/noyzbot-logo.png" alt="NoyzBot" class="bot-icon">
-                    <p>${data.response}</p>
-                </div>
-            `;
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        })
-        .catch(error => console.error("❌ Error fetching intro message:", error));
-    }
-
+    // ✅ Ensure sendMessage() is defined before event listeners
     function sendMessage() {
         console.log("📤 Sending message...");
-        const userText = userInput.value.trim();  
-        if (userText === ""){
-             return;  
-        }
+        const userText = userInput.value.trim();
+        if (userText === "") return;
 
         chatMessages.innerHTML += `
             <div class="user-message">
                 <p><b>You:</b> ${userText}</p>
             </div>
         `;
-        userInput.value = '';  
+        userInput.value = '';
 
         fetch("http://127.0.0.1:5000/chat",  { 
             method: "POST",
@@ -97,6 +52,22 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
         });
     }
+
+    // ✅ Attach event listeners after defining sendMessage()
+    openChatBtn.addEventListener("click", function () {
+        console.log("💬 Chat button clicked.");
+        chatbox.style.display = 'block';
+    });
+
+    closeChatBtn.addEventListener("click", function () {
+        console.log("❌ Chatbox closed.");
+        chatbox.style.display = 'none';
+    });
+
+    sendBtn.addEventListener("click", sendMessage);
+    userInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") sendMessage();
+    });
 });
 
     openChatBtn.addEventListener('click', function () {
