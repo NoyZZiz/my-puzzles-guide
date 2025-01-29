@@ -12,7 +12,7 @@ from sentence_transformers import SentenceTransformer
 # ✅ Load environment variables
 load_dotenv()
 app = Flask(__name__)
-CORS(app, resources={r"/": {"origins": ""}})  # ✅ Allow all origins locally for testing
+CORS(app)  # ✅ Allow all origins locally for testing
 
 # ✅ Initialize Pinecone client
 pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))

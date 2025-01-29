@@ -70,25 +70,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-    openChatBtn.addEventListener('click', function () {
-        console.log("💬 Chat button clicked.");
-        toggleChat();
-        fetchIntroMessage();
-    });
-
-    closeChatBtn.addEventListener('click', function () {
-        console.log("❌ Chatbox closed.");
-        chatbox.style.display = 'none';
-    });
-
-    sendBtn.addEventListener("click", sendMessage);
-    userInput.addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            sendMessage();
-        }
-    });
-
-
     
 
 
