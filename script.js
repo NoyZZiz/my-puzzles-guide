@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function fetchIntroMessage() {
-        fetch("https://noyzbot-production.up.railway.app/chat", {
+        fetch("http://127.0.0.1:5000/chat", {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
@@ -56,7 +56,9 @@ document.addEventListener("DOMContentLoaded", function () {
     function sendMessage() {
         console.log("📤 Sending message...");
         const userText = userInput.value.trim();  
-        if (userText === "") return;  
+        if (userText === ""){
+             return;  
+        }
 
         chatMessages.innerHTML += `
             <div class="user-message">
@@ -65,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         userInput.value = '';  
 
-        fetch("https://noyzbot-production.up.railway.app/chat", { 
+        fetch("http://127.0.0.1:5000/chat",  { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ user_input: userText })  
