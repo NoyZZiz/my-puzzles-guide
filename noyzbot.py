@@ -6,12 +6,12 @@ from pinecone import Pinecone
 from transformers import AutoTokenizer, AutoModel
 import torch
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS
 from sentence_transformers import SentenceTransformer
 
 # ✅ Load environment variables
 load_dotenv()
-app = Flask(__name__)
+app = Flask(_name_)
 CORS(app)  # ✅ Allow all origins locally for testing
 
 # ✅ Initialize Pinecone client
@@ -36,7 +36,13 @@ intent_model = SentenceTransformer("all-MiniLM-L6-v2")  # ✅ Intent detection m
 def get_embedding(text):
     inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
     outputs = model(**inputs)
-    return outputs.last_hidden_state.mean(dim=1).detach().numpy().tolist()[0]
+    embedding = outputs.last_hidden_state.mean(dim=1).detach().numpy().tolist()[0]
+
+    # ✅ Debugging Step: Print Embedding Size
+    print(f"🔍 Query Embedding Shape: {len(embedding)}")
+    print(f"🔍 Query Embedding Values (First 10): {embedding[:10]}")
+
+    return embedding
 
 # ✅ Function to detect intent
 def detect_intent(text):
@@ -75,19 +81,17 @@ def chat():
     print(f"📥 Received Message from User: {user_input}")  # ✅ Debug Log
 
     # ✅ Detect intent
-    intent = detect_intent(user_input)
-    print(f"🔍 Detected Intent: {intent}")  # ✅ Debugging Log
+    detected_intent = detect_intent(user_input)
+    print(f"🔍 Detected Intent: {detected_intent}")  # ✅ Debugging Log
 
     # ✅ Convert user input into an embedding
     query_vector = get_embedding(user_input)
 
-    query_vector = get_embedding("test message")
-    print(f"🔍 DEBUG: Query Embedding Shape: {len(query_vector)}")
-
     # ✅ Search Pinecone for the best matching response
     search_results = index.query(vector=query_vector, top_k=1, include_metadata=True)
+    print(f"🔍 Search Results: {search_results}")
 
-    if search_results and search_results["matches"]:
+    if search_results and "matches" in search_results and search_results["matches"]:
         best_match = search_results["matches"][0]
         category = best_match["metadata"].get("category", "general")
         response = best_match["metadata"]["text"]
@@ -105,7 +109,6 @@ def chat():
     return jsonify({"response": "Hmm... I don't have an answer for that yet. Try asking something else!"})
 
 # ✅ Run Flask Locally
-if __name__== "__main__":
-    print("Starting Flask server...")
+if _name_ == "_main_":
+    print("🚀 Starting Flask server...")
     app.run(host="127.0.0.1", port=5000, debug=True)  # ✅ Run locally at http://127.0.0.1:5000
-    print("Flask has stopped")
