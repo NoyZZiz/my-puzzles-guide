@@ -10,7 +10,8 @@ pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
 
 # ✅ Get Pinecone Index Name
 index_name = os.getenv("PINECONE_INDEX_NAME")
-
+index_info = pc.describe_index(index_name)
+print(index_info)
 # ✅ Check if the index exists, if not, create it
 if index_name not in pc.list_indexes().names():
     print(f"🆕 Creating Pinecone index: {index_name}")

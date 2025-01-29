@@ -28,8 +28,8 @@ else:
     print(f"✅ Connected to Pinecone index: {index_name}")
 
 # ✅ Load Hugging Face Embedding Model
-tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-small-en")
-model = AutoModel.from_pretrained("BAAI/bge-small-en", torch_dtype="auto", device_map="auto")
+tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-large-en")
+model = AutoModel.from_pretrained("BAAI/bge-large-en", torch_dtype="auto", device_map="auto")
 intent_model = SentenceTransformer("all-MiniLM-L6-v2")  # ✅ Intent detection model
 
 # ✅ Function to convert user queries into embeddings
@@ -64,6 +64,10 @@ def get_random_intro():
     """Returns a random sassy intro message."""
     return random.choice(sassy_intros)
 
+@app.route("/", methods=["GET"])
+def home():
+    return "NoyzBot is running locally!"
+
 # ✅ Flask App Setup
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -76,6 +80,9 @@ def chat():
 
     # ✅ Convert user input into an embedding
     query_vector = get_embedding(user_input)
+
+    query_vector = get_embedding("test message")
+    print(f"🔍 DEBUG: Query Embedding Shape: {len(query_vector)}")
 
     # ✅ Search Pinecone for the best matching response
     search_results = index.query(vector=query_vector, top_k=1, include_metadata=True)
@@ -98,5 +105,7 @@ def chat():
     return jsonify({"response": "Hmm... I don't have an answer for that yet. Try asking something else!"})
 
 # ✅ Run Flask Locally
-if __name__== "_main_":
+if __name__== "__main__":
+    print("Starting Flask server...")
     app.run(host="127.0.0.1", port=5000, debug=True)  # ✅ Run locally at http://127.0.0.1:5000
+    print("Flask has stopped")

@@ -36,7 +36,12 @@ model = AutoModel.from_pretrained("BAAI/bge-large-en")
 def get_embedding(text):
     inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
     outputs = model(**inputs)
-    return outputs.last_hidden_state.mean(dim=1).detach().numpy().tolist()[0]
+    
+    embedding = outputs.last_hidden_state.mean(dim=1).detach().numpy().tolist()[0]  # Compute embedding
+    
+    print(f"📏 Embedding Shape: {len(embedding)}")  # ✅ Debugging step
+
+    return embedding
 
 # ✅ Example game knowledge to store
 game_data = {
@@ -100,7 +105,7 @@ def store_embeddings(data, category):
         print(f"✅ Stored ({category}): {sentence}")
 
 # ✅ Run the function
-if __name__ == "_main_":
+if __name__ == "__main__":
     print("🚀 Starting data storage...")
     
     store_embeddings(infantry_data, "infantry")
