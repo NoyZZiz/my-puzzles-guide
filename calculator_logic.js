@@ -1,30 +1,55 @@
-// Updated JavaScript Logic for Troop & Resource Calculator
+// Add event listeners when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Get all calculator sections
+  const calculators = {
+      troop: document.getElementById('troop-calculator'),
+      resourceNeeded: document.getElementById('resource-needed-calculator'),
+      resourceProduce: document.getElementById('resource-produce-calculator'),
+      speedup: document.getElementById('speedup-calculator')
+  };
 
-// Function to switch between calculators
-function showTroopCalculator() {
-  hideAllCalculators();
-  document.getElementById('troop-calculator').classList.add('active');
-}
+  // Get all tab buttons
+  const tabButtons = document.querySelectorAll('.calculator-tab');
 
-function showResourceNeededCalculator() {
-  hideAllCalculators();
-  document.getElementById('resource-needed-calculator').classList.add('active');
-}
+  // Add click event listeners to all tab buttons
+  tabButtons.forEach(button => {
+      button.addEventListener('click', function() {
+          // Remove active class from all buttons
+          tabButtons.forEach(btn => btn.classList.remove('active'));
+          // Add active class to clicked button
+          this.classList.add('active');
 
-function showResourceProduceCalculator() {
-  hideAllCalculators();
-  document.getElementById('resource-produce-calculator').classList.add('active');
-}
+          // Hide all calculators
+          Object.values(calculators).forEach(calc => {
+              if (calc) calc.style.display = 'none';
+          });
 
-function showSpeedupCalculator() {
-  hideAllCalculators();
-  document.getElementById('speedup-calculator').classList.add('active');
-}
+          // Show the selected calculator
+          const calculatorId = this.getAttribute('data-calculator');
+          const selectedCalculator = calculators[calculatorId];
+          if (selectedCalculator) {
+              selectedCalculator.style.display = 'block';
+          }
+      });
+  });
 
-function hideAllCalculators() {
-  const sections = document.querySelectorAll('.calculator-section');
-  sections.forEach(section => section.classList.remove('active'));
-}
+  // Show troop calculator by default
+  const defaultTab = document.querySelector('[data-calculator="troop"]');
+  if (defaultTab) {
+      defaultTab.click();
+  }
+
+  // Add event listeners for calculation buttons
+  document.getElementById('calculate-troops').addEventListener('click', calculateTroops);
+  document.getElementById('calculate-resources').addEventListener('click', calculateResourcesNeeded);
+  document.getElementById('calculate-troops-from-resources').addEventListener('click', calculateTroopsFromResources);
+  document.getElementById('calculate-speedups').addEventListener('click', calculateSpeedUps);
+
+  // Add event listeners for slider updates
+  document.getElementById('buff-slider').addEventListener('input', updateBuffValue);
+  document.getElementById('resource-buff').addEventListener('input', updateResourceBuffValue);
+  document.getElementById('produce-resource-buff').addEventListener('input', updateProduceResourceBuffValue);
+});
 
 // Function to update the Training Speed Buff value display
 function updateBuffValue() {
@@ -99,8 +124,7 @@ function calculateResourcesNeeded() {
   `;
 }
 
-// Function to display "Coming Soon" placeholder message
-f// Function to calculate troops that can be trained with available resources and buff
+// Function to calculate troops that can be trained with available resources and buff
 function calculateTroopsFromResources() {
   const availableFood = parseInt(document.getElementById('available-food').value) || 0;
   const availableWood = parseInt(document.getElementById('available-wood').value) || 0;
@@ -140,13 +164,6 @@ function calculateTroopsFromResources() {
   `;
 }
 
-// Function to update the Resource Buff value display
-function updateProduceResourceBuffValue() {
-  const produceResourceBuffSlider = document.getElementById('produce-resource-buff');
-  document.getElementById('produce-resource-buff-value').textContent = `${produceResourceBuffSlider.value}%`;
-}
-
-
 // Updated Speed-Up Calculation Logic
 function calculateSpeedUps() {
   const targetTroops = parseInt(document.getElementById('target-troop-count').value) || 0;
@@ -155,8 +172,8 @@ function calculateSpeedUps() {
   const batchTimeMinutes = parseInt(document.getElementById('batch-time-minutes').value) || 0;
 
   if (targetTroops <= 0 || trainingCapacity <= 0 || (batchTimeHours <= 0 && batchTimeMinutes <= 0)) {
-    document.getElementById('speedup-result').innerHTML = 'Please enter valid numbers for all fields.';
-    return;
+      document.getElementById('speedup-result').innerHTML = 'Please enter valid numbers for all fields.';
+      return;
   }
 
   // Calculate total time per batch in minutes
@@ -191,13 +208,13 @@ function calculateSpeedUps() {
   const speedUps1Min = remaining;
 
   document.getElementById('speedup-result').innerHTML = `
-    To train <strong>${targetTroops}</strong> troops, you need approximately:<br>
-    <strong>${speedUps1Hour}</strong> x 1-Hour Speed-Ups<br>
-    <strong>${speedUps30Min}</strong> x 30-Minute Speed-Ups<br>
-    <strong>${speedUps15Min}</strong> x 15-Minute Speed-Ups<br>
-    <strong>${speedUps10Min}</strong> x 10-Minute Speed-Ups<br>
-    <strong>${speedUps5Min}</strong> x 5-Minute Speed-Ups<br>
-    <strong>${speedUps1Min}</strong> x 1-Minute Speed-Ups
+      To train <strong>${targetTroops}</strong> troops, you need approximately:<br>
+      <strong>${speedUps1Hour}</strong> x 1-Hour Speed-Ups<br>
+      <strong>${speedUps30Min}</strong> x 30-Minute Speed-Ups<br>
+      <strong>${speedUps15Min}</strong> x 15-Minute Speed-Ups<br>
+      <strong>${speedUps10Min}</strong> x 10-Minute Speed-Ups<br>
+      <strong>${speedUps5Min}</strong> x 5-Minute Speed-Ups<br>
+      <strong>${speedUps1Min}</strong> x 1-Minute Speed-Ups
   `;
 }
 
