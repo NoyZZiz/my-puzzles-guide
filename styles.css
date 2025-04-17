@@ -565,12 +565,12 @@ footer p {
 .featured-guides .guide-card .guide-image img {
   max-width: 100%; /* Ensure image doesn't exceed container */
   height: auto; /* Maintain aspect ratio */
-  max-height: 120px; /* Adjust this value as needed (e.g., 60px, 100px) */
+  max-height: 150px; /* Adjust this value as needed (e.g., 60px, 100px) */
   /* You can also set a fixed width if you prefer: */
   /* width: 80px; */
 }
 .about-image {
   max-width: 100%;
   height: auto;
-  max-height: 100px; /* Adjust this value to reduce height */
+  max-height: 150px; /* Adjust this value to reduce height */
 }
