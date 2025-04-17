@@ -2,10 +2,10 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Get all calculator sections
   const calculators = {
-      troop: document.getElementById('troop-calculator'),
-      resourceNeeded: document.getElementById('resource-needed-calculator'),
-      resourceProduce: document.getElementById('resource-produce-calculator'),
-      speedup: document.getElementById('speedup-calculator')
+    troop: document.getElementById('troop-calculator'),
+    resourceNeeded: document.getElementById('resource-needed-calculator'),
+    resourceProduce: document.getElementById('resource-produce-calculator'),
+    speedup: document.getElementById('speedup-calculator')
   };
 
   // Get all tab buttons
@@ -13,30 +13,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Add click event listeners to all tab buttons
   tabButtons.forEach(button => {
-      button.addEventListener('click', function() {
-          // Remove active class from all buttons
-          tabButtons.forEach(btn => btn.classList.remove('active'));
-          // Add active class to clicked button
-          this.classList.add('active');
+    button.addEventListener('click', function() {
+      // Remove active class from all buttons
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      // Add active class to clicked button
+      this.classList.add('active');
 
-          // Hide all calculators
-          Object.values(calculators).forEach(calc => {
-              if (calc) calc.style.display = 'none';
-          });
-
-          // Show the selected calculator
-          const calculatorId = this.getAttribute('data-calculator');
-          const selectedCalculator = calculators[calculatorId];
-          if (selectedCalculator) {
-              selectedCalculator.style.display = 'block';
-          }
+      // Hide all calculators
+      Object.values(calculators).forEach(calc => {
+        if (calc) calc.style.display = 'none';
       });
+
+      // Show the selected calculator
+      const calculatorId = this.getAttribute('data-calculator');
+      const selectedCalculator = calculators[calculatorId];
+      if (selectedCalculator) {
+        selectedCalculator.style.display = 'block';
+      }
+    });
   });
 
   // Show troop calculator by default
   const defaultTab = document.querySelector('[data-calculator="troop"]');
   if (defaultTab) {
-      defaultTab.click();
+    defaultTab.click();
   }
 
   // Add event listeners for calculation buttons
@@ -49,6 +49,11 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('buff-slider').addEventListener('input', updateBuffValue);
   document.getElementById('resource-buff').addEventListener('input', updateResourceBuffValue);
   document.getElementById('produce-resource-buff').addEventListener('input', updateProduceResourceBuffValue);
+
+  // Call update functions to set initial slider values
+  updateBuffValue();
+  updateResourceBuffValue();
+  updateProduceResourceBuffValue();
 });
 
 // Function to update the Training Speed Buff value display
@@ -74,10 +79,11 @@ function calculateTroops() {
   const runTimeHours = parseInt(document.getElementById('run-time-hours').value) || 0;
   const runTimeMinutes = parseInt(document.getElementById('run-time-minutes').value) || 0;
   const buffPercent = parseInt(document.getElementById('buff-slider').value) || 0;
-  const troopMight = parseInt(document.getElementById('troop-might').value) || 45;
+  const troopMight = parseInt(document.getElementById('troop-might-input').value) || 45;
 
   const totalRunTimeMinutes = runTimeHours * 60 + runTimeMinutes;
-  const adjustedRunTime = totalRunTimeMinutes * (1 + buffPercent / 100);
+  // Approximate the reduced run time based on the 300% buff data
+  const adjustedRunTime = Math.max(0, totalRunTimeMinutes - (2.3 * buffPercent));
 
   const oneHourSpeedUps = parseInt(document.getElementById('1hr-speedups').value) || 0;
   const thirtyMinSpeedUps = parseInt(document.getElementById('30min-speedups').value) || 0;
@@ -86,18 +92,18 @@ function calculateTroops() {
   const fiveMinSpeedUps = parseInt(document.getElementById('5min-speedups').value) || 0;
 
   const totalMinutesFromSpeedUps =
-      oneHourSpeedUps * 60 +
-      thirtyMinSpeedUps * 30 +
-      fifteenMinSpeedUps * 15 +
-      tenMinSpeedUps * 10 +
-      fiveMinSpeedUps * 5;
+    oneHourSpeedUps * 60 +
+    thirtyMinSpeedUps * 30 +
+    fifteenMinSpeedUps * 15 +
+    tenMinSpeedUps * 10 +
+    fiveMinSpeedUps * 5;
 
   const troopsTrained = Math.floor((totalMinutesFromSpeedUps / adjustedRunTime) * trainingCap);
   const totalMight = troopsTrained * troopMight;
 
   document.getElementById('troop-result').innerHTML = `
-      <strong>You can train approximately ${formatNumberWithCommas(troopsTrained)} troops.</strong><br>
-      Total Might: ${formatNumberWithCommas(totalMight)}
+    <strong>You can train approximately ${formatNumberWithCommas(troopsTrained)} troops.</strong><br>
+    Total Might: ${formatNumberWithCommas(totalMight)}
   `;
 }
 
@@ -116,11 +122,11 @@ function calculateResourcesNeeded() {
   const totalGold = Math.floor(troopCount * goldCost * (1 - resourceBuff / 100));
 
   document.getElementById('resource-needed-result').innerHTML = `
-      <strong>Resources Needed to Train ${formatNumberWithCommas(troopCount)} Troops:</strong><br>
-      Food: ${formatNumberWithCommas(totalFood)}<br>
-      Wood: ${formatNumberWithCommas(totalWood)}<br>
-      Iron: ${formatNumberWithCommas(totalIron)}<br>
-      Gold: ${formatNumberWithCommas(totalGold)}
+    <strong>Resources Needed to Train ${formatNumberWithCommas(troopCount)} Troops:</strong><br>
+    Food: ${formatNumberWithCommas(totalFood)}<br>
+    Wood: ${formatNumberWithCommas(totalWood)}<br>
+    Iron: ${formatNumberWithCommas(totalIron)}<br>
+    Gold: ${formatNumberWithCommas(totalGold)}
   `;
 }
 
@@ -155,12 +161,12 @@ function calculateTroopsFromResources() {
 
   // Display the result
   document.getElementById('resource-produce-result').innerHTML = `
-      <strong>You can train approximately ${formatNumberWithCommas(maxTroops)} troops with the available resources.</strong><br>
-      <strong>Adjusted Costs Per Troop:</strong><br>
-      Food: ${adjustedFoodCost.toFixed(2)}<br>
-      Wood: ${adjustedWoodCost.toFixed(2)}<br>
-      Iron: ${adjustedIronCost.toFixed(2)}<br>
-      Gold: ${adjustedGoldCost.toFixed(2)}
+    <strong>You can train approximately ${formatNumberWithCommas(maxTroops)} troops with the available resources.</strong><br>
+    <strong>Adjusted Costs Per Troop:</strong><br>
+    Food: ${adjustedFoodCost.toFixed(2)}<br>
+    Wood: ${adjustedWoodCost.toFixed(2)}<br>
+    Iron: ${adjustedIronCost.toFixed(2)}<br>
+    Gold: ${adjustedGoldCost.toFixed(2)}
   `;
 }
 
@@ -172,8 +178,8 @@ function calculateSpeedUps() {
   const batchTimeMinutes = parseInt(document.getElementById('batch-time-minutes').value) || 0;
 
   if (targetTroops <= 0 || trainingCapacity <= 0 || (batchTimeHours <= 0 && batchTimeMinutes <= 0)) {
-      document.getElementById('speedup-result').innerHTML = 'Please enter valid numbers for all fields.';
-      return;
+    document.getElementById('speedup-result').innerHTML = 'Please enter valid numbers for all fields.';
+    return;
   }
 
   // Calculate total time per batch in minutes
@@ -208,13 +214,13 @@ function calculateSpeedUps() {
   const speedUps1Min = remaining;
 
   document.getElementById('speedup-result').innerHTML = `
-      To train <strong>${targetTroops}</strong> troops, you need approximately:<br>
-      <strong>${speedUps1Hour}</strong> x 1-Hour Speed-Ups<br>
-      <strong>${speedUps30Min}</strong> x 30-Minute Speed-Ups<br>
-      <strong>${speedUps15Min}</strong> x 15-Minute Speed-Ups<br>
-      <strong>${speedUps10Min}</strong> x 10-Minute Speed-Ups<br>
-      <strong>${speedUps5Min}</strong> x 5-Minute Speed-Ups<br>
-      <strong>${speedUps1Min}</strong> x 1-Minute Speed-Ups
+    To train <strong>${targetTroops}</strong> troops, you need approximately:<br>
+    <strong>${speedUps1Hour}</strong> x 1-Hour Speed-Ups<br>
+    <strong>${speedUps30Min}</strong> x 30-Minute Speed-Ups<br>
+    <strong>${speedUps15Min}</strong> x 15-Minute Speed-Ups<br>
+    <strong>${speedUps10Min}</strong> x 10-Minute Speed-Ups<br>
+    <strong>${speedUps5Min}</strong> x 5-Minute Speed-Ups<br>
+    <strong>${speedUps1Min}</strong> x 1-Minute Speed-Ups
   `;
 }
 

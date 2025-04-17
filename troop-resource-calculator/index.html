@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Troop & Resource Calculator - Puzzles and Conquest</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>NoYzzing - Ultimate Puzzles and Conquest Guide</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -14,10 +11,7 @@
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <head>
-        <link rel="icon" href="../assets/images/Noylogo.png" type="image/png">
-        <!-- Other meta tags and links -->
-    </head>
+    <link rel="icon" href="assets/images/Heading.png" type="image/png" sizes="64x64">
 </head>
 <body>
     <header>
@@ -67,6 +61,9 @@
                     <label for="buff-slider">Training Speed Buff (%):</label>
                     <input type="range" id="buff-slider" min="0" max="1000" step="1">
                     <span id="buff-value">0%</span>
+                    <p class="slider-info">
+                        During the Military Expedition event, buffs can be high. For example, if you have a 300% buff from the event and an additional 30% buff, set the slider to <strong>330%</strong>.
+                    </p>
                 </div>
                 <div class="form-group">
                     <label for="troop-might-input">Troop Might per Unit:</label>
@@ -95,7 +92,7 @@
                         <input type="number" id="5min-speedups">
                     </div>
                 </fieldset>
-                <button type="button" onclick="calculateTroops()">Calculate Troops</button>
+                <button type="button" onclick="calculateTroops()" id="calculate-troops">Calculate Troops</button>
             </form>
             <div id="troop-result" class="result"></div>
         </section>
@@ -128,7 +125,7 @@
                     <input type="range" id="resource-buff" min="0" max="50" step="1">
                     <span id="resource-buff-value">0%</span>
                 </div>
-                <button type="button" onclick="calculateResourcesNeeded()">Calculate Resources</button>
+                <button type="button" onclick="calculateResourcesNeeded()" id="calculate-resources">Calculate Resources</button>
             </form>
             <div id="resource-needed-result" class="result"></div>
         </section>
@@ -173,7 +170,7 @@
                     <input type="range" id="produce-resource-buff" min="0" max="50" step="1">
                     <span id="produce-resource-buff-value">0%</span>
                 </div>
-                <button type="button" onclick="calculateTroopsFromResources()">Calculate Troops</button>
+                <button type="button" onclick="calculateTroopsFromResources()" id="calculate-troops-from-resources">Calculate Troops</button>
             </form>
             <div id="resource-produce-result" class="result"></div>
         </section>
@@ -197,7 +194,7 @@
                     <label for="batch-time-minutes">Batch Time (Minutes):</label>
                     <input type="number" id="batch-time-minutes" required>
                 </div>
-                <button type="button" onclick="calculateSpeedUps()">Calculate Speed-Ups</button>
+                <button type="button" onclick="calculateSpeedUps()" id="calculate-speedups">Calculate Speed-Ups</button>
             </form>
             <div id="speedup-result" class="result"></div>
         </section>
