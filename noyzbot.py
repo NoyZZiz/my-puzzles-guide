@@ -1,165 +1,117 @@
-import os
-import random
-import pinecone
-from dotenv import load_dotenv
-from pinecone import Pinecone
-from transformers import AutoTokenizer, AutoModel
-import torch
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from sentence_transformers import SentenceTransformer
+import random
+import time
 
-# ✅ Load environment variables
-load_dotenv()
+# Initialize the Flask application
 app = Flask(__name__)
-CORS(app)  # ✅ Allow all origins locally for testing
 
-# ✅ Initialize Pinecone client
-pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+# Enable Cross-Origin Resource Sharing (CORS) for local development
+CORS(app)
 
-# ✅ Get Pinecone Index Name
-index_name = os.getenv("PINECONE_INDEX_NAME")
+# --- Bot Response Logic ---
+def get_bot_response(user_input):
+    """
+    Simulates a simple bot response based on predefined keywords.
+    """
+    time.sleep(0.5)  # Simulate a short processing delay
 
-# ✅ Connect to the existing Pinecone index
-if index_name not in pc.list_indexes().names():
-    print(f"❌ Index '{index_name}' not found. Ensure Pinecone is properly set up.")
-else:
-    index = pc.Index(index_name)
-    print(f"✅ Connected to Pinecone index: {index_name}")
-
-# ✅ Load Hugging Face Embedding Model
-tokenizer = AutoTokenizer.from_pretrained("BAAI/bge-large-en")
-model = AutoModel.from_pretrained("BAAI/bge-large-en", torch_dtype="auto", device_map="auto")
-intent_model = SentenceTransformer("all-MiniLM-L6-v2")  # ✅ Intent detection model
-
-# ✅ Function to convert user queries into embeddings
-def get_embedding(text):
-    inputs = tokenizer(text, return_tensors="pt", padding=True, truncation=True)
-    outputs = model(**inputs)
-    embedding = outputs.last_hidden_state.mean(dim=1).detach().numpy().tolist()[0]
-
-    # ✅ Debugging Step: Print Embedding Size
-    print(f"🔍 Query Embedding Shape: {len(embedding)}")
-    print(f"🔍 Query Embedding Values (First 10): {embedding[:10]}")
-
-    return embedding
-
-# ✅ Function to detect intent
-def detect_intent(text):
-    keywords = {
-        "strategy": ["strategy", "troop", "battle", "attack", "defense"],
-        "guides": ["guide", "help", "how to", "tips", "advice"],
-        "calculator": ["calculate", "troop calculator", "resource calculator"],
+    # Define a dictionary of simple responses
+    responses = {
+        "hello": random.choice(["Hey!", "Hello there!", "Greetings!"]),
+        "hi": random.choice(["Hello.", "Hi!", "Hey!"]),
+        "greetings": random.choice(["Hi!", "Greetings, fellow strategist!", "Hello!"]),
+        "how are you": random.choice(["I'm functioning optimally.", "Doing well, ready to assist!", "Feeling digital and ready to go!"]),
+        "what is your name": "I am NoyzBot, your helpful AI assistant for this guide.",
+        "thank you": random.choice(["You're welcome!", "No problem at all!", "Happy to help!"]),
+        "bye": random.choice(["Goodbye!", "See you later!", "Farewell!", "Until next time!"]),
+        "help": "Ask me about game mechanics, guides, tools, or the alliance.",
+        "welcome": "Welcome to the Puzzles and Conquest guide by Noyzzing!",
+        "noyzzing": "Noyzzing is the creator of this comprehensive guide.",
+        "talent memory guide": "The Talent Memory Guide was crafted by Lisette.",
+        "guide purpose": "This guide aims to enhance your Puzzles and Conquest experience.",
+        "guide mission": "We're building a strong community focused on strategic growth.",
+        "guide confused": random.choice(["Explore the sections, you'll find your way! 😉", "Take your time, the knowledge is here.", "It's all about discovery!"]),
+        "troop calculator": "Use the Troop Calculator for all your troop cost calculations.",
+        "calculate resources": "The Troop Calculator is your go-to for resource estimations.",
+        "contact": "Reach out via email at pranoykrishna944@gmail.com for inquiries.",
+        "infantry barracks": "Train your frontline foot soldiers here after Chapter 2.",
+        "infantry units": "Infantry excel in close-quarters combat.",
+        "infantry stats": "Details on troop stats are in the Barracks menu.",
+        "infantry training cost": "Resource costs vary by unit type and level.",
+        "infantry upgrades": "Upgrade the Barracks (levels 1-40), unlocks depend on Castle Level.",
+        "infantry unlock levels": "Recruit (CL 1) to Crusade Warmaster (CL 40).",
+        "infantry strengths": "Strong against Ranged.",
+        "infantry weaknesses": "Vulnerable to Cavalry charges.",
+        "ranged barracks": "Train your archers and other long-range units here.",
+        "ranged troops offensive": "Ideal for attacking fortifications and hunting monsters.",
+        "ranged world map": "Deploy Ranged units for strategic engagements.",
+        "ranged upgrades": "Upgrade the Barracks (levels 1-40), unlocks by Castle Level.",
+        "ranged unlock levels": "Archer (CL 1) to Crusade Deadshot (CL 40).",
+        "ranged strengths": "Effective against Cavalry.",
+        "ranged weaknesses": "Can be overwhelmed by Infantry.",
+        "cavalry barracks": "Train your fast and mobile mounted units here.",
+        "cavalry units mobility": "High mobility, bypass traps, support Infantry.",
+        "cavalry stats": "Check the Barracks for detailed attributes.",
+        "cavalry upgrades": "Upgrade the Barracks (levels 1-40), unlocks by Castle Level.",
+        "cavalry unlock levels": "Scout (CL 1) to Crusade Overlord (CL 40).",
+        "cavalry strengths": "Powerful against Infantry.",
+        "cavalry weaknesses": "Susceptible to Ranged attacks.",
+        "siege troops": "Siege units have limited battle use.",
+        "siege daily quest": "Train a small number of T1 Siege for daily tasks.",
+        "siege apex matches": "Siege units are rarely seen in competitive play.",
+        "siege high-tier": "Investing heavily in high-tier Siege is not recommended.",
+        "siege train": "Consider focusing on other troop types for combat.",
+        "siege win fights": "Don't rely on Siege for victory.",
+        "siege useless": "Generally, Siege units are not very effective in battles.",
+        "siege waste resources": "Prioritize other troop types over Siege for resource investment.",
+        "what is puzzles and conquest": "Puzzles and Conquest is a mobile strategy game combining match-3 puzzles with kingdom building and war.",
+        "tell me a tip": random.choice(["Focus on upgrading your resource buildings early.", "Join an active alliance for mutual benefits.", "Participate in daily events for rewards.", "Always scout before attacking.", "Coordinate with your alliance members for stronger attacks."]),
+        "what's new": "Keep an eye on the website for the latest guides and updates!",
+        "can you help me": "I'll do my best! What Puzzles and Conquest question do you have?",
+        "good bot": random.choice(["Thanks!", "Appreciate it!", "Glad I could assist!"]),
+        "bad bot": random.choice(["Oops, sorry about that!", "I'm still learning!", "I'll try to do better next time."])
     }
-    for intent, words in keywords.items():
-        if any(word in text.lower() for word in words):
-            return intent
-    return "general"
-# ✅ Troop Unlock Levels by Castle Level (Max T14)
-troop_tier_mapping = {
-    "T1": 1, "T2": 4, "T3": 7, "T4": 10, "T5": 13,
-    "T6": 16, "T7": 19, "T8": 22, "T9": 26, "T10": 30,
-    "T11": 34, "T12": 38, "T13": 40, "T14": 44
-}
 
-# ✅ Function to check troop unlock levels
-def get_troop_unlock_level(tier, troop_type):
-    """
-    Returns the Castle Level required to unlock the specified troop type and tier.
-    """
-    if tier in troop_tier_mapping:
-        return f"{tier} {troop_type.capitalize()} unlocks at *Castle Level {troop_tier_mapping[tier]}*."
-    return "That troop tier doesn't exist. The highest available is *T14*."
+    # Convert user input to lowercase for case-insensitive matching
+    user_input_lower = user_input.lower()
 
-# ✅ Function to detect troop level questions
-def detect_troop_tier_question(user_input):
-    """
-    Detects if the user is asking about troop tier unlock levels.
-    """
-    words = user_input.lower().split()
-    troop_types = ["infantry", "cavalry", "ranged"]
-    for word in words:
-        if word.startswith("t") and word[1:].isdigit():  # Detects "T1" to "T14"
-            troop_tier = word.upper()
-            if troop_tier in troop_tier_mapping:  # Ensures it's within T1-T14
-                for troop_type in troop_types:
-                    if troop_type in words:
-                        return get_troop_unlock_level(troop_tier, troop_type)
-    return None
+    # Check if the user input is in our predefined responses
+    if user_input_lower in responses:
+        return {"response": responses[user_input_lower]}
+    else:
+        # If no specific match, provide a generic fallback response
+        return {"response": random.choice(["Hmm, that's an interesting question!",
+                                           "Let me see... I don't have an exact answer for that right now.",
+                                           "Could you try asking in a different way?",
+                                           "Sorry, my knowledge base on that is limited."])}
 
-# ✅ List of Random Sassy Intros
-sassy_intros = [
-    "Oh, you again? What do you need now? 😏",
-    "Welcome! I’m just a bot training like you. Don’t expect too much. 😉",
-    "You want answers? I got 'em. But don’t expect sugarcoating. 🔥",
-    "Another day, another question. Let's see if you can impress me. 😎",
-    "I don’t do free coaching, but since you’re here… ask away. 🤖",
-    "If I don’t know the answer, it’s because your question is bad. 😂"
-]
-
-def get_random_intro():
-    """Returns a random sassy intro message."""
-    return random.choice(sassy_intros)
-
-@app.route("/", methods=["GET"])
-def home():
-    return "NoyzBot is running locally!"
-
-# ✅ Flask App Setup
-@app.route("/chat", methods=["POST"])
+# --- Flask API Endpoint ---
+@app.route('/chat', methods=['POST'])
 def chat():
-    user_input = request.json.get("user_input", "").lower()
-    print(f"📥 Received Message from User: {user_input}")  # ✅ Debug Log
+    """
+    Handles POST requests to the '/chat' endpoint.
+    Expects a JSON payload with a 'user_input' key.
+    Returns a JSON response with the bot's reply.
+    """
+    # Get the JSON data from the request
+    data = request.get_json()
 
-    # ✅ Step 1: Detect Intent
-    intent = detect_intent(user_input)
-    print(f"🔍 Detected Intent: {intent}")  # ✅ Debugging Log
+    # Extract the user's input from the JSON data
+    user_input = data.get('user_input')
 
-    # ✅ Step 2: If the message is too general, return a sassy intro instead
-    if intent == "general" and len(user_input.split()) < 4:  # If it's short & general
-        response = get_random_intro()
-        print(f"😏 Sassy Intro: {response}")
-        return jsonify({"response": response})
+    # Check if user input was provided
+    if not user_input:
+        return jsonify({"error": "No user input provided"}), 400  # Return a 400 error if no input
 
-    # ✅ Step 2.5: Check for troop tier unlock questions BEFORE querying Pinecone
-    troop_unlock_response = detect_troop_tier_question(user_input)
-    if troop_unlock_response:
-        print(f"🎖 Troop Unlock Response: {troop_unlock_response}")  # ✅ Debugging Log
-        return jsonify({"response": troop_unlock_response})  # ✅ Return response instantly
+    # Get the bot's response based on the user input
+    bot_response = get_bot_response(user_input)
 
-    # ✅ Step 3: Convert user input into an embedding (Proceed to Pinecone)
-    query_vector = get_embedding(user_input)
-    print(f"🔍 Query Embedding Shape: {len(query_vector)}")
-    
-    # ✅ Step 4: Search Pinecone for the best matching response
-    search_results = index.query(vector=query_vector, top_k=1, include_metadata=True)
-    print(f"🔍 Search Results: {search_results}")
+    # Return the bot's response as a JSON object
+    return jsonify(bot_response)
 
-    # ✅ Step 5: Process search results
-    if search_results and "matches" in search_results and search_results["matches"]:
-        best_match = search_results["matches"][0]
-        
-        # ✅ Handle missing 'text' key properly
-        if "text" not in best_match["metadata"]:
-            print("❌ Error: No valid text response found in metadata.")
-            return jsonify({"response": "Oops! Something went wrong. Try again later."})
-
-        category = best_match["metadata"].get("category", "general")
-        response = best_match["metadata"]["text"]
-
-        # ✅ Special Roast Response for Siege Users
-        if category == "siege":
-            print(f"🔥 Roasting Siege Users: {response}")
-            return jsonify({"response": response})
-
-        # ✅ Normal response for other categories
-        print(f"✅ Returning Response: {response}")
-        return jsonify({"response": response})
-
-    # ✅ Step 6: If no good match found, return a fallback response
-    print("❌ No good match found, returning fallback.")
-    return jsonify({"response": "Hmm... I don't have an answer for that yet. Try asking something else!"})
-# ✅ Run Flask Locally
-if __name__ == "__main__":
-    print("🚀 Starting Flask server...")
-    app.run(host="127.0.0.1", port=5000, debug=True)  # ✅ Run locally at http://127.0.0.1:5000
+# --- Run the Flask Development Server ---
+if __name__ == '__main__':
+    print("🚀 Starting the basic Flask development server...")
+    app.run(debug=True)  # Set debug=True for easier development (auto-reloads on code changes)
+    # In a production environment, you would typically use a different WSGI server.
