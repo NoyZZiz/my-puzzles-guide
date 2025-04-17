@@ -23,10 +23,25 @@ body {
   padding: 0;
 }
 
+/* Existing .container rule */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+}
+
+/* Make it wider on screens 1440px and above (adjust as needed) */
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1400px; /* Or a value that looks good to you */
+  }
+}
+
+/* Make it even wider on very large screens (optional) */
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1600px; /* Or a percentage like 90% */
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
