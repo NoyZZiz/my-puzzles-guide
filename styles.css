@@ -23,24 +23,21 @@ body {
   padding: 0;
 }
 
-/* Existing .container rule */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* Make it wider on screens 1440px and above (adjust as needed) */
 @media (min-width: 1440px) {
   .container {
-    max-width: 1400px; /* Or a value that looks good to you */
+      max-width: 1400px;
   }
 }
 
-/* Make it even wider on very large screens (optional) */
 @media (min-width: 1600px) {
   .container {
-    max-width: 1600px; /* Or a percentage like 90% */
+      max-width: 1600px;
   }
 }
 
@@ -397,7 +394,7 @@ footer p {
 }
 
 .chatbox {
-  display: none;
+  display: none; /* Hidden by default */
   position: fixed;
   bottom: 80px;
   right: 24px;
@@ -475,198 +472,197 @@ footer p {
 #user-input {
   flex: 1;
   padding: 10px 14px;
-  border: 1px solid var(--border-color);
   border-radius: 6px;
-  background-color: rgba(15, 23, 42, 0.6);
-  color: var(--text-color);
-  font-size: 0.9em;
+    background-color: rgba(15, 23, 42, 0.6);
+    color: var(--text-color);
+    font-size: 0.9em;
 }
 
 #user-input:focus {
-  border-color: var(--accent-color);
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(124, 58, 237, 0.2);
 }
 
 #send-btn {
-  padding: 10px 16px;
-  width: auto;
-  font-size: 0.9em;
+    padding: 10px 16px;
+    width: auto;
+    font-size: 0.9em;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-  header .container {
-    flex-direction: column;
-    gap: 16px;
-  }
+    header .container {
+        flex-direction: column;
+        gap: 16px;
+    }
 
-  .nav-links {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-  }
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
 
-  .hero-content h2 {
-    font-size: 2.5em;
-  }
+    .hero-content h2 {
+        font-size: 2.5em;
+    }
 
-  .newsletter-form {
-    flex-direction: column;
-  }
+    .newsletter-form {
+        flex-direction: column;
+    }
 
-  .newsletter-form button {
-    width: 100%;
-  }
+    .newsletter-form button {
+        width: 100%;
+    }
 
-  footer .container {
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
-  }
+    footer .container {
+        flex-direction: column;
+        gap: 20px;
+        text-align: center;
+    }
 
-  .chatbox {
-    width: 100%;
-    height: 100%;
-    right: 0;
-    bottom: 0;
-    border-radius: 0;
-  }
+    .chatbox {
+        width: 100%;
+        height: 100%;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+    }
 
-  #open-chat-btn {
-    width: auto;
-    right: 16px;
-    bottom: 16px;
-  }
+    #open-chat-btn {
+        width: auto;
+        right: 16px;
+        bottom: 16px;
+    }
 }
 
 /* Tab System */
 .calculator-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 1px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .tab-button {
-  padding: 12px 20px;
-  background: none;
-  border: none;
-  color: var(--text-color);
-  font-size: 0.95em;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: border-color 0.2s ease;
-  white-space: nowrap;
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 0.95em;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease;
+    white-space: nowrap;
 }
 
 .tab-button:hover,
 .tab-button.active {
-  border-bottom-color: var(--accent-color);
-  background: linear-gradient(to bottom, transparent, rgba(124, 58, 237, 0.1));
+    border-bottom-color: var(--accent-color);
+    background: linear-gradient(to bottom, transparent, rgba(124, 58, 237, 0.1));
 }
 /* Adjust Logo Image Size */
 .logo img {
-  height: auto; /* Maintain aspect ratio */
-  width: 40px; /* Adjust this value as needed (e.g., 30px, 50px) */
-  vertical-align: middle;
-  margin-right: 10px;
+    height: auto; /* Maintain aspect ratio */
+    width: 40px; /* Adjust this value as needed (e.g., 30px, 50px) */
+    vertical-align: middle;
+    margin-right: 10px;
 }
 
 /* Adjust Images in Featured Guides Section */
 .featured-guides .guide-card .guide-image img {
-  max-width: 100%; /* Ensure image doesn't exceed container */
-  height: auto; /* Maintain aspect ratio */
-  max-height: 150px; /* Adjust this value as needed (e.g., 60px, 100px) */
-  /* You can also set a fixed width if you prefer: */
-  /* width: 80px; */
+    max-width: 100%; /* Ensure image doesn't exceed container */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 150px; /* Adjust this value as needed (e.g., 60px, 100px) */
+    /* You can also set a fixed width if you prefer: */
+    /* width: 80px; */
 }
 .about-image {
-  max-width: 100%;
-  height: auto;
-  max-height: 150px; /* Adjust this value to reduce height */
+    max-width: 100%;
+    height: auto;
+    max-height: 150px; /* Adjust this value to reduce height */
 }
 .alliance-promotion {
-  padding: 40px 0;
+    padding: 40px 0;
 }
 
 .alliance-promotion .container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .alliance-poster {
-  background-color: var(--surface-color);
-  color: var(--text-color);
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  max-width: 400px;
-  margin-left: 20px;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 400px;
+    margin-left: 20px;
 }
 
 .alliance-logo {
-  max-width: 150px; /* Adjust the size of the logo */
-  height: auto;
-  margin-bottom: 20px;
+    max-width: 150px; /* Adjust the size of the logo */
+    height: auto;
+    margin-bottom: 20px;
 }
 
 .alliance-poster h3 {
-  font-size: 1.8em;
-  margin-bottom: 15px;
-  color: var(--accent-color);
+    font-size: 1.8em;
+    margin-bottom: 15px;
+    color: var(--accent-color);
 }
 
 .alliance-poster p {
-  margin-bottom: 20px;
-  color: var(--text-secondary);
+    margin-bottom: 20px;
+    color: var(--text-secondary);
 }
 
 .alliance-poster ul {
-  list-style-type: disc;
-  padding-left: 20px;
-  margin-bottom: 20px;
-  text-align: left;
+    list-style-type: disc;
+    padding-left: 20px;
+    margin-bottom: 20px;
+    text-align: left;
 }
 
 .alliance-poster li {
-  margin-bottom: 10px;
-  color: var(--text-secondary);
+    margin-bottom: 10px;
+    color: var(--text-secondary);
 }
 
 .alliance-poster .button {
-  display: inline-block;
-  padding: 12px 24px;
-  background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
-  color: var(--text-color);
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: inline-block;
+    padding: 12px 24px;
+    background: linear-gradient(45deg, var(--gradient-start), var(--gradient-end));
+    color: var(--text-color);
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .alliance-poster .button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
 
 /* Responsive adjustments */
 @media (max-width: 1024px) {
-  .alliance-promotion .container {
-    flex-direction: column;
-    align-items: center;
-  }
-  .alliance-poster {
-    margin-left: 0;
-    margin-top: 20px;
-    max-width: 90%;
-  }
-  .alliance-logo {
-    max-width: 120px; /* Adjust logo size for smaller screens */
-  }
+    .alliance-promotion .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .alliance-poster {
+        margin-left: 0;
+        margin-top: 20px;
+        max-width: 90%;
+    }
+    .alliance-logo {
+        max-width: 120px; /* Adjust logo size for smaller screens */
+    }
 }
