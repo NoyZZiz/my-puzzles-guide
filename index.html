@@ -158,21 +158,24 @@
         </div>
     </footer>
 
+    <!-- Add this button anywhere in your body (usually before </body>) -->
     <button id="open-chat-btn" class="floating-chat-btn">Chat with NoyzBot</button>
 
     <div id="chatbox" class="chatbox">
         <div class="chat-header">
-            <img src="/assets/images/noyzbot-logo.png" alt="NoyzBot Logo" class="chat-logo">
+            <img src="assets/images/noyzbot-logo.png" alt="NoyzBot Logo" class="chat-logo">
             <span class="chat-title">NoyzBot</span>
-            <button onclick="toggleChat()" class="chat-close">&times;</button>
+            <button class="chat-close">&times;</button>
         </div>
         <div id="chat-messages" class="chat-messages"></div>
         <div class="chat-input-container">
             <input type="text" id="user-input" placeholder="Type your message..." class="chat-input">
-            <button onclick="sendMessage()" class="chat-send">Send</button>
+            <button class="chat-send">Send</button>
         </div>
     </div>
 
-    <script src="script.js"></script>
+
+<!-- Load this at the end of <body> -->
+<script src="script.js"></script>
 </body>
 </html>

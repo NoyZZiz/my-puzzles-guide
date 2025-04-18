@@ -1,12 +1,13 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import random
 import time
+import os
 
 # Initialize the Flask application
-app = Flask(__name__)
+app = Flask(__name__, static_folder=os.path.dirname(os.path.abspath(__file__)))
 
-# Enable Cross-Origin Resource Sharing (CORS) for local development
+# Enable CORS for all routes
 CORS(app)
 
 # --- Bot Response Logic ---
@@ -86,7 +87,19 @@ def get_bot_response(user_input):
                                            "Could you try asking in a different way?",
                                            "Sorry, my knowledge base on that is limited."])}
 
-# --- Flask API Endpoint ---
+# --- Flask Routes ---
+@app.route('/')
+def index():
+    return send_from_directory('.', 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    return send_from_directory('.', path)
+
+@app.route('/assets/<path:path>')
+def serve_assets(path):
+    return send_from_directory('assets', path)
+
 @app.route('/chat', methods=['POST'])
 def chat():
     """
@@ -112,6 +125,7 @@ def chat():
 
 # --- Run the Flask Development Server ---
 if __name__ == '__main__':
-    print("🚀 Starting the basic Flask development server...")
-    app.run(debug=True)  # Set debug=True for easier development (auto-reloads on code changes)
-    # In a production environment, you would typically use a different WSGI server.
+    print("🚀 Starting the Flask development server...")
+    # Set host to 0.0.0.0 to make it accessible externally
+    # Set debug to False for more stable operation
+    app.run(host='0.0.0.0', port=5000, debug=False)
