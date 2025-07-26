@@ -4,16 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NoYzzing - Ultimate Puzzles and Conquest Guide</title>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Base styles for the site -->
     <link rel="stylesheet" href="styles.css">
+    <!-- Additional custom styles for search bar and subscription message -->
+    <link rel="stylesheet" href="custom.css">
+    <!-- Favicon -->
+    <link rel="icon" href="assets/images/Noylogo.png" type="image/png" sizes="64x64">
+    <!-- Google Analytics (placeholder ID) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <link rel="icon" href="assets/images/Noylogo.png" type="image/png" sizes="64x64">
 </head>
 <body>
     <header>
@@ -31,9 +37,16 @@
                 </ul>
             </nav>
         </div>
+        <!-- Search bar for filtering guides and tools -->
+        <div class="search-container">
+            <div class="container">
+                <input type="text" id="search-input" placeholder="Search guides and tools…" aria-label="Search guides and tools" class="search-input" />
+            </div>
+        </div>
     </header>
 
     <main>
+        <!-- Hero section with animated subtitle -->
         <section id="home" class="hero">
             <div class="container hero-content">
                 <h2>Master Your Conquest</h2>
@@ -42,6 +55,7 @@
             </div>
         </section>
 
+        <!-- Alliance promotion section -->
         <section class="alliance-promotion">
             <div class="container">
                 <div class="alliance-poster">
@@ -58,20 +72,23 @@
             </div>
         </section>
 
+        <!-- Featured guides section -->
         <section id="guides" class="featured-guides">
             <div class="container">
                 <h2 class="section-title">Featured Guides</h2>
                 <div class="guide-grid">
+                    <!-- Military Expedition -->
                     <div class="guide-card">
                         <div class="guide-image">
                             <img src="assets/images/Military.png" alt="Military Expedition">
                         </div>
                         <div class="guide-content">
                             <h3>Military Expedition Guide</h3>
-                            <p>Master the art of conquest in kingdom-wide battles.</p>
+                            <p>Master the art of conquest in kingdom‑wide battles.</p>
                             <a href="military-expedition-guide/index.html" class="guide-link">Read Guide</a>
                         </div>
                     </div>
+                    <!-- Troop Strength -->
                     <div class="guide-card">
                         <div class="guide-image">
                             <img src="assets/images/troop strength.png" alt="Troop Strength">
@@ -82,6 +99,7 @@
                             <a href="troop-strength-guide/index.html" class="guide-link">Read Guide</a>
                         </div>
                     </div>
+                    <!-- Talent Memory -->
                     <div class="guide-card">
                         <div class="guide-image">
                             <img src="assets/images/talent.png" alt="Talent Memory">
@@ -91,12 +109,12 @@
                             <p>Unlock your hero's full potential with optimal talent builds.</p>
                             <a href="talent-memory-guide/index.html" class="guide-link">Read Guide</a>
                         </div>
-                    
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Tools section -->
         <section id="tools" class="tools-section">
             <div class="container">
                 <h2>Helpful Tools</h2>
@@ -108,42 +126,46 @@
                     </div>
                     <div class="tool-card">
                         <h3>Chat with NoyzBot</h3>
-                        <p>Get instant answers to your game-related questions from our AI-powered assistant.</p>
+                        <p>Get instant answers to your game‑related questions from our AI‑powered assistant.</p>
                         <button onclick="toggleChat()" class="tool-link">Start Chat</button>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- About section -->
         <section id="about" class="about">
             <div class="container">
                 <h2 class="section-title">About Noyzzing</h2>
                 <div class="about-content">
                     <img src="assets/images/Noyzzing.png" alt="Noyzzing" class="about-image">
                     <div class="about-text">
-                        <p>Welcome to NoYzzing, your go-to guide for Puzzles and Conquest. We provide expert strategies and tools to help you excel in the game.</p>
+                        <p>Welcome to NoYzzing, your go‑to guide for Puzzles and Conquest. We provide expert strategies and tools to help you excel in the game.</p>
                         <p>Our site features:</p>
                         <ul>
-                            <li>In-depth guides for military expeditions and troop Strength</li>
-                            <li>A handy troop calculator to optimize your troop-strength</li>
+                            <li>In‑depth guides for military expeditions and troop strength</li>
+                            <li>A handy troop calculator to optimize your troop‑strength</li>
                             <li>Tips and tricks from experienced players</li>
                         </ul>
                         <p>Whether you're new to the game or a seasoned player, NoYzzing is here to boost your Puzzles and Conquest skills.</p>
-                        <a href="about" class="about-link">Learn More</a>
+                        <a href="#about" class="about-link">Learn More</a>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Newsletter subscription section -->
         <section id="subscribe" class="newsletter">
             <div class="container">
                 <h2 class="section-title">Stay Updated</h2>
                 <div class="subscribe-content">
                     <p>Subscribe to our newsletter for the latest guides and tips!</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Enter your email" required aria-label="Email for newsletter">
+                    <!-- Added IDs for subscription handling -->
+                    <form id="newsletter-form" class="newsletter-form">
+                        <input type="email" id="newsletter-email" placeholder="Enter your email" required aria-label="Email for newsletter">
                         <button type="submit">Subscribe</button>
                     </form>
+                    <div id="subscription-message" class="subscription-message" style="display:none;"></div>
                 </div>
             </div>
         </section>
@@ -160,9 +182,8 @@
         </div>
     </footer>
 
-    <!-- Add this button anywhere in your body (usually before </body>) -->
+    <!-- Floating chat button and chatbox -->
     <button id="open-chat-btn" class="floating-chat-btn">Chat with NoyzBot</button>
-
     <div id="chatbox" class="chatbox">
         <div class="chat-header">
             <span class="chat-title">NoyzBot</span>
@@ -170,13 +191,12 @@
         </div>
         <div id="chat-messages" class="chat-messages"></div>
         <div class="chat-input-container">
-            <input type="text" id="user-input" placeholder="Type your message..." class="chat-input">
+            <input type="text" id="user-input" placeholder="Type your message…" class="chat-input">
             <button class="chat-send">Send</button>
         </div>
     </div>
 
-
-<!-- Load this at the end of <body> -->
-<script src="script.js"></script>
+    <!-- Core JavaScript -->
+    <script src="script.js"></script>
 </body>
 </html>
