@@ -521,7 +521,11 @@ button:hover {
   }
 }
 
-/* Featured Guides Section */
+/* ========== ENHANCEMENT: Featured Guides Card Styling ========== */
+/* Added comprehensive guide-card styling for modern gaming look */
+/* These styles transform the Featured Guides section into visually distinct cards */
+/* with hover effects, proper spacing, and modern design elements */
+
 .featured-guides {
   padding: 60px 0;
 }
@@ -596,6 +600,7 @@ button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
 }
+/* ========== END: Enhanced Guide Card Styling ========== */
 
 /* Image Adjustments */
 .featured-guides .guide-card .guide-image img {
@@ -604,7 +609,11 @@ button:hover {
     max-height: 150px;
 }
 
-/* Google AdSense Ad Containers */
+/* ========== ENHANCEMENT: Google AdSense Ad Container Styling ========== */
+/* Professional styling for Google AdSense ad placeholders */
+/* These styles ensure ads are visually integrated while remaining clearly identifiable */
+/* Ad containers provide proper spacing and visual separation from content */
+
 .ad-container {
   padding: 20px 0;
   background: rgba(30, 41, 59, 0.3);
@@ -637,6 +646,7 @@ button:hover {
 .ad-footer {
   margin-bottom: 0;
 }
+/* ========== END: Google AdSense Ad Container Styling ========== */
 
 .about-image {
     max-width: 100%;
