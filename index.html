@@ -6,6 +6,7 @@
     <title>Puzzles and Conquest Guide</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="calculator-styles.css">
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
@@ -14,21 +15,8 @@
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <!-- Google AdSense for earnings (replace ca-pub-XXXXXXXXXX) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXX"
-            crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- AdSense ad slot after header -->
-    <ins class="adsbygoogle"
-         style="display:block; margin:12px 0;"
-         data-ad-client="ca-pub-XXXXXXXXXX"
-         data-ad-slot="1234567890"
-         data-ad-format="auto"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-
     <header>
         <h1 class="neon-text">Welcome to the Puzzles and Conquest Guide!</h1>
         <p class="neon-text">Explore the best strategies and tips with Noyzzing and many others!</p>
@@ -39,11 +27,8 @@
             <button class="main-button" onclick="location.href='troop-resources-generator/index.html'">Troop & Resource Calculator</button>
         </nav>
     </header>
-    <main>
-        <!-- ... all your original sections as provided above ... -->
-        <!-- (Copy your original <main> content exactly as you posted it) -->
-        <!-- Do NOT change any of your guides/content! -->
 
+    <main>
         <section class="guides">
             <h2>Featured Guides</h2>
             <div class="guide-container">
@@ -65,17 +50,16 @@
                 <div class="guide-card">
                     <h3>Chat with NoyzBot</h3>
                     <p>Get instant answers to your game-related questions.</p>
-                    <button onclick="toggleChat()">Start Chat</button>
+                    <button>Start Chat</button>
                 </div>
             </div>
         </section>
-
-        <!-- ... keep all your other sections exactly as they were ... -->
 
         <section class="about">
             <h2>About Noyzzing</h2>
             <p>Welcome to the official Puzzles and Conquest guide, curated by Noyzzing. As a dedicated gamer and strategist, I created this platform to provide in-depth knowledge and actionable strategies to help players master the complexities of the game.</p>
         </section>
+
         <section class="subscribe">
             <h2>Stay Updated</h2>
             <p>Subscribe to our newsletter for the latest guides and tips!</p>
@@ -85,6 +69,7 @@
             </form>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2024 Noyzzing | All Rights Reserved</p>
         <nav>
@@ -94,89 +79,21 @@
         </nav>
     </footer>
 
-    <!-- AdSense ad slot before closing body for more earnings -->
-    <ins class="adsbygoogle"
-         style="display:block; margin:12px 0;"
-         data-ad-client="ca-pub-XXXXXXXXXX"
-         data-ad-slot="9876543210"
-         data-ad-format="auto"></ins>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+    <!-- Floating Chat Button -->
+    <button id="open-chat-btn">Chat with NoyzBot</button>
 
-    <!-- Floating Chat Bot Button -->
-    <button id="open-chat-btn" style="position:fixed;bottom:32px;right:24px;z-index:9999;" onclick="toggleChat()">Chat with NoyzBot</button>
-    <!-- Chatbox -->
-    <div id="chatbox" class="chatbox" style="display:none;position:fixed;bottom:90px;right:24px;z-index:9999;width:350px;background:#1e1e2f;color:#fff;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,.5);">
-        <div id="chat-header" class="chat-header" style="display:flex;align-items:center;gap:10px;padding:8px 15px;background:#26264C;">
-            <img src="assets/images/noyzbot-logo.png" alt="NoyzBot Logo" class="chat-logo" style="width:32px;height:32px;border-radius:7px;">
+    <!-- Chatbox Container -->
+    <div id="chatbox" class="chatbox" style="display: none;">
+        <div id="chat-header" class="chat-header">
+            <img src="assets/images/noyzbot-logo.png" alt="NoyzBot Logo" class="chat-logo">
             <span>NoyzBot</span>
-            <button onclick="toggleChat()" style="margin-left:auto;background:none;border:none;color:#fff;font-size:20px;cursor:pointer;">×</button>
+            <button onclick="toggleChat()">X</button>
         </div>
-        <div id="chat-messages" class="chat-messages" style="height:170px;overflow-y:auto;padding:10px 8px;"></div>
-        <div style="display:flex;gap:6px;padding:10px;">
-            <input type="text" id="user-input" placeholder="Type your message..." style="flex:1;background:#14142b;color:#fff;border:1px solid #333;border-radius:5px;padding:10px;" autocomplete="off">
-            <button id="send-btn" onclick="sendMessage()" style="background:#5f27cd;color:#fff;padding:10px 14px;border:none;border-radius:7px;">Send</button>
-        </div>
+        <div id="chat-messages" class="chat-messages"></div>
+        <input type="text" id="user-input" placeholder="Type your message..." onkeydown="if(event.key === 'Enter'){ sendMessage(); }">
+        <button id="send-btn" onclick="sendMessage()">Send</button>
     </div>
-    <!-- Smarter AI chat (Hugging Face) + fallback -->
-    <script>
-    function toggleChat() {
-      var chatbox = document.getElementById('chatbox');
-      chatbox.style.display = chatbox.style.display === 'none' ? 'block' : 'none';
-    }
-    function addMessage(msg, who) {
-      var container = document.getElementById('chat-messages');
-      var div = document.createElement('div');
-      div.className = who === "user" ? "msg user" : "msg bot";
-      div.style.margin = '7px 0';
-      div.style.padding = '8px 12px';
-      div.style.borderRadius = '8px';
-      div.style.background = who === "user" ? "#363F63" : "#26264C";
-      div.textContent = msg;
-      container.appendChild(div);
-      container.scrollTop = container.scrollHeight;
-    }
-    async function sendMessage() {
-      var input = document.getElementById('user-input');
-      var msg = input.value.trim();
-      if (!msg) return;
-      addMessage(msg, "user");
-      input.value = '';
-      addMessage("NoyzBot is thinking...", "bot");
-      try {
-        const response = await fetch("https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ inputs: msg })
-        });
-        const data = await response.json();
-        const bots = document.querySelectorAll('.msg.bot');
-        let reply =
-          Array.isArray(data) && data[0]?.generated_text ? data[0].generated_text :
-          data?.generated_text ? data.generated_text :
-          null;
-        bots[bots.length - 1].textContent = reply
-            ? reply
-            : "Sorry, the AI is busy. Here's a strategy: " + [
-                'Focus on cavalry-heavy marches for fast map control.',
-                'Use mages to break through infantry walls.',
-                'Research Military II, then Training Speed and March Capacity.',
-                'Upgrade hero gear before mass training new units.',
-                'Save speedups for big event rewards.'
-              ][Math.floor(Math.random() * 5)];
-      } catch (e) {
-        const bots = document.querySelectorAll('.msg.bot');
-        if (bots.length)
-          bots[bots.length - 1].textContent = "NoyzBot can’t reply right now. Try again soon!";
-      }
-    }
-    document.getElementById('open-chat-btn').onclick = toggleChat;
-    document.getElementById('send-btn').onclick = sendMessage;
-    document.getElementById('user-input').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') sendMessage();
-    });
-    </script>
+
     <!-- Disqus Comment Section -->
     <section id="comments">
         <h2>Leave a Comment</h2>
@@ -191,11 +108,271 @@
         })();
     </script>
     <script id="dsq-count-scr" src="https://noyzzing.disqus.com/count.js" async></script>
+
     <script src="script.js"></script>
-
-    <!-- (Keep all your original troop/hero/talent sections below here, exactly as you wrote them) -->
-    <!-- ... Paste from your old file as needed! ... -->
-
 </body>
 </html>
 
+    
+
+    <!-- Section 1: Troop Types and Counters -->
+    <div id="troop-types"class = "neon-border">
+        <p>Written by: <span style="color: #ff6347; font-weight: bold;">Noyzzing</span></p>
+        <h2>1. Troop Types and Counters</h2>
+        <p>Understanding troop interactions is crucial to success:</p>
+        <ul>
+            <li><strong>Infantry:</strong> Counters Archers, weak against Cavalry.</li>
+            <li><strong>Cavalry:</strong> Counters Infantry, weak against Archers.</li>
+            <li><strong>Archers:</strong> Counters Cavalry, weak against Infantry.</li>
+        </ul>
+        <p><strong>Pro Tip:</strong> Always scout your enemy’s troop types before attacking to ensure your troops have the upper hand.</p>
+    </div>
+
+    <!-- Section 2: Building Your Castle -->
+    <div id="building-castle"class = "neon-border">
+        <h2>2. Building Your Castle</h2>
+        <p>Your castle is the core of your kingdom. To progress, focus on:</p>
+        <ul>
+            <li><strong>Never use green speedups for building:</strong> Green speedups are specific for training and producing troops; only use them for troop production to maximize their value.</li>
+            <li><strong>Upgrading the Castle Level:</strong> Unlock new features and improve overall strength. However, castle upgrades don’t directly make your troops stronger. Focus on balancing building upgrades until you reach Level 22 to unlock T8 troops and Unit Tactic Skills.</li>
+        </ul>
+        <p>Let me clarify: Increasing your castle doesn’t directly make your troops stronger. Focus on troop strength instead of just upgrades.</p>
+    </div>
+
+    <!-- Section 3: Producing Troops -->
+    <div id="producing-troops"class ="neon-border">
+        <h2>3. Producing Troops</h2>
+        <p>Once you reach Castle Level 22 and upgrade your Barracks, focus on producing as many troops as possible. Key tips:</p>
+        <ul>
+            <li><strong>Main Troops First:</strong> Prioritize producing your main troop type. Mixing troop types dilutes your strength.</li>
+            <li><strong>Event Preparation:</strong> Save speedups for troop production during events for maximum rewards.</li>
+            <li><strong>Troop Sets:</strong> Aim for at least six full sets of your main troops to participate effectively in events like BOS and VC.</li>
+        </ul>
+    </div>
+
+    <!-- Section 4: Increasing Troop Strength -->
+   <!-- Section 4: Increasing Troop Strength -->
+   <div id="increasing-troop-strength"class = "neon-border">
+    <h2>4. Increasing Troop Strength</h2>
+    <p>There are multiple ways to boost your troop strength:</p>
+    
+    <h3>Institute Research</h3>
+    <ul>
+        <li><strong>Maximize Military Research:</strong> Focus on attack, defense, and health for your main troop type. Once maxed or restricted by castle level, shift focus to other troop types.</li>
+    </ul>
+    
+    <h3>Sauroi Military Skills</h3>
+    <ul>
+        <li><strong>Runestones:</strong> You can obtain Runestones from Mystery Shops, participation in events like Hell Fortress, and a few other events.</li>
+        <li><strong>Prioritize Your Main Troop Type:</strong> Max out your main troop type first before focusing on others.</li>
+        <li><strong>Praise the Dragon:</strong> Use Runestones earned through praising the dragon. Be sure to select the middle option for optimal results.</li>
+    </ul>
+
+    <h3>Glory</h3>
+    <ul>
+        <li><strong>Earn Glory Points:</strong> Participate in alliance events and complete daily quests to earn Glory points.</li>
+        <li><strong>Redeem Glory Items:</strong> Use the Pit Exchange to redeem Glory items.</li>
+    </ul>
+
+    <h3>Gear</h3>
+    <ul>
+        <li><strong>Focus on Gear Specific to Your Troop Type:</strong> Infantry players should prioritize gear that enhances infantry attack, defense, and health.</li>
+        <li><strong>Enhance Gear:</strong> Use Spinels and Shards to promote and enhance gear. Prioritize promotion for two pieces that directly boost main troop attack, and enhance the remaining gear using Spinels and Shards as allowed.</li>
+    </ul>
+
+    <h3>Gem and Saurgem</h3>
+    <ul>
+        <li><strong>Priority for Gear:</strong> Always give first priority to gear when you have Spinels and Shards available. If you have to choose between gear and other upgrades, always prioritize gear.</li>
+        <li><strong>Troop-Specific Gems:</strong> There are six troop-specific Gems for Infantry, Ranged, and Cavalry, and five Saurgems available (unless you reach Castle 32).</li>
+        <li><strong>Focus on Equipping Gems and Saurgems:</strong> Equip Gems and Saurgems that boost attack, defense, and health for your main troop type. These provide substantial stat enhancements that directly improve combat performance.</li>
+        <li><strong>Upgrade Saurgems:</strong> Enhance Saurgems to improve troop-specific stats, focusing on attack for your main troop type. These upgrades also enhance defensive and offensive capabilities. Allocate Spinels and Shards wisely to maximize efficiency.</li>
+    </ul>
+
+    <h3>Warsigil</h3>
+    <ul>
+        <li><strong>Focus on Three Sections:</strong> For Warsigil, concentrate on three sections, as each section affects your main stats.</li>
+        <li><strong>Increase Might:</strong> Warsigil significantly boosts your might, so even focusing on it is important.</li>
+    </ul>
+
+    <h3>Saurgil</h3>
+    <ul>
+        <li><strong>Boost Stats:</strong> Even with Saurgil, you can boost your stats significantly. It’s a time-consuming process, depending on which Saurgil you obtain.</li>
+        <li><strong>Dependence on Luck:</strong> Saurgil depends on luck and the amount of Crystal you save to obtain it.</li>
+        <li><strong>Save Enhance Items:</strong> Preferably, save your Enhance items for Saurgil that increases main attack stats.</li>
+        <li><strong>Focus on Shards:</strong> Focus on acquiring shards that promote your troop attack type in Neptune.</li>
+    </ul>
+
+    <h3>Talent</h3>
+    <ul>
+        <li><strong>VIP 10 for Free Talent Reset:</strong> You need VIP 10 to unlock free Talent resets, which help in shifting whenever you need it.</li>
+        <li><strong>Balance When Not Attacking:</strong> Keep your Talent balanced when you’re not attacking anything. When you need your troops, shift it to military for more attack.</li>
+        <li><strong>Shifting Back:</strong> You can even launch your troop to attack and shift back immediately if you need balance buffs.</li>
+        <li><strong>Focus on Your Troop Type:</strong> Focus on your troop type and key buffs to maximize efficiency.</li>
+    </ul>
+</div>
+<!-- Section 6: Heroes, Curios, and Runes -->
+    <div id="heroes-curios-runes"class ="neon-border">
+    <h2>6. Heroes, Curios, and Runes</h2>
+
+    <h3>Hero Buffs</h3>
+    <ul>
+        <li><strong>Use Five Heroes for Attacks:</strong> Four of your main troop type and one combo hero (e.g., Aleria). Avoid using five heroes of the same type, as one buff won’t activate.</li>
+        <li><strong>Level Requirements for Unlocking Buffs:</strong>
+            <ul>
+                <li>2-Star Heroes: Level 31</li>
+                <li>3-Star Heroes: Level 71</li>
+                <li>4- and 5-Star Heroes: Level 131</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h3>Hero Development Tips</h3>
+    <ul>
+        <li><strong>Upgrade Heroes’ Skills:</strong> Ensure you upgrade heroes’ skills aligned with your troop type to maximize their effectiveness.</li>
+        <li><strong>Synergy Between Heroes:</strong> Utilize the synergy between heroes that boost attack, defense, or health for specific troop types.</li>
+        <li><strong>Level 131 and Attack Buffs:</strong> At Level 131, most heroes give attack buffs. If you don’t upgrade and use them at that level, you’ll miss out on an attack buff.</li>
+        <li><strong>Every Hero Matters:</strong> Every hero of your troop type is important to develop. Have a clear goal in mind for which hero you want as your main and save fragments to enhance it to the next level.</li>
+        <li><strong>Upgrading vs Enhancing:</strong> Upgrading a hero to the next level doesn’t provide new troop skills, but enhancing does.</li>
+        <li><strong>Focus on Your Main Troop's Heroes:</strong> Once your main troop’s heroes are developed, shift focus to the next troop type. Even 4-star heroes can give more attack buffs if your 5-star attack level and tactical skills are lower.</li>
+    </ul>
+
+    <h3>Hero Recommendations</h3>
+    <ul>
+        <li><strong>For Infantry:</strong> Fuga is great to develop at 4*.</li>
+        <li><strong>For Ranged:</strong> Deeode is good to develop at 4*.</li>
+        <li><strong>For Cavalry:</strong> Apollo is good to develop at 4*.</li>
+    </ul>
+
+    <h3>Economy and Troop Size Heroes</h3>
+    <p>Now, focus on your Economy heroes. Start by gathering fragments for your main five heroes. Then, focus on gathering fragments for Economy heroes. Economy heroes provide many free buffs even when not in rallies. Upgrade them to the maximum level so that they can activate all buffs. Once enhanced, these buffs increase significantly.</p>
+    <ul>
+        <li><strong>Lira and Ammon:</strong> Provide rally size buffs, which are essential for a larger rally size.</li>
+        <li><strong>Ryska:</strong> Offers buffs such as Training Speed, Stamina Cost Reduction, and Training Cost Reduction, saving you a lot of time and resources.</li>
+        <li><strong>Horus:</strong> Provides buffs for Food Output, Infirmary Heal Speed, and Infirmary Capacity.</li>
+    </ul>
+
+    <h3>Troop Size Heroes</h3>
+    <p>Troop size directly impacts damage dealt and attack power. You can increase troop size through Castle Upgrades, Research, Talents, and Sauroi.</p>
+    <ul>
+        <li><strong>Anubis:</strong> Available via Trial Challenges, providing buffs like Troop Size, Gathering Speed, and Infirmary Heal Speed, making him great for campaigns.</li>
+        <li><strong>Nilesh and Hart:</strong> These 4-star heroes significantly increase troop size.</li>
+        <li><strong>Nefertari:</strong> Also provides troop size buffs.</li>
+        <li><strong>Animus:</strong> Obtainable from Hell Events (though ranking is challenging), Animus offers substantial troop size buffs.</li>
+        <li><strong>Michael:</strong> A rare hero requiring savings during events like Treasure Map to gather fragments.</li>
+        <li><strong>Lucifer and Savannah:</strong> Premium heroes that require real money purchases and are not available otherwise.</li>
+    </ul>
+
+    <h3>Passive Troop Attack from Economy Heroes</h3>
+    <p>Some Economy heroes give passive troop attack, which is often overlooked. Passive troop attack boosts your current main troop attack. You can increase it through the following:</p>
+    <ul>
+        <li><strong>Institute Research:</strong> Available once you have a Level 28 castle.</li>
+        <li><strong>Warsigil and Talent:</strong> Develop these to boost troop attack.</li>
+        <li><strong>Blessings:</strong> Enhance gear, gems, Saurgems, Saurgil, and Glory to further improve troop attack.</li>
+    </ul>
+
+    <h3>Notable Economy Heroes for Passive Troop Attack and Defense</h3>
+    <ul>
+        <li><strong>Void Walker:</strong> Provides passive troop attack.</li>
+        <li><strong>Nephthys, Maigret:</strong> Offer passive troop attack buffs.</li>
+        <li><strong>Garlib:</strong> Provides passive troop defense.</li>
+        <li><strong>Ebony:</strong> Provides passive attack for all troop types, including Infantry, Ranged, and Cavalry. Fragments for Ebony can be obtained via Banner Brawl or BOS.</li>
+        <li><strong>Viridis:</strong> This Ranged hero also gives passive troop attack.</li>
+    </ul>
+
+    <h3>Curios and Runes</h3>
+    <p>Curios and Runes provide additional buffs depending on which curio and runes you craft. The stats depend on which hero curio you craft. Epic curios give the best troop strength and hero buffs, depending on the hero curio you obtain. However, this is largely dependent on luck.</p>
+
+    <h3>Final Words</h3>
+    <p>Focusing on your main troop type, optimizing research, and developing heroes are the keys to success in Puzzles and Conquest. Keep strategizing and growing stronger. Stay tuned for future guides that will cover events and advanced strategies. Good luck!</p>
+    <p>- Noyzzing</p>
+</div>
+
+<div id="talent-memory-guide"class ="neon-border">
+    <p>Written by: <span style="color: #ff6347; font-weight: bold;">Lisette</span></p> <!-- Highlighted Author's Name -->
+    <h1 class="neon-text">Talent Memory Guide for Level 10 VIP and Beyond</h1>
+    <p>Congratulations on reaching <strong>Level 10 VIP</strong> and unlocking the <strong>free talent memory reset</strong>!</p>
+    <p>Now that you're at <strong>VIP 10</strong>, it's essential to understand how to optimize the <strong>Talent Memory</strong> for the best results. You can only have <strong>three talent sets</strong> until you reach <strong>VIP 11</strong>. After reaching <strong>VIP 11</strong>, you can unlock the ability to have <strong>four talent sets</strong>, which gives you even more flexibility to customize your strategy.</p>
+</div>
+
+<!-- Talent Sets Overview -->
+<div id="talent-sets">
+    <h2>Talent Sets Overview</h2>
+    <p>There are three main <strong>Talent Sets</strong> to focus on at <strong>VIP 10</strong>:</p>
+    <ul>
+        <li><strong>Balance Set</strong></li>
+        <li><strong>Attack Set</strong></li>
+        <li><strong>Production Set</strong></li>
+    </ul>
+</div>
+
+<!-- Balance Set -->
+<div id="balance-set">
+    <h3>Balance Set</h3>
+    <p>The <strong>Balance Set</strong> provides buffs for:</p>
+    <ul>
+        <li>Training (capacity and speed)</li>
+        <li>Healing (capacity and speed)</li>
+        <li>Wall defense, storage capacity, troop load</li>
+        <li>Stamina replenishment and march speed</li>
+    </ul>
+    <p><strong>Special Talents:</strong></p>
+    <ul>
+        <li><strong>Hunt Master:</strong> Reduces stamina cost by <strong>20%</strong> for <strong>10 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
+        <li><strong>Cost Reduction:</strong> Reduces the cost of training and healing troops by <strong>25%</strong> for <strong>60 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
+        <li><strong>Instant Heal:</strong>It instantly restores 10% of the wounded troops in your infirmary at no cost.(<strong>24-hour cooldown</strong>)</li>
+    </ul>
+</div>
+
+<!-- Attack Set -->
+<div id="attack-set">
+    <h3>Attack Set</h3>
+    <p>The <strong>Attack Set</strong> enhances:</p>
+    <ul>
+        <li>Troop strength (attack, defense, health)</li>
+        <li>Troop size and march speed</li>
+        <li>Reduces troop losses after battle</li>
+    </ul>
+    <p><strong>Special Talents:</strong></p>
+    <ul>
+        <li><strong>Recall:</strong> Instantly recalls all troops in <strong>3 seconds</strong> (with an <strong>8-hour cooldown</strong>).</li>
+        <li><strong>Mega March:</strong> Increases max troop size by <strong>10%</strong> for <strong>30 minutes</strong> (with a <strong>12-hour cooldown</strong>).</li>
+        <li><strong>Devine Blessing:</strong>Within 30 minutes of activation, 30% of the troops that are killed will be turned into wounded troops, up to the infirmary cap(<strong>24-hour cooldown</strong>)</li>
+    </ul>
+</div>
+
+<!-- Production Set -->
+<div id="production-set">
+    <h3>Production Set</h3>
+    <p>The <strong>Production Set</strong> focuses on improving:</p>
+    <ul>
+        <li>Building and research times</li>
+        <li>Resource production and gathering speed</li>
+    </ul>
+    <p><strong>Special Talents:</strong></p>
+    <ul>
+        <li><strong>Fast Build:</strong> Reduces building time for constructions started within <strong>5 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
+        <li><strong>Swift Gatherer:</strong> Instantly grants the maximum amount of resources for your gathering troops (excluding alliance and diamond mines) with a <strong>24-hour cooldown</strong>.</li>
+        <li><strong>Fast producer:</strong>Instantly produce 5hrs of resources from your resources building(<strong>12-hour cooldown</strong>)</li>
+    </ul>
+</div>
+
+<!-- Talent Set Strategy -->
+<div id="talent-strategy"class = "neon-border">
+    <h3 class="neon-text">Talent Set Strategy</h3>
+    <p>With <strong>three preset talent sets</strong> at VIP 10 and the ability to have <strong>four sets</strong> at VIP 11, you have a great deal of flexibility. You are free to <strong>change your set anytime</strong> based on your needs:</p>
+    <ul>
+        <li>If you need more **attack power** or are preparing for **rallies**, switch to the **Attack Set**.</li>
+        <li>If you want faster **gathering of resources**, or need to boost **training and building speeds**, the **Balance Set** or **Production Set** is your go-to.</li>
+        <li>It's highly recommended to **switch your sets frequently**, depending on the situation, as doing so will help you adapt quickly to your evolving needs.</li>
+    </ul>
+    <h3>Example Talent Allocation</h3>
+    <p>For example, if you're **Level 51** with **258 talent points**, you might allocate them as follows:</p>
+    <ul>
+        <li><strong>Attack Set:</strong> For enhancing troop power and damage.</li>
+        <li><strong>Balance Set:</strong> For training, healing, and stamina replenishment.</li>
+        <li><strong>Production Set:</strong> For faster building and resource gathering.</li>
+    </ul>
+    <p>By constantly adapting and switching between these sets, you can optimize your growth and strategy, depending on your in-game needs.</p>
+
+    <p>-Lisette</p>
+</div>
