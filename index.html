@@ -1,11 +1,7 @@
 <!-- Keep existing page content intact above -->
-
 <!-- NoyzBot Chat Widget START: Place before closing body; non-intrusive -->
 <!-- UI: Floating popup button -->
-<button class="noyzbot-button" aria-label="Open NoyzBot chat" onclick="window.NoyzBot && NoyzBot.toggle()">
-  💬
-</button>
-
+<button class="noyzbot-button" aria-label="Open NoyzBot chat" onclick="window.NoyzBot && NoyzBot.toggle()"> 💬</button>
 <!-- Modal: chat container -->
 <div id="noyzbot-modal" class="noyzbot-modal" aria-hidden="true" role="dialog" aria-labelledby="noyzbot-title">
   <div class="noyzbot-window">
@@ -17,12 +13,10 @@
       </div>
       <button class="noyzbot-close" aria-label="Close chat" onclick="NoyzBot.toggle(false)">✕</button>
     </header>
-
     <!-- Messages list -->
     <div id="noyzbot-messages" class="noyzbot-messages" aria-live="polite">
       <div class="msg bot">Hi! I’m NoyzBot. Ask about Puzzles & Conquest strategies.</div>
     </div>
-
     <!-- Composer -->
     <form class="noyzbot-composer" onsubmit="NoyzBot.send(event)">
       <input id="noyzbot-input" class="noyzbot-input" type="text" placeholder="Type your message..." aria-label="Your message" required />
@@ -33,43 +27,39 @@
 
 <!-- Styles: scoped utility classes for easy theming -->
 <style>
-  :root{
-    --nb-primary:#6c5ce7; --nb-bg:#0f1220; --nb-surface:#171a2b; --nb-text:#eaeaf2; --nb-muted:#9aa0b4; --nb-accent:#12d6df; --nb-danger:#ef476f;
-    --nb-shadow:0 10px 30px rgba(0,0,0,.35);
-  }
-  .noyzbot-button{
-    position:fixed; right:20px; bottom:24px; z-index:9999; height:52px; width:52px; border-radius:26px; border:none; cursor:pointer;
-    background:linear-gradient(135deg,var(--nb-primary),var(--nb-accent)); color:#fff; font-size:22px; box-shadow:var(--nb-shadow);
-    display:flex; align-items:center; justify-content:center; transition:transform .15s ease, box-shadow .2s ease;
-  }
+  :root{ --nb-primary:#6c5ce7; --nb-bg:#0f1220; --nb-surface:#171a2b; --nb-text:#eaeaf2; --nb-muted:#9aa0b4; --nb-accent:#12d6df; --nb-danger:#ef476f; --nb-shadow:0 10px 30px rgba(0,0,0,.35); }
+  .noyzbot-button{ position:fixed; right:20px; bottom:24px; z-index:9999; height:52px; width:52px; border-radius:26px; border:none; cursor:pointer; background:linear-gradient(135deg,var(--nb-primary),var(--nb-accent)); color:#fff; font-size:22px; box-shadow:var(--nb-shadow); display:flex; align-items:center; justify-content:center; transition:transform .15s ease, box-shadow .2s ease; }
   .noyzbot-button:hover{ transform:translateY(-2px); box-shadow:0 12px 36px rgba(0,0,0,.45); }
-
   .noyzbot-modal{ position:fixed; inset:0; display:none; align-items:flex-end; justify-content:flex-end; z-index:9998; }
   .noyzbot-modal[aria-hidden="false"]{ display:flex; }
   .noyzbot-window{ width:min(420px, 92vw); height:min(70vh, 720px); margin:16px; border-radius:16px; overflow:hidden; box-shadow:var(--nb-shadow); background:var(--nb-surface); color:var(--nb-text); display:flex; flex-direction:column; }
-
   .noyzbot-header{ background:linear-gradient(180deg, rgba(108,92,231,.9), rgba(23,26,43,.95)); padding:12px 14px; display:flex; align-items:center; justify-content:space-between; }
   .noyzbot-brand{ display:flex; gap:10px; align-items:center; }
   .noyzbot-logo{ font-size:20px; }
   .noyzbot-title{ margin:0; font-size:16px; letter-spacing:.3px; }
   .noyzbot-close{ background:transparent; color:#fff; border:none; font-size:18px; cursor:pointer; opacity:.8; }
   .noyzbot-close:hover{ opacity:1; }
-
   .noyzbot-messages{ padding:14px; display:flex; flex-direction:column; gap:10px; overflow:auto; height:100%; scrollbar-width:thin; }
   .msg{ max-width:85%; padding:10px 12px; border-radius:12px; line-height:1.35; font-size:14px; }
   .msg.bot{ background:#232842; color:#eaf1ff; align-self:flex-start; border-top-left-radius:4px; }
   .msg.user{ background:#2b2f4a; color:#fff; align-self:flex-end; border-top-right-radius:4px; }
-
   .noyzbot-composer{ display:flex; gap:8px; padding:10px; background:#111424; border-top:1px solid #24273d; }
   .noyzbot-input{ flex:1; background:#0f1328; color:#eef1ff; border:1px solid #2a2e47; border-radius:10px; padding:10px 12px; outline:none; }
   .noyzbot-input:focus{ border-color:var(--nb-accent); box-shadow:0 0 0 2px rgba(18,214,223,.2); }
   .noyzbot-send{ background:var(--nb-primary); color:#fff; border:none; border-radius:10px; padding:10px 14px; cursor:pointer; }
   .noyzbot-send:hover{ filter:brightness(1.05); }
-
   @media (max-width: 520px){ .noyzbot-window{ width:94vw; height:min(75vh, 80vh);} }
+  /* Simple ad container spacing */
+  .ad-slot{ margin:16px auto; display:block; text-align:center; }
 </style>
 
-<!-- Script: minimal demo logic with fake async reply; designed for easy backend swap -->
+<!-- Google AdSense: responsive ads (replace ca-pub-XXXX with your publisher ID) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<!-- Top responsive ad -->
+<ins class="adsbygoogle ad-slot" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+
+<!-- Script: Updated with Hugging Face API integration -->
 <script>
   window.NoyzBot = (function(){
     const modal = () => document.getElementById('noyzbot-modal');
@@ -93,31 +83,60 @@
       scrollToEnd();
     }
 
-    function demoReply(userText){
-      const ideas = [
-        'Try a cavalry-heavy march with archer support for fast map control.',
-        'Focus on research: Military II > Training Speed > March Capacity.',
-        'Counter infantry walls with mage burst and debuff artifacts.',
-        'Upgrade your hero gear before training new tiers to save resources.',
-      ];
-      const pick = ideas[Math.floor(Math.random()*ideas.length)];
-      setTimeout(()=> addMessage(pick, 'bot'), 600);
+    // New: Hugging Face inference API call (DialoGPT-medium)
+    async function fetchReply(userText){
+      try {
+        const response = await fetch('https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ inputs: userText, parameters: { max_length: 120, temperature: 0.8, return_full_text: false } })
+        });
+        if(!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        const botReply = (Array.isArray(data) ? data[0]?.generated_text : data?.generated_text) ||
+          "I'm here to help with Puzzles & Conquest tips!";
+        addMessage(botReply, 'bot');
+      } catch (err) {
+        console.error('HF API error:', err);
+        const fallback = [
+          'Try a cavalry-heavy march with archer support for fast map control.',
+          'Focus on research: Military II > Training Speed > March Capacity.',
+          'Counter infantry walls with mage burst and debuff artifacts.',
+          'Upgrade your hero gear before training new tiers to save resources.'
+        ];
+        addMessage(fallback[Math.floor(Math.random()*fallback.length)], 'bot');
+      }
     }
 
-    function send(e){
+    async function send(e){
       e.preventDefault();
       const v = input().value.trim();
       if(!v) return;
       addMessage(v, 'user');
-      input().value='';
-      demoReply(v);
+      input().value = '';
+
+      // optional typing indicator
+      const typing = document.createElement('div');
+      typing.className = 'msg bot';
+      typing.textContent = '…';
+      typing.id = 'nb-typing';
+      list().appendChild(typing);
+      scrollToEnd();
+
+      try { await fetchReply(v); } finally {
+        const t = document.getElementById('nb-typing');
+        if(t) t.remove();
+      }
     }
 
-    // expose public API
     return { toggle, send };
   })();
 
   // Optional: open if URL has #chat
-  if(location.hash === '#chat'){ setTimeout(()=> NoyzBot.toggle(true), 200); }
+  if(location.hash === '#chat'){ setTimeout(() => NoyzBot.toggle(true), 200); }
 </script>
+
+<!-- Bottom responsive ad -->
+<ins class="adsbygoogle ad-slot" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="9876543210" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
 <!-- NoyzBot Chat Widget END -->
