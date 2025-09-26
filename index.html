@@ -1,236 +1,123 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
-    <meta name="keywords" content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies, conquest guide, alliance guide">
-    <meta name="author" content="Noyzzing">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://noyzzing.com/">
-    <meta property="og:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
-    <meta property="og:description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
-    <meta property="og:image" content="https://noyzzing.com/assets/images/Noylogo.png">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://noyzzing.com/">
-    <meta property="twitter:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
-    <meta property="twitter:description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies.">
-    <meta property="twitter:image" content="https://noyzzing.com/assets/images/Noylogo.png">
-    
-    <title>NoYzzing - Ultimate Puzzles and Conquest Guide</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Base styles for the site -->
-    <link rel="stylesheet" href="styles.css">
-    
-    <!-- Additional custom styles for search bar and subscription message -->
-    <link rel="stylesheet" href="custom.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="assets/images/Noylogo.png" type="image/png" sizes="64x64">
-    
-    <!-- Google Analytics (placeholder ID) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-VYP41CV8E4');
-    </script>
-    
-    <!-- Google AdSense - Placeholder (Update with your AdSense code) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
-    
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <img src="assets/images/Puzzle.png" alt="Puzzles and Conquest Strategy Guide Logo - Expert tips and tools for mastering the game">
-                <h1>Puzzles and Conquest Guide</h1>
-            </div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="military-expedition-guide/index.html" class="nav-link">Military Expedition</a></li>
-                    <li><a href="troop-resource-calculator/index.html" class="nav-link">Troop Calculator</a></li>
-                    <li><a href="battle-of/index.html" class="nav-link">BOS</a></li>
-                </ul>
-            </nav>
-        </div>
-        <!-- Search bar for filtering guides and tools -->
-        <div class="search-container">
-            <div class="container">
-                <input type="text" id="search-input" placeholder="Search guides and tools…" aria-label="Search guides and tools" class="search-input" />
-            </div>
-        </div>
+<!-- Keep existing page content intact above -->
+
+<!-- NoyzBot Chat Widget START: Place before closing body; non-intrusive -->
+<!-- UI: Floating popup button -->
+<button class="noyzbot-button" aria-label="Open NoyzBot chat" onclick="window.NoyzBot && NoyzBot.toggle()">
+  💬
+</button>
+
+<!-- Modal: chat container -->
+<div id="noyzbot-modal" class="noyzbot-modal" aria-hidden="true" role="dialog" aria-labelledby="noyzbot-title">
+  <div class="noyzbot-window">
+    <!-- Header -->
+    <header class="noyzbot-header">
+      <div class="noyzbot-brand">
+        <span class="noyzbot-logo" aria-hidden="true">🤖</span>
+        <h3 id="noyzbot-title" class="noyzbot-title">NoyzBot</h3>
+      </div>
+      <button class="noyzbot-close" aria-label="Close chat" onclick="NoyzBot.toggle(false)">✕</button>
     </header>
-    
-    <main>
-        <!-- Hero section with animated subtitle -->
-        <section id="home" class="hero">
-            <div class="container hero-content">
-                <h2>Master Your Conquest</h2>
-                <p id="typing-text" class="hero-subtitle"></p>
-                <a href="#guides" class="hero-link">Explore Guides</a>
-            </div>
-        </section>
-        
-        <!-- Alliance promotion section -->
-        <section class="alliance-promotion">
-            <div class="container">
-                <div class="alliance-poster">
-                    <img src="assets/images/ROL_logo.png" alt="Rebirth of Legends Alliance Logo - Join our supportive Puzzles and Conquest community" class="alliance-logo">
-                    <h3>Rebirth of Legends (ROL)</h3>
-                    <p>Join our helpful and drama-free alliance! We're looking for strong members ready to rise.</p>
-                    <ul>
-                        <li>Active and supportive community</li>
-                        <li>Coordinated strategies and growth</li>
-                        <li>A focus on drama-free gameplay</li>
-                    </ul>
-                    <!-- Discord invite updated to placeholder - update with actual link later -->
-                    <a href="#discord-invite-placeholder" class="button" target="_blank" rel="noopener noreferrer">Join Our Discord!</a>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Featured guides section -->
-        <section id="guides" class="featured-guides">
-            <div class="container">
-                <h2 class="section-title">Featured Guides</h2>
-                <div class="guide-grid">
-                    <!-- Military Expedition Card -->
-                    <div class="guide-card">
-                        <div class="guide-image">
-                            <img src="assets/images/Military.png" alt="Military Expedition Guide - Master kingdom-wide battles and conquest strategies in Puzzles and Conquest">
-                        </div>
-                        <div class="guide-content">
-                            <h3>Military Expedition Guide</h3>
-                            <p>Master the art of conquest in kingdom‑wide battles with advanced tactics and strategic planning.</p>
-                            <a href="military-expedition-guide/index.html" class="guide-link">Read Guide</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Troop Strength Card -->
-                    <div class="guide-card">
-                        <div class="guide-image">
-                            <img src="assets/images/troop strength.png" alt="Troop Strength Optimization Guide - Build the most powerful army composition for maximum battle effectiveness">
-                        </div>
-                        <div class="guide-content">
-                            <h3>Troop Strength Guide</h3>
-                            <p>Optimize your army composition for maximum power with detailed troop analysis and formation strategies.</p>
-                            <a href="troop-strength-guide/index.html" class="guide-link">Read Guide</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Talent Memory Card -->
-                    <div class="guide-card">
-                        <div class="guide-image">
-                            <img src="assets/images/talent.png" alt="Talent Memory System Guide - Unlock your hero's full potential with optimal talent builds and configurations">
-                        </div>
-                        <div class="guide-content">
-                            <h3>Talent Memory Guide</h3>
-                            <p>Unlock your hero's full potential with optimal talent builds, skill combinations, and strategic configurations.</p>
-                            <a href="talent-memory-guide/index.html" class="guide-link">Read Guide</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Tools section -->
-        <section id="tools" class="tools-section">
-            <div class="container">
-                <h2 class="section-title">Helpful Tools</h2>
-                <div class="tools-grid">
-                    <div class="tool-card">
-                        <h3>Advanced Troop Calculator</h3>
-                        <p>Plan your army composition and calculate battle outcomes with our comprehensive troop calculator featuring real-time analysis.</p>
-                        <a href="troop-resource-calculator/index.html" class="tool-link">Use Calculator</a>
-                    </div>
-                    <div class="tool-card">
-                        <h3>Chat with NoyzBot</h3>
-                        <p>Get instant answers to your game‑related questions from our AI‑powered assistant trained on Puzzles and Conquest strategies.</p>
-                        <button onclick="toggleChat()" class="tool-link">Start Chat</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- About section -->
-        <section id="about" class="about">
-            <div class="container">
-                <h2 class="section-title">About Noyzzing</h2>
-                <div class="about-content">
-                    <img src="assets/images/Noyzzing.png" alt="Noyzzing - Your trusted Puzzles and Conquest expert and guide creator" class="about-image">
-                    <div class="about-text">
-                        <p>Welcome to NoYzzing, your comprehensive resource for mastering Puzzles and Conquest. We provide expert strategies, detailed guides, and powerful tools to help you excel in every aspect of the game.</p>
-                        <p>Our site features:</p>
-                        <ul>
-                            <li>In‑depth guides for military expeditions, troop strength, and battle strategies</li>
-                            <li>Advanced troop calculator to optimize your army composition and battle effectiveness</li>
-                            <li>Expert tips and tricks from experienced players and alliance leaders</li>
-                            <li>AI-powered assistant for instant strategy advice</li>
-                        </ul>
-                        <p>Whether you're a newcomer learning the basics or a veteran player seeking advanced tactics, NoYzzing provides the knowledge and tools you need to dominate your kingdom and lead your alliance to victory.</p>
-                        <a href="#guides" class="about-link">Explore Our Guides</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Newsletter subscription section -->
-        <section id="subscribe" class="newsletter">
-            <div class="container">
-                <h2 class="section-title">Stay Updated with Latest Strategies</h2>
-                <div class="subscribe-content">
-                    <p>Subscribe to our newsletter for the latest guides, tactics, and exclusive tips delivered directly to your inbox!</p>
-                    <!-- Added IDs for subscription handling -->
-                    <form id="newsletter-form" class="newsletter-form">
-                        <input type="email" id="newsletter-email" placeholder="Enter your email address" required aria-label="Email address for newsletter subscription">
-                        <button type="submit">Subscribe Now</button>
-                    </form>
-                    <div id="subscription-message" class="subscription-message" style="display:none;"></div>
-                </div>
-            </div>
-        </section>
-    </main>
-    
-    <footer>
-        <div class="container">
-            <p>© 2025 Noyzzing | All Rights Reserved | Your Ultimate Puzzles and Conquest Resource</p>
-            <nav class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="privacy-policy/index.html">Privacy Policy</a>
-                <a href="terms-of-service/index.html">Terms of Service</a>
-            </nav>
-        </div>
-    </footer>
-    
-    <!-- Floating chat button and chatbox -->
-    <button id="open-chat-btn" class="floating-chat-btn">Chat with NoyzBot</button>
-    <div id="chatbox" class="chatbox">
-        <div class="chat-header">
-            <span class="chat-title">NoyzBot - Your Puzzles & Conquest Assistant</span>
-            <button class="chat-close">×</button>
-        </div>
-        <div id="chat-messages" class="chat-messages"></div>
-        <div class="chat-input-container">
-            <input type="text" id="user-input" placeholder="Ask me about Puzzles and Conquest strategies…" class="chat-input">
-            <button class="chat-send">Send</button>
-        </div>
+
+    <!-- Messages list -->
+    <div id="noyzbot-messages" class="noyzbot-messages" aria-live="polite">
+      <div class="msg bot">Hi! I’m NoyzBot. Ask about Puzzles & Conquest strategies.</div>
     </div>
-    
-    <!-- Core JavaScript -->
-    <script src="script.js"></script>
-</body>
-</html>
+
+    <!-- Composer -->
+    <form class="noyzbot-composer" onsubmit="NoyzBot.send(event)">
+      <input id="noyzbot-input" class="noyzbot-input" type="text" placeholder="Type your message..." aria-label="Your message" required />
+      <button class="noyzbot-send" type="submit">Send</button>
+    </form>
+  </div>
+</div>
+
+<!-- Styles: scoped utility classes for easy theming -->
+<style>
+  :root{
+    --nb-primary:#6c5ce7; --nb-bg:#0f1220; --nb-surface:#171a2b; --nb-text:#eaeaf2; --nb-muted:#9aa0b4; --nb-accent:#12d6df; --nb-danger:#ef476f;
+    --nb-shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  .noyzbot-button{
+    position:fixed; right:20px; bottom:24px; z-index:9999; height:52px; width:52px; border-radius:26px; border:none; cursor:pointer;
+    background:linear-gradient(135deg,var(--nb-primary),var(--nb-accent)); color:#fff; font-size:22px; box-shadow:var(--nb-shadow);
+    display:flex; align-items:center; justify-content:center; transition:transform .15s ease, box-shadow .2s ease;
+  }
+  .noyzbot-button:hover{ transform:translateY(-2px); box-shadow:0 12px 36px rgba(0,0,0,.45); }
+
+  .noyzbot-modal{ position:fixed; inset:0; display:none; align-items:flex-end; justify-content:flex-end; z-index:9998; }
+  .noyzbot-modal[aria-hidden="false"]{ display:flex; }
+  .noyzbot-window{ width:min(420px, 92vw); height:min(70vh, 720px); margin:16px; border-radius:16px; overflow:hidden; box-shadow:var(--nb-shadow); background:var(--nb-surface); color:var(--nb-text); display:flex; flex-direction:column; }
+
+  .noyzbot-header{ background:linear-gradient(180deg, rgba(108,92,231,.9), rgba(23,26,43,.95)); padding:12px 14px; display:flex; align-items:center; justify-content:space-between; }
+  .noyzbot-brand{ display:flex; gap:10px; align-items:center; }
+  .noyzbot-logo{ font-size:20px; }
+  .noyzbot-title{ margin:0; font-size:16px; letter-spacing:.3px; }
+  .noyzbot-close{ background:transparent; color:#fff; border:none; font-size:18px; cursor:pointer; opacity:.8; }
+  .noyzbot-close:hover{ opacity:1; }
+
+  .noyzbot-messages{ padding:14px; display:flex; flex-direction:column; gap:10px; overflow:auto; height:100%; scrollbar-width:thin; }
+  .msg{ max-width:85%; padding:10px 12px; border-radius:12px; line-height:1.35; font-size:14px; }
+  .msg.bot{ background:#232842; color:#eaf1ff; align-self:flex-start; border-top-left-radius:4px; }
+  .msg.user{ background:#2b2f4a; color:#fff; align-self:flex-end; border-top-right-radius:4px; }
+
+  .noyzbot-composer{ display:flex; gap:8px; padding:10px; background:#111424; border-top:1px solid #24273d; }
+  .noyzbot-input{ flex:1; background:#0f1328; color:#eef1ff; border:1px solid #2a2e47; border-radius:10px; padding:10px 12px; outline:none; }
+  .noyzbot-input:focus{ border-color:var(--nb-accent); box-shadow:0 0 0 2px rgba(18,214,223,.2); }
+  .noyzbot-send{ background:var(--nb-primary); color:#fff; border:none; border-radius:10px; padding:10px 14px; cursor:pointer; }
+  .noyzbot-send:hover{ filter:brightness(1.05); }
+
+  @media (max-width: 520px){ .noyzbot-window{ width:94vw; height:min(75vh, 80vh);} }
+</style>
+
+<!-- Script: minimal demo logic with fake async reply; designed for easy backend swap -->
+<script>
+  window.NoyzBot = (function(){
+    const modal = () => document.getElementById('noyzbot-modal');
+    const list  = () => document.getElementById('noyzbot-messages');
+    const input = () => document.getElementById('noyzbot-input');
+
+    function scrollToEnd(){ const el=list(); el && (el.scrollTop = el.scrollHeight); }
+
+    function toggle(force){
+      const m = modal();
+      const open = force !== undefined ? !!force : m.getAttribute('aria-hidden') !== 'false';
+      m.setAttribute('aria-hidden', open ? 'false' : 'true');
+      if(open){ setTimeout(scrollToEnd, 50); input().focus(); }
+    }
+
+    function addMessage(text, who='user'){
+      const div = document.createElement('div');
+      div.className = `msg ${who}`;
+      div.textContent = text;
+      list().appendChild(div);
+      scrollToEnd();
+    }
+
+    function demoReply(userText){
+      const ideas = [
+        'Try a cavalry-heavy march with archer support for fast map control.',
+        'Focus on research: Military II > Training Speed > March Capacity.',
+        'Counter infantry walls with mage burst and debuff artifacts.',
+        'Upgrade your hero gear before training new tiers to save resources.',
+      ];
+      const pick = ideas[Math.floor(Math.random()*ideas.length)];
+      setTimeout(()=> addMessage(pick, 'bot'), 600);
+    }
+
+    function send(e){
+      e.preventDefault();
+      const v = input().value.trim();
+      if(!v) return;
+      addMessage(v, 'user');
+      input().value='';
+      demoReply(v);
+    }
+
+    // expose public API
+    return { toggle, send };
+  })();
+
+  // Optional: open if URL has #chat
+  if(location.hash === '#chat'){ setTimeout(()=> NoyzBot.toggle(true), 200); }
+</script>
+<!-- NoyzBot Chat Widget END -->
