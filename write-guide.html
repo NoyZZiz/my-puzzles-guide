@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Write a Guide - My Puzzles Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        textarea {
+            min-height: 300px;
+            resize: vertical;
+        }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        button {
+            flex: 1;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        .back-btn {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .back-btn:hover {
+            background: #e0e0e0;
+        }
+        .info-text {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+        .success-message {
+            display: none;
+            padding: 20px;
+            background: #d4edda;
+            border: 2px solid #c3e6cb;
+            border-radius: 8px;
+            color: #155724;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>✍️ Write a Guide</h1>
+        <p class="subtitle">Share your knowledge with the community</p>
+        
+        <div class="success-message" id="successMessage">
+            ✅ Your guide has been submitted successfully!
+        </div>
+
+        <form id="guideForm">
+            <div class="form-group">
+                <label for="guideTitle">Guide Title *</label>
+                <input type="text" id="guideTitle" name="guideTitle" placeholder="e.g., Time Rift Strategy for Rebirth of Legends" required>
+            </div>
+
+            <div class="form-group">
+                <label for="guideContent">Guide Content *</label>
+                <textarea id="guideContent" name="guideContent" placeholder="Write your guide here... Include details like hero setups, strategies, tips, and any other helpful information." required></textarea>
+                <p class="info-text">You can use markdown formatting or plain text</p>
+            </div>
+
+            <div class="form-group">
+                <label for="authorName">Author Name (Optional)</label>
+                <input type="text" id="authorName" name="authorName" placeholder="Your name or username">
+            </div>
+
+            <div class="form-group">
+                <label for="discordRef">Discord Reference (Optional)</label>
+                <input type="text" id="discordRef" name="discordRef" placeholder="Your Discord username or tag">
+                <p class="info-text">Add your Discord so others can reach out with questions</p>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="back-btn" onclick="window.location.href='index.html'">← Back to Home</button>
+                <button type="submit" class="submit-btn">Submit Guide →</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('guideForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const guideTitle = document.getElementById('guideTitle').value;
+            const guideContent = document.getElementById('guideContent').value;
+            const authorName = document.getElementById('authorName').value;
+            const discordRef = document.getElementById('discordRef').value;
+            
+            // Create guide object
+            const guideData = {
+                title: guideTitle,
+                content: guideContent,
+                author: authorName || 'Anonymous',
+                discord: discordRef || 'Not provided',
+                date: new Date().toISOString()
+            };
+            
+            // Store in localStorage (in a real application, this would send to a server)
+            let guides = JSON.parse(localStorage.getItem('userGuides') || '[]');
+            guides.push(guideData);
+            localStorage.setItem('userGuides', JSON.stringify(guides));
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Reset form
+            this.reset();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'none';
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
