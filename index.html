@@ -23,8 +23,7 @@
     <link rel="stylesheet" href="custom.css">
     <link rel="icon" href="assets/images/Noylogo.png" type="image/png" sizes="64x64">
     <style>
-      /* -- Harmonized Button Theme -- */
-      .cta-guide-button,
+      /* Harmonized Button Theme */
       .guide-link,
       .hero-link,
       .about-link,
@@ -39,12 +38,10 @@
         text-decoration: none;
         box-shadow: 0 2px 8px #f6eaaf8c;
         font-size: 1.06em;
-        letter-spacing: 0.01em;
         margin: 6px 4px 6px 0;
         display: inline-block;
         transition: background 0.18s, box-shadow 0.15s;
       }
-      .cta-guide-button:hover,
       .guide-link:hover,
       .hero-link:hover,
       .about-link:hover,
@@ -52,8 +49,43 @@
         background: linear-gradient(90deg,#fff3c4 40%,#ffe599 100%);
         color: #111;
         box-shadow: 0 4px 14px #ffe7b6cc;
-        text-decoration: none;
         outline: none;
+      }
+      /* Guide Composer X-style */
+      .guide-composer {
+        background:#fffbe3;
+        border-radius:10px;
+        box-shadow:0 2px 14px #f9e2975a;
+        padding:15px 18px;
+        margin-bottom:18px;
+        display:flex;
+        align-items:center;
+      }
+      .guide-composer img {
+        width:40px;
+        height:40px;
+        border-radius:50%;
+        margin-right:12px;
+        vertical-align:middle;
+      }
+      .composer-link {
+        flex:1;
+        color:#444;
+        background:#fff8dd;
+        padding:12px 14px;
+        border-radius:7px;
+        border:1px solid #ffe38e;
+        font-size:1.07em;
+        font-family:'Rajdhani','Inter',Arial,sans-serif;
+        transition:background 0.14s, border 0.14s;
+        text-decoration:none;
+        display:block;
+      }
+      .composer-link:hover, .composer-link:focus {
+        background:#fff3c4;
+        border:1.5px solid #fed44c;
+        color:#222;
+        outline:none;
       }
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
@@ -88,10 +120,6 @@
             </div>
         </div>
     </header>
-    <!-- Write a Guide button after nav/header, right aligned in main container -->
-    <div class="container" style="margin-top:16px; text-align:right;">
-      <a href="write-guide.html" class="cta-guide-button">➕ Write a Guide</a>
-    </div>
     <!-- AdSense top ad block -->
     <ins class="adsbygoogle"
          style="display:block; margin:14px auto;"
@@ -118,6 +146,7 @@
                         <li>Coordinated strategies and growth</li>
                         <li>A focus on drama-free gameplay</li>
                     </ul>
+                    <!-- Keep this classic button style -->
                     <a href="#discord-invite-placeholder" class="guide-link" target="_blank" rel="noopener noreferrer">Join Our Discord!</a>
                 </div>
             </div>
@@ -130,13 +159,13 @@
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         <section id="guides" class="featured-guides">
             <div class="container">
-                <!-- Write a Guide button at top of guides section -->
-                <div style="text-align:right; margin-bottom:8px;">
-                  <a href="write-guide.html" class="cta-guide-button">➕ Write a Guide</a>
+                <!-- Clean single X-style composer for posting guides/tips -->
+                <div class="guide-composer">
+                  <img src="assets/images/Noylogo.png" alt="Your avatar">
+                  <a href="write-guide.html" class="composer-link">What tips or guides do you want to share?</a>
                 </div>
                 <h2 class="section-title">Featured Guides</h2>
                 <div class="guide-grid">
-                    <!-- Guide Cards -->
                     <div class="guide-card">
                         <div class="guide-image">
                             <img src="assets/images/Military.png" alt="Military Expedition Guide">
@@ -219,7 +248,7 @@
             </div>
         </section>
     </main>
-    <!-- Affiliate/Donation Block --><!-- Keep as-is from previous version -->
+    <!-- Affiliate/Donation Block --><!-- (keep as in your working code) -->
     <footer>
         <div class="container">
             <p>© 2025 Noyzzing | All Rights Reserved | Your Ultimate Puzzles and Conquest Resource</p>
