@@ -22,45 +22,38 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="custom.css">
     <link rel="icon" href="assets/images/Noylogo.png" type="image/png" sizes="64x64">
-    <!-- Button Theme CSS -->
     <style>
-      .cta-guide-button {
-        background: #4e8cff;
-        color: #fff;
-        padding: 12px 24px;
-        font-weight: bold;
-        border-radius: 8px;
-        text-decoration: none;
-        display: inline-block;
-        margin: 24px auto 18px auto;
-        max-width: 220px;
-        text-align: center;
-        transition: background 0.2s, color 0.2s, box-shadow 0.2s;
-        font-family: 'Rajdhani', 'Inter', Arial, sans-serif;
-        box-shadow: 0 2px 10px #e8f0ff;
-      }
-      .cta-guide-button:hover, .cta-guide-button:focus {
-        background: #276ccf;
-        color: #fff;
-        box-shadow: 0 4px 16px #bbd5fa;
-      }
-      /* Harmonize guide/explore/read buttons */
-      .guide-link, .hero-link, .about-link, .tool-link {
-        background: #fecb2f;
+      /* -- Harmonized Button Theme -- */
+      .cta-guide-button,
+      .guide-link,
+      .hero-link,
+      .about-link,
+      .tool-link {
+        background: linear-gradient(90deg,#fecb2f 60%,#ffe599 100%);
         color: #222;
-        padding: 10px 24px;
-        border-radius: 7px;
-        font-weight: bold;
+        padding: 11px 26px;
+        font-weight: 700;
+        font-family: 'Rajdhani','Inter',Arial,sans-serif;
+        border-radius: 10px;
+        border: none;
         text-decoration: none;
-        transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+        box-shadow: 0 2px 8px #f6eaaf8c;
+        font-size: 1.06em;
+        letter-spacing: 0.01em;
+        margin: 6px 4px 6px 0;
         display: inline-block;
-        box-shadow: 0 1px 6px #faf3d2;
-        font-family: 'Rajdhani', 'Inter', Arial, sans-serif;
+        transition: background 0.18s, box-shadow 0.15s;
       }
-      .guide-link:hover, .hero-link:hover, .about-link:hover, .tool-link:hover {
-        background: #ffe599;
-        color: #222;
-        box-shadow: 0 2px 10px #ffecb3;
+      .cta-guide-button:hover,
+      .guide-link:hover,
+      .hero-link:hover,
+      .about-link:hover,
+      .tool-link:hover {
+        background: linear-gradient(90deg,#fff3c4 40%,#ffe599 100%);
+        color: #111;
+        box-shadow: 0 4px 14px #ffe7b6cc;
+        text-decoration: none;
+        outline: none;
       }
     </style>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
@@ -70,7 +63,6 @@
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <!-- AdSense loader ONLY ONCE in head -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
         crossorigin="anonymous"></script>
 </head>
@@ -96,8 +88,8 @@
             </div>
         </div>
     </header>
-    <!-- Write a Guide button after nav/header -->
-    <div style="width:100%;text-align:center;">
+    <!-- Write a Guide button after nav/header, right aligned in main container -->
+    <div class="container" style="margin-top:16px; text-align:right;">
       <a href="write-guide.html" class="cta-guide-button">➕ Write a Guide</a>
     </div>
     <!-- AdSense top ad block -->
@@ -126,11 +118,10 @@
                         <li>Coordinated strategies and growth</li>
                         <li>A focus on drama-free gameplay</li>
                     </ul>
-                    <a href="#discord-invite-placeholder" class="button" target="_blank" rel="noopener noreferrer">Join Our Discord!</a>
+                    <a href="#discord-invite-placeholder" class="guide-link" target="_blank" rel="noopener noreferrer">Join Our Discord!</a>
                 </div>
             </div>
         </section>
-        <!-- AdSense middle block, after alliance promo -->
         <ins class="adsbygoogle"
              style="display:block; margin:14px auto;"
              data-ad-client="ca-pub-1115056295957658"
@@ -140,12 +131,12 @@
         <section id="guides" class="featured-guides">
             <div class="container">
                 <!-- Write a Guide button at top of guides section -->
-                <div style="width:100%; text-align:center; margin-bottom:10px;">
+                <div style="text-align:right; margin-bottom:8px;">
                   <a href="write-guide.html" class="cta-guide-button">➕ Write a Guide</a>
                 </div>
                 <h2 class="section-title">Featured Guides</h2>
                 <div class="guide-grid">
-                    <!-- Military Expedition Card -->
+                    <!-- Guide Cards -->
                     <div class="guide-card">
                         <div class="guide-image">
                             <img src="assets/images/Military.png" alt="Military Expedition Guide">
@@ -202,4 +193,49 @@
                 <div class="about-content">
                     <img src="assets/images/Noyzzing.png" alt="Noyzzing" class="about-image">
                     <div class="about-text">
-                        <p>Welcome to
+                        <p>Welcome to NoYzzing, your comprehensive resource for mastering Puzzles and Conquest.</p>
+                        <ul>
+                            <li>In‑depth guides for military expeditions, troop strength, and battle strategies</li>
+                            <li>Advanced troop calculator to optimize your army composition and battle effectiveness</li>
+                            <li>Expert tips and tricks from experienced players and alliance leaders</li>
+                            <li>AI-powered assistant for instant strategy advice</li>
+                        </ul>
+                        <a href="#guides" class="about-link">Explore Our Guides</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="subscribe" class="newsletter">
+            <div class="container">
+                <h2 class="section-title">Stay Updated with Latest Strategies</h2>
+                <div class="subscribe-content">
+                    <p>Subscribe to our newsletter for the latest guides, tactics, and exclusive tips delivered directly to your inbox!</p>
+                    <form id="newsletter-form" class="newsletter-form">
+                        <input type="email" id="newsletter-email" placeholder="Enter your email address" required aria-label="Email address for newsletter subscription">
+                        <button type="submit">Subscribe Now</button>
+                    </form>
+                    <div id="subscription-message" class="subscription-message" style="display:none;"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Affiliate/Donation Block --><!-- Keep as-is from previous version -->
+    <footer>
+        <div class="container">
+            <p>© 2025 Noyzzing | All Rights Reserved | Your Ultimate Puzzles and Conquest Resource</p>
+            <nav class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="privacy-policy/index.html">Privacy Policy</a>
+                <a href="terms-of-service/index.html">Terms of Service</a>
+            </nav>
+        </div>
+        <ins class="adsbygoogle"
+             style="display:block; margin:14px auto;"
+             data-ad-client="ca-pub-1115056295957658"
+             data-ad-slot="10000003"
+             data-ad-format="auto"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
