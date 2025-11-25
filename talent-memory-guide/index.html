@@ -3,164 +3,624 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Talent Memory Guide - Puzzles and Conquest</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <!-- Google Analytics -->
+    <meta name="description" content="Ultimate guide to Talent Memory in Puzzles and Conquest. Covers Balance, Attack, and Production sets for VIP 10 and beyond.">
+    <meta name="keywords" content="Talent Memory, Puzzles and Conquest, VIP 10, Balance Set, Attack Set, Production Set, hero talents, skill configurations">
+    
+    <title>Talent Memory Guide - Tactical Command</title>
+    
+    <!-- External Resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Google Analytics & AdSense -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+        function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <head>
-        <link rel="icon" href="../assets/images/Noylogo.png" type="image/png">
-        <!-- Other meta tags and links -->
-    </head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658" crossorigin="anonymous"></script>
+
+    <!-- Tailwind Configuration (Consistent with Homepage) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#020617',     // Darker Navy/Black
+                            panel: '#0f172a',    // Panel Background
+                            gold: '#fbbf24',     // Main Accent
+                            goldDim: '#b45309',  // Darker Gold
+                            text: '#e2e8f0',
+                            border: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        tech: ['Rajdhani', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            background-image: 
+                linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
+                linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            line-height: 1.75; 
+        }
+        
+        .tech-border {
+            position: relative;
+            border: 1px solid #1e293b;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        }
+        
+        /* Guide Content Styling */
+        .guide-section {
+            background-color: #0f172a;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+        }
+
+        .guide-section h2.section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            border-left: 4px solid #fbbf24;
+            padding-left: 12px;
+            color: white;
+            letter-spacing: 0.05em;
+        }
+
+        .guide-section h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.4rem;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            color: #fbbf24;
+            border-bottom: 1px dashed #1e293b;
+            padding-bottom: 5px;
+        }
+
+        .guide-content p {
+            color: #a1a1aa; 
+            margin-bottom: 1em;
+        }
+
+        .guide-content ul, .guide-content ol {
+            padding-left: 20px;
+            margin-bottom: 1.5em;
+            color: #e2e8f0;
+        }
+        .guide-content li {
+            margin-bottom: 0.5em;
+            list-style-type: disc;
+            color: #a1a1aa;
+        }
+        .guide-content li strong {
+            color: white; 
+        }
+
+        .author {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        .warning {
+            border: 1px solid #b45309;
+            background-color: #3f191a;
+            padding: 15px;
+            border-radius: 6px;
+            color: #fca5a5;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+
+        /* Hero Section for Guide Pages */
+        .guide-hero {
+            padding: 60px 0;
+            text-align: center;
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+        }
+        .guide-hero h2 {
+            font-size: 3em;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+        .guide-hero p {
+            font-size: 1.1em;
+            color: #94a3b8;
+        }
+        
+        /* Loader and Chat Styles (consistent) */
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 2px solid #fbbf24;
+            width: 12px;
+            height: 12px;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .chatbox {
+            position: fixed;
+            bottom: 80px;
+            right: 6px;
+            width: 80vw;
+            max-width: 350px;
+            height: 450px;
+            background-color: #020617;
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        @media (max-width: 768px) {
+            .chatbox {
+                bottom: 0;
+                right: 0;
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+            }
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <nav class="container">
-            <div class="logo">
-                <h1 class="neon-text">Puzzles and Conquest Guide</h1>
+<body class="flex flex-col min-h-screen">
+
+    <!-- NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                <!-- Brand Logo -->
+                <a href="../index.html" class="flex items-center gap-3 group">
+                    <div class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
+                        <img src="../assets/images/Puzzle.png" onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span class="text-brand-gold glow-text">ZZING</span></h1>
+                    </div>
+                </a>
+
+                <!-- Nav Menu -->
+                <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
+                    <ul class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
+                        <li><a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
+                        <li><a href="../military-expedition-guide/index.html" class="hover:text-brand-gold transition-colors">MILITARY</a></li>
+                        <li><a href="../troop-resource-calculator/index.html" class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
+                        <li><a href="../battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Search Input is omitted on guide pages for focus -->
+                <div class="hidden md:block w-56"></div>
             </div>
-            <ul class="nav-links">
-                <li><a href="/" class="../index.html">Home</a></li>
-                <li><a href="../military-expedition-guide/index.html" class="nav-link">Military Expedition</a></li>
-                <li><a href="../troop-resource-calculator/index.html" class="nav-link">Troop Calculator</a></li>
-            </ul>
-        </nav>
+        </div>
     </header>
 
-    <main>
-        <section id="talent-memory" class="hero">
-            <div class="container hero-content">
-                <h2 class="neon-text">Talent Memory Guide</h2>
-                <p>Master your talents for Level 10 VIP and beyond</p>
-            </div>
-        </section>
+    <!-- AD SLOT 1: TOP BANNER (Leaderboard) -->
+    <div class="container mx-auto px-4 mt-6">
+        <div class="w-full h-[90px] md:h-[100px] overflow-hidden rounded bg-black border-y border-brand-border">
+            <ins class="adsbygoogle"
+                 style="display:block; width: 100%; height: 100%;"
+                 data-ad-client="ca-pub-1115056295957658"
+                 data-ad-slot="10000001"
+                 data-ad-format="auto"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
 
-        <section id="introduction" class="guide-section">
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <div class="guide-hero mb-8 rounded-lg shadow-xl tech-border">
             <div class="container">
-                <div class="guide-content">
-                    <p>Written by: <span class="author">Lisette</span></p>
+                <h2 class="text-5xl font-tech">TALENT MEMORY GUIDE</h2>
+                <p class="text-lg">Master your talents for Level 10 VIP and beyond</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- LEFT COLUMN: GUIDE CONTENT (75%) -->
+            <div class="w-full lg:w-3/4 space-y-8">
+
+                <section id="introduction" class="guide-section">
                     <h2 class="section-title">Introduction</h2>
-                    <p>Congratulations on reaching <strong>Level 10 VIP</strong> and unlocking the <strong>free talent memory reset</strong>!</p>
-                    <p>Now that you're at <strong>VIP 10</strong>, it's essential to understand how to optimize the <strong>Talent Memory</strong> for the best results. You can only have <strong>three talent sets</strong> until you reach <strong>VIP 11</strong>. After reaching <strong>VIP 11</strong>, you can unlock the ability to have <strong>four talent sets</strong>, which gives you even more flexibility to customize your strategy.</p>
-                </div>
-            </div>
-        </section>
+                    <div class="guide-content">
+                        <p>Written by: <span class="author">Lisette</span></p>
+                        <p>Congratulations on reaching <strong>Level 10 VIP</strong> and unlocking the <strong>free talent memory reset</strong>!</p>
+                        <p>Now that you're at <strong>VIP 10</strong>, it's essential to understand how to optimize the <strong>Talent Memory</strong> for the best results. You can only have <strong>three talent sets</strong> until you reach <strong>VIP 11</strong>. After reaching <strong>VIP 11</strong>, you can unlock the ability to have <strong>four talent sets</strong>, which gives you even more flexibility to customize your strategy.</p>
+                    </div>
+                </section>
 
-        <section id="talent-sets" class="guide-section">
-            <div class="container">
-                <h2 class="section-title">Talent Sets Overview</h2>
-                <div class="guide-content">
-                    <p>There are three main <strong>Talent Sets</strong> to focus on at <strong>VIP 10</strong>:</p>
-                    <ul>
-                        <li><strong>Balance Set</strong></li>
-                        <li><strong>Attack Set</strong></li>
-                        <li><strong>Production Set</strong></li>
-                    </ul>
+                <section id="talent-sets" class="guide-section">
+                    <h2 class="section-title">Talent Sets Overview</h2>
+                    <div class="guide-content">
+                        <p>There are three main <strong>Talent Sets</strong> to focus on at <strong>VIP 10</strong>:</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>Balance Set</strong></li>
+                            <li><strong>Attack Set</strong></li>
+                            <li><strong>Production Set</strong></li>
+                        </ul>
+                    </div>
+                </section>
+                
+                <!-- AD SLOT 2: IN-ARTICLE AD -->
+                <div class="w-full h-auto min-h-[100px] rounded bg-brand-panel border border-dashed border-gray-700 p-4">
+                    <ins class="adsbygoogle"
+                         style="display:block; width: 100%; min-height: 100px;"
+                         data-ad-client="ca-pub-1115056295957658"
+                         data-ad-slot="10000002"
+                         data-ad-format="auto"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 </div>
-            </div>
-        </section>
 
-        <section id="balance-set" class="guide-section">
-            <div class="container">
-                <h2 class="section-title">Balance Set</h2>
-                <div class="guide-content">
-                    <p>The <strong>Balance Set</strong> provides buffs for:</p>
-                    <ul>
-                        <li>Training (capacity and speed)</li>
-                        <li>Healing (capacity and speed)</li>
-                        <li>Wall defense, storage capacity, troop load</li>
-                        <li>Stamina replenishment and march speed</li>
-                    </ul>
-                    <h3>Special Talents:</h3>
-                    <ul>
-                        <li><strong>Hunt Master:</strong> Reduces stamina cost by <strong>20%</strong> for <strong>10 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
-                        <li><strong>Cost Reduction:</strong> Reduces the cost of training and healing troops by <strong>25%</strong> for <strong>60 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
-                        <li><strong>Instant Heal:</strong> It instantly restores 10% of the wounded troops in your infirmary at no cost. (<strong>24-hour cooldown</strong>)</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
 
-        <section id="attack-set" class="guide-section">
-            <div class="container">
-                <h2 class="section-title">Attack Set</h2>
-                <div class="guide-content">
-                    <p>The <strong>Attack Set</strong> enhances:</p>
-                    <ul>
-                        <li>Troop strength (attack, defense, health)</li>
-                        <li>Troop size and march speed</li>
-                        <li>Reduces troop losses after battle</li>
-                    </ul>
-                    <h3>Special Talents:</h3>
-                    <ul>
-                        <li><strong>Recall:</strong> Instantly recalls all troops in <strong>3 seconds</strong> (with an <strong>8-hour cooldown</strong>).</li>
-                        <li><strong>Mega March:</strong> Increases max troop size by <strong>10%</strong> for <strong>30 minutes</strong> (with a <strong>12-hour cooldown</strong>).</li>
-                        <li><strong>Divine Blessing:</strong> Within 30 minutes of activation, 30% of the troops that are killed will be turned into wounded troops, up to the infirmary cap (<strong>24-hour cooldown</strong>)</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+                <section id="balance-set" class="guide-section">
+                    <h2 class="section-title">Balance Set</h2>
+                    <div class="guide-content">
+                        <p>The <strong>Balance Set</strong> provides buffs for:</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Training (capacity and speed)</li>
+                            <li>Healing (capacity and speed)</li>
+                            <li>Wall defense, storage capacity, troop load</li>
+                            <li>Stamina replenishment and march speed</li>
+                        </ul>
+                        <h3>Special Talents:</h3>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>Hunt Master:</strong> Reduces stamina cost by <strong>20%</strong> for <strong>10 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
+                            <li><strong>Cost Reduction:</strong> Reduces the cost of training and healing troops by <strong>25%</strong> for <strong>60 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
+                            <li><strong>Instant Heal:</strong> It instantly restores 10% of the wounded troops in your infirmary at no cost. (<strong>24-hour cooldown</strong>)</li>
+                        </ul>
+                    </div>
+                </section>
 
-        <section id="production-set" class="guide-section">
-            <div class="container">
-                <h2 class="section-title">Production Set</h2>
-                <div class="guide-content">
-                    <p>The <strong>Production Set</strong> focuses on improving:</p>
-                    <ul>
-                        <li>Building and research times</li>
-                        <li>Resource production and gathering speed</li>
-                    </ul>
-                    <h3>Special Talents:</h3>
-                    <ul>
-                        <li><strong>Fast Build:</strong> Reduces building time for constructions started within <strong>5 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
-                        <li><strong>Swift Gatherer:</strong> Instantly grants the maximum amount of resources for your gathering troops (excluding alliance and diamond mines) with a <strong>24-hour cooldown</strong>.</li>
-                        <li><strong>Fast Producer:</strong> Instantly produce 5hrs of resources from your resources building (<strong>12-hour cooldown</strong>)</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
+                <section id="attack-set" class="guide-section">
+                    <h2 class="section-title">Attack Set</h2>
+                    <div class="guide-content">
+                        <p>The <strong>Attack Set</strong> enhances:</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Troop strength (attack, defense, health)</li>
+                            <li>Troop size and march speed</li>
+                            <li>Reduces troop losses after battle</li>
+                        </ul>
+                        <h3>Special Talents:</h3>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>Recall:</strong> Instantly recalls all troops in <strong>3 seconds</strong> (with an <strong>8-hour cooldown</strong>).</li>
+                            <li><strong>Mega March:</strong> Increases max troop size by <strong>10%</strong> for <strong>30 minutes</strong> (with a <strong>12-hour cooldown</strong>).</li>
+                            <li><strong>Divine Blessing:</strong> Within 30 minutes of activation, 30% of the troops that are killed will be turned into wounded troops, up to the infirmary cap (<strong>24-hour cooldown</strong>)</li>
+                        </ul>
+                    </div>
+                </section>
 
-        <section id="talent-strategy" class="guide-section">
-            <div class="container">
-                <h2 class="section-title">Talent Set Strategy</h2>
-                <div class="guide-content">
-                    <p>With <strong>three preset talent sets</strong> at VIP 10 and the ability to have <strong>four sets</strong> at VIP 11, you have a great deal of flexibility. You are free to <strong>change your set anytime</strong> based on your needs:</p>
-                    <ul>
-                        <li>If you need more <strong>attack power</strong> or are preparing for <strong>rallies</strong>, switch to the <strong>Attack Set</strong>.</li>
-                        <li>If you want faster <strong>gathering of resources</strong>, or need to boost <strong>training and building speeds</strong>, the <strong>Balance Set</strong> or <strong>Production Set</strong> is your go-to.</li>
-                        <li>It's highly recommended to <strong>switch your sets frequently</strong>, depending on the situation, as doing so will help you adapt quickly to your evolving needs.</li>
-                    </ul>
-                    <h3>Example Talent Allocation</h3>
-                    <p>For example, if you're <strong>Level 51</strong> with <strong>258 talent points</strong>, you might allocate them as follows:</p>
-                    <ul>
-                        <li><strong>Attack Set:</strong> For enhancing troop power and damage.</li>
-                        <li><strong>Balance Set:</strong> For training, healing, and stamina replenishment.</li>
-                        <li><strong>Production Set:</strong> For faster building and resource gathering.</li>
-                    </ul>
-                    <p>By constantly adapting and switching between these sets, you can optimize your growth and strategy, depending on your in-game needs.</p>
-                    <p>-Lisette</p>
-                </div>
+                <section id="production-set" class="guide-section">
+                    <h2 class="section-title">Production Set</h2>
+                    <div class="guide-content">
+                        <p>The <strong>Production Set</strong> focuses on improving:</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>Building and research times</li>
+                            <li>Resource production and gathering speed</li>
+                        </ul>
+                        <h3>Special Talents:</h3>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>Fast Build:</strong> Reduces building time for constructions started within <strong>5 minutes</strong> (with a <strong>24-hour cooldown</strong>).</li>
+                            <li><strong>Swift Gatherer:</strong> Instantly grants the maximum amount of resources for your gathering troops (excluding alliance and diamond mines) with a <strong>24-hour cooldown</strong>.</li>
+                            <li><strong>Fast Producer:</strong> Instantly produce 5hrs of resources from your resources building (<strong>12-hour cooldown</strong>)</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="talent-strategy" class="guide-section">
+                    <h2 class="section-title">Talent Set Strategy</h2>
+                    <div class="guide-content">
+                        <p>With <strong>three preset talent sets</strong> at VIP 10 and the ability to have <strong>four sets</strong> at VIP 11, you have a great deal of flexibility. You are free to <strong>change your set anytime</strong> based on your needs:</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>If you need more <strong>attack power</strong> or are preparing for <strong>rallies</strong>, switch to the <strong>Attack Set</strong>.</li>
+                            <li>If you want faster <strong>gathering of resources</strong>, or need to boost <strong>training and building speeds</strong>, the <strong>Balance Set</strong> or <strong>Production Set</strong> is your go-to.</li>
+                            <li>It's highly recommended to <strong>switch your sets frequently</strong>, depending on the situation, as doing so will help you adapt quickly to your evolving needs.</li>
+                        </ul>
+                        <h3>Example Talent Allocation</h3>
+                        <p>For example, if you're <strong>Level 51</strong> with <strong>258 talent points</strong>, you might allocate them as follows:</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>Attack Set:</strong> For enhancing troop power and damage.</li>
+                            <li><strong>Balance Set:</strong> For training, healing, and stamina replenishment.</li>
+                            <li><strong>Production Set:</strong> For faster building and resource gathering.</li>
+                        </ul>
+                        <p>By constantly adapting and switching between these sets, you can optimize your growth and strategy, depending on your in-game needs.</p>
+                        <p>-Lisette</p>
+                    </div>
+                </section>
+
             </div>
-        </section>
+
+            <!-- RIGHT COLUMN: SIDEBAR (25%) -->
+            <aside class="w-full lg:w-1/4 space-y-8">
+                
+                <!-- SIDEBAR AD (300x250) -->
+                <div class="bg-brand-panel border border-brand-border p-2 rounded w-full flex flex-col items-center">
+                    <div class="w-full h-[250px] bg-black/50 border border-dashed border-gray-700 relative">
+                         <!-- Placeholder description for user -->
+                         <div class="absolute inset-0 flex items-center justify-center text-center p-4">
+                            <div>
+                                <span class="block text-brand-gold font-mono text-xs mb-1">AD SLOT (300x250)</span>
+                                <span class="text-[10px] text-gray-500">Insert Ad Code Here</span>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- AUTHOR PROFILE -->
+                <div class="bg-brand-panel border border-brand-border p-6 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-brand-gold"></div>
+                    <h3 class="text-lg font-bold font-tech text-white mb-4">COMMANDER PROFILE</h3>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded bg-black border border-brand-gold/30 p-1">
+                            <img src="../assets/images/Noyzzing.png" onerror="this.src='https://via.placeholder.com/60?text=CMDR'" class="w-full h-full object-cover" alt="Noyzzing">
+                        </div>
+                        <div>
+                            <p class="font-bold text-white text-sm">NOYZZING</p>
+                            <span class="text-[10px] text-brand-gold uppercase tracking-wider bg-brand-gold/10 px-1 rounded">Admin</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">Delivering top-tier strategy and operational guides for the alliance community.</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <a href="#" class="bg-brand-dark hover:bg-brand-gold hover:text-black text-gray-300 text-center py-1.5 text-xs rounded transition-colors border border-brand-border">
+                            <i class="fa-brands fa-discord"></i> DISCORD
+                        </a>
+                    </div>
+                </div>
+
+                <!-- QUICK LINKS / TABLE OF CONTENTS -->
+                <div class="bg-brand-panel border border-brand-border p-6">
+                    <h3 class="text-sm font-bold font-tech text-white mb-3 uppercase tracking-wide">
+                        <i class="fa-solid fa-map-pin text-brand-gold mr-2"></i> JUMP TO SECTION
+                    </h3>
+                    <ul class="text-xs space-y-2">
+                        <li><a href="#introduction" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">1. Introduction</a></li>
+                        <li><a href="#talent-sets" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">2. Sets Overview</a></li>
+                        <li><a href="#balance-set" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">3. Balance Set Details</a></li>
+                        <li><a href="#attack-set" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">4. Attack Set Details</a></li>
+                        <li><a href="#production-set" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">5. Production Set Details</a></li>
+                        <li><a href="#talent-strategy" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">6. Talent Strategy</a></li>
+                    </ul>
+                </div>
+
+            </aside>
+        </div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 Noyzzing | All Rights Reserved</p>
-            <nav class="footer-links">
-                <a href="../index.html">Home</a>
-                <a href="../privacy-policy/index.html">Privacy Policy</a>
-                <a href="../terms-of-service/index.html">Terms of Service</a>
-            </nav>
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark border-t border-brand-border mt-12 py-8 relative">
+        <!-- FOOTER AD -->
+        <div class="container mx-auto px-4 mb-8">
+            <div class="w-full flex justify-center bg-black border border-gray-800 p-2 rounded">
+                 <ins class="adsbygoogle"
+                     style="display:block; width: 100%; min-height: 90px;"
+                     data-ad-client="ca-pub-1115056295957658"
+                     data-ad-slot="10000003"
+                     data-ad-format="auto"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-600 text-xs mb-4 uppercase tracking-wider">© 2025 Noyzzing | Operational Command</p>
+            <div class="flex justify-center gap-6 text-xs text-gray-500 font-mono">
+                <a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a>
+                <a href="../privacy-policy/index.html" class="hover:text-brand-gold transition-colors">PRIVACY</a>
+                <a href="../terms-of-service/index.html" class="hover:text-brand-gold transition-colors">TERMS</a>
+            </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <!-- CHATBOT FLOATING UI and SCRIPTS (Copied from Canvas) -->
+    <button id="open-chat-btn" class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
+        <i class="fa-solid fa-robot"></i> <span class="hidden md:inline font-tech tracking-wide">NOYZBOT v3.0</span>
+    </button>
+
+    <!-- CHATBOX INTERFACE -->
+    <div id="chatbox" class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
+        <!-- Header -->
+        <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
+            <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
+                <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GEMINI ENHANCED)
+            </div>
+            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <!-- Messages Area -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
+            <div class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
+                <span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>
+                Greetings Commander. NoyzBot v3.0 Online. Ready for strategy queries.
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-3 bg-black/50 border-t border-brand-border">
+            <div class="flex gap-2">
+                <input type="text" id="user-input" placeholder="ASK ABOUT TROOPS OR EVENTS..." 
+                       class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
+                <button class="chat-send bg-brand-gold text-black px-3 font-bold hover:bg-yellow-400 transition-colors">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JAVASCRIPT LOGIC (The complete, merged script) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("✅ Nexus Command Loaded");
+            const apiKey = ""; // Runtime provided
+
+            // === COST CONTROL SWITCH (SET TO TRUE FOR FREE, DUMBER BOT) ===
+            const USE_LOCAL_FALLBACK = false; 
+
+            // UI Elements
+            const elements = {
+                chatbox: document.getElementById('chatbox'),
+                openBtn: document.getElementById('open-chat-btn'),
+                closeBtn: document.querySelector('.chat-close'),
+                messages: document.getElementById('chat-messages'),
+                userInput: document.getElementById('user-input'),
+                sendBtn: document.querySelector('.chat-send'),
+            };
+
+            // --- Gemini API Handler (SMART, POTENTIALLY PAID) ---
+            async function callGeminiAPI(prompt, systemInstruction) {
+                if (USE_LOCAL_FALLBACK) {
+                    return localFallbackResponse(prompt);
+                }
+
+                if (!apiKey) {
+                    console.warn("API Key missing, using mock response for preview.");
+                }
+
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    systemInstruction: { parts: [{ text: systemInstruction }] }
+                };
+
+                const maxRetries = 3;
+                let delay = 1000;
+
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            if (response.status === 429) { 
+                                await new Promise(r => setTimeout(r, delay));
+                                delay *= 2;
+                                continue;
+                            }
+                            throw new Error(`API Error: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted. Try again.";
+                    } catch (error) {
+                        console.error("Gemini call failed", error);
+                        if (i === maxRetries - 1) throw error;
+                    }
+                }
+            }
+
+            // --- Local Fallback Handler (DUMBER, FREE) ---
+            function localFallbackResponse(text) {
+                const t = text.toLowerCase();
+                if (t.includes('talent') || t.includes('set')) return "Directive: Talent configuration depends on objective (Attack, Balance, or Production). Switch sets frequently for optimal efficiency.";
+                if (t.includes('balance')) return "Directive: Balance Set boosts Training, Healing, and Stamina. Ideal for daily maintenance.";
+                if (t.includes('attack')) return "Directive: Attack Set boosts Troop Strength and reduces casualties. Essential for rallies and combat.";
+                if (t.includes('production')) return "Directive: Production Set speeds up Building, Research, and Resource Gathering. Focus here for growth phases.";
+                if (t.includes('hello') || t.includes('hi')) return "Greetings Commander. State talent query clearly.";
+                return "Query protocol unclear. State talent memory objective clearly.";
+            }
+
+            // --- Chat System ---
+            function initChat() {
+                if (!elements.chatbox) return; 
+                
+                elements.openBtn.addEventListener('click', toggleChat);
+                elements.closeBtn.addEventListener('click', toggleChat);
+                elements.sendBtn.addEventListener('click', sendMessage);
+                elements.userInput.addEventListener('keydown', (e) => e.key === 'Enter' && sendMessage());
+            }
+
+            function toggleChat() {
+                elements.chatbox.classList.toggle('hidden');
+                if (!elements.chatbox.classList.contains('hidden')) {
+                    elements.userInput.focus();
+                }
+            }
+
+            async function sendMessage() {
+                const text = elements.userInput.value.trim();
+                if (!text) return;
+
+                addMessage(text, 'user');
+                elements.userInput.value = '';
+
+                const loadingId = 'loading-' + Date.now();
+                addMessage('<span class="loader"></span> ANALYZING...', 'bot', loadingId);
+
+                const systemPrompt = "You are NoyzBot v3.0, an elite tactical AI for the game 'Puzzles and Conquest', focusing on the Hero Talent Memory system. You speak in a concise, military style. Provide strategy on Balance, Attack, and Production talent sets. Keep responses short (under 100 words) and tactical. If the query is unclear, ask the user to specify the talent set or objective.";
+
+                try {
+                    let reply;
+                    if (USE_LOCAL_FALLBACK) {
+                        reply = localFallbackResponse(text);
+                    } else {
+                        reply = await callGeminiAPI(text, systemPrompt);
+                    }
+                    
+                    document.getElementById(loadingId)?.remove();
+                    addMessage(reply, 'bot');
+                } catch (error) {
+                    document.getElementById(loadingId)?.remove();
+                    addMessage("Connection to Gemini Command lost. Please retry.", 'bot');
+                }
+            }
+
+            function addMessage(html, type, id = '') {
+                const div = document.createElement('div');
+                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user' 
+                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500' 
+                    : 'bg-brand-panel text-gray-300 self-start rounded-tr-lg rounded-br-lg rounded-bl-lg border-brand-border'}`;
+                
+                if (id) div.id = id;
+                div.innerHTML = type === 'bot' ? `<span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>${html}` : html;
+                elements.messages.appendChild(div);
+                elements.messages.scrollTop = elements.messages.scrollHeight;
+            }
+            
+            // --- Helper: Smooth Scrolling ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+        });
+    </script>
 </body>
 </html>
