@@ -3,91 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
-    <meta name="keywords" content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies, conquest guide, alliance guide">
+    <meta name="description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies.">
+    <meta name="keywords" content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies">
     <meta name="author" content="Noyzzing">
-    <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://noyzzing.com/">
-    <meta property="og:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
-    <meta property="og:description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
-    <meta property="og:image" content="https://noyzzing.com/assets/images/Noylogo.png">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://noyzzing.com/">
-    <meta property="twitter:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
-    <meta property="twitter:description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies.">
-    <meta property="twitter:image" content="https://noyzzing.com/assets/images/Noylogo.png">
-    <title>NoYzzing - Ultimate Puzzles and Conquest Guide</title>
+    <meta property="og:title" content="NoYzzing - Strategy Command Center">
+    <meta property="og:image" content="assets/images/Noylogo.png">
+    
+    <title>NoYzzing - Strategy Command Center</title>
+    
+    <!-- External Resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="custom.css">
-    <link rel="icon" href="assets/images/Noylogo.png" type="image/png" sizes="64x64">
-    <style>
-      /* Harmonized Button Theme */
-      .guide-link,
-      .hero-link,
-      .about-link,
-      .tool-link {
-        background: linear-gradient(90deg,#fecb2f 60%,#ffe599 100%);
-        color: #222;
-        padding: 11px 26px;
-        font-weight: 700;
-        font-family: 'Rajdhani','Inter',Arial,sans-serif;
-        border-radius: 10px;
-        border: none;
-        text-decoration: none;
-        box-shadow: 0 2px 8px #f6eaaf8c;
-        font-size: 1.06em;
-        margin: 6px 4px 6px 0;
-        display: inline-block;
-        transition: background 0.18s, box-shadow 0.15s;
-      }
-      .guide-link:hover,
-      .hero-link:hover,
-      .about-link:hover,
-      .tool-link:hover {
-        background: linear-gradient(90deg,#fff3c4 40%,#ffe599 100%);
-        color: #111;
-        box-shadow: 0 4px 14px #ffe7b6cc;
-        outline: none;
-      }
-      /* Guide Composer X-style */
-      .guide-composer {
-        background:#fffbe3;
-        border-radius:10px;
-        box-shadow:0 2px 14px #f9e2975a;
-        padding:15px 18px;
-        margin-bottom:18px;
-        display:flex;
-        align-items:center;
-      }
-      .guide-composer img {
-        width:40px;
-        height:40px;
-        border-radius:50%;
-        margin-right:12px;
-        vertical-align:middle;
-      }
-      .composer-link {
-        flex:1;
-        color:#444;
-        background:#fff8dd;
-        padding:12px 14px;
-        border-radius:7px;
-        border:1px solid #ffe38e;
-        font-size:1.07em;
-        font-family:'Rajdhani','Inter',Arial,sans-serif;
-        transition:background 0.14s, border 0.14s;
-        text-decoration:none;
-        display:block;
-      }
-      .composer-link:hover, .composer-link:focus {
-        background:#fff3c4;
-        border:1.5px solid #fed44c;
-        color:#222;
-        outline:none;
-      }
-    </style>
+    
+    <!-- Google Analytics & AdSense -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -95,176 +24,694 @@
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
-        crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658" crossorigin="anonymous"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#020617',     // Darker Navy/Black
+                            panel: '#0f172a',    // Panel Background
+                            gold: '#fbbf24',     // Main Accent
+                            goldDim: '#b45309',  // Darker Gold
+                            text: '#e2e8f0',
+                            border: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        tech: ['Rajdhani', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #1e293b 1px, transparent 1px), linear-gradient(to bottom, #1e293b 1px, transparent 1px)",
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            /* Tactical Grid Background */
+            background-image: 
+                linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
+                linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+        }
+        
+        /* Tech Borders */
+        .tech-border {
+            position: relative;
+            border: 1px solid #1e293b;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .tech-border::before {
+            content: '';
+            position: absolute;
+            top: -1px; left: -1px;
+            width: 10px; height: 10px;
+            border-top: 2px solid #fbbf24;
+            border-left: 2px solid #fbbf24;
+        }
+        .tech-border::after {
+            content: '';
+            position: absolute;
+            bottom: -1px; right: -1px;
+            width: 10px; height: 10px;
+            border-bottom: 2px solid #fbbf24;
+            border-right: 2px solid #fbbf24;
+        }
+
+        /* Glowing Text */
+        .glow-text {
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Hover Effects */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            border-color: #fbbf24;
+            box-shadow: 0 10px 30px -10px rgba(251, 191, 36, 0.15);
+        }
+        .card-hover:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+        
+        /* Chat Animation */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message-anim { animation: slideIn 0.3s ease forwards; }
+
+        /* Loader Animation */
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 2px solid #fbbf24;
+            width: 12px;
+            height: 12px;
+            -webkit-animation: spin 1s linear infinite; /* Safari */
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <img src="assets/images/Puzzle.png" alt="Puzzles and Conquest Strategy Guide Logo">
-                <h1>Puzzles and Conquest Guide</h1>
-            </div>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="index.html" class="nav-link">Home</a></li>
-                    <li><a href="military-expedition-guide/index.html" class="nav-link">Military Expedition</a></li>
-                    <li><a href="troop-resource-calculator/index.html" class="nav-link">Troop Calculator</a></li>
-                    <li><a href="battle-of/index.html" class="nav-link">BOS</a></li>
-                </ul>
-            </nav>
-        </div>
-        <div class="search-container">
-            <div class="container">
-                <input type="text" id="search-input" placeholder="Search guides and tools…" aria-label="Search guides and tools" class="search-input" />
+<body class="flex flex-col min-h-screen selection:bg-brand-gold selection:text-brand-dark">
+
+    <!-- NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                
+                <!-- Brand Logo -->
+                <a href="index.html" class="flex items-center gap-3 group">
+                    <div class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
+                        <img src="assets/images/Puzzle.png" onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span class="text-brand-gold glow-text">ZZING</span></h1>
+                    </div>
+                </a>
+
+                <!-- Nav Menu -->
+                <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
+                    <ul class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
+                        <li><a href="index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
+                        <li><a href="military-expedition-guide/index.html" class="hover:text-brand-gold transition-colors">MILITARY</a></li>
+                        <li><a href="troop-resource-calculator/index.html" class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
+                        <li><a href="battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Search Input -->
+                <div class="relative w-full md:w-56 group">
+                    <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-brand-gold transition-colors"></i>
+                    <input type="text" id="search-input" placeholder="SEARCH DATABASE..." 
+                           class="w-full bg-brand-dark border border-brand-border text-gray-200 text-xs font-mono rounded px-10 py-2.5 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all placeholder-gray-600">
+                </div>
             </div>
         </div>
     </header>
-    <!-- AdSense top ad block -->
-    <ins class="adsbygoogle"
-         style="display:block; margin:14px auto;"
-         data-ad-client="ca-pub-1115056295957658"
-         data-ad-slot="10000001"
-         data-ad-format="auto"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-    <main>
-        <section id="home" class="hero">
-            <div class="container hero-content">
-                <h2>Master Your Conquest</h2>
-                <p id="typing-text" class="hero-subtitle"></p>
-                <a href="#guides" class="hero-link">Explore Guides</a>
-            </div>
-        </section>
-        <section class="alliance-promotion">
-            <div class="container">
-                <div class="alliance-poster">
-                    <img src="assets/images/ROL_logo.png" alt="Rebirth of Legends Alliance Logo" class="alliance-logo">
-                    <h3>Rebirth of Legends (ROL)</h3>
-                    <p>Join our helpful and drama-free alliance! We're looking for strong members ready to rise.</p>
-                    <ul>
-                        <li>Active and supportive community</li>
-                        <li>Coordinated strategies and growth</li>
-                        <li>A focus on drama-free gameplay</li>
-                    </ul>
-                    <!-- Keep this classic button style -->
-                    <a href="#discord-invite-placeholder" class="guide-link" target="_blank" rel="noopener noreferrer">Join Our Discord!</a>
-                </div>
-            </div>
-        </section>
-        <ins class="adsbygoogle"
-             style="display:block; margin:14px auto;"
-             data-ad-client="ca-pub-1115056295957658"
-             data-ad-slot="10000002"
-             data-ad-format="auto"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-        <section id="guides" class="featured-guides">
-            <div class="container">
-                <!-- Clean single X-style composer for posting guides/tips -->
-                <div class="guide-composer">
-                  <img src="assets/images/Noylogo.png" alt="Your avatar">
-                  <a href="write-guide.html" class="composer-link">What tips or guides do you want to share?</a>
-                </div>
-                <h2 class="section-title">Featured Guides</h2>
-                <div class="guide-grid">
-                    <div class="guide-card">
-                        <div class="guide-image">
-                            <img src="assets/images/Military.png" alt="Military Expedition Guide">
-                        </div>
-                        <div class="guide-content">
-                            <h3>Military Expedition Guide</h3>
-                            <p>Master the art of conquest in kingdom‑wide battles with advanced tactics and strategic planning.</p>
-                            <a href="military-expedition-guide/index.html" class="guide-link">Read Guide</a>
-                        </div>
-                    </div>
-                    <div class="guide-card">
-                        <div class="guide-image">
-                            <img src="assets/images/troop strength.png" alt="Troop Strength Optimization Guide">
-                        </div>
-                        <div class="guide-content">
-                            <h3>Troop Strength Guide</h3>
-                            <p>Optimize your army composition for maximum power with detailed troop analysis and formation strategies.</p>
-                            <a href="troop-strength-guide/index.html" class="guide-link">Read Guide</a>
-                        </div>
-                    </div>
-                    <div class="guide-card">
-                        <div class="guide-image">
-                            <img src="assets/images/talent.png" alt="Talent Memory System Guide">
-                        </div>
-                        <div class="guide-content">
-                            <h3>Talent Memory Guide</h3>
-                            <p>Unlock your hero's full potential with optimal talent builds, skill combinations, and strategic configurations.</p>
-                            <a href="talent-memory-guide/index.html" class="guide-link">Read Guide</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="tools" class="tools-section">
-            <div class="container">
-                <h2 class="section-title">Helpful Tools</h2>
-                <div class="tools-grid">
-                    <div class="tool-card">
-                        <h3>Advanced Troop Calculator</h3>
-                        <p>Plan your army composition and calculate battle outcomes with our comprehensive troop calculator featuring real-time analysis.</p>
-                        <a href="troop-resource-calculator/index.html" class="tool-link">Use Calculator</a>
-                    </div>
-                    <div class="tool-card">
-                        <h3>Chat with NoyzBot</h3>
-                        <p>Get instant answers to your game‑related questions from our AI‑powered assistant trained on Puzzles and Conquest strategies.</p>
-                        <button onclick="toggleChat()" class="tool-link">Start Chat</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="about" class="about">
-            <div class="container">
-                <h2 class="section-title">About Noyzzing</h2>
-                <div class="about-content">
-                    <img src="assets/images/Noyzzing.png" alt="Noyzzing" class="about-image">
-                    <div class="about-text">
-                        <p>Welcome to NoYzzing, your comprehensive resource for mastering Puzzles and Conquest.</p>
-                        <ul>
-                            <li>In‑depth guides for military expeditions, troop strength, and battle strategies</li>
-                            <li>Advanced troop calculator to optimize your army composition and battle effectiveness</li>
-                            <li>Expert tips and tricks from experienced players and alliance leaders</li>
-                            <li>AI-powered assistant for instant strategy advice</li>
-                        </ul>
-                        <a href="#guides" class="about-link">Explore Our Guides</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section id="subscribe" class="newsletter">
-            <div class="container">
-                <h2 class="section-title">Stay Updated with Latest Strategies</h2>
-                <div class="subscribe-content">
-                    <p>Subscribe to our newsletter for the latest guides, tactics, and exclusive tips delivered directly to your inbox!</p>
-                    <form id="newsletter-form" class="newsletter-form">
-                        <input type="email" id="newsletter-email" placeholder="Enter your email address" required aria-label="Email address for newsletter subscription">
-                        <button type="submit">Subscribe Now</button>
-                    </form>
-                    <div id="subscription-message" class="subscription-message" style="display:none;"></div>
-                </div>
-            </div>
-        </section>
-    </main>
-    <!-- Affiliate/Donation Block --><!-- (keep as in your working code) -->
-    <footer>
-        <div class="container">
-            <p>© 2025 Noyzzing | All Rights Reserved | Your Ultimate Puzzles and Conquest Resource</p>
-            <nav class="footer-links">
-                <a href="index.html">Home</a>
-                <a href="privacy-policy/index.html">Privacy Policy</a>
-                <a href="terms-of-service/index.html">Terms of Service</a>
-            </nav>
+
+    <!-- AD SLOT 1: TOP BANNER (Leaderboard) -->
+    <div class="container mx-auto px-4 mt-6">
+        <div class="w-full h-[90px] md:h-[100px] overflow-hidden rounded bg-black border-y border-brand-border">
+            <ins class="adsbygoogle"
+                 style="display:block; width: 100%; height: 100%;"
+                 data-ad-client="ca-pub-1115056295957658"
+                 data-ad-slot="10000001"
+                 data-ad-format="auto"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
-        <ins class="adsbygoogle"
-             style="display:block; margin:14px auto;"
-             data-ad-client="ca-pub-1115056295957658"
-             data-ad-slot="10000003"
-             data-ad-format="auto"></ins>
-        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <div class="flex flex-col lg:flex-row gap-8">
+            
+            <!-- LEFT COLUMN: CONTENT -->
+            <div class="w-full lg:w-3/4 space-y-10">
+
+                <!-- HERO SECTION: TACTICAL DISPLAY -->
+                <section class="relative tech-border bg-brand-panel p-8 md:p-12 overflow-hidden group">
+                    <!-- Background accent -->
+                    <div class="absolute top-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                    
+                    <div class="relative z-10 text-center">
+                        <span class="inline-block px-2 py-1 mb-4 text-[10px] font-bold tracking-[0.2em] text-brand-gold border border-brand-gold/30 bg-brand-gold/10 rounded">SYSTEM ONLINE</span>
+                        <h2 class="text-4xl md:text-6xl font-bold font-tech text-white mb-4 leading-tight">
+                            CONQUEST <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-yellow-600">MASTERED</span>
+                        </h2>
+                        <div class="h-6 mb-8 flex justify-center">
+                            <p id="typing-text" class="text-brand-text/70 font-mono text-sm md:text-base border-r-2 border-brand-gold pr-1 animate-pulse"></p>
+                        </div>
+                        
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <a href="#guides" class="group relative px-8 py-3 bg-brand-gold hover:bg-yellow-400 text-black font-bold font-tech tracking-wide clip-path-polygon transition-all">
+                                <span class="relative z-10">INITIATE GUIDES</span>
+                                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                            </a>
+                            <button onclick="document.getElementById('open-chat-btn').click()" class="px-8 py-3 bg-transparent border border-brand-border hover:border-brand-gold text-brand-text font-tech tracking-wide hover:text-brand-gold transition-all">
+                                ACCESS AI
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ALLIANCE MODULE -->
+                <section class="relative bg-brand-panel/60 border-l-4 border-brand-gold p-6 flex flex-col md:flex-row items-center gap-6">
+                    <div class="absolute inset-0 bg-gradient-to-r from-brand-gold/5 to-transparent pointer-events-none"></div>
+                    <div class="relative w-20 h-20 bg-black rounded-lg border border-brand-border flex items-center justify-center shadow-lg">
+                        <img src="assets/images/ROL_logo.png" onerror="this.src='https://via.placeholder.com/60?text=ROL'" alt="ROL" class="w-16 h-16 object-contain">
+                    </div>
+                    <div class="flex-1 text-center md:text-left z-10">
+                        <h3 class="text-xl font-bold font-tech text-white mb-1">ALLIANCE: ROL</h3>
+                        <p class="text-sm text-gray-400 mb-4">Rebirth of Legends. Coordinated strikes. Drama-free zone.</p>
+                        <a href="#discord-invite-placeholder" class="text-xs font-bold text-brand-gold hover:text-white uppercase tracking-wider flex items-center justify-center md:justify-start gap-2">
+                            <i class="fa-brands fa-discord"></i> Connect to Secure Channel
+                        </a>
+                    </div>
+                </section>
+
+                <!-- AD SLOT 2: IN-FEED (Native Style) -->
+                <div class="w-full rounded bg-brand-panel border border-dashed border-gray-700 p-4">
+                    <ins class="adsbygoogle"
+                         style="display:block; width: 100%; min-height: 100px;"
+                         data-ad-client="ca-pub-1115056295957658"
+                         data-ad-slot="10000002"
+                         data-ad-format="auto"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+
+                <!-- STRATEGY DATABASE (Guides) -->
+                <section id="guides">
+                    <div class="flex items-end justify-between mb-6 border-b border-gray-800 pb-2">
+                        <h2 class="text-2xl font-bold font-tech text-white flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-brand-gold text-sm"></i> DATABASE
+                        </h2>
+                        <a href="write-guide.html" class="text-xs text-gray-500 hover:text-brand-gold transition-colors font-mono">[ SUBMIT INTEL ]</a>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Card 1 -->
+                        <div class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="assets/images/Military.png" onerror="this.src='https://via.placeholder.com/400x250/111/555?text=MILITARY'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                                <div class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">TACTICS</div>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">MILITARY EXPEDITION</h3>
+                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Advanced warfare tactics for kingdom conquest events.</p>
+                                <a href="military-expedition-guide/index.html" class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS FILE ></a>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="assets/images/troop strength.png" onerror="this.src='https://via.placeholder.com/400x250/111/555?text=UNITS'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                                <div class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">UNITS</div>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">TROOP STRENGTH</h3>
+                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Optimization protocols for maximum army output.</p>
+                                <a href="troop-strength-guide/index.html" class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS FILE ></a>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="assets/images/talent.png" onerror="this.src='https://via.placeholder.com/400x250/111/555?text=SKILLS'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                                <div class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">HERO</div>
+                            </div>
+                            <div class="p-5">
+                                <h3 class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">TALENT MEMORY</h3>
+                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Unlock hero potential with optimal skill trees.</p>
+                                <a href="talent-memory-guide/index.html" class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS FILE ></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- UTILITIES (Tools) -->
+                <section id="tools">
+                    <h2 class="text-2xl font-bold font-tech text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-2">
+                        <i class="fa-solid fa-microchip text-brand-gold text-sm"></i> UTILITIES
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Tool 1 -->
+                        <div class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
+                            <div class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                                <i class="fa-solid fa-calculator text-5xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold font-tech text-white mb-2">TROOP CALCULATOR</h3>
+                            <p class="text-xs text-gray-400 mb-6 font-mono">Real-time battle simulation and resource analysis.</p>
+                            <a href="troop-resource-calculator/index.html" class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
+                                LAUNCH APP
+                            </a>
+                        </div>
+                        
+                        <!-- Tool 2 -->
+                        <div class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
+                            <div class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                                <i class="fa-solid fa-robot text-5xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold font-tech text-white mb-2">TACTICAL AI BOT ✨</h3>
+                            <p class="text-xs text-gray-400 mb-6 font-mono">Query the database for instant strategy advice.</p>
+                            <button onclick="document.getElementById('open-chat-btn').click()" class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
+                                OPEN COMMS
+                            </button>
+                        </div>
+
+                         <!-- Tool 3: ALLIANCE SCRIBE (New Gemini Feature) -->
+                         <div class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
+                            <div class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                                <i class="fa-solid fa-feather-pointed text-5xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold font-tech text-white mb-2">ALLIANCE SCRIBE ✨</h3>
+                            <p class="text-xs text-gray-400 mb-6 font-mono">Generate war declarations and recruitment mails.</p>
+                            <button onclick="document.getElementById('scribe-modal').classList.remove('hidden')" class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
+                                DRAFT MSG
+                            </button>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- RIGHT COLUMN: SIDEBAR -->
+            <aside class="w-full lg:w-1/4 space-y-8">
+                
+                <!-- SIDEBAR AD (300x250) -->
+                <div class="bg-brand-panel border border-brand-border p-2 rounded w-full flex flex-col items-center">
+                    <div class="w-full h-[250px] bg-black/50 border border-dashed border-gray-700 relative">
+                         <!-- Placeholder description for user -->
+                         <div class="absolute inset-0 flex items-center justify-center text-center p-4">
+                            <div>
+                                <span class="block text-brand-gold font-mono text-xs mb-1">AD SLOT (300x250)</span>
+                                <span class="text-[10px] text-gray-500">Insert Ad Code Here</span>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- AUTHOR PROFILE -->
+                <div class="bg-brand-panel border border-brand-border p-6 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-brand-gold"></div>
+                    <h3 class="text-lg font-bold font-tech text-white mb-4">COMMANDER PROFILE</h3>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded bg-black border border-brand-gold/30 p-1">
+                            <img src="assets/images/Noyzzing.png" onerror="this.src='https://via.placeholder.com/60?text=CMDR'" class="w-full h-full object-cover" alt="Noyzzing">
+                        </div>
+                        <div>
+                            <p class="font-bold text-white text-sm">NOYZZING</p>
+                            <span class="text-[10px] text-brand-gold uppercase tracking-wider bg-brand-gold/10 px-1 rounded">Admin</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">Delivering top-tier strategy and operational guides for the alliance community.</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <a href="#" class="bg-brand-dark hover:bg-brand-gold hover:text-black text-gray-300 text-center py-1.5 text-xs rounded transition-colors border border-brand-border">
+                            <i class="fa-brands fa-discord"></i> DISCORD
+                        </a>
+                    </div>
+                </div>
+
+                <!-- NEWSLETTER -->
+                <div class="bg-brand-panel p-6 border border-brand-border">
+                    <h3 class="text-sm font-bold font-tech text-white mb-2 uppercase tracking-wide">
+                        <i class="fa-regular fa-envelope text-brand-gold mr-2"></i> Intel Briefing
+                    </h3>
+                    <p class="text-[10px] text-gray-500 mb-4">Subscribe for weekly strategy updates.</p>
+                    
+                    <form id="newsletter-form" class="space-y-2">
+                        <input type="email" id="newsletter-email" placeholder="ENCRYPTED EMAIL..." required 
+                               class="w-full bg-black/50 border border-brand-border text-gray-300 text-xs p-2 focus:border-brand-gold outline-none font-mono">
+                        <button type="submit" class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-bold py-2 text-xs uppercase tracking-wide transition-colors">
+                            SUBSCRIBE
+                        </button>
+                    </form>
+                    <div id="subscription-message" class="hidden mt-2 text-[10px] text-green-400 text-center">Confirmed.</div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark border-t border-brand-border mt-12 py-8 relative">
+        <!-- FOOTER AD -->
+        <div class="container mx-auto px-4 mb-8">
+            <div class="w-full flex justify-center bg-black border border-gray-800 p-2 rounded">
+                 <ins class="adsbygoogle"
+                     style="display:block; width: 100%; min-height: 90px;"
+                     data-ad-client="ca-pub-1115056295957658"
+                     data-ad-slot="10000003"
+                     data-ad-format="auto"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-600 text-xs mb-4 uppercase tracking-wider">© 2025 Noyzzing | Operational Command</p>
+            <div class="flex justify-center gap-6 text-xs text-gray-500 font-mono">
+                <a href="index.html" class="hover:text-brand-gold transition-colors">HOME</a>
+                <a href="privacy-policy/index.html" class="hover:text-brand-gold transition-colors">PRIVACY</a>
+                <a href="terms-of-service/index.html" class="hover:text-brand-gold transition-colors">TERMS</a>
+            </div>
+        </div>
     </footer>
-    <script src="script.js"></script>
+
+    <!-- CHATBOT FLOATING UI -->
+    <button id="open-chat-btn" class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
+        <i class="fa-solid fa-robot"></i> <span class="hidden md:inline font-tech tracking-wide">NOYZBOT v3.0</span>
+    </button>
+
+    <!-- CHATBOX INTERFACE -->
+    <div id="chatbox" class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
+        <!-- Header -->
+        <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
+            <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
+                <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GEMINI ENHANCED)
+            </div>
+            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        
+        <!-- Messages Area -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
+            <div class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
+                <span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>
+                Greetings Commander. NoyzBot v3.0 Online. Powered by Gemini Tactical Core. Ready for strategy queries.
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-3 bg-black/50 border-t border-brand-border">
+            <div class="flex gap-2">
+                <input type="text" id="user-input" placeholder="ASK ABOUT TROOPS OR EVENTS..." 
+                       class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
+                <button class="chat-send bg-brand-gold text-black px-3 font-bold hover:bg-yellow-400 transition-colors">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ALLIANCE SCRIBE MODAL -->
+    <div id="scribe-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 hidden backdrop-blur-sm">
+        <div class="bg-brand-panel w-full max-w-md border border-brand-gold/50 rounded shadow-2xl p-6 relative">
+            <button onclick="document.getElementById('scribe-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white"><i class="fa-solid fa-xmark fa-lg"></i></button>
+            
+            <h3 class="text-xl font-bold font-tech text-brand-gold mb-1"><i class="fa-solid fa-feather-pointed mr-2"></i>ALLIANCE SCRIBE</h3>
+            <p class="text-xs text-gray-400 mb-4 font-mono">AI-Generated Communications Protocol</p>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">TOPIC / KEY POINTS</label>
+                    <textarea id="scribe-topic" rows="3" placeholder="e.g. Recruiting active players level 25+, must have T9 troops. KVK starts Friday." class="w-full bg-brand-dark border border-brand-border rounded p-2 text-xs text-gray-200 focus:border-brand-gold outline-none"></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-gray-300 mb-1">TONE PROTOCOL</label>
+                    <div class="flex gap-2">
+                        <button onclick="selectTone(this, 'Military/Aggressive')" class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors selected-tone">AGGRESSIVE</button>
+                        <button onclick="selectTone(this, 'Diplomatic/Formal')" class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors">DIPLOMATIC</button>
+                        <button onclick="selectTone(this, 'Urgent/Alert')" class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors">URGENT</button>
+                    </div>
+                </div>
+
+                <button id="generate-scribe-btn" class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-bold font-tech py-2 rounded shadow-lg shadow-yellow-500/20 transition-all">
+                    GENERATE TRANSMISSION ✨
+                </button>
+
+                <div id="scribe-output-container" class="hidden">
+                    <label class="block text-xs font-bold text-gray-300 mb-1">GENERATED OUTPUT</label>
+                    <div class="relative">
+                        <textarea id="scribe-result" rows="5" class="w-full bg-black/50 border border-brand-border rounded p-2 text-xs text-brand-gold font-mono" readonly></textarea>
+                        <button onclick="copyScribe()" class="absolute top-2 right-2 text-gray-500 hover:text-white"><i class="fa-regular fa-copy"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("✅ Nexus Command Loaded");
+            const apiKey = ""; // Runtime provided
+
+            // UI Elements
+            const elements = {
+                chatbox: document.getElementById('chatbox'),
+                openBtn: document.getElementById('open-chat-btn'),
+                closeBtn: document.querySelector('.chat-close'),
+                messages: document.getElementById('chat-messages'),
+                userInput: document.getElementById('user-input'),
+                sendBtn: document.querySelector('.chat-send'),
+                typingText: document.getElementById('typing-text'),
+                // Scribe Elements
+                generateScribeBtn: document.getElementById('generate-scribe-btn'),
+                scribeTopic: document.getElementById('scribe-topic'),
+                scribeResult: document.getElementById('scribe-result'),
+                scribeContainer: document.getElementById('scribe-output-container')
+            };
+
+            const config = {
+                typingText: "INITIALIZING STRATEGY PROTOCOLS...",
+                typingSpeed: 40
+            };
+
+            let currentTone = 'Military/Aggressive';
+
+            // --- Init ---
+            initChat();
+            initScribe();
+            initTypingEffect();
+            initNewsletterSubscription();
+            initSearch();
+
+            // --- Gemini API Handler ---
+            async function callGeminiAPI(prompt, systemInstruction) {
+                if (!apiKey) {
+                    console.warn("API Key missing, using mock response for preview.");
+                }
+
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+                
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    systemInstruction: { parts: [{ text: systemInstruction }] }
+                };
+
+                // Exponential Backoff Logic
+                const maxRetries = 3;
+                let delay = 1000;
+
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            if (response.status === 429) { // Too Many Requests
+                                await new Promise(r => setTimeout(r, delay));
+                                delay *= 2;
+                                continue;
+                            }
+                            throw new Error(`API Error: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted. Try again.";
+                    } catch (error) {
+                        console.error("Gemini call failed", error);
+                        if (i === maxRetries - 1) throw error;
+                    }
+                }
+            }
+
+            // --- Chat System (Updated for Gemini) ---
+            function initChat() {
+                elements.openBtn.addEventListener('click', toggleChat);
+                elements.closeBtn.addEventListener('click', toggleChat);
+                elements.sendBtn.addEventListener('click', sendMessage);
+                elements.userInput.addEventListener('keydown', (e) => e.key === 'Enter' && sendMessage());
+            }
+
+            function toggleChat() {
+                elements.chatbox.classList.toggle('hidden');
+                if (!elements.chatbox.classList.contains('hidden')) {
+                    elements.userInput.focus();
+                }
+            }
+
+            async function sendMessage() {
+                const text = elements.userInput.value.trim();
+                if (!text) return;
+
+                addMessage(text, 'user');
+                elements.userInput.value = '';
+
+                const loadingId = 'loading-' + Date.now();
+                addMessage('<span class="loader"></span> ANALYZING...', 'bot', loadingId);
+
+                const systemPrompt = "You are NoyzBot v3.0, an elite tactical AI for the game 'Puzzles and Conquest'. You speak in a concise, military style. You provide strategy on troops, heroes, and events. Keep responses short (under 100 words) and tactical.";
+
+                try {
+                    const reply = await callGeminiAPI(text, systemPrompt);
+                    document.getElementById(loadingId)?.remove();
+                    addMessage(reply, 'bot');
+                } catch (error) {
+                    document.getElementById(loadingId)?.remove();
+                    addMessage("Connection to Gemini Command lost. Please retry.", 'bot');
+                }
+            }
+
+            function addMessage(html, type, id = '') {
+                const div = document.createElement('div');
+                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user' 
+                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500' 
+                    : 'bg-brand-panel text-gray-300 self-start rounded-tr-lg rounded-br-lg rounded-bl-lg border-brand-border'}`;
+                
+                if (id) div.id = id;
+                div.innerHTML = type === 'bot' ? `<span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>${html}` : html;
+                elements.messages.appendChild(div);
+                elements.messages.scrollTop = elements.messages.scrollHeight;
+            }
+
+            // --- Alliance Scribe Tool (New) ---
+            function initScribe() {
+                window.selectTone = (btn, tone) => {
+                    document.querySelectorAll('.tone-btn').forEach(b => {
+                        b.classList.remove('bg-brand-gold', 'text-black', 'border-transparent');
+                        b.classList.add('bg-brand-dark', 'text-gray-400', 'border-brand-border');
+                    });
+                    btn.classList.remove('bg-brand-dark', 'text-gray-400', 'border-brand-border');
+                    btn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
+                    currentTone = tone;
+                };
+                // Set default active visual
+                document.querySelector('.tone-btn').classList.add('bg-brand-gold', 'text-black', 'border-transparent');
+                document.querySelector('.tone-btn').classList.remove('bg-brand-dark', 'text-gray-400');
+
+                elements.generateScribeBtn.addEventListener('click', async () => {
+                    const topic = elements.scribeTopic.value.trim();
+                    if(!topic) return;
+
+                    elements.generateScribeBtn.disabled = true;
+                    elements.generateScribeBtn.innerHTML = '<span class="loader border-black border-t-transparent"></span> GENERATING...';
+                    elements.scribeContainer.classList.add('hidden');
+
+                    const prompt = `Topic: ${topic}`;
+                    const systemPrompt = `You are the Communications Officer for a 'Puzzles and Conquest' alliance. Generate a SHORT, punchy recruitment message or announcement based on the user's topic. Tone: ${currentTone}. Use relevant emojis (swords, dragons, shields). Format for in-game chat (no markdown, just raw text).`;
+
+                    try {
+                        const result = await callGeminiAPI(prompt, systemPrompt);
+                        elements.scribeResult.value = result;
+                        elements.scribeContainer.classList.remove('hidden');
+                    } catch(e) {
+                        alert("Failed to generate message.");
+                    } finally {
+                        elements.generateScribeBtn.disabled = false;
+                        elements.generateScribeBtn.innerHTML = 'GENERATE TRANSMISSION ✨';
+                    }
+                });
+
+                window.copyScribe = () => {
+                    const copyText = document.getElementById("scribe-result");
+                    copyText.select();
+                    document.execCommand("copy");
+                    alert("Transmission copied to clipboard!");
+                }
+            }
+
+            // --- Typing Visual ---
+            function initTypingEffect() {
+                if (!elements.typingText) return;
+                let i = 0;
+                function type() {
+                    if (i < config.typingText.length) {
+                        elements.typingText.textContent += config.typingText.charAt(i);
+                        i++;
+                        setTimeout(type, config.typingSpeed);
+                    }
+                }
+                type();
+            }
+
+            // --- Database Search ---
+            function initSearch() {
+                const input = document.getElementById('search-input');
+                if (!input) return;
+                
+                input.addEventListener('input', (e) => {
+                    const term = e.target.value.toLowerCase();
+                    const cards = document.querySelectorAll('.guide-card, .tool-card');
+                    
+                    cards.forEach(card => {
+                        const title = card.querySelector('h3')?.textContent.toLowerCase() || "";
+                        card.style.display = title.includes(term) ? 'block' : 'none';
+                    });
+                });
+            }
+
+            // --- Newsletter ---
+            function initNewsletterSubscription() {
+                const form = document.getElementById('newsletter-form');
+                const msg = document.getElementById('subscription-message');
+                if(form) {
+                    form.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        msg.classList.remove('hidden');
+                        form.reset();
+                        setTimeout(() => msg.classList.add('hidden'), 4000);
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 </html>
