@@ -500,6 +500,11 @@
             console.log("✅ Nexus Command Loaded");
             const apiKey = ""; // Runtime provided
 
+            // === COST CONTROL SWITCH ===
+            // SET THIS TO TRUE to use the DUMBER, FREE, local rule-based system for the Chatbot.
+            // SET THIS TO FALSE to use the SMARTER, PAID, Gemini API system for the Chatbot.
+            const USE_LOCAL_FALLBACK = false; 
+
             // UI Elements
             const elements = {
                 chatbox: document.getElementById('chatbox'),
@@ -530,8 +535,13 @@
             initNewsletterSubscription();
             initSearch();
 
-            // --- Gemini API Handler ---
+            // --- Gemini API Handler (SMART, POTENTIALLY PAID) ---
             async function callGeminiAPI(prompt, systemInstruction) {
+                if (USE_LOCAL_FALLBACK) {
+                    // Fallback should not be used here, but for robustness:
+                    return localFallbackResponse(prompt);
+                }
+
                 if (!apiKey) {
                     console.warn("API Key missing, using mock response for preview.");
                 }
@@ -573,6 +583,16 @@
                 }
             }
 
+            // --- Local Fallback Handler (DUMBER, FREE) ---
+            function localFallbackResponse(text) {
+                const t = text.toLowerCase();
+                if (t.includes('troop') && t.includes('formation')) return "Directive: Utilize mixed T9/T10 cavalry-led formation (3:1:1 ratio). Adapt wall breach protocols based on target structure.";
+                if (t.includes('hero') || t.includes('talent')) return "Directive: Prioritize war talents over development. Execute full talent reset for specified combat events.";
+                if (t.includes('kvk') || t.includes('kingdom')) return "Directive: Focus on tower occupation and resource farming. Avoid unnecessary full-march losses.";
+                if (t.includes('hello') || t.includes('hi')) return "Greetings Commander. State query clearly. Time is of the essence.";
+                return "Query protocol unclear. State military objective or asset clearly.";
+            }
+
             // --- Chat System (Updated for Gemini) ---
             function initChat() {
                 elements.openBtn.addEventListener('click', toggleChat);
@@ -601,7 +621,13 @@
                 const systemPrompt = "You are NoyzBot v3.0, an elite tactical AI for the game 'Puzzles and Conquest'. You speak in a concise, military style. You provide strategy on troops, heroes, and events. Keep responses short (under 100 words) and tactical.";
 
                 try {
-                    const reply = await callGeminiAPI(text, systemPrompt);
+                    let reply;
+                    if (USE_LOCAL_FALLBACK) {
+                        reply = localFallbackResponse(text);
+                    } else {
+                        reply = await callGeminiAPI(text, systemPrompt);
+                    }
+                    
                     document.getElementById(loadingId)?.remove();
                     addMessage(reply, 'bot');
                 } catch (error) {
@@ -653,7 +679,9 @@
                         elements.scribeResult.value = result;
                         elements.scribeContainer.classList.remove('hidden');
                     } catch(e) {
-                        alert("Failed to generate message.");
+                        // NOTE: Alliance Scribe MUST use the API. If it fails, display error.
+                        elements.scribeResult.value = "ERROR: Cannot reach strategic communications channel. Check API connection.";
+                        elements.scribeContainer.classList.remove('hidden');
                     } finally {
                         elements.generateScribeBtn.disabled = false;
                         elements.generateScribeBtn.innerHTML = 'GENERATE TRANSMISSION ✨';
