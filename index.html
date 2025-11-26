@@ -154,6 +154,11 @@
             font-size: 0.75rem;
             text-transform: uppercase;
         }
+        
+        /* Utility for chat hidden elements */
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen selection:bg-brand-gold selection:text-brand-dark">
@@ -518,11 +523,23 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             console.log("✅ Nexus Command Loaded");
-            const apiKey = ""; // Runtime provided
+            
+            // --- NEW: API Configuration ---
+            // 1. API_KEY_GROQ: Insert your Groq API key here if using the GROQ mode.
+            // 2. API_KEY_GEMINI: Insert your Gemini API key here if using the GEMINI mode (or leave blank for Canvas preview).
+            const API_KEY_GROQ = ""; // Get key from https://console.groq.com/keys
+            const API_KEY_GEMINI = ""; // Runtime provided by Canvas/Google
+            
+            // 3. LLM_MODEL: Choose the model to use for the AI Bot.
+            const LLM_MODEL = "GEMINI"; // Options: "GEMINI", "GROQ", "LOCAL"
 
-            // === COST CONTROL SWITCH (SET TO TRUE FOR FREE, DUMBER BOT) ===
-            const USE_LOCAL_FALLBACK = false; 
-
+            // --- API Endpoints and Model Names ---
+            const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
+            const GROQ_MODEL = "llama3-8b-8192"; // A very fast, free model on Groq
+            
+            const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY_GEMINI}`;
+            const GEMINI_MODEL = "gemini-2.5-flash-preview-09-2025";
+            
             // UI Elements
             const elements = {
                 chatbox: document.getElementById('chatbox'),
@@ -531,66 +548,114 @@
                 messages: document.getElementById('chat-messages'),
                 userInput: document.getElementById('user-input'),
                 sendBtn: document.querySelector('.chat-send'),
-                // Scribe Elements
+                // Scribe Elements (Homepage Only)
                 generateScribeBtn: document.getElementById('generate-scribe-btn'),
                 scribeTopic: document.getElementById('scribe-topic'),
                 scribeResult: document.getElementById('scribe-result'),
                 scribeContainer: document.getElementById('scribe-output-container')
             };
 
-            // --- Init ---
+            // --- Initialization calls for all features ---
+            // FIX: Ensure all functions are called here so the UI activates.
             initChat();
-            initScribe(); // Initialize scribe logic on homepage only
+            initScribe(); 
             initTypingEffect();
             initNewsletterSubscription();
             initSearch();
 
 
-            // --- Gemini API Handler (SMART, POTENTIALLY PAID) ---
-            async function callGeminiAPI(prompt, systemInstruction) {
-                if (USE_LOCAL_FALLBACK) {
+            // --- Gemini/Groq API Handler (SMART, API Required) ---
+            async function callLLMAPI(prompt, systemInstruction) {
+                if (LLM_MODEL === 'LOCAL') {
                     return localFallbackResponse(prompt);
                 }
 
-                if (!apiKey) {
-                    console.warn("API Key missing, using mock response for preview.");
-                }
+                if (LLM_MODEL === 'GROQ') {
+                    const payload = {
+                        model: GROQ_MODEL,
+                        messages: [
+                            { role: "system", content: systemInstruction },
+                            { role: "user", content: prompt }
+                        ],
+                        temperature: 0.7,
+                    };
+                    
+                    const headers = { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY_GROQ}`
+                    };
 
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-                
-                const payload = {
-                    contents: [{ parts: [{ text: prompt }] }],
-                    systemInstruction: { parts: [{ text: systemInstruction }] }
-                };
+                    const endpoint = GROQ_ENDPOINT;
 
-                const maxRetries = 3;
-                let delay = 1000;
+                    const maxRetries = 3;
+                    let delay = 1000;
 
-                for (let i = 0; i < maxRetries; i++) {
-                    try {
-                        const response = await fetch(url, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
+                    for (let i = 0; i < maxRetries; i++) {
+                        try {
+                            const response = await fetch(endpoint, {
+                                method: 'POST',
+                                headers: headers,
+                                body: JSON.stringify(payload)
+                            });
 
-                        if (!response.ok) {
-                            if (response.status === 429) { 
-                                await new Promise(r => setTimeout(r, delay));
-                                delay *= 2;
-                                continue;
+                            if (!response.ok) {
+                                if (response.status === 429) { 
+                                    await new Promise(r => setTimeout(r, delay));
+                                    delay *= 2;
+                                    continue;
+                                }
+                                throw new Error(`API Error: ${response.status}`);
                             }
-                            throw new Error(`API Error: ${response.status}`);
-                        }
 
-                        const data = await response.json();
-                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted. Try again.";
-                    } catch (error) {
-                        console.error("Gemini call failed", error);
-                        if (i === maxRetries - 1) throw error;
+                            const data = await response.json();
+                            return data.choices?.[0]?.message?.content || "Communication disrupted (Groq).";
+                        } catch (error) {
+                            console.error("Groq call failed", error);
+                            if (i === maxRetries - 1) throw error;
+                        }
                     }
+                    return "Connection to Groq Command lost. Please retry.";
+
+                } else if (LLM_MODEL === 'GEMINI') {
+                    const payload = {
+                        contents: [{ parts: [{ text: prompt }] }],
+                        systemInstruction: { parts: [{ text: systemInstruction }] }
+                    };
+                    
+                    const headers = { 'Content-Type': 'application/json' };
+                    const endpoint = GEMINI_ENDPOINT;
+                    
+                    const maxRetries = 3;
+                    let delay = 1000;
+
+                    for (let i = 0; i < maxRetries; i++) {
+                        try {
+                            const response = await fetch(endpoint, {
+                                method: 'POST',
+                                headers: headers,
+                                body: JSON.stringify(payload)
+                            });
+
+                            if (!response.ok) {
+                                if (response.status === 429) { 
+                                    await new Promise(r => setTimeout(r, delay));
+                                    delay *= 2;
+                                    continue;
+                                }
+                                throw new Error(`API Error: ${response.status}`);
+                            }
+
+                            const data = await response.json();
+                            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted (Gemini).";
+                        } catch (error) {
+                            console.error("Gemini call failed", error);
+                            if (i === maxRetries - 1) throw error;
+                        }
+                    }
+                    return "Connection to Gemini Command lost. Please retry.";
                 }
             }
+
 
             // --- Local Fallback Handler (DUMBER, FREE) ---
             function localFallbackResponse(text) {
@@ -632,18 +697,13 @@
                 const systemPrompt = "You are NoyzBot v3.0, an elite tactical AI for the game 'Puzzles and Conquest'. You speak in a concise, military style. You provide strategy on troops, heroes, and events. Keep responses short (under 100 words) and tactical. Focus on the Military Expedition context.";
 
                 try {
-                    let reply;
-                    if (USE_LOCAL_FALLBACK) {
-                        reply = localFallbackResponse(text);
-                    } else {
-                        reply = await callGeminiAPI(text, systemPrompt);
-                    }
+                    let reply = await callLLMAPI(text, systemPrompt);
                     
                     document.getElementById(loadingId)?.remove();
                     addMessage(reply, 'bot');
                 } catch (error) {
                     document.getElementById(loadingId)?.remove();
-                    addMessage("Connection to Gemini Command lost. Please retry.", 'bot');
+                    addMessage("Connection to Command lost. Please retry. (Check Console for API details)", 'bot');
                 }
             }
 
@@ -662,7 +722,7 @@
             // --- Alliance Scribe Tool (Homepage Only) ---
             let currentTone = 'Military/Aggressive';
             function initScribe() {
-                if (!elements.generateScribeBtn) return; // Only run on homepage
+                if (!elements.generateScribeBtn) return; 
                 
                 window.selectTone = (btn, tone) => {
                     document.querySelectorAll('.tone-btn').forEach(b => {
@@ -674,7 +734,6 @@
                     currentTone = tone;
                 };
                 
-                // Set default active visual (for homepage only)
                 const defaultToneBtn = document.querySelector('.tone-btn');
                 if (defaultToneBtn) {
                      defaultToneBtn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
@@ -694,7 +753,7 @@
                     const systemPrompt = `You are the Communications Officer for a 'Puzzles and Conquest' alliance. Generate a SHORT, punchy recruitment message or announcement based on the user's topic. Tone: ${currentTone}. Use relevant emojis (swords, dragons, shields). Format for in-game chat (no markdown, just raw text).`;
 
                     try {
-                        const result = await callGeminiAPI(prompt, systemPrompt);
+                        const result = await callLLMAPI(prompt, systemInstruction);
                         elements.scribeResult.value = result;
                         elements.scribeContainer.classList.remove('hidden');
                     } catch(e) {
@@ -710,7 +769,6 @@
                     const copyText = document.getElementById("scribe-result");
                     copyText.select();
                     document.execCommand("copy");
-                    // Using console.log instead of alert for non-disruptive feedback
                     console.log("Transmission copied to clipboard!"); 
                 }
             }
@@ -761,7 +819,6 @@
                 if(form) {
                     form.addEventListener('submit', (e) => {
                         e.preventDefault();
-                        // This logic is simple client-side only, as requested by original files
                         msg.classList.remove('hidden');
                         form.reset();
                         setTimeout(() => msg.classList.add('hidden'), 4000);
