@@ -140,6 +140,7 @@
             100% { transform: rotate(360deg); }
         }
         
+        /* Ad Placeholder Styling for Preview */
         .ad-slot-label {
             display: flex;
             flex-direction: column;
@@ -274,7 +275,7 @@
                         <h2 class="text-2xl font-bold font-tech text-white flex items-center gap-2">
                             <i class="fa-solid fa-layer-group text-brand-gold text-sm"></i> DATABASE
                         </h2>
-                        <!-- REMOVED WRITE GUIDE LINK -->
+                        <!-- REMOVED WRITE GUIDE COMPOSER AS REQUESTED -->
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -456,7 +457,7 @@
         <!-- Header -->
         <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
             <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
-                <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GEMINI ENHANCED)
+                <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GROQ ENABLED)
             </div>
             <button class="chat-close text-gray-500 hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
         </div>
@@ -525,21 +526,21 @@
             console.log("✅ Nexus Command Loaded");
             
             // --- NEW: API Configuration ---
-            // 1. API_KEY_GROQ: Insert your Groq API key here if using the GROQ mode.
-            // 2. API_KEY_GEMINI: Insert your Gemini API key here if using the GEMINI mode (or leave blank for Canvas preview).
-            const API_KEY_GROQ = "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"; // Get key from https://console.groq.com/keys
+            // 1. API_KEY_GROQ: This key MUST be stored in a secure server-side environment (proxy) for production.
+            //    DO NOT PASTE YOUR KEY HERE if you commit to GitHub.
+            const API_KEY_GROQ = "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";// This should be retrieved from a secure proxy endpoint.
             const API_KEY_GEMINI = ""; // Runtime provided by Canvas/Google
             
             // 3. LLM_MODEL: Choose the model to use for the AI Bot.
-            const LLM_MODEL = "GEMINI"; // Options: "GEMINI", "GROQ", "LOCAL"
-
+            const LLM_MODEL = "GROQ"; // Options: "GEMINI", "GROQ", "LOCAL"
+            
             // --- API Endpoints and Model Names ---
-            const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
-            const GROQ_MODEL = "llama3-8b-8192"; // A very fast, free model on Groq
-            
-            const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY_GEMINI}`;
-            const GEMINI_MODEL = "gemini-2.5-flash-preview-09-2025";
-            
+            // NOTE: THESE ENDPOINTS ARE NOW PROXY-ORIENTED FOR SECURITY
+            const GROQ_PROXY_ENDPOINT = "/api/groq"; // <-- This is the secure proxy endpoint you must create.
+            const GEMINI_PROXY_ENDPOINT = "/api/gemini"; 
+            const FALLBACK_GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY_GEMINI}`;
+
+
             // UI Elements
             const elements = {
                 chatbox: document.getElementById('chatbox'),
@@ -556,7 +557,6 @@
             };
 
             // --- Initialization calls for all features ---
-            // FIX: Ensure all functions are called here so the UI activates.
             initChat();
             initScribe(); 
             initTypingEffect();
@@ -570,89 +570,70 @@
                     return localFallbackResponse(prompt);
                 }
 
+                let endpoint, headers, payload;
+
                 if (LLM_MODEL === 'GROQ') {
-                    const payload = {
-                        model: GROQ_MODEL,
+                    // For security, we assume the API key is handled by the serverless proxy.
+                    endpoint = GROQ_PROXY_ENDPOINT;
+                    payload = {
+                        model: 'llama3-8b-8192', // Model data sent to proxy
                         messages: [
                             { role: "system", content: systemInstruction },
                             { role: "user", content: prompt }
-                        ],
-                        temperature: 0.7,
+                        ]
                     };
-                    
-                    const headers = { 
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY_GROQ}`
-                    };
-
-                    const endpoint = GROQ_ENDPOINT;
-
-                    const maxRetries = 3;
-                    let delay = 1000;
-
-                    for (let i = 0; i < maxRetries; i++) {
-                        try {
-                            const response = await fetch(endpoint, {
-                                method: 'POST',
-                                headers: headers,
-                                body: JSON.stringify(payload)
-                            });
-
-                            if (!response.ok) {
-                                if (response.status === 429) { 
-                                    await new Promise(r => setTimeout(r, delay));
-                                    delay *= 2;
-                                    continue;
-                                }
-                                throw new Error(`API Error: ${response.status}`);
-                            }
-
-                            const data = await response.json();
-                            return data.choices?.[0]?.message?.content || "Communication disrupted (Groq).";
-                        } catch (error) {
-                            console.error("Groq call failed", error);
-                            if (i === maxRetries - 1) throw error;
-                        }
-                    }
-                    return "Connection to Groq Command lost. Please retry.";
-
+                    headers = { 'Content-Type': 'application/json' };
                 } else if (LLM_MODEL === 'GEMINI') {
-                    const payload = {
+                    // WARNING: If API_KEY_GEMINI is empty, this defaults to the Canvas runner key. 
+                    // For production security, use GEMINI_PROXY_ENDPOINT.
+                    endpoint = API_KEY_GEMINI ? FALLBACK_GEMINI_ENDPOINT : GEMINI_PROXY_ENDPOINT;
+                    payload = {
                         contents: [{ parts: [{ text: prompt }] }],
                         systemInstruction: { parts: [{ text: systemInstruction }] }
                     };
-                    
-                    const headers = { 'Content-Type': 'application/json' };
-                    const endpoint = GEMINI_ENDPOINT;
-                    
-                    const maxRetries = 3;
-                    let delay = 1000;
+                    headers = { 'Content-Type': 'application/json' };
+                }
+                
+                const maxRetries = 3;
+                let delay = 1000;
 
-                    for (let i = 0; i < maxRetries; i++) {
-                        try {
-                            const response = await fetch(endpoint, {
-                                method: 'POST',
-                                headers: headers,
-                                body: JSON.stringify(payload)
-                            });
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(endpoint, {
+                            method: 'POST',
+                            headers: headers,
+                            body: JSON.stringify(payload)
+                        });
 
-                            if (!response.ok) {
-                                if (response.status === 429) { 
-                                    await new Promise(r => setTimeout(r, delay));
-                                    delay *= 2;
-                                    continue;
-                                }
-                                throw new Error(`API Error: ${response.status}`);
+                        if (!response.ok) {
+                            if (response.status === 429) { 
+                                await new Promise(r => setTimeout(r, delay));
+                                delay *= 2;
+                                continue;
                             }
+                            // Attempt to parse JSON error message if available
+                            const errorData = await response.text();
+                            console.error(`LLM Proxy/API Error (${response.status}):`, errorData);
+                            
+                            // Fallback to local mode on failure
+                            if (i === maxRetries - 1) return localFallbackResponse(prompt);
+                            throw new Error(`API Error: ${response.status}`);
+                        }
 
+                        // Response from the proxy is expected to be the final text or an object
+                        if (LLM_MODEL === 'GROQ' && endpoint === GROQ_PROXY_ENDPOINT) {
+                             const data = await response.json();
+                             return data.text || data.content || "Communication disrupted (Proxy failed to return text).";
+                        } else {
+                            // Handle standard Gemini response format
                             const data = await response.json();
                             return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted (Gemini).";
-                        } catch (error) {
-                            console.error("Gemini call failed", error);
-                            if (i === maxRetries - 1) throw error;
                         }
+                        
+                    } catch (error) {
+                        console.error("LLM Call failed entirely (Network/Execution error):", error);
+                        if (i === maxRetries - 1) return localFallbackResponse(prompt);
                     }
-                    return "Connection to Gemini Command lost. Please retry.";
                 }
             }
 
@@ -841,4 +822,3 @@
     </script>
 </body>
 </html>
-
