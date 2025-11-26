@@ -3,12 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies.">
-    <meta name="keywords" content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies">
+    <meta name="description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
+    <meta name="keywords" content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies, conquest guide, alliance guide">
     <meta name="author" content="Noyzzing">
-    <meta property="og:title" content="NoYzzing - Strategy Command Center">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://noyzzing.com/">
+    <meta property="og:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
+    <meta property="og:description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
     <meta property="og:image" content="assets/images/Noylogo.png">
-    
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://noyzzing.com/">
+    <meta property="twitter:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
+    <meta property="twitter:description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies.">
+    <meta property="twitter:image" content="assets/images/Noylogo.png">
     <title>NoYzzing - Strategy Command Center</title>
     
     <!-- External Resources -->
@@ -44,9 +52,6 @@
                     fontFamily: {
                         tech: ['Rajdhani', 'sans-serif'],
                         body: ['Inter', 'sans-serif']
-                    },
-                    backgroundImage: {
-                        'grid-pattern': "linear-gradient(to right, #1e293b 1px, transparent 1px), linear-gradient(to bottom, #1e293b 1px, transparent 1px)",
                     }
                 }
             }
@@ -133,6 +138,21 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        .ad-slot-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px dashed #334155;
+            color: #64748b;
+            font-family: monospace;
+            font-size: 0.75rem;
+            text-transform: uppercase;
         }
     </style>
 </head>
@@ -249,11 +269,12 @@
                         <h2 class="text-2xl font-bold font-tech text-white flex items-center gap-2">
                             <i class="fa-solid fa-layer-group text-brand-gold text-sm"></i> DATABASE
                         </h2>
-                        <a href="write-guide.html" class="text-xs text-gray-500 hover:text-brand-gold transition-colors font-mono">[ SUBMIT INTEL ]</a>
+                        <!-- REMOVED WRITE GUIDE LINK -->
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Card 1 -->
+                        
+                        <!-- Military Expedition Card -->
                         <div class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
                             <div class="h-48 overflow-hidden relative">
                                 <img src="assets/images/Military.png" onerror="this.src='https://via.placeholder.com/400x250/111/555?text=MILITARY'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
@@ -266,7 +287,7 @@
                             </div>
                         </div>
 
-                        <!-- Card 2 -->
+                        <!-- Troop Strength Card -->
                         <div class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
                             <div class="h-48 overflow-hidden relative">
                                 <img src="assets/images/troop strength.png" onerror="this.src='https://via.placeholder.com/400x250/111/555?text=UNITS'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
@@ -279,7 +300,7 @@
                             </div>
                         </div>
 
-                        <!-- Card 3 -->
+                        <!-- Talent Memory Card -->
                         <div class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
                             <div class="h-48 overflow-hidden relative">
                                 <img src="assets/images/talent.png" onerror="this.src='https://via.placeholder.com/400x250/111/555?text=SKILLS'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
@@ -324,7 +345,7 @@
                             </button>
                         </div>
 
-                         <!-- Tool 3: ALLIANCE SCRIBE (New Gemini Feature) -->
+                         <!-- Tool 3: ALLIANCE SCRIBE -->
                          <div class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
                             <div class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
                                 <i class="fa-solid fa-feather-pointed text-5xl"></i>
@@ -345,13 +366,12 @@
                 <!-- SIDEBAR AD (300x250) -->
                 <div class="bg-brand-panel border border-brand-border p-2 rounded w-full flex flex-col items-center">
                     <div class="w-full h-[250px] bg-black/50 border border-dashed border-gray-700 relative">
-                         <!-- Placeholder description for user -->
-                         <div class="absolute inset-0 flex items-center justify-center text-center p-4">
-                            <div>
-                                <span class="block text-brand-gold font-mono text-xs mb-1">AD SLOT (300x250)</span>
-                                <span class="text-[10px] text-gray-500">Insert Ad Code Here</span>
-                            </div>
-                         </div>
+                         <ins class="adsbygoogle"
+                             style="display:block; width: 100%; height: 100%;"
+                             data-ad-client="ca-pub-1115056295957658"
+                             data-ad-slot="10000004"
+                             data-ad-format="auto"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                     </div>
                 </div>
 
@@ -440,7 +460,7 @@
         <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
             <div class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
                 <span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>
-                Greetings Commander. NoyzBot v3.0 Online. Powered by Gemini Tactical Core. Ready for strategy queries.
+                Greetings Commander. NoyzBot v3.0 Online. Ready for strategy queries.
             </div>
         </div>
 
@@ -493,16 +513,14 @@
             </div>
         </div>
     </div>
-
-    <!-- JAVASCRIPT LOGIC -->
+    
+    <!-- JAVASCRIPT LOGIC (The complete, merged script) -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             console.log("✅ Nexus Command Loaded");
             const apiKey = ""; // Runtime provided
 
-            // === COST CONTROL SWITCH ===
-            // SET THIS TO TRUE to use the DUMBER, FREE, local rule-based system for the Chatbot.
-            // SET THIS TO FALSE to use the SMARTER, PAID, Gemini API system for the Chatbot.
+            // === COST CONTROL SWITCH (SET TO TRUE FOR FREE, DUMBER BOT) ===
             const USE_LOCAL_FALLBACK = false; 
 
             // UI Elements
@@ -513,7 +531,6 @@
                 messages: document.getElementById('chat-messages'),
                 userInput: document.getElementById('user-input'),
                 sendBtn: document.querySelector('.chat-send'),
-                typingText: document.getElementById('typing-text'),
                 // Scribe Elements
                 generateScribeBtn: document.getElementById('generate-scribe-btn'),
                 scribeTopic: document.getElementById('scribe-topic'),
@@ -521,24 +538,17 @@
                 scribeContainer: document.getElementById('scribe-output-container')
             };
 
-            const config = {
-                typingText: "INITIALIZING STRATEGY PROTOCOLS...",
-                typingSpeed: 40
-            };
-
-            let currentTone = 'Military/Aggressive';
-
             // --- Init ---
             initChat();
-            initScribe();
+            initScribe(); // Initialize scribe logic on homepage only
             initTypingEffect();
             initNewsletterSubscription();
             initSearch();
 
+
             // --- Gemini API Handler (SMART, POTENTIALLY PAID) ---
             async function callGeminiAPI(prompt, systemInstruction) {
                 if (USE_LOCAL_FALLBACK) {
-                    // Fallback should not be used here, but for robustness:
                     return localFallbackResponse(prompt);
                 }
 
@@ -553,7 +563,6 @@
                     systemInstruction: { parts: [{ text: systemInstruction }] }
                 };
 
-                // Exponential Backoff Logic
                 const maxRetries = 3;
                 let delay = 1000;
 
@@ -566,7 +575,7 @@
                         });
 
                         if (!response.ok) {
-                            if (response.status === 429) { // Too Many Requests
+                            if (response.status === 429) { 
                                 await new Promise(r => setTimeout(r, delay));
                                 delay *= 2;
                                 continue;
@@ -588,13 +597,15 @@
                 const t = text.toLowerCase();
                 if (t.includes('troop') && t.includes('formation')) return "Directive: Utilize mixed T9/T10 cavalry-led formation (3:1:1 ratio). Adapt wall breach protocols based on target structure.";
                 if (t.includes('hero') || t.includes('talent')) return "Directive: Prioritize war talents over development. Execute full talent reset for specified combat events.";
-                if (t.includes('kvk') || t.includes('kingdom')) return "Directive: Focus on tower occupation and resource farming. Avoid unnecessary full-march losses.";
+                if (t.includes('kvk') || t.includes('kingdom') || t.includes('expedition')) return "Directive: Focus on altar control. Monitor infirmary capacity, aim for Fast Comeback activation.";
                 if (t.includes('hello') || t.includes('hi')) return "Greetings Commander. State query clearly. Time is of the essence.";
                 return "Query protocol unclear. State military objective or asset clearly.";
             }
 
-            // --- Chat System (Updated for Gemini) ---
+            // --- Chat System ---
             function initChat() {
+                if (!elements.chatbox) return; 
+                
                 elements.openBtn.addEventListener('click', toggleChat);
                 elements.closeBtn.addEventListener('click', toggleChat);
                 elements.sendBtn.addEventListener('click', sendMessage);
@@ -618,7 +629,7 @@
                 const loadingId = 'loading-' + Date.now();
                 addMessage('<span class="loader"></span> ANALYZING...', 'bot', loadingId);
 
-                const systemPrompt = "You are NoyzBot v3.0, an elite tactical AI for the game 'Puzzles and Conquest'. You speak in a concise, military style. You provide strategy on troops, heroes, and events. Keep responses short (under 100 words) and tactical.";
+                const systemPrompt = "You are NoyzBot v3.0, an elite tactical AI for the game 'Puzzles and Conquest'. You speak in a concise, military style. You provide strategy on troops, heroes, and events. Keep responses short (under 100 words) and tactical. Focus on the Military Expedition context.";
 
                 try {
                     let reply;
@@ -648,8 +659,11 @@
                 elements.messages.scrollTop = elements.messages.scrollHeight;
             }
 
-            // --- Alliance Scribe Tool (New) ---
+            // --- Alliance Scribe Tool (Homepage Only) ---
+            let currentTone = 'Military/Aggressive';
             function initScribe() {
+                if (!elements.generateScribeBtn) return; // Only run on homepage
+                
                 window.selectTone = (btn, tone) => {
                     document.querySelectorAll('.tone-btn').forEach(b => {
                         b.classList.remove('bg-brand-gold', 'text-black', 'border-transparent');
@@ -659,9 +673,14 @@
                     btn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
                     currentTone = tone;
                 };
-                // Set default active visual
-                document.querySelector('.tone-btn').classList.add('bg-brand-gold', 'text-black', 'border-transparent');
-                document.querySelector('.tone-btn').classList.remove('bg-brand-dark', 'text-gray-400');
+                
+                // Set default active visual (for homepage only)
+                const defaultToneBtn = document.querySelector('.tone-btn');
+                if (defaultToneBtn) {
+                     defaultToneBtn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
+                     defaultToneBtn.classList.remove('bg-brand-dark', 'text-gray-400');
+                }
+                
 
                 elements.generateScribeBtn.addEventListener('click', async () => {
                     const topic = elements.scribeTopic.value.trim();
@@ -679,7 +698,6 @@
                         elements.scribeResult.value = result;
                         elements.scribeContainer.classList.remove('hidden');
                     } catch(e) {
-                        // NOTE: Alliance Scribe MUST use the API. If it fails, display error.
                         elements.scribeResult.value = "ERROR: Cannot reach strategic communications channel. Check API connection.";
                         elements.scribeContainer.classList.remove('hidden');
                     } finally {
@@ -692,17 +710,26 @@
                     const copyText = document.getElementById("scribe-result");
                     copyText.select();
                     document.execCommand("copy");
-                    alert("Transmission copied to clipboard!");
+                    // Using console.log instead of alert for non-disruptive feedback
+                    console.log("Transmission copied to clipboard!"); 
                 }
             }
 
-            // --- Typing Visual ---
+
+            // --- Typing Visual (Homepage Only) ---
             function initTypingEffect() {
-                if (!elements.typingText) return;
+                const typingText = document.getElementById('typing-text');
+                if (!typingText) return;
+                
+                const config = {
+                    typingText: "INITIALIZING STRATEGY PROTOCOLS...",
+                    typingSpeed: 40
+                };
+                
                 let i = 0;
                 function type() {
                     if (i < config.typingText.length) {
-                        elements.typingText.textContent += config.typingText.charAt(i);
+                        typingText.textContent += config.typingText.charAt(i);
                         i++;
                         setTimeout(type, config.typingSpeed);
                     }
@@ -710,12 +737,13 @@
                 type();
             }
 
-            // --- Database Search ---
+
+            // --- Database Search (Homepage Only) ---
             function initSearch() {
-                const input = document.getElementById('search-input');
-                if (!input) return;
-                
-                input.addEventListener('input', (e) => {
+                const searchInput = document.getElementById('search-input');
+                if (!searchInput) return;
+
+                searchInput.addEventListener('input', (e) => {
                     const term = e.target.value.toLowerCase();
                     const cards = document.querySelectorAll('.guide-card, .tool-card');
                     
@@ -726,19 +754,32 @@
                 });
             }
 
-            // --- Newsletter ---
+            // --- Newsletter (Homepage Only) ---
             function initNewsletterSubscription() {
                 const form = document.getElementById('newsletter-form');
                 const msg = document.getElementById('subscription-message');
                 if(form) {
                     form.addEventListener('submit', (e) => {
                         e.preventDefault();
+                        // This logic is simple client-side only, as requested by original files
                         msg.classList.remove('hidden');
                         form.reset();
                         setTimeout(() => msg.classList.add('hidden'), 4000);
                     });
                 }
             }
+
+            
+            // --- Helper: Smooth Scrolling ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
         });
     </script>
 </body>
