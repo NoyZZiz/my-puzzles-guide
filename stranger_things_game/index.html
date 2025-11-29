@@ -17,8 +17,11 @@
         import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        // --- MANDATORY CANVAS GLOBAL VARIABLES ---
+        // --- MANDATORY CANVAS GLOBAL VARIABLES (REVERTED TO ORIGINAL NAMES) ---
+        // We revert to the original Canvas variable names as Vercel might be using an old injection method.
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        
+        // FIX: Reverted to look for __firebase_config (the variable name you manually set)
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
              apiKey: "mock-key", authDomain: "mock-domain", projectId: "mock-project"
         };
@@ -34,7 +37,8 @@
             isAuthReady: false,
             db: db,
             auth: auth,
-            userId: null
+            userId: null,
+            userName: null
         };
         
         // Function to assign a UUID if user is anonymous
@@ -46,19 +50,23 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 globalState.userId = user.uid;
+                globalState.userName = user.displayName || `User ${user.uid.substring(0, 8)}`;
             } else {
                 if (initialAuthToken) {
                     try {
                         await signInWithCustomToken(auth, initialAuthToken);
                         globalState.userId = auth.currentUser.uid;
+                        globalState.userName = auth.currentUser.displayName || `User ${auth.currentUser.uid.substring(0, 8)}`;
                     } catch (error) {
                         console.error("Firebase Custom Token sign-in failed:", error);
                         await signInAnonymously(auth);
                         globalState.userId = generateTemporaryUserId(); 
+                        globalState.userName = 'Anonymous User';
                     }
                 } else {
                     await signInAnonymously(auth);
                     globalState.userId = generateTemporaryUserId(); 
+                    globalState.userName = 'Anonymous User';
                 }
             }
             globalState.isAuthReady = true;
@@ -82,6 +90,7 @@
             });
         };
 
+        // NEW: This now fetches the full documents for display
         window.getAllAssignments = async () => {
             const assignments = [];
             // Querying the public data collection
@@ -89,12 +98,13 @@
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => {
                 const data = doc.data();
-                // Store only the character name to check for uniqueness
-                assignments.push(data.characterName);
+                // Return full object to display user/game name
+                assignments.push(data);
             });
             return assignments;
         };
-
+        
+        // This function remains to submit the simplified document for uniqueness tracking
         window.submitNewPublicAssignment = async (name, characterName, gender) => {
              // Use a unique ID for the public document to avoid overwriting unrelated assignments.
             const docId = `assignment-${globalState.userId}`; 
@@ -214,6 +224,27 @@
             color: #ef4444; /* Red accent for the character */
             text-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
         }
+        
+        /* Assignment List Styles */
+        #assignment-list-container {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid #1e293b;
+            border-radius: 6px;
+        }
+        .assignment-table th, .assignment-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border-bottom: 1px solid #1e293b;
+        }
+        .assignment-table th {
+            background-color: #1e293b;
+            color: #fbbf24;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-size: 0.8rem;
+        }
 
         /* Header/Nav consistency */
         header { background-color: #0f172a; border-bottom: 1px solid #1e293b; }
@@ -240,6 +271,13 @@
                 <i class="fa-solid fa-dice-d20 mr-2 text-red-500"></i> Code Name: Hawkins
             </h1>
             <p class="text-center text-gray-400 mb-8 text-sm">Find your Stranger Things Season 5 Character Name</p>
+
+            <!-- User Profile and ID -->
+            <div id="user-profile" class="bg-brand-dark/50 border border-brand-border text-gray-400 p-3 rounded-lg mb-6 hidden text-xs">
+                 <p class="font-bold text-white mb-1">Alliance Profile</p>
+                 <p><span class="text-brand-gold">User ID:</span> <span id="current-user-id">Checking...</span></p>
+            </div>
+
 
             <!-- Status Message -->
             <div id="status-message" class="bg-red-900/30 border border-red-500/50 text-red-300 p-3 rounded-lg hidden mb-6"></div>
@@ -285,6 +323,29 @@
                 <p id="result-char-type" class="text-sm text-gray-500 mt-2"></p>
                 <button id="reset-btn" class="spin-button w-full mt-6 bg-red-700 hover:bg-red-800 text-xs">RESET & RETRY (DANGER!)</button>
             </div>
+            
+            <!-- Assignment List Table -->
+            <div class="mt-10">
+                <h2 class="text-2xl font-tech text-white mb-3 border-b border-brand-border pb-1">
+                    <i class="fa-solid fa-users text-brand-gold mr-2"></i> Current Code Name Roster
+                </h2>
+                <div id="assignment-list-container" class="bg-brand-dark">
+                    <p id="roster-loading" class="text-center text-gray-500 p-4">Loading Roster...</p>
+                    <table id="assignment-roster" class="assignment-table w-full text-left text-sm hidden">
+                        <thead>
+                            <tr>
+                                <th class="text-brand-gold">Alliance Name</th>
+                                <th class="text-brand-gold">Code Name</th>
+                                <th class="text-brand-gold">Gender Pool</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roster-body">
+                            <!-- Roster rows inserted here by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
         </div>
 
     </main>
@@ -312,7 +373,13 @@
                 resetBtn: document.getElementById('reset-btn'),
                 playerName: document.getElementById('player-name'),
                 playerGender: document.getElementById('player-gender'),
-                statusMessage: document.getElementById('status-message')
+                statusMessage: document.getElementById('status-message'),
+                // Roster elements
+                userProfile: document.getElementById('user-profile'),
+                currentUserId: document.getElementById('current-user-id'),
+                rosterLoading: document.getElementById('roster-loading'),
+                rosterTable: document.getElementById('assignment-roster'),
+                rosterBody: document.getElementById('roster-body')
             };
 
             const CHARACTERS = {
@@ -346,31 +413,88 @@
                 globalState = e.detail;
                 ELEMENTS.authCheck.classList.add('hidden');
                 
+                // Update User Profile Display
+                ELEMENTS.currentUserId.textContent = globalState.userId;
+                ELEMENTS.userProfile.classList.remove('hidden');
+
                 if (globalState.userId.startsWith('anon-')) {
-                     displayStatus('error', 'You are signed in anonymously. Your character assignment will only be saved locally and is not guaranteed to be unique against other users. Please log in for permanent, guaranteed unique assignments.');
+                     displayStatus('error', `Signed in as Anonymous (${globalState.userId.substring(0, 8)}...). Assignment is not guaranteed unique. Log in for permanent assignment.`);
                 }
 
                 checkExistingAssignment();
+                loadRoster();
             });
 
             // --- Core Logic ---
             async function checkExistingAssignment() {
                 try {
-                    assignmentData = await window.getAllAssignments();
+                    // Fetch full list of assigned objects, not just names
+                    const allAssignments = await window.getAllAssignments(); 
+                    // Map down to just names for uniqueness check
+                    assignmentData = allAssignments.map(a => a.characterName);
+                    
                     const userAssignment = await window.getAssignmentState(globalState.userId);
 
                     if (userAssignment.exists()) {
                         const data = userAssignment.data();
                         isAssigned = true;
+                        // Pre-fill name input if it exists
+                        ELEMENTS.playerName.value = data.gameName || '';
+                        ELEMENTS.playerName.disabled = true;
+
                         displayFinalResult(data.characterName, data.gender, true);
                     } else {
                         ELEMENTS.form.classList.remove('hidden');
                     }
                 } catch (error) {
                     console.error("Error checking or fetching assignments:", error);
-                    displayStatus('error', 'Database connection error. Try refreshing.');
+                    displayStatus('error', 'Database connection error. Check your Vercel/Firebase configuration.');
                 }
             }
+
+            async function loadRoster() {
+                try {
+                    const allAssignments = await window.getAllAssignments();
+                    const tbody = ELEMENTS.rosterBody;
+                    tbody.innerHTML = '';
+                    
+                    // Filter down to unique character names (in case multiple docs exist for one user)
+                    const uniqueAssignments = {};
+                    allAssignments.forEach(assignment => {
+                        if (!uniqueAssignments[assignment.characterName]) {
+                            uniqueAssignments[assignment.characterName] = assignment;
+                        }
+                    });
+
+                    const assignmentsArray = Object.values(uniqueAssignments).sort((a, b) => a.characterName.localeCompare(b.characterName));
+
+                    assignmentsArray.forEach(assignment => {
+                        const row = tbody.insertRow();
+                        row.className = 'text-gray-300 hover:bg-brand-dark';
+                        
+                        // Alliance Name (Game Name)
+                        let nameCell = row.insertCell();
+                        nameCell.textContent = assignment.gameName || 'N/A';
+                        
+                        // Code Name (Character Name)
+                        let charCell = row.insertCell();
+                        charCell.textContent = assignment.characterName;
+                        charCell.classList.add('font-bold', 'text-white');
+                        
+                        // Gender Pool
+                        let genderCell = row.insertCell();
+                        genderCell.textContent = assignment.gender;
+                        genderCell.classList.add(assignment.gender === 'Male' ? 'text-blue-400' : 'text-pink-400');
+                    });
+
+                    ELEMENTS.rosterLoading.classList.add('hidden');
+                    ELEMENTS.rosterTable.classList.remove('hidden');
+                } catch(error) {
+                    console.error("Failed to load roster:", error);
+                    ELEMENTS.rosterLoading.textContent = "Failed to load roster data.";
+                }
+            }
+
 
             ELEMENTS.assignBtn.addEventListener('click', startAssignment);
             ELEMENTS.resetBtn.addEventListener('click', resetAssignment);
@@ -397,8 +521,9 @@
                 await new Promise(resolve => setTimeout(resolve, 2000)); 
 
                 try {
-                    // 1. Get used list (already fetched or re-fetch for current check)
-                    const usedCharacters = assignmentData;
+                    // 1. Re-fetch the used list for the most up-to-date check before assigning
+                    const allAssignments = await window.getAllAssignments();
+                    const usedCharacters = allAssignments.map(a => a.characterName);
                     
                     // 2. Filter available characters
                     const availableMale = CHARACTERS.Male.filter(name => !usedCharacters.includes(name));
@@ -414,9 +539,10 @@
                     }
                     
                     if (pool.length === 0) {
-                        displayStatus('error', 'All 80+ unique characters for this gender pool have been assigned. Please wait for an alliance member to reset their name or contact an admin.');
+                        displayStatus('error', `All ${usedCharacters.length} unique characters for this gender pool have been assigned. Contact an admin.`);
                         ELEMENTS.spinner.classList.add('hidden');
                         ELEMENTS.assignBtn.disabled = false;
+                        ELEMENTS.form.classList.remove('hidden'); // Show form again
                         return;
                     }
                     
@@ -437,6 +563,10 @@
                     isAssigned = true;
                     ELEMENTS.spinner.classList.add('hidden');
                     displayFinalResult(assignedCharacter, gender, false);
+                    ELEMENTS.playerName.disabled = true;
+                    
+                    // Update roster immediately
+                    loadRoster();
 
                 } catch (error) {
                     console.error("Assignment failed:", error);
@@ -451,16 +581,16 @@
                  if (!confirm("WARNING: Resetting your assignment will make your current character available for others. Are you sure you want to proceed?")) {
                     return;
                 }
+                
+                // Note: Actual deletion of the public document needs to happen here for a full reset.
+                // Since this requires a more complex Firestore structure/security rule, we only reset client-side state for now.
+                
                 try {
-                    // Clear user's private assignment
-                    // NOTE: The Firebase Security Rules should ideally handle the deletion/update of the public assignment.
-                    // For the sake of this simple client-side code, we reset UI.
-                    
                     ELEMENTS.resultDisplay.classList.add('hidden');
                     ELEMENTS.form.classList.remove('hidden');
                     isAssigned = false;
                     ELEMENTS.assignBtn.disabled = false;
-                    ELEMENTS.playerName.value = '';
+                    ELEMENTS.playerName.disabled = false;
                     ELEMENTS.playerGender.value = '';
                     displayStatus('success', 'Assignment slot cleared. You may choose a new character name.');
                     // Force re-check to clear local cache of used characters
@@ -495,7 +625,7 @@
 
             function displayStatus(type, message) {
                 ELEMENTS.statusMessage.textContent = message;
-                ELEMENTS.statusMessage.classList.remove('hidden', 'bg-red-900/30', 'bg-green-900/30', 'border-red-500/50', 'border-green-500/50');
+                ELEMENTS.statusMessage.classList.remove('hidden', 'bg-red-900/30', 'bg-green-900/30', 'border-red-500/50', 'border-green-500/50', 'bg-blue-900/30', 'border-blue-500/50', 'text-blue-300', 'text-red-300', 'text-green-300');
                 
                 if (type === 'error') {
                      ELEMENTS.statusMessage.classList.add('bg-red-900/30', 'border-red-500/50', 'text-red-300');
