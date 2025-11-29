@@ -17,13 +17,20 @@
         import { getFirestore, doc, getDoc, setDoc, collection, query, getDocs, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        // --- MANDATORY CANVAS GLOBAL VARIABLES (REVERTED TO ORIGINAL NAMES) ---
-        // We revert to the original Canvas variable names as Vercel might be using an old injection method.
+        // --- MANDATORY CANVAS GLOBAL VARIABLES ---
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         
-        // FIX: Reverted to look for __firebase_config (the variable name you manually set)
-        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-             apiKey: "mock-key", authDomain: "mock-domain", projectId: "mock-project"
+        // --- FIX: HARDCODED VALID FIREBASE CONFIGURATION ---
+        // WARNING: This key is now exposed in the client-side code.
+        // It is the fastest way to resolve the API Key error.
+        const firebaseConfig = {
+             apiKey: "AIzaSyCjRDs0Pst4RxA364k85gwqax-YsTYI7UQ",
+             authDomain: "guidesbynoyzzing.firebaseapp.com",
+             projectId: "guidesbynoyzzing",
+             storageBucket: "guidesbynoyzzing.firebasestorage.app",
+             messagingSenderId: "1046972623840",
+             appId: "1:1046972623840:web:e04c17e115c0837b27d985",
+             measurementId: "G-NMQLTHJ8NG"
         };
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
 
@@ -643,4 +650,30 @@
         });
     </script>
 </body>
-</html>
+</html>" code between  and  in the most up-to-date Canvas "Code Name: Hawkins (Character Assignment)" document above and am asking a query about/based on this code below.
+Instructions to follow:
+  * Don't output/edit the document if the query is Direct/Simple. For example, if the query asks for a simple explanation, output a direct answer.
+  * Make sure to **edit** the document if the query shows the intent of editing the document, in which case output the entire edited document, **not just that section or the edits**.
+    * Don't output the same document/empty document and say that you have edited it.
+    * Don't change unrelated code in the document.
+  * Don't output  and  in your final response.
+  * Any references like "this" or "selected code" refers to the code between  and  tags.
+  * Just acknowledge my request in the introduction.
+  * Make sure to refer to the document as "Canvas" in your response.
+
+this what perplexity said ou just need to change one small part of your code, then redeploy.
+Edit the Firebase config in index.html
+Find this in your <script type="module">:
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
+apiKey: "mock-key", authDomain: "mock-domain", projectId: "mock-project"
+};
+Replace it completely with:
+const firebaseConfig = {
+apiKey: "AIzaSyCjRDs0Pst4RxA364k85gwqax-YsTYI7UQ",
+authDomain: "guidesbynoyzzing.firebaseapp.com",
+projectId: "guidesbynoyzzing",
+storageBucket: "guidesbynoyzzing.firebasestorage.app",
+messagingSenderId: "1046972623840",
+appId: "1:1046972623840:web:e04c17e115c0837b27d985",
+measurementId: "G-NMQLTHJ8NG"
+};​
