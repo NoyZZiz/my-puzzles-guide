@@ -173,7 +173,8 @@
 
     <script>
         // ===== CONFIGURATION =====
-        const API_URL = 'https://script.google.com/macros/s/AKfycbyo5AVA38JEGzx3ng1zJJA37ZIjIOYPYwf2oFoAPk7u_iJfvK1iyl62VR2GneTImqY/exec';
+        // Use your deployed Vercel API base URL here (or use env.js to inject at runtime)
+       const API_BASE = 'https://your-actual-vercel-app.vercel.app/api';
         
         // ===== GLOBAL STATE =====
         let currentAssignment = null;
@@ -225,17 +226,21 @@
         };
 
         // ===== API FUNCTIONS =====
-        async function callAPI(action, data = {}) {
+        async function callAPI(endpoint, data = {}) {
             try {
-                const params = new URLSearchParams({ action, ...data });
-                
-                // Add cache busting to avoid CORS issues
-                const url = `${API_URL}?${params}&t=${Date.now()}`;
-                
-                const response = await fetch(url, {
-                    method: 'GET',
-                    mode: 'no-cors' // This helps with CORS issues
-                });
+                const url = `${API_BASE}/${endpoint}`;
+                const options = {
+                    method: endpoint === 'characters/claimed' ? 'GET' : 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                };
+
+                if (endpoint !== 'characters/claimed') {
+                    options.body = JSON.stringify(data);
+                }
+
+                const response = await fetch(url, options);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -244,14 +249,14 @@
                 return await response.json();
             } catch (error) {
                 console.error('API call failed:', error);
-                throw new Error('Cannot reach global database');
+                throw error;
             }
         }
 
         async function loadGlobalData() {
             try {
                 displayStatus('info', '🛰️ Syncing with global database...');
-                const usedChars = await callAPI('getUsedCharacters');
+                const usedChars = await callAPI('characters/claimed');
                 globalUsedCharacters = new Set(usedChars);
                 ELEMENTS.globalCount.textContent = globalUsedCharacters.size;
                 
@@ -289,10 +294,10 @@
 
         async function saveAssignmentToGlobal(playerName, characterName, gender, sessionId) {
             try {
-                const result = await callAPI('addAssignment', { 
+                const result = await callAPI('characters/claim', { 
                     playerName, 
                     characterName, 
-                    gender, 
+                    characterPool: gender, 
                     sessionId 
                 });
                 
