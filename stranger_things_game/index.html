@@ -10,52 +10,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
     
     <style>
-        /* Define the Stranger Things Font */
-        .st-font {
-            font-family: 'Bebas Neue', sans-serif; 
-        }
-        .tech-font {
-            font-family: 'Rajdhani', sans-serif;
-        }
+        .st-font { font-family: 'Bebas Neue', sans-serif; }
+        .tech-font { font-family: 'Rajdhani', sans-serif; }
 
-        /* Base ST Theme - Black/Red/Glow */
         body {
-            background-color: #000000; /* True Black */
+            background-color: #000000;
             color: #f7f7f7;
             font-family: 'Inter', sans-serif;
             line-height: 1.75; 
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            /* Subtly aggressive, Upside Down-esque texture/color gradient */
-            background-image: 
-                url('https://via.placeholder.com/1920x1080/000000/100000?text=UPSIDE+DOWN+PATTERN') 
-                fixed; /* Replace with actual subtle texture */
-            background-size: cover;
-            background-blend-mode: color-burn;
+            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.1"><rect width="100" height="100" fill="black"/><path d="M0 0L100 100M100 0L0 100" stroke="%23d1121c" stroke-width="1"/></svg>');
         }
         
-        /* The iconic red glow for text and titles */
         .st-title {
             font-family: 'Bebas Neue', sans-serif;
-            color: #d1121c; /* Deep Stranger Things Red */
-            text-shadow: 
-                0 0 5px rgba(209, 18, 28, 0.7), 
-                0 0 10px rgba(209, 18, 28, 0.6), 
-                0 0 20px rgba(209, 18, 28, 0.5), 
-                0 0 40px rgba(209, 18, 28, 0.4);
+            color: #d1121c;
+            text-shadow: 0 0 5px rgba(209, 18, 28, 0.7), 0 0 10px rgba(209, 18, 28, 0.6);
             letter-spacing: 0.2em;
         }
 
-        /* Container Panel - Darker, surrounded by red glow */
         .game-panel {
-            background-color: rgba(10, 0, 0, 0.85); /* Deep dark background */
+            background-color: rgba(10, 0, 0, 0.85);
             border: 3px solid #330000;
-            box-shadow: 0 0 60px rgba(209, 18, 28, 0.5); /* Stronger glow */
+            box-shadow: 0 0 60px rgba(209, 18, 28, 0.5);
             border-radius: 10px;
         }
 
-        /* Input & Button Styling */
         input[type="text"], select {
             background-color: #1a0000;
             border: 1px solid #330000;
@@ -65,16 +47,10 @@
             width: 100%;
             transition: border-color 0.2s, box-shadow 0.2s;
             font-family: 'Rajdhani', monospace;
-            font-size: 1rem;
-        }
-        input[type="text"]:focus, select:focus {
-            border-color: #d1121c;
-            box-shadow: 0 0 10px rgba(209, 18, 28, 0.8);
-            outline: none;
         }
 
         .spin-button {
-            background-color: #d1121c; /* ST Red */
+            background-color: #d1121c;
             color: #f7f7f7;
             font-weight: 700;
             padding: 15px 30px;
@@ -85,27 +61,9 @@
             letter-spacing: 0.1em;
             box-shadow: 0 0 10px rgba(209, 18, 28, 0.3);
         }
-        .spin-button:hover:not(:disabled) {
-            background-color: #ff333d;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(209, 18, 28, 0.6);
-        }
-        .spin-button:disabled {
-            background-color: #333333;
-            color: #888888;
-            cursor: not-allowed;
-            box-shadow: none;
-        }
-        
-        /* Spinner/Result Area */
-        #spinner {
-            background-color: rgba(10, 0, 0, 0.9);
-            border: 3px solid #330000;
-            box-shadow: 0 0 15px rgba(209, 18, 28, 0.7);
-        }
-        
+
         #spinner-text {
-            color: #ffcc00; /* Gold for a bit of contrast */
+            color: #ffcc00;
             font-size: 3rem;
             text-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
             font-family: 'Bebas Neue', sans-serif;
@@ -116,43 +74,10 @@
         #result-name {
             font-size: 3.5rem;
             color: #d1121c;
-            text-shadow: 
-                0 0 10px rgba(209, 18, 28, 0.8), 
-                0 0 20px rgba(209, 18, 28, 0.5);
+            text-shadow: 0 0 10px rgba(209, 18, 28, 0.8);
             font-family: 'Bebas Neue', sans-serif;
             letter-spacing: 0.3em;
         }
-        
-        #reset-btn {
-            background-color: #800000; /* Darker Red for Danger Button */
-            font-size: 0.8rem;
-            padding: 10px 20px;
-            border-radius: 4px;
-        }
-        #reset-btn:hover:not(:disabled) {
-            background-color: #cc0000;
-        }
-        
-        /* Roster Table */
-        .assignment-table th, .assignment-table td {
-            border-bottom: 1px solid #330000;
-        }
-        .assignment-table th {
-            background-color: #1a0000;
-            color: #d1121c;
-            font-family: 'Rajdhani', sans-serif;
-            letter-spacing: 0.1em;
-        }
-        #assignment-list-container {
-            border: 1px solid #330000;
-            background-color: #0a0000;
-        }
-        
-        /* Message Box Styling */
-        #status-message {
-            box-shadow: 0 0 8px rgba(209, 18, 28, 0.3);
-        }
-
     </style>
 </head>
 <body class="antialiased">
@@ -173,19 +98,20 @@
                 Code Name: HAWKINS
             </h1>
             <p class="text-center text-red-700 mb-8 text-sm uppercase tracking-wider font-semibold tech-font">
-                ROL Alliance S.T.A.R.C.O.U.R.T. Protocol
+                GLOBAL CHARACTER TRACKING + DISCORD SYNC
             </p>
 
             <div id="user-profile" class="bg-gray-900/50 border border-red-900 text-gray-400 p-3 rounded-lg mb-6 text-xs font-mono">
-                 <p class="font-bold text-red-400 mb-1">D.O.E. Protocol Status</p>
+                 <p class="font-bold text-red-400 mb-1">GLOBAL SYNC STATUS</p>
                  <p><span class="text-red-500">Session ID:</span> <span id="current-user-id">Loading...</span></p>
+                 <p><span class="text-red-500">Characters Claimed:</span> <span id="global-count">0</span> globally</p>
             </div>
 
-            <div id="status-message" class="bg-red-900/30 border border-red-500/50 text-red-300 p-3 rounded-lg mb-6">
-                <i class="fa-solid fa-triangle-exclamation mr-2"></i> Warning: Initiating standalone protocol. Data saved locally.
+            <div id="status-message" class="bg-blue-900/30 border border-blue-500/50 text-blue-300 p-3 rounded-lg mb-6">
+                <i class="fa-solid fa-satellite-dish mr-2"></i> Connecting to global database...
             </div>
 
-            <div id="assignment-form" class="space-y-4">
+            <div id="assignment-form" class="space-y-4 hidden">
                 <p class="text-sm text-gray-300 mb-4 tech-font">Input operator details to retrieve **Hawkins Lab** code name assignment.</p>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -210,35 +136,30 @@
             </div>
 
             <div id="spinner" class="mt-8 flex items-center justify-center p-6 hidden rounded-lg">
-                <span id="spinner-text">SEARCHING THE UPSIDE DOWN</span>
+                <span id="spinner-text">SYNCING WITH GLOBAL DATABASE</span>
             </div>
 
             <div id="result-display" class="mt-8 text-center hidden p-6 border-2 border-red-900 rounded-lg">
                 <h3 class="text-lg text-gray-300 font-medium uppercase tracking-wider mb-2 tech-font">OPERATOR ASSIGNMENT SUCCESSFUL:</h3>
                 <p id="result-name" class="font-bold"></p>
                 <p id="result-char-type" class="text-sm text-red-600 mt-2 font-mono"></p>
-                <button id="reset-btn" class="spin-button w-full mt-6 text-xs bg-red-800 hover:bg-red-900">
+                <p id="discord-notice" class="text-xs text-green-400 mt-2 hidden">
+                    <i class="fa-brands fa-discord mr-1"></i> Notification sent to Discord!
+                </p>
+                <button id="share-btn" class="spin-button w-full mt-4 bg-green-600 hover:bg-green-700 text-xs">
+                    <i class="fa-solid fa-share-nodes mr-1"></i> SHARE WITH ROL ALLIANCE
+                </button>
+                <button id="reset-btn" class="spin-button w-full mt-2 text-xs bg-red-800 hover:bg-red-900">
                     <i class="fa-solid fa-radiation mr-1"></i> RESET & RE-ROLL (<span id="reset-count-display">2</span> TRIES LEFT)
                 </button>
             </div>
             
             <div class="mt-10">
                 <h2 class="text-2xl st-title mb-3 border-b border-red-900 pb-1">
-                    <i class="fa-solid fa-users text-red-500 mr-2"></i> ROL OPERATOR ROSTER
+                    <i class="fa-solid fa-users text-red-500 mr-2"></i> GLOBAL ROL OPERATOR ROSTER
                 </h2>
-                <div id="assignment-list-container">
-                    <table id="assignment-roster" class="assignment-table w-full text-left text-sm">
-                        <thead>
-                            <tr>
-                                <th>Alias</th>
-                                <th>Code Name</th>
-                                <th>Pool</th>
-                            </tr>
-                        </thead>
-                        <tbody id="roster-body">
-                            </tbody>
-                    </table>
-                    <p id="empty-roster" class="text-center text-gray-500 p-4 font-mono">Roster is empty. Initiate assignment protocols.</p>
+                <div id="global-roster" class="text-sm text-gray-400 font-mono p-4 border border-red-900 rounded-lg">
+                    Loading global roster from Discord...
                 </div>
             </div>
             
@@ -247,318 +168,362 @@
     </main>
 
     <footer class="w-full text-center text-gray-600 text-xs py-4 bg-black/50">
-        &copy; 2025 Noyzzing | ROL Alliance | D.O.E. File 001
+        &copy; 2025 Noyzzing | ROL Alliance | LIVE DISCORD SYNC ACTIVE
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Local Storage Keys
-            const ASSIGNMENT_KEY = 'strangerThingsAssignment';
-            const RESET_COUNT_KEY = 'strangerThingsResetCount';
+        // ===== CONFIGURATION =====
+        const API_URL = 'https://script.google.com/macros/s/AKfycbzAK1V1QD5RMid3csuaQLcpSA4da1x0TkKZ8orSjyLW1_wYZgm0lrCJb0jxrzlk/exec';
+        
+        // ===== GLOBAL STATE =====
+        let currentAssignment = null;
+        let globalUsedCharacters = new Set();
+        let resetCount = 2;
+        
+        const ELEMENTS = {
+            form: document.getElementById('assignment-form'),
+            spinner: document.getElementById('spinner'),
+            spinnerText: document.getElementById('spinner-text'),
+            resultDisplay: document.getElementById('result-display'),
+            resultName: document.getElementById('result-name'),
+            resultCharType: document.getElementById('result-char-type'),
+            discordNotice: document.getElementById('discord-notice'),
+            assignBtn: document.getElementById('assign-btn'),
+            resetBtn: document.getElementById('reset-btn'),
+            shareBtn: document.getElementById('share-btn'),
+            resetCountDisplay: document.getElementById('reset-count-display'),
+            gameName: document.getElementById('game-name'),
+            playerGender: document.getElementById('player-gender'),
+            statusMessage: document.getElementById('status-message'),
+            currentUserId: document.getElementById('current-user-id'),
+            globalCount: document.getElementById('global-count'),
+            globalRoster: document.getElementById('global-roster')
+        };
 
-            let currentAssignment = null;
-            let sessionAssignments = [];
-            let usedCharacters = new Set();
-            // Load reset count, default to 2
-            let resetCount = parseInt(localStorage.getItem(RESET_COUNT_KEY) || '2', 10); 
+        const CHARACTERS = {
+            Male: [
+                'Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper',
+                'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman',
+                'Bob Newby', 'Dr. Alexey', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove',
+                'Dr. Brenner', 'Dr. Owens', 'Lt. Colonel Sullivan', 'Jason Carver', 'Patrick McKinney',
+                'Fred Benson', 'Calvin Powell', 'Phillip Callahan', 'Tommy H.', 'Keith',
+                'Enzo (Dmitri)', 'Yuri Ismaylov', 'Larry Kline', 'Senator Hatch', 'Peter Ballard',
+                'The Shadow Monster', 'Lonnie Byers', 'Axel', 'Mick', 'Agent Orange', 'Greg', 'Rich'
+            ],
+            Female: [
+                'Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers',
+                'Erica Sinclair', 'Suzie Bingham', 'Chrissy Cunningham', 'Angela', 'Vickie',
+                'Holly Wheeler', 'Tammy Thompson', 'Mrs. Wheeler', 'Claudia Henderson', 'Kali Prasad (Eight)',
+                'Mrs. Henderson', 'Connie Frazier', 'Patty', 'Flo', 'Becky Ives',
+                'Heather Holloway', 'Melanie', 'Stacy', 'Tina', 'Carol', 'Ms. Kelly',
+                'Mrs. Driscoll', 'Anya', 'Sara Hopper', 'Janet Hayes', 'Florence'
+            ],
+            Villain_Neutral: [
+                'Vecna (Henry Creel)', 'The Mind Flayer', 'Demogorgon', 'Demo-Dog', 'The Gate',
+                'The Rift', 'Dr. Brenner', 'Dr. Owens', 'Peter Ballard'
+            ]
+        };
+
+        // ===== API FUNCTIONS =====
+        async function callAPI(action, data = {}) {
+            try {
+                const params = new URLSearchParams({ action, ...data });
+                const response = await fetch(`${API_URL}?${params}`);
+                return await response.json();
+            } catch (error) {
+                console.error('API call failed:', error);
+                throw new Error('Network error - cannot reach global database');
+            }
+        }
+
+        async function loadGlobalData() {
+            try {
+                displayStatus('info', '🛰️ Syncing with global database...');
+                const usedChars = await callAPI('getUsedCharacters');
+                globalUsedCharacters = new Set(usedChars);
+                ELEMENTS.globalCount.textContent = globalUsedCharacters.size;
+                
+                // Update roster display
+                ELEMENTS.globalRoster.innerHTML = `
+                    <div class="text-green-400 mb-2">
+                        <i class="fa-solid fa-circle-check mr-2"></i>
+                        Connected to Discord & Google Sheets
+                    </div>
+                    <div class="text-xs">
+                        <strong>${globalUsedCharacters.size} characters</strong> claimed globally<br>
+                        <strong>${getAvailableCount()} characters</strong> still available
+                    </div>
+                `;
+                
+                displayStatus('success', `✅ Global sync complete! ${globalUsedCharacters.size} characters tracked.`);
+                return true;
+            } catch (error) {
+                console.error('Failed to load global data:', error);
+                ELEMENTS.globalRoster.innerHTML = `
+                    <div class="text-red-400">
+                        <i class="fa-solid fa-triangle-exclamation mr-2"></i>
+                        Offline Mode - Using local data only
+                    </div>
+                `;
+                displayStatus('error', '⚠️ Offline mode: Using local data only');
+                return false;
+            }
+        }
+
+        function getAvailableCount() {
+            const totalChars = CHARACTERS.Male.length + CHARACTERS.Female.length + CHARACTERS.Villain_Neutral.length;
+            return totalChars - globalUsedCharacters.size;
+        }
+
+        async function saveAssignmentToGlobal(playerName, characterName, gender, sessionId) {
+            try {
+                const result = await callAPI('addAssignment', { 
+                    playerName, 
+                    characterName, 
+                    gender, 
+                    sessionId 
+                });
+                
+                if (result.success) {
+                    globalUsedCharacters.add(characterName);
+                    ELEMENTS.globalCount.textContent = globalUsedCharacters.size;
+                    ELEMENTS.discordNotice.classList.remove('hidden');
+                    return true;
+                } else {
+                    throw new Error(result.error || 'Unknown error');
+                }
+            } catch (error) {
+                console.error('Failed to save globally:', error);
+                displayStatus('warning', '⚠️ Assignment saved locally only. Global sync failed.');
+                return false;
+            }
+        }
+
+        // ===== CORE GAME FUNCTIONS =====
+        async function initializeGame() {
+            const sessionId = 'ROL-' + Date.now().toString().slice(-6) + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
+            ELEMENTS.currentUserId.textContent = sessionId;
             
-            const ELEMENTS = {
-                form: document.getElementById('assignment-form'),
-                spinner: document.getElementById('spinner'),
-                spinnerText: document.getElementById('spinner-text'),
-                resultDisplay: document.getElementById('result-display'),
-                resultName: document.getElementById('result-name'),
-                resultCharType: document.getElementById('result-char-type'),
-                assignBtn: document.getElementById('assign-btn'),
-                resetBtn: document.getElementById('reset-btn'),
-                resetCountDisplay: document.getElementById('reset-count-display'),
-                gameName: document.getElementById('game-name'),
-                playerGender: document.getElementById('player-gender'),
-                statusMessage: document.getElementById('status-message'),
-                currentUserId: document.getElementById('current-user-id'),
-                rosterBody: document.getElementById('roster-body'),
-                emptyRoster: document.getElementById('empty-roster')
-            };
+            // Load global data first
+            const globalSync = await loadGlobalData();
+            
+            if (globalSync) {
+                ELEMENTS.form.classList.remove('hidden');
+            } else {
+                // Even if global sync fails, show form for offline use
+                ELEMENTS.form.classList.remove('hidden');
+            }
+            
+            loadExistingAssignment();
+            setupEventListeners();
+        }
 
-            const CHARACTERS = {
-                Male: [
-                    'Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper',
-                    'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman',
-                    'Bob Newby', 'Dr. Alexey', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove'
-                ],
-                Female: [
-                    'Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers',
-                    'Erica Sinclair', 'Suzie Bingham', 'Chrissy Cunningham', 'Angela', 'Vickie',
-                    'Holly Wheeler', 'Tammy Thompson', 'Mrs. Wheeler', 'Claudia Henderson', 'Kali Prasad (Eight)'
-                ],
-                Villain_Neutral: [
-                    'Vecna (Henry Creel)', 'The Mind Flayer', 'Demogorgon', 'Demo-Dog', 'The Gate',
-                    'Dr. Brenner', 'Dr. Owens', 'Peter Ballard', 'The Rift'
-                ]
-            };
+        function setupEventListeners() {
+            ELEMENTS.assignBtn.addEventListener('click', startAssignment);
+            ELEMENTS.resetBtn.addEventListener('click', resetAssignment);
+            ELEMENTS.shareBtn.addEventListener('click', shareAssignment);
+        }
 
-            // Initialize the game
-            function initializeGame() {
-                // Generate session ID
-                const sessionId = 'DOE-' + Date.now().toString().slice(-6) + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
-                ELEMENTS.currentUserId.textContent = sessionId;
-                
-                loadExistingAssignment();
-                
-                // Set up event listeners
-                ELEMENTS.assignBtn.addEventListener('click', startAssignment);
-                ELEMENTS.resetBtn.addEventListener('click', resetAssignment);
-                
-                updateResetButtonState();
-                updateRosterDisplay();
+        function loadExistingAssignment() {
+            const saved = localStorage.getItem('rol_assignment');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    currentAssignment = data;
+                    ELEMENTS.gameName.value = data.gameName || '';
+                    ELEMENTS.gameName.disabled = true;
+                    ELEMENTS.playerGender.value = data.gender || '';
+                    ELEMENTS.playerGender.disabled = true;
+                    displayFinalResult(data.characterName, data.gender, true);
+                    ELEMENTS.assignBtn.disabled = true;
+                } catch (e) {
+                    console.log('No previous assignment found');
+                }
+            }
+        }
+
+        async function startAssignment() {
+            const gameName = ELEMENTS.gameName.value.trim();
+            const gender = ELEMENTS.playerGender.value;
+            
+            if (!gameName || !gender) {
+                displayStatus('error', '⚠️ Operator Alias and Character Pool required.');
+                return;
             }
 
-            function loadExistingAssignment() {
-                const saved = localStorage.getItem(ASSIGNMENT_KEY);
-                if (saved) {
-                    try {
-                        const data = JSON.parse(saved);
-                        currentAssignment = data;
-                        usedCharacters.add(data.characterName);
-                        
-                        // Pre-fill form and show result
-                        ELEMENTS.gameName.value = data.gameName || '';
+            ELEMENTS.form.classList.add('hidden');
+            ELEMENTS.spinner.classList.remove('hidden');
+            ELEMENTS.spinnerText.textContent = "ANALYZING GLOBAL AVAILABILITY...";
+            ELEMENTS.assignBtn.disabled = true;
+            ELEMENTS.discordNotice.classList.add('hidden');
+
+            setTimeout(async () => {
+                try {
+                    // Get available characters (not used globally)
+                    const availablePool = (gender === 'Male' ? CHARACTERS.Male : CHARACTERS.Female)
+                        .filter(name => !globalUsedCharacters.has(name));
+                    const availableVillain = CHARACTERS.Villain_Neutral
+                        .filter(name => !globalUsedCharacters.has(name));
+
+                    let pool = [...availablePool, ...availableVillain];
+                    
+                    if (pool.length === 0) {
+                        displayStatus('error', '❌ ALL CHARACTERS TAKEN GLOBALLY! No unique assignments available.');
+                        resetToForm();
+                        return;
+                    }
+                    
+                    // Select random available character
+                    const randomIndex = Math.floor(Math.random() * pool.length);
+                    const assignedCharacter = pool[randomIndex];
+                    
+                    // Save locally and globally
+                    const sessionId = ELEMENTS.currentUserId.textContent;
+                    const newAssignment = {
+                        userId: sessionId,
+                        gameName: gameName,
+                        characterName: assignedCharacter,
+                        gender: gender,
+                        timestamp: new Date().toISOString()
+                    };
+
+                    // Save to global database (this also sends Discord notification)
+                    await saveAssignmentToGlobal(gameName, assignedCharacter, gender, sessionId);
+
+                    // Save locally
+                    localStorage.setItem('rol_assignment', JSON.stringify(newAssignment));
+                    currentAssignment = newAssignment;
+                    
+                    // Display result
+                    ELEMENTS.spinner.classList.remove('spinning');
+                    ELEMENTS.spinnerText.textContent = "ASSIGNMENT SECURED!";
+                    
+                    setTimeout(() => {
+                        ELEMENTS.spinner.classList.add('hidden');
+                        displayFinalResult(assignedCharacter, gender, false);
                         ELEMENTS.gameName.disabled = true;
-                        ELEMENTS.playerGender.value = data.gender || '';
                         ELEMENTS.playerGender.disabled = true;
                         
-                        displayFinalResult(data.characterName, data.gender, true);
-                        ELEMENTS.assignBtn.disabled = true;
-
-                    } catch (e) {
-                        console.log('No previous assignment found');
-                    }
+                        // Refresh global data to show updated counts
+                        loadGlobalData();
+                    }, 1500);
+                    
+                } catch (error) {
+                    console.error("Assignment failed:", error);
+                    displayStatus('error', '❌ Assignment failed. Try again.');
+                    resetToForm();
                 }
+            }, 2000);
+        }
+
+        function displayFinalResult(characterName, gender, isExisting) {
+            ELEMENTS.resultName.textContent = characterName.toUpperCase();
+            
+            let charType = 'HAWKINS CREW / PROTAGONIST';
+            if (CHARACTERS.Villain_Neutral.includes(characterName)) {
+                charType = 'UPSIDE DOWN AGENT / NEUTRAL';
+            }
+
+            ELEMENTS.resultCharType.textContent = `(${charType})`;
+            ELEMENTS.resultDisplay.classList.remove('hidden');
+            
+            if(isExisting) {
+                displayStatus('info', `✅ Welcome back, Operator ${characterName.toUpperCase()}`);
+            } else {
+                displayStatus('success', `🎉 GLOBAL ASSIGNMENT SECURED! ${characterName.toUpperCase()} is now yours exclusively!`);
             }
             
-            function updateResetButtonState() {
-                ELEMENTS.resetCountDisplay.textContent = resetCount;
-                if (resetCount <= 0) {
-                    ELEMENTS.resetBtn.disabled = true;
-                    ELEMENTS.resetBtn.textContent = 'ASSIGNMENT LOCKED (RESET LIMIT REACHED)';
-                    displayStatus('error', `Maximum re-roll attempts reached: ${resetCount}. Assignment is locked.`);
-                } else if (currentAssignment) {
-                     // Only show the reset button if an assignment is made and resets are available
-                     ELEMENTS.resetBtn.classList.remove('hidden');
-                } else {
-                     ELEMENTS.resetBtn.classList.add('hidden');
-                }
+            updateResetButtonState();
+        }
+
+        function updateResetButtonState() {
+            ELEMENTS.resetCountDisplay.textContent = resetCount;
+            if (resetCount <= 0) {
+                ELEMENTS.resetBtn.disabled = true;
+                ELEMENTS.resetBtn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> ASSIGNMENT LOCKED (NO RESETS LEFT)';
+            }
+        }
+
+        function shareAssignment() {
+            if (!currentAssignment) return;
+            
+            const shareText = `
+🎮 ROL ALLIANCE - CHARACTER ASSIGNMENT 🎮
+
+OPERATOR: ${currentAssignment.gameName}
+CODE NAME: ${currentAssignment.characterName}
+POOL: ${currentAssignment.gender}
+SESSION: ${currentAssignment.userId}
+
+✅ This character is now LOCKED globally across all ROL operators!
+🔗 Share this game: [URL_TO_YOUR_HTML_FILE]
+
+#StrangerThings #ROLAlliance
+            `.trim();
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'ROL Character Assignment',
+                    text: shareText
+                });
+            } else {
+                navigator.clipboard.writeText(shareText).then(() => {
+                    displayStatus('success', '📋 Assignment copied! Share in your group chat.');
+                });
+            }
+        }
+
+        function resetAssignment() {
+            if (resetCount <= 0) {
+                displayStatus('error', '❌ No reset attempts remaining.');
+                return;
             }
 
-            function startAssignment() {
-                const gameName = ELEMENTS.gameName.value.trim();
-                const gender = ELEMENTS.playerGender.value;
-                
-                if (!gameName || !gender) {
-                    displayStatus('error', '⚠️ ALERT: Operator Alias and Character Pool selection required.');
-                    return;
-                }
-
-                if (currentAssignment) {
-                    displayStatus('info', 'Assignment already completed. Use a Reset to re-roll (2 attempts max).');
-                    return;
-                }
-
-                ELEMENTS.form.classList.add('hidden');
-                ELEMENTS.spinner.classList.remove('hidden');
-                ELEMENTS.spinnerText.textContent = "SEARCHING THE UPSIDE DOWN...";
-                ELEMENTS.spinner.classList.add('spinning');
-                ELEMENTS.assignBtn.disabled = true;
-
-                // Simulate processing delay
-                setTimeout(() => {
-                    try {
-                        // Filter available characters
-                        const availablePool = (gender === 'Male' ? CHARACTERS.Male : CHARACTERS.Female)
-                            .filter(name => !usedCharacters.has(name));
-                        const availableVillain = CHARACTERS.Villain_Neutral
-                            .filter(name => !usedCharacters.has(name));
-
-                        let pool = [...availablePool, ...availableVillain];
-                        
-                        if (pool.length === 0) {
-                            pool = [...CHARACTERS.Male, ...CHARACTERS.Female, ...CHARACTERS.Villain_Neutral];
-                            displayStatus('warning', 'All unique code names assigned! Re-using a character from the pool.');
-                        }
-                        
-                        // Select random character
-                        const randomIndex = Math.floor(Math.random() * pool.length);
-                        const assignedCharacter = pool[randomIndex];
-                        
-                        // Mark as used
-                        usedCharacters.add(assignedCharacter);
-                        
-                        // Create assignment object
-                        const newAssignment = {
-                            userId: ELEMENTS.currentUserId.textContent,
-                            gameName: gameName,
-                            characterName: assignedCharacter,
-                            gender: gender,
-                            resetCount: resetCount, // Store current reset count upon assignment
-                            timestamp: new Date().toISOString()
-                        };
-
-                        localStorage.setItem(ASSIGNMENT_KEY, JSON.stringify(newAssignment));
-                        currentAssignment = newAssignment;
-                        
-                        // Add to session roster
-                        sessionAssignments.push(newAssignment);
-                        
-                        // Display result
-                        ELEMENTS.spinner.classList.remove('spinning');
-                        ELEMENTS.spinnerText.textContent = assignedCharacter.toUpperCase();
-                        
-                        setTimeout(() => {
-                            ELEMENTS.spinner.classList.add('hidden');
-                            displayFinalResult(assignedCharacter, gender, false);
-                            ELEMENTS.gameName.disabled = true;
-                            ELEMENTS.playerGender.disabled = true;
-                            updateRosterDisplay();
-                        }, 1500);
-                        
-                    } catch (error) {
-                        console.error("Assignment failed:", error);
-                        displayStatus('error', 'ERROR! Contact D.O.E. Admin. Assignment Failed.');
-                        resetToForm();
-                    }
-                }, 2000);
+            if (!confirm(`WARNING: This will free up "${currentAssignment.characterName}" for others. Continue?`)) {
+                return;
             }
             
-            function resetAssignment() {
-                if (resetCount <= 0) {
-                    displayStatus('error', 'RESET FAILURE: Maximum re-roll attempts reached. Assignment is locked.');
-                    return;
-                }
+            resetCount--;
+            localStorage.removeItem('rol_assignment');
+            currentAssignment = null;
+            ELEMENTS.gameName.disabled = false;
+            ELEMENTS.playerGender.disabled = false;
+            ELEMENTS.resultDisplay.classList.add('hidden');
+            ELEMENTS.form.classList.remove('hidden');
+            ELEMENTS.assignBtn.disabled = false;
+            ELEMENTS.discordNotice.classList.add('hidden');
+            
+            updateResetButtonState();
+            displayStatus('warning', `🔄 Reset complete. ${resetCount} attempts remaining.`);
+        }
 
-                if (!confirm(`WARNING: This is attempt ${3 - resetCount} of 2. Proceed with re-roll? This cannot be undone once confirmed.`)) {
-                    return;
-                }
-                
-                // Decrement and save count
-                resetCount--;
-                localStorage.setItem(RESET_COUNT_KEY, resetCount.toString());
-                
-                // Remove the last local assignment to allow a new one
-                localStorage.removeItem(ASSIGNMENT_KEY);
-                
-                // Remove the character from the used list to allow a re-roll 
-                if (currentAssignment && usedCharacters.has(currentAssignment.characterName)) {
-                    usedCharacters.delete(currentAssignment.characterName);
-                }
-                
-                currentAssignment = null;
-                ELEMENTS.gameName.disabled = false;
-                ELEMENTS.playerGender.disabled = false;
-                
-                ELEMENTS.resultDisplay.classList.add('hidden');
-                ELEMENTS.form.classList.remove('hidden');
-                ELEMENTS.assignBtn.disabled = false;
-                
-                updateResetButtonState();
-                displayStatus('warning', `Reroll initiated. You have ${resetCount} attempt(s) left. Select new parameters.`);
+        function resetToForm() {
+            ELEMENTS.spinner.classList.add('hidden');
+            ELEMENTS.assignBtn.disabled = false;
+            ELEMENTS.form.classList.remove('hidden');
+        }
+
+        function displayStatus(type, message) {
+            ELEMENTS.statusMessage.innerHTML = message;
+            ELEMENTS.statusMessage.className = 'p-3 rounded-lg mb-6';
+            
+            const styles = {
+                error: 'bg-red-900/30 border-red-500/50 text-red-300',
+                success: 'bg-green-900/30 border-green-500/50 text-green-300',
+                info: 'bg-blue-900/30 border-blue-500/50 text-blue-300',
+                warning: 'bg-yellow-900/30 border-yellow-500/50 text-yellow-300'
+            };
+            
+            ELEMENTS.statusMessage.classList.add(styles[type]);
+            ELEMENTS.statusMessage.classList.remove('hidden');
+
+            if (type !== 'error') {
+                setTimeout(() => ELEMENTS.statusMessage.classList.add('hidden'), 5000);
             }
+        }
 
-            function displayFinalResult(characterName, gender, isExisting) {
-                ELEMENTS.resultName.textContent = characterName.toUpperCase();
-                
-                let charType = 'HAWKINS CREW / PROTAGONIST';
-                if (CHARACTERS.Villain_Neutral.includes(characterName)) {
-                    charType = 'UPSIDE DOWN AGENT / NEUTRAL CODE NAME';
-                }
-
-                ELEMENTS.resultCharType.textContent = isExisting 
-                    ? `(${charType} - Confirmed ROL Operator)` 
-                    : `(${charType} - New ROL Assignment)`;
-
-                ELEMENTS.resultDisplay.classList.remove('hidden');
-                ELEMENTS.assignBtn.disabled = true; 
-
-                updateResetButtonState();
-                
-                if(isExisting) {
-                    displayStatus('info', `✅ Welcome back, ROL Operator **${characterName.toUpperCase()}**.`);
-                } else {
-                    displayStatus('success', `✅ Assignment complete. Report to Starcourt Mall immediately, **${characterName.toUpperCase()}**.`);
-                }
-            }
-
-            function updateRosterDisplay() {
-                const tbody = ELEMENTS.rosterBody;
-                tbody.innerHTML = '';
-                
-                const displaySet = new Set();
-                const assignmentsToDisplay = [];
-
-                if (currentAssignment && !displaySet.has(currentAssignment.characterName)) {
-                    assignmentsToDisplay.push(currentAssignment);
-                    displaySet.add(currentAssignment.characterName);
-                }
-
-                sessionAssignments.forEach(a => {
-                    if (!displaySet.has(a.characterName)) {
-                        assignmentsToDisplay.push(a);
-                        displaySet.add(a.characterName);
-                    }
-                });
-                
-                assignmentsToDisplay.forEach(assignment => {
-                    const row = tbody.insertRow();
-                    row.className = 'text-gray-300 hover:bg-red-900/10 font-mono';
-                    
-                    let nameCell = row.insertCell();
-                    nameCell.textContent = assignment.gameName || 'N/A';
-                    
-                    let charCell = row.insertCell();
-                    charCell.textContent = assignment.characterName;
-                    charCell.classList.add('font-bold', 'st-title', 'text-sm');
-                    
-                    let genderCell = row.insertCell();
-                    genderCell.textContent = assignment.gender;
-                    genderCell.classList.add(assignment.gender === 'Male' ? 'text-blue-500' : 'text-pink-500');
-                });
-
-                ELEMENTS.emptyRoster.classList.toggle('hidden', assignmentsToDisplay.length > 0);
-            }
-
-            function resetToForm() {
-                ELEMENTS.spinner.classList.add('hidden');
-                ELEMENTS.assignBtn.disabled = false;
-                ELEMENTS.form.classList.remove('hidden');
-            }
-
-            function displayStatus(type, message) {
-                ELEMENTS.statusMessage.innerHTML = message;
-                ELEMENTS.statusMessage.classList.remove('hidden', 'bg-red-900/30', 'border-red-500/50', 'text-red-300', 'bg-blue-900/30', 'border-blue-500/50', 'text-blue-300', 'bg-green-900/30', 'border-green-500/50', 'text-green-300', 'bg-yellow-900/30', 'border-yellow-500/50', 'text-yellow-300');
-
-                if (type === 'error') {
-                    ELEMENTS.statusMessage.classList.add('bg-red-900/30', 'border-red-500/50', 'text-red-300');
-                    ELEMENTS.statusMessage.innerHTML = `<i class="fa-solid fa-radiation mr-2"></i> ${message}`;
-                } else if (type === 'success') {
-                    ELEMENTS.statusMessage.classList.add('bg-green-900/30', 'border-green-500/50', 'text-green-300');
-                    ELEMENTS.statusMessage.innerHTML = `<i class="fa-solid fa-check-circle mr-2"></i> ${message}`;
-                } else if (type === 'info') {
-                    ELEMENTS.statusMessage.classList.add('bg-blue-900/30', 'border-blue-500/50', 'text-blue-300');
-                    ELEMENTS.statusMessage.innerHTML = `<i class="fa-solid fa-circle-info mr-2"></i> ${message}`;
-                } else if (type === 'warning') {
-                    ELEMENTS.statusMessage.classList.add('bg-yellow-900/30', 'border-yellow-500/50', 'text-yellow-300');
-                    ELEMENTS.statusMessage.innerHTML = `<i class="fa-solid fa-triangle-exclamation mr-2"></i> ${message}`;
-                }
-
-                if (type !== 'error') {
-                    setTimeout(() => {
-                        ELEMENTS.statusMessage.classList.add('hidden');
-                    }, 5000);
-                }
-            }
-
-            // Start the game!
-            initializeGame();
-        });
+        // ===== START THE GAME =====
+        initializeGame();
     </script>
 </body>
 </html>
