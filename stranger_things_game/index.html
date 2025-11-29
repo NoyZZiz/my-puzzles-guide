@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Name: Hawkins - ROL Assignment</title>
+    <title>Code Name: Hawkins - ROL Operator Assignment</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
     
     <style>
+        /* BASE THEME & FONTS */
         .st-font { font-family: 'Bebas Neue', sans-serif; }
         .tech-font { font-family: 'Rajdhani', sans-serif; }
 
@@ -21,56 +22,76 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.1"><rect width="100" height="100" fill="black"/><path d="M0 0L100 100M100 0L0 100" stroke="%23d1121c" stroke-width="1"/></svg>');
+            /* Upside Down Texture */
+            background-image: radial-gradient(ellipse at center, rgba(30, 0, 0, 0.2) 0%, rgba(0, 0, 0, 1) 100%);
+            background-size: cover;
         }
         
+        /* THE ICONIC RED GLOW */
         .st-title {
             font-family: 'Bebas Neue', sans-serif;
             color: #d1121c;
-            text-shadow: 0 0 5px rgba(209, 18, 28, 0.7), 0 0 10px rgba(209, 18, 28, 0.6);
+            text-shadow: 
+                0 0 5px rgba(209, 18, 28, 0.7), 
+                0 0 10px rgba(209, 18, 28, 0.6), 
+                0 0 20px rgba(209, 18, 28, 0.5);
             letter-spacing: 0.2em;
         }
 
+        /* MAIN PANEL */
         .game-panel {
             background-color: rgba(10, 0, 0, 0.85);
             border: 3px solid #330000;
             box-shadow: 0 0 60px rgba(209, 18, 28, 0.5);
             border-radius: 10px;
+            position: relative;
         }
-
+        /* VCR Accent Lines */
+        .game-panel::before, .game-panel::after {
+            content: '';
+            position: absolute;
+            height: 1px;
+            left: 10%;
+            right: 10%;
+            background: repeating-linear-gradient(to right, 
+                #d1121c, #d1121c 2px, 
+                transparent 2px, transparent 6px);
+            opacity: 0.4;
+        }
+        .game-panel::before { top: 10px; }
+        .game-panel::after { bottom: 10px; }
+        
+        /* INPUTS */
         input[type="text"], select {
             background-color: #1a0000;
-            border: 1px solid #330000;
-            color: #f7f7f7;
+            border: 1px solid #d1121c;
+            color: #ffcc00; 
             padding: 12px;
             border-radius: 4px;
-            width: 100%;
-            transition: border-color 0.2s, box-shadow 0.2s;
             font-family: 'Rajdhani', monospace;
+            font-size: 1rem;
         }
-
+        input[type="text"]:focus, select:focus {
+            border-color: #ffcc00;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+            outline: none;
+        }
+        
+        /* BUTTONS */
         .spin-button {
-            background-color: #d1121c;
+            background-color: #d1121c; 
             color: #f7f7f7;
             font-weight: 700;
             padding: 15px 30px;
             border-radius: 6px;
-            transition: background-color 0.3s, transform 0.1s, box-shadow 0.3s;
             font-family: 'Rajdhani', sans-serif;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             box-shadow: 0 0 10px rgba(209, 18, 28, 0.3);
+            transition: all 0.2s;
         }
 
-        #spinner-text {
-            color: #ffcc00;
-            font-size: 3rem;
-            text-shadow: 0 0 15px rgba(255, 204, 0, 0.8);
-            font-family: 'Bebas Neue', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-        }
-
+        /* RESULT DISPLAY */
         #result-name {
             font-size: 3.5rem;
             color: #d1121c;
@@ -78,13 +99,40 @@
             font-family: 'Bebas Neue', sans-serif;
             letter-spacing: 0.3em;
         }
+        
+        /* STATUS MESSAGES (THEME OVERRIDE) */
+        .status-info { background-color: rgba(50, 0, 0, 0.7); border: 1px solid #d1121c; color: #ffcc00; }
+        .status-error { background-color: rgba(100, 0, 0, 0.7); border: 1px solid #ff333d; color: #f7f7f7; }
+        .status-success { background-color: rgba(0, 50, 0, 0.7); border: 1px solid #32cd32; color: #90ee90; }
+        .status-warning { background-color: rgba(50, 50, 0, 0.7); border: 1px solid #ffcc00; color: #ffcc00; }
+        
+        /* SCROLLBAR for roster */
+        #castle-assignments::-webkit-scrollbar { width: 8px; }
+        #castle-assignments::-webkit-scrollbar-thumb { background-color: #d1121c; border-radius: 4px; }
+        
+        /* THEME MODAL STYLING */
+        #theme-modal {
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(4px);
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            background-color: rgba(10, 0, 0, 0.95);
+            border: 3px solid #d1121c;
+            box-shadow: 0 0 25px rgba(209, 18, 28, 0.8);
+            border-radius: 8px;
+        }
+
     </style>
 </head>
 <body class="antialiased">
 
     <header class="w-full bg-black/90">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between">
-            <a href="#" class="text-xl font-bold st-title text-white tracking-wider">NOYZZING // OPS</a>
+            <a href="#" class="text-xl font-bold st-title flex items-center tracking-wider">
+                <i class="fa-solid fa-bolt mr-2 text-red-600" style="text-shadow: 0 0 5px #d1121c;"></i> 
+                NOYZZING // OPS
+            </a>
             <div class="text-sm font-semibold tech-font text-red-500 uppercase tracking-wider">
                 Alliance: **ROL**
             </div>
@@ -98,448 +146,498 @@
                 Code Name: HAWKINS
             </h1>
             <p class="text-center text-red-700 mb-8 text-sm uppercase tracking-wider font-semibold tech-font">
-                STRANGER THINGS GLOBAL ROSTER - ROL ALLIANCE
+                HAWKINS CHARACTER ASSIGNMENT DATABASE
             </p>
 
-            <div id="user-profile" class="bg-gray-900/50 border border-red-900 text-gray-400 p-3 rounded-lg mb-6 text-xs font-mono">
-                 <p class="font-bold text-red-400 mb-1">ROSTER SYNC STATUS</p>
-                 <p><span class="text-red-500">Session ID:</span> <span id="current-user-id">Loading...</span></p>
-                 <p><span class="text-red-500">Characters Claimed:</span> <span id="global-count">0</span> globally</p>
+            <div id="status-message" class="status-info p-3 rounded-lg mb-6">
+                <i class="fa-solid fa-circle-info mr-2"></i> Select your castle name to begin assignment.
             </div>
 
-            <div id="status-message" class="bg-blue-900/30 border border-blue-500/50 text-blue-300 p-3 rounded-lg mb-6">
-                <i class="fa-solid fa-satellite-dish mr-2"></i> Connecting to the Stranger Things roster...
+            <div id="castle-selection" class="space-y-4">
+                <p class="text-sm text-gray-300 mb-4 tech-font">Enter your unique castle identifier (e.g., Main, Alt 1)</p>
+                <div class="space-y-4">
+                    <div>
+                        <label for="castle-input" class="block text-sm font-medium text-red-400 mb-1">Castle Identifier:</label>
+                        <input type="text" id="castle-input" placeholder="ROL | Alt Castle" maxlength="30" required>
+                    </div>
+                    <button id="select-castle-btn" class="spin-button w-full">
+                        <i class="fa-solid fa-chess-rook mr-2"></i> ACCESS CASTLE FILE
+                    </button>
+                </div>
+                
+                <div class="mt-6 p-4 border border-red-600 rounded-lg bg-red-900/20">
+                    <h3 class="text-red-400 font-bold mb-2">💡 IMPORTANT:</h3>
+                    <p class="text-xs text-gray-300">Each unique identifier gets **3 re-roll attempts** maximum. Use this name for all future checks on this castle.</p>
+                </div>
             </div>
 
             <div id="assignment-form" class="space-y-4 hidden">
-                <p class="text-sm text-gray-300 mb-4 tech-font">Input operator details to retrieve **Hawkins Lab** code name assignment.</p>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <div id="castle-info" class="bg-gray-900/50 border border-red-900 text-gray-400 p-3 rounded-lg text-xs font-mono">
+                    <p class="font-bold text-red-400 mb-1">ACTIVE CASTLE/OPERATOR ALIAS: <span id="current-castle">None</span></p>
+                    <p><span class="text-red-500">Resets Left:</span> <span id="reset-count-display">3</span>/3</p>
+                </div>
+
+                <p class="text-sm text-gray-300 mb-4 tech-font">Select the character pool for <span id="castle-name" class="text-red-400">your castle</span></p>
+                
+                <div class="grid grid-cols-1 gap-4">
                     <div>
-                        <label for="game-name" class="block text-sm font-medium text-red-400 mb-1">Operator Alias:</label>
-                        <input type="text" id="game-name" placeholder="ROL | NoyZZiz" maxlength="20" required>
-                    </div>
-                    <div>
-                        <label for="player-gender" class="block text-sm font-medium text-red-400 mb-1">Character Pool:</label>
+                        <label for="player-gender" class="block text-sm font-medium text-red-400 mb-1">Character Pool Selection:</label>
                         <select id="player-gender" required>
                             <option value="" disabled selected>-- Select --</option>
-                            <option value="Male">Male Character Pool</option>
-                            <option value="Female">Female Character Pool</option>
+                            <option value="Male">Male Characters</option>
+                            <option value="Female">Female Characters</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="pt-4">
                     <button id="assign-btn" class="spin-button w-full">
-                        <i class="fa-solid fa-mask mr-2"></i> BEGIN CLASSIFIED ASSIGNMENT
+                        <i class="fa-solid fa-mask mr-2"></i> ASSIGN CODE NAME
                     </button>
                 </div>
             </div>
 
-            <div id="spinner" class="mt-8 flex items-center justify-center p-6 hidden rounded-lg">
-                <span id="spinner-text">SYNCING WITH STRANGER THINGS ROSTER</span>
-            </div>
-
             <div id="result-display" class="mt-8 text-center hidden p-6 border-2 border-red-900 rounded-lg">
-                <h3 class="text-lg text-gray-300 font-medium uppercase tracking-wider mb-2 tech-font">OPERATOR ASSIGNMENT SUCCESSFUL:</h3>
+                <h3 class="text-lg text-gray-300 font-medium uppercase tracking-wider mb-2 tech-font">CASTLE ASSIGNMENT SECURED:</h3>
                 <p id="result-name" class="font-bold"></p>
                 <p id="result-char-type" class="text-sm text-red-600 mt-2 font-mono"></p>
-                <p id="discord-notice" class="text-xs text-green-400 mt-2 hidden">
-                    <i class="fa-brands fa-discord mr-1"></i> Notification sent to Discord!
-                </p>
-                <button id="share-btn" class="spin-button w-full mt-4 bg-green-600 hover:bg-green-700 text-xs">
-                    <i class="fa-solid fa-share-nodes mr-1"></i> SHARE WITH ROL ALLIANCE
-                </button>
-                <button id="reset-btn" class="spin-button w-full mt-2 text-xs bg-red-800 hover:bg-red-900">
-                    <i class="fa-solid fa-radiation mr-1"></i> RESET & RE-ROLL (<span id="reset-count-display">2</span> TRIES LEFT)
-                </button>
+                
+                <div class="space-y-2 mt-6">
+                    <button id="share-btn" class="spin-button w-full bg-yellow-600 hover:bg-yellow-700 text-black text-xs">
+                        <i class="fa-solid fa-share-nodes mr-1"></i> COPY ASSIGNMENT DETAILS
+                    </button>
+                    <button id="reset-btn" class="spin-button w-full bg-red-800 hover:bg-red-900 text-xs">
+                        <i class="fa-solid fa-radiation mr-1"></i> RESET & RE-ROLL (<span id="reset-count">3</span> LEFT)
+                    </button>
+                    <button id="new-castle-btn" class="spin-button w-full bg-gray-600 hover:bg-gray-700 text-xs">
+                        <i class="fa-solid fa-chess-rook mr-1"></i> CHANGE / NEW CASTLE
+                    </button>
+                </div>
             </div>
             
             <div class="mt-10">
                 <h2 class="text-2xl st-title mb-3 border-b border-red-900 pb-1">
-                    <i class="fa-solid fa-users text-red-500 mr-2"></i> STRANGER THINGS GLOBAL ROSTER
+                    <i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> ROL CASTLE ASSIGNMENT LOG
                 </h2>
-                <div id="global-roster" class="text-sm text-gray-400 font-mono p-4 border border-red-900 rounded-lg">
-                    Loading Stranger Things roster from Discord...
-                </div>
+                <div id="castle-assignments" class="text-sm text-gray-400 space-y-2 max-h-60 overflow-y-auto p-3 font-mono">
+                    </div>
             </div>
-            
         </div>
 
     </main>
 
     <footer class="w-full text-center text-gray-600 text-xs py-4 bg-black/50">
-        &copy; 2025 Noyzzing | Stranger Things Roster | LIVE DISCORD SYNC ACTIVE
+        &copy; 2025 Noyzzing | ROL Alliance | D.O.E. File 001
     </footer>
-
+    
+    <div id="theme-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 hidden opacity-0 transition-opacity">
+        <div class="modal-content w-full max-w-sm p-6 relative">
+            
+            <h3 id="modal-title" class="st-title text-2xl mb-4 uppercase">WARNING: CLASSIFIED OPERATION</h3>
+            
+            <p id="modal-message" class="text-gray-300 text-sm mb-6 tech-font">
+                </p>
+            
+            <div class="flex justify-end space-x-3">
+                <button id="modal-cancel" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded text-sm tech-font">
+                    CANCEL
+                </button>
+                <button id="modal-confirm" class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded text-sm tech-font">
+                    CONFIRM RE-ROLL
+                </button>
+            </div>
+        </div>
+    </div>
     <script>
-        // ===== CONFIGURATION =====
-        // Use your deployed Vercel API base URL here (or use env.js to inject at runtime)
-       const API_BASE = 'https://my-puzzles-guide.vercel.app/api';;
-        
-        // ===== GLOBAL STATE =====
+        // --- CONFIGURATION & CONSTANTS ---
+        const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1444330680858447903/dvcgQu42zAycH3rsEx8GADtmKoIGl3mY0PaznYMHhuOdtTlUHcliQJAk_No0NEtQ3Bg0';
+        const STORAGE_KEY = 'rol_castle_assignments';
+        const MAX_RESETS = 3; 
+
+        const CHARACTERS = {
+            Male: ['Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper', 'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman', 'Bob Newby', 'Dr. Alexey', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove', 'Enzo (Dmitri)', 'Yuri Ismaylov'],
+            Female: ['Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers', 'Erica Sinclair', 'Suzie Bingham', 'Chrissy Cunningham', 'Angela', 'Vickie', 'Holly Wheeler', 'Tammy Thompson', 'Mrs. Wheeler', 'Claudia Henderson', 'Kali Prasad (Eight)'],
+            Villain_Neutral: ['Vecna (Henry Creel)', 'The Mind Flayer', 'Demogorgon', 'Demo-Dog', 'The Gate', 'Dr. Brenner', 'Dr. Owens', 'Peter Ballard', 'The Rift']
+        };
+
+        // --- GLOBAL STATE & ELEMENTS ---
+        let currentCastle = null;
         let currentAssignment = null;
-        let globalUsedCharacters = new Set();
-        let resetCount = 2;
-        
+
         const ELEMENTS = {
-            form: document.getElementById('assignment-form'),
-            spinner: document.getElementById('spinner'),
-            spinnerText: document.getElementById('spinner-text'),
+            castleSelection: document.getElementById('castle-selection'),
+            assignmentForm: document.getElementById('assignment-form'),
             resultDisplay: document.getElementById('result-display'),
             resultName: document.getElementById('result-name'),
             resultCharType: document.getElementById('result-char-type'),
-            discordNotice: document.getElementById('discord-notice'),
             assignBtn: document.getElementById('assign-btn'),
             resetBtn: document.getElementById('reset-btn'),
             shareBtn: document.getElementById('share-btn'),
-            resetCountDisplay: document.getElementById('reset-count-display'),
-            gameName: document.getElementById('game-name'),
+            newCastleBtn: document.getElementById('new-castle-btn'),
+            selectCastleBtn: document.getElementById('select-castle-btn'),
+            castleInput: document.getElementById('castle-input'),
             playerGender: document.getElementById('player-gender'),
             statusMessage: document.getElementById('status-message'),
-            currentUserId: document.getElementById('current-user-id'),
-            globalCount: document.getElementById('global-count'),
-            globalRoster: document.getElementById('global-roster')
+            currentCastle: document.getElementById('current-castle'),
+            castleName: document.getElementById('castle-name'),
+            resetCount: document.getElementById('reset-count'),
+            resetCountDisplay: document.getElementById('reset-count-display'),
+            castleAssignments: document.getElementById('castle-assignments'),
+            
+            // Modal Elements
+            themeModal: document.getElementById('theme-modal'),
+            modalTitle: document.getElementById('modal-title'),
+            modalMessage: document.getElementById('modal-message'),
+            modalConfirm: document.getElementById('modal-confirm'),
+            modalCancel: document.getElementById('modal-cancel')
         };
 
-        const CHARACTERS = {
-            Male: [
-                'Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper',
-                'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman',
-                'Bob Newby', 'Dr. Alexey', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove',
-                'Dr. Brenner', 'Dr. Owens', 'Lt. Colonel Sullivan', 'Jason Carver', 'Patrick McKinney',
-                'Fred Benson', 'Calvin Powell', 'Phillip Callahan', 'Tommy H.', 'Keith',
-                'Enzo (Dmitri)', 'Yuri Ismaylov', 'Larry Kline', 'Senator Hatch', 'Peter Ballard',
-                'The Shadow Monster', 'Lonnie Byers', 'Axel', 'Mick', 'Agent Orange', 'Greg', 'Rich'
-            ],
-            Female: [
-                'Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers',
-                'Erica Sinclair', 'Suzie Bingham', 'Chrissy Cunningham', 'Angela', 'Vickie',
-                'Holly Wheeler', 'Tammy Thompson', 'Mrs. Wheeler', 'Claudia Henderson', 'Kali Prasad (Eight)',
-                'Mrs. Henderson', 'Connie Frazier', 'Patty', 'Flo', 'Becky Ives',
-                'Heather Holloway', 'Melanie', 'Stacy', 'Tina', 'Carol', 'Ms. Kelly',
-                'Mrs. Driscoll', 'Anya', 'Sara Hopper', 'Janet Hayes', 'Florence'
-            ],
-            Villain_Neutral: [
-                'Vecna (Henry Creel)', 'The Mind Flayer', 'Demogorgon', 'Demo-Dog', 'The Gate',
-                'The Rift', 'Dr. Brenner', 'Dr. Owens', 'Peter Ballard'
-            ]
-        };
-
-        // ===== API FUNCTIONS =====
-        async function callAPI(endpoint, data = {}) {
-            try {
-                const url = `${API_BASE}/${endpoint}`;
-                const options = {
-                    method: endpoint === 'characters/claimed' ? 'GET' : 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+        // --- LOCAL STORAGE HANDLERS ---
+        function getCastleData(castle) {
+            const allData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (!allData[castle]) {
+                allData[castle] = {
+                    resetsLeft: MAX_RESETS,
+                    assignment: null,
+                    usedCharacters: []
                 };
-
-                if (endpoint !== 'characters/claimed') {
-                    options.body = JSON.stringify(data);
-                }
-
-                const response = await fetch(url, options);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                return await response.json();
-            } catch (error) {
-                console.error('API call failed:', error);
-                throw error;
             }
+            return allData[castle];
         }
 
-        async function loadGlobalData() {
-            try {
-                displayStatus('info', '🛰️ Syncing with global database...');
-                const usedChars = await callAPI('characters/claimed');
-                globalUsedCharacters = new Set(usedChars);
-                ELEMENTS.globalCount.textContent = globalUsedCharacters.size;
-                
-                // Update roster display
-                ELEMENTS.globalRoster.innerHTML = `
-                    <div class="text-green-400 mb-2">
-                        <i class="fa-solid fa-circle-check mr-2"></i>
-                        Connected to Discord & Google Sheets
-                    </div>
-                    <div class="text-xs">
-                        <strong>${globalUsedCharacters.size} characters</strong> claimed globally<br>
-                        <strong>${getAvailableCount()} characters</strong> still available
-                    </div>
-                `;
-                
-                displayStatus('success', `✅ Global sync complete! ${globalUsedCharacters.size} characters tracked.`);
-                return true;
-            } catch (error) {
-                console.error('Failed to load global data:', error);
-                ELEMENTS.globalRoster.innerHTML = `
-                    <div class="text-red-400">
-                        <i class="fa-solid fa-triangle-exclamation mr-2"></i>
-                        Offline Mode - Using local data only
-                    </div>
-                `;
-                displayStatus('error', '⚠️ Offline mode: Using local data only');
-                return false;
-            }
+        function saveCastleData(castle, data) {
+            const allData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            allData[castle] = data;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
         }
 
-        function getAvailableCount() {
-            const totalChars = CHARACTERS.Male.length + CHARACTERS.Female.length + CHARACTERS.Villain_Neutral.length;
-            return totalChars - globalUsedCharacters.size;
-        }
-
-        async function saveAssignmentToGlobal(playerName, characterName, gender, sessionId) {
-            try {
-                const result = await callAPI('characters/claim', { 
-                    playerName, 
-                    characterName, 
-                    characterPool: gender, 
-                    sessionId 
-                });
-                
-                if (result.success) {
-                    globalUsedCharacters.add(characterName);
-                    ELEMENTS.globalCount.textContent = globalUsedCharacters.size;
-                    ELEMENTS.discordNotice.classList.remove('hidden');
-                    return true;
-                } else {
-                    throw new Error(result.error || 'Unknown error');
-                }
-            } catch (error) {
-                console.error('Failed to save globally:', error);
-                displayStatus('warning', '⚠️ Assignment saved locally only. Global sync failed.');
-                return false;
-            }
-        }
-
-        // ===== CORE GAME FUNCTIONS =====
-        async function initializeGame() {
-            const sessionId = 'ROL-' + Date.now().toString().slice(-6) + '-' + Math.random().toString(36).substr(2, 4).toUpperCase();
-            ELEMENTS.currentUserId.textContent = sessionId;
+        // --- MODAL HANDLERS ---
+        function showModal(title, message, onConfirm) {
+            ELEMENTS.modalTitle.textContent = title;
+            ELEMENTS.modalMessage.innerHTML = message;
             
-            // Load global data first
-            const globalSync = await loadGlobalData();
+            ELEMENTS.themeModal.classList.remove('hidden');
+            setTimeout(() => {
+                ELEMENTS.themeModal.style.opacity = '1';
+            }, 10);
+
+            // Clone to remove previous event listeners
+            const oldConfirm = ELEMENTS.modalConfirm;
+            const newConfirm = oldConfirm.cloneNode(true);
+            oldConfirm.parentNode.replaceChild(newConfirm, oldConfirm);
             
-            if (globalSync) {
-                ELEMENTS.form.classList.remove('hidden');
-            } else {
-                // Even if global sync fails, show form for offline use
-                ELEMENTS.form.classList.remove('hidden');
-            }
+            const oldCancel = ELEMENTS.modalCancel;
+            const newCancel = oldCancel.cloneNode(true);
+            oldCancel.parentNode.replaceChild(newCancel, oldCancel);
             
-            loadExistingAssignment();
-            setupEventListeners();
+            newConfirm.addEventListener('click', () => {
+                hideModal();
+                onConfirm(true);
+            });
+
+            newCancel.addEventListener('click', () => {
+                hideModal();
+                onConfirm(false);
+            });
+            
+            // Update global elements with new buttons for startAssignment/resetAssignment
+            ELEMENTS.modalConfirm = newConfirm;
+            ELEMENTS.modalCancel = newCancel;
         }
 
-        function setupEventListeners() {
-            ELEMENTS.assignBtn.addEventListener('click', startAssignment);
-            ELEMENTS.resetBtn.addEventListener('click', resetAssignment);
-            ELEMENTS.shareBtn.addEventListener('click', shareAssignment);
+        function hideModal() {
+            ELEMENTS.themeModal.style.opacity = '0';
+            setTimeout(() => {
+                ELEMENTS.themeModal.classList.add('hidden');
+            }, 300);
         }
 
-        function loadExistingAssignment() {
-            const saved = localStorage.getItem('rol_assignment');
-            if (saved) {
-                try {
-                    const data = JSON.parse(saved);
-                    currentAssignment = data;
-                    ELEMENTS.gameName.value = data.gameName || '';
-                    ELEMENTS.gameName.disabled = true;
-                    ELEMENTS.playerGender.value = data.gender || '';
-                    ELEMENTS.playerGender.disabled = true;
-                    displayFinalResult(data.characterName, data.gender, true);
-                    ELEMENTS.assignBtn.disabled = true;
-                } catch (e) {
-                    console.log('No previous assignment found');
-                }
-            }
+        // --- UI & STATUS LOGIC ---
+        function displayStatus(type, message) {
+            ELEMENTS.statusMessage.innerHTML = `<i class="fa-solid fa-circle-info mr-2"></i> ${message}`;
+            ELEMENTS.statusMessage.className = `p-3 rounded-lg mb-6 status-${type}`;
         }
-
-        async function startAssignment() {
-            const gameName = ELEMENTS.gameName.value.trim();
-            const gender = ELEMENTS.playerGender.value;
-            
-            if (!gameName || !gender) {
-                displayStatus('error', '⚠️ Operator Alias and Character Pool required.');
-                return;
-            }
-
-            ELEMENTS.form.classList.add('hidden');
-            ELEMENTS.spinner.classList.remove('hidden');
-            ELEMENTS.spinnerText.textContent = "ANALYZING GLOBAL AVAILABILITY...";
-            ELEMENTS.assignBtn.disabled = true;
-            ELEMENTS.discordNotice.classList.add('hidden');
-
-            setTimeout(async () => {
-                try {
-                    // Get available characters (not used globally)
-                    const availablePool = (gender === 'Male' ? CHARACTERS.Male : CHARACTERS.Female)
-                        .filter(name => !globalUsedCharacters.has(name));
-                    const availableVillain = CHARACTERS.Villain_Neutral
-                        .filter(name => !globalUsedCharacters.has(name));
-
-                    let pool = [...availablePool, ...availableVillain];
-                    
-                    if (pool.length === 0) {
-                        displayStatus('error', '❌ ALL CHARACTERS TAKEN GLOBALLY! No unique assignments available.');
-                        resetToForm();
-                        return;
-                    }
-                    
-                    // Select random available character
-                    const randomIndex = Math.floor(Math.random() * pool.length);
-                    const assignedCharacter = pool[randomIndex];
-                    
-                    // Save locally and globally
-                    const sessionId = ELEMENTS.currentUserId.textContent;
-                    const newAssignment = {
-                        userId: sessionId,
-                        gameName: gameName,
-                        characterName: assignedCharacter,
-                        gender: gender,
-                        timestamp: new Date().toISOString()
-                    };
-
-                    // Save to global database (this also sends Discord notification)
-                    await saveAssignmentToGlobal(gameName, assignedCharacter, gender, sessionId);
-
-                    // Save locally
-                    localStorage.setItem('rol_assignment', JSON.stringify(newAssignment));
-                    currentAssignment = newAssignment;
-                    
-                    // Display result
-                    ELEMENTS.spinner.classList.remove('spinning');
-                    ELEMENTS.spinnerText.textContent = "ASSIGNMENT SECURED!";
-                    
-                    setTimeout(() => {
-                        ELEMENTS.spinner.classList.add('hidden');
-                        displayFinalResult(assignedCharacter, gender, false);
-                        ELEMENTS.gameName.disabled = true;
-                        ELEMENTS.playerGender.disabled = true;
-                        
-                        // Refresh global data to show updated counts
-                        loadGlobalData();
-                    }, 1500);
-                    
-                } catch (error) {
-                    console.error("Assignment failed:", error);
-                    displayStatus('error', '❌ Assignment failed. Try again.');
-                    resetToForm();
-                }
-            }, 2000);
+        
+        function resetToForm() {
+            ELEMENTS.assignBtn.disabled = false;
+            ELEMENTS.assignBtn.innerHTML = '<i class="fa-solid fa-mask mr-2"></i> ASSIGN CODE NAME';
         }
 
         function displayFinalResult(characterName, gender, isExisting) {
             ELEMENTS.resultName.textContent = characterName.toUpperCase();
             
-            let charType = 'HAWKINS CREW / PROTAGONIST';
+            let charType = 'HAWKINS CREW';
             if (CHARACTERS.Villain_Neutral.includes(characterName)) {
-                charType = 'UPSIDE DOWN AGENT / NEUTRAL';
+                charType = 'UPSIDE DOWN AGENT';
             }
 
-            ELEMENTS.resultCharType.textContent = `(${charType})`;
+            ELEMENTS.resultCharType.textContent = `(${charType} - ${gender} Pool)`;
+            ELEMENTS.assignmentForm.classList.add('hidden');
             ELEMENTS.resultDisplay.classList.remove('hidden');
             
+            const castleData = getCastleData(currentCastle);
+            ELEMENTS.resetCount.textContent = castleData.resetsLeft;
+            
             if(isExisting) {
-                displayStatus('info', `✅ Welcome back, Operator ${characterName.toUpperCase()}`);
+                displayStatus('info', `Welcome back! **${characterName.toUpperCase()}** assigned to ${currentCastle}`);
             } else {
-                displayStatus('success', `🎉 GLOBAL ASSIGNMENT SECURED! ${characterName.toUpperCase()} is now yours exclusively!`);
+                displayStatus('success', `Assignment complete! **${characterName.toUpperCase()}** secured.`);
             }
             
-            updateResetButtonState();
+            loadCastleAssignments();
+            ELEMENTS.resetBtn.disabled = castleData.resetsLeft <= 0; 
         }
 
-        function updateResetButtonState() {
-            ELEMENTS.resetCountDisplay.textContent = resetCount;
-            if (resetCount <= 0) {
-                ELEMENTS.resetBtn.disabled = true;
-                ELEMENTS.resetBtn.innerHTML = '<i class="fa-solid fa-lock mr-1"></i> ASSIGNMENT LOCKED (NO RESETS LEFT)';
+        // --- CORE GAME FLOW ---
+        function initializeGame() {
+            // Set up initial event listeners
+            ELEMENTS.selectCastleBtn.addEventListener('click', selectCastle);
+            ELEMENTS.assignBtn.addEventListener('click', startAssignment);
+            ELEMENTS.shareBtn.addEventListener('click', shareAssignment);
+            ELEMENTS.newCastleBtn.addEventListener('click', newCastle);
+            
+            // Use the custom modal reset flow
+            ELEMENTS.resetBtn.addEventListener('click', function() {
+                const castleData = getCastleData(currentCastle);
+                if (castleData.resetsLeft <= 0) {
+                    displayStatus('error', '❌ No reset attempts remaining for this castle.');
+                    return;
+                }
+                
+                showModal(
+                    'SECURITY OVERRIDE REQUEST', 
+                    `This will consume **1 of your ${castleData.resetsLeft} re-roll attempts** for **${currentCastle}**. The current code name will be lost.`,
+                    (confirmed) => {
+                        if (confirmed) {
+                            performReset();
+                        } else {
+                            displayStatus('info', 'Re-roll cancelled. Current assignment remains active.');
+                        }
+                    }
+                );
+            });
+
+            loadCastleAssignments();
+        }
+
+        function selectCastle() {
+            const castleName = ELEMENTS.castleInput.value.trim();
+            
+            if (!castleName) {
+                displayStatus('error', 'Please enter a castle name.');
+                return;
             }
+
+            currentCastle = castleName;
+            const castleData = getCastleData(castleName);
+            
+            ELEMENTS.currentCastle.textContent = castleName;
+            ELEMENTS.castleName.textContent = castleName;
+            ELEMENTS.resetCount.textContent = castleData.resetsLeft;
+            ELEMENTS.resetCountDisplay.textContent = castleData.resetsLeft;
+            
+            // UI Transition
+            ELEMENTS.castleSelection.classList.add('hidden');
+            ELEMENTS.assignmentForm.classList.remove('hidden');
+            ELEMENTS.resultDisplay.classList.add('hidden');
+            
+            // Check for existing assignment
+            if (castleData.assignment) {
+                currentAssignment = castleData.assignment;
+                ELEMENTS.playerGender.value = castleData.assignment.gender || '';
+                ELEMENTS.playerGender.disabled = true;
+                displayFinalResult(castleData.assignment.characterName, castleData.assignment.gender, true);
+                ELEMENTS.assignBtn.disabled = true; 
+            } else {
+                currentAssignment = null;
+                ELEMENTS.playerGender.value = '';
+                ELEMENTS.playerGender.disabled = false;
+                ELEMENTS.assignBtn.disabled = false;
+                displayStatus('info', `Selected "${castleName}". Ready for assignment.`);
+            }
+
+            // Disable reset button if no resets left
+            ELEMENTS.resetBtn.disabled = castleData.resetsLeft <= 0;
+        }
+
+        async function startAssignment() {
+            const gameName = currentCastle; // Use the currentCastle name as the operator/game name
+            const gender = ELEMENTS.playerGender.value;
+            
+            if (!gameName || !gender) {
+                displayStatus('error', 'Please select a character pool.');
+                return;
+            }
+
+            const castleData = getCastleData(currentCastle);
+            
+            if (castleData.assignment) {
+                displayStatus('info', 'Assignment already completed. Use Reset to re-roll.');
+                return;
+            }
+
+            ELEMENTS.assignBtn.disabled = true;
+            ELEMENTS.assignBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> SEARCHING REALITY...';
+
+            setTimeout(async () => {
+                try {
+                    const allCharacters = [...CHARACTERS.Male, ...CHARACTERS.Female, ...CHARACTERS.Villain_Neutral];
+                    
+                    const availablePool = allCharacters
+                        .filter(name => !castleData.usedCharacters.includes(name))
+                        .filter(name => (gender === 'Male' && (CHARACTERS.Male.includes(name) || CHARACTERS.Villain_Neutral.includes(name))) || 
+                                         (gender === 'Female' && (CHARACTERS.Female.includes(name) || CHARACTERS.Villain_Neutral.includes(name))));
+
+                    let pool = availablePool;
+                    
+                    if (pool.length === 0) {
+                        pool = (gender === 'Male' ? CHARACTERS.Male : CHARACTERS.Female).concat(CHARACTERS.Villain_Neutral);
+                        displayStatus('warning', 'All unique characters used for this castle! Allowing duplicates.');
+                    }
+                    
+                    // Select random character
+                    const randomIndex = Math.floor(Math.random() * pool.length);
+                    const assignedCharacter = pool[randomIndex];
+                    
+                    // Create assignment object
+                    const newAssignment = {
+                        gameName: gameName, // Castle Name is the Operator Name
+                        characterName: assignedCharacter,
+                        gender: gender,
+                        timestamp: new Date().toISOString(),
+                        castle: currentCastle
+                    };
+
+                    // Update local storage
+                    castleData.assignment = newAssignment;
+                    castleData.usedCharacters.push(assignedCharacter);
+                    saveCastleData(currentCastle, castleData);
+                    
+                    currentAssignment = newAssignment;
+                    
+                    // Send to Discord (Non-blocking, local flow continues)
+                    sendToDiscord(gameName, assignedCharacter, gender, currentCastle);
+                    
+                    displayFinalResult(assignedCharacter, gender, false);
+                    ELEMENTS.assignBtn.disabled = true; 
+                    ELEMENTS.playerGender.disabled = true;
+                    
+                } catch (error) {
+                    console.error("Assignment failed:", error);
+                    displayStatus('error', 'Assignment failed. Try again.');
+                    resetToForm();
+                }
+            }, 1500);
+        }
+
+        async function sendToDiscord(operatorName, codeName, characterPool, castle) {
+             // Webhook relies on a live connection and server accepting client-side POST, but local flow is independent.
+            try {
+                const payload = {
+                    embeds: [{
+                        title: '🎭 ROL CASTLE CHARACTER ASSIGNED',
+                        description: `**${operatorName}** claimed **${codeName}** for castle **${castle}**!`,
+                        fields: [
+                            { name: 'CASTLE/ALIAS', value: operatorName, inline: true },
+                            { name: 'CODE NAME', value: codeName, inline: true },
+                            { name: 'POOL', value: characterPool, inline: true }
+                        ],
+                        // ST Red color in decimal
+                        color: 13369344, 
+                        footer: { text: 'ROL Alliance - Hawkins System (Local Log)' },
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+                
+                await fetch(DISCORD_WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
+
+        function performReset() {
+            const castleData = getCastleData(currentCastle);
+            
+            // Use reset
+            castleData.resetsLeft--;
+            castleData.assignment = null; // Clear assignment
+            saveCastleData(currentCastle, castleData);
+            
+            // Reset UI state
+            currentAssignment = null;
+            ELEMENTS.playerGender.disabled = false;
+            ELEMENTS.resultDisplay.classList.add('hidden');
+            ELEMENTS.assignmentForm.classList.remove('hidden');
+            
+            // Update counts and status
+            ELEMENTS.resetCount.textContent = castleData.resetsLeft;
+            ELEMENTS.resetCountDisplay.textContent = castleData.resetsLeft;
+            ELEMENTS.resetBtn.disabled = castleData.resetsLeft <= 0;
+            
+            displayStatus('warning', `Reset complete. ${castleData.resetsLeft} attempt(s) remaining for "${currentCastle}".`);
+            resetToForm();
+            loadCastleAssignments();
+        }
+
+        function newCastle() {
+            currentCastle = null;
+            currentAssignment = null;
+            ELEMENTS.castleInput.value = '';
+            ELEMENTS.assignmentForm.classList.add('hidden');
+            ELEMENTS.resultDisplay.classList.add('hidden');
+            ELEMENTS.castleSelection.classList.remove('hidden');
+            displayStatus('info', 'Enter a new or existing castle name to proceed.');
         }
 
         function shareAssignment() {
             if (!currentAssignment) return;
             
             const shareText = `
-🎮 ROL ALLIANCE - CHARACTER ASSIGNMENT 🎮
+🎮 ROL CASTLE CHARACTER ASSIGNMENT 🎮
 
-OPERATOR: ${currentAssignment.gameName}
+CASTLE/ALIAS: ${currentCastle}
 CODE NAME: ${currentAssignment.characterName}
 POOL: ${currentAssignment.gender}
-SESSION: ${currentAssignment.userId}
 
-✅ This character is now LOCKED globally across all ROL operators!
-🔗 Share this game: [URL_TO_YOUR_HTML_FILE]
-
-#StrangerThings #ROLAlliance
+Assigned via ROL Hawkins System (Resets left: ${getCastleData(currentCastle).resetsLeft})
             `.trim();
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: 'ROL Character Assignment',
-                    text: shareText
-                });
-            } else {
-                navigator.clipboard.writeText(shareText).then(() => {
-                    displayStatus('success', '📋 Assignment copied! Share in your group chat.');
-                });
-            }
+
+            navigator.clipboard.writeText(shareText).then(() => {
+                displayStatus('success', 'Copied to clipboard! Share this assignment in Discord.');
+            });
         }
 
-        function resetAssignment() {
-            if (resetCount <= 0) {
-                displayStatus('error', '❌ No reset attempts remaining.');
-                return;
-            }
+        function loadCastleAssignments() {
+            const allData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            let html = '';
+            
+            Object.entries(allData).forEach(([castle, data]) => {
+                if (data.assignment) {
+                    const statusClass = data.resetsLeft === 0 ? 'text-red-600' : 'text-yellow-500'; // Gold/Yellow for available resets
 
-            if (!confirm(`WARNING: This will free up "${currentAssignment.characterName}" for others. Continue?`)) {
-                return;
-            }
+                    html += `
+                        <div class="roster-entry border border-red-900 rounded p-3 mb-2 font-mono hover:bg-red-900/30 cursor-pointer" onclick="ELEMENTS.castleInput.value='${castle}'; selectCastle();">
+                            <div class="font-bold text-red-400">${castle}</div>
+                            <div class="text-xs">
+                                <span class="roster-name-glow st-title">${data.assignment.characterName.toUpperCase()}</span> 
+                            </div>
+                            <div class="text-xs ${statusClass}">Resets left: ${data.resetsLeft}/${MAX_RESETS}</div>
+                        </div>
+                    `;
+                }
+            });
             
-            resetCount--;
-            localStorage.removeItem('rol_assignment');
-            currentAssignment = null;
-            ELEMENTS.gameName.disabled = false;
-            ELEMENTS.playerGender.disabled = false;
-            ELEMENTS.resultDisplay.classList.add('hidden');
-            ELEMENTS.form.classList.remove('hidden');
-            ELEMENTS.assignBtn.disabled = false;
-            ELEMENTS.discordNotice.classList.add('hidden');
-            
-            updateResetButtonState();
-            displayStatus('warning', `🔄 Reset complete. ${resetCount} attempts remaining.`);
+            ELEMENTS.castleAssignments.innerHTML = html || '<p class="text-gray-500 text-center">No castle assignments found locally.</p>';
         }
 
-        function resetToForm() {
-            ELEMENTS.spinner.classList.add('hidden');
-            ELEMENTS.assignBtn.disabled = false;
-            ELEMENTS.form.classList.remove('hidden');
-        }
-
-        function displayStatus(type, message) {
-            ELEMENTS.statusMessage.innerHTML = message;
-            ELEMENTS.statusMessage.className = 'p-3 rounded-lg mb-6';
-            
-            const styles = {
-                error: 'bg-red-900/30 border-red-500/50 text-red-300',
-                success: 'bg-green-900/30 border-green-500/50 text-green-300',
-                info: 'bg-blue-900/30 border-blue-500/50 text-blue-300',
-                warning: 'bg-yellow-900/30 border-yellow-500/50 text-yellow-300'
-            };
-            
-            ELEMENTS.statusMessage.classList.add(styles[type]);
-            ELEMENTS.statusMessage.classList.remove('hidden');
-
-            if (type !== 'error') {
-                setTimeout(() => ELEMENTS.statusMessage.classList.add('hidden'), 5000);
-            }
-        }
-
-        // ===== START THE GAME =====
+        // Start the game!
         initializeGame();
     </script>
 </body>
