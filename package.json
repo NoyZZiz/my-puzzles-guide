@@ -1,0 +1,23 @@
+{
+  "name": "my-puzzles-guide",
+  "version": "1.0.0",
+  "description": "",
+  "main": "calculator_logic.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NoyZZiz/my-puzzles-guide.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NoyZZiz/my-puzzles-guide/issues"
+  },
+  "homepage": "https://github.com/NoyZZiz/my-puzzles-guide#readme",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.86.0"
+  }
+}
