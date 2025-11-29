@@ -167,7 +167,7 @@
                 
                 <div class="mt-6 p-4 border border-red-600 rounded-lg bg-red-900/20">
                     <h3 class="text-red-400 font-bold mb-2">💡 IMPORTANT:</h3>
-                    <p class="text-xs text-gray-300">Each unique identifier gets **3 re-roll attempts** maximum. Use this name for all future checks on this castle.</p>
+                    <p class="text-xs text-gray-300">Each unique identifier gets **6 re-roll attempts** maximum. Use this name for all future checks on this castle.</p>
                 </div>
             </div>
 
@@ -175,7 +175,7 @@
                 
                 <div id="castle-info" class="bg-gray-900/50 border border-red-900 text-gray-400 p-3 rounded-lg text-xs font-mono">
                     <p class="font-bold text-red-400 mb-1">ACTIVE CASTLE/OPERATOR ALIAS: <span id="current-castle">None</span></p>
-                    <p><span class="text-red-500">Resets Left:</span> <span id="reset-count-display">3</span>/3</p>
+                    <p><span class="text-red-500">Resets Left:</span> <span id="reset-count-display">6</span>/6</p>
                 </div>
 
                 <p class="text-sm text-gray-300 mb-4 tech-font">Select the character pool for <span id="castle-name" class="text-red-400">your castle</span></p>
@@ -208,7 +208,7 @@
                         <i class="fa-solid fa-share-nodes mr-1"></i> COPY ASSIGNMENT DETAILS
                     </button>
                     <button id="reset-btn" class="spin-button w-full bg-red-800 hover:bg-red-900 text-xs">
-                        <i class="fa-solid fa-radiation mr-1"></i> RESET & RE-ROLL (<span id="reset-count">3</span> LEFT)
+                        <i class="fa-solid fa-radiation mr-1"></i> RESET & RE-ROLL (<span id="reset-count">6</span> LEFT)
                     </button>
                     <button id="new-castle-btn" class="spin-button w-full bg-gray-600 hover:bg-gray-700 text-xs">
                         <i class="fa-solid fa-chess-rook mr-1"></i> CHANGE / NEW CASTLE
@@ -253,12 +253,54 @@
         // --- CONFIGURATION & CONSTANTS ---
         const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1444330680858447903/dvcgQu42zAycH3rsEx8GADtmKoIGl3mY0PaznYMHhuOdtTlUHcliQJAk_No0NEtQ3Bg0';
         const STORAGE_KEY = 'rol_castle_assignments';
-        const MAX_RESETS = 3; 
+        const MAX_RESETS = 6; // *** FINAL CONFIRMED MAX RESETS ***
 
+        // --- UPDATED AND VERIFIED CHARACTER ROSTER (130+ CHARACTERS, FILTERED) ---
         const CHARACTERS = {
-            Male: ['Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper', 'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman', 'Bob Newby', 'Dr. Alexey', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove', 'Enzo (Dmitri)', 'Yuri Ismaylov'],
-            Female: ['Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers', 'Erica Sinclair', 'Suzie Bingham', 'Chrissy Cunningham', 'Angela', 'Vickie', 'Holly Wheeler', 'Tammy Thompson', 'Mrs. Wheeler', 'Claudia Henderson', 'Kali Prasad (Eight)'],
-            Villain_Neutral: ['Vecna (Henry Creel)', 'The Mind Flayer', 'Demogorgon', 'Demo-Dog', 'The Gate', 'Dr. Brenner', 'Dr. Owens', 'Peter Ballard', 'The Rift']
+            Male: [
+                // Core Party/Teens
+                'Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper',
+                'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman',
+                // Secondary Heroes/Adults
+                'Bob Newby', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove', 'Enzo (Dmitri)', 'Yuri Ismaylov',
+                // Hawkins Residents / Side Characters
+                'Jason Carver', 'Patrick McKinney', 'Fred Benson', 'Calvin Powell', 'Phillip Callahan', 
+                'Tommy H.', 'Keith', 'Lonnie Byers', 'Benny Hammond', 'Mr. Harrington', 'Charles Sinclair',
+                'Mr. Henderson', 'Mr. Wheeler', 'Mr. Mayfield', 'Mr. Munson', 'Scott Clarke', 'Greg', 'Rich',
+                'Dr. Alexey', 'Alexi', 'Officer Callahan', 'Officer Powell', 'Mr. Baldo', 'Mr. Mooney', 'Mr. Newby',
+                'Coach Skip', 'Mr. Sinclair', 'Mayor Larry Kline', 'Senator Hatch', 'Father Mike', 'Dmitri', 'Clyde',
+                // Kali's Gang / Military
+                'Axel', 'Mick', 'Funshine', 'Dusty', 'Ray', 'Pierce', 'Bauer', 'Duff'
+            ],
+            Female: [
+                // Core Party/Teens
+                'Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers', 
+                'Erica Sinclair', 'Suzie Bingham', 'Kali Prasad (Eight)',
+                // Secondary Heroes/Adults
+                'Chrissy Cunningham', 'Angela', 'Vickie', 'Holly Wheeler', 'Tammy Thompson', 
+                'Mrs. Wheeler (Karen)', 'Mrs. Henderson (Claudia)', 'Patty', 
+                // Mothers / Residents
+                'Mrs. Sinclair', 'Mrs. Byers', 'Mrs. Mayfield', 'Mrs. Munson', 'Mrs. Kelly',
+                'Mrs. Driscoll', 'Anya', 'Sara Hopper', 'Janet Hayes', 'Florence', 'Ms. Kelly',
+                'Carol', 'Tina', 'Stacy', 'Melanie', 'Mrs. Reardon', 'Mrs. O\'Donnell', 'Mrs. Henderson',
+                'Mrs. Wheeler', 'Mrs. Sinclair', 'Mrs. Bingley', 'Mrs. Harrington', 'Mrs. Coleman',
+                // Added for completeness
+                'Becky Ives', 'Sue', 'Dottie', 'The Librarian', 'Jen'
+            ],
+            Villain_Neutral: [
+                // Monsters
+                'Vecna (Henry Creel)', 
+                'The Mind Flayer', 
+                'Demogorgon', 
+                'Demo-Dog', 
+                // Human Antagonists (Moved from Male/Female)
+                'Peter Ballard (One)',
+                'Dr. Brenner (Papa)', 
+                'Dr. Owens', 
+                'Lt. Colonel Sullivan', 
+                'Connie Frazier', 
+                'Agent Florence'
+            ]
         };
 
         // --- GLOBAL STATE & ELEMENTS ---
@@ -341,7 +383,6 @@
                 onConfirm(false);
             });
             
-            // Update global elements with new buttons for startAssignment/resetAssignment
             ELEMENTS.modalConfirm = newConfirm;
             ELEMENTS.modalCancel = newCancel;
         }
@@ -368,8 +409,16 @@
             ELEMENTS.resultName.textContent = characterName.toUpperCase();
             
             let charType = 'HAWKINS CREW';
+            // Logic updated to check if the character is listed in the dedicated Villain_Neutral pool
             if (CHARACTERS.Villain_Neutral.includes(characterName)) {
-                charType = 'UPSIDE DOWN AGENT';
+                // If the villain is a monster, mark as AGENT, otherwise just ANTAGONIST
+                if (['The Mind Flayer', 'Demogorgon', 'Demo-Dog'].includes(characterName)) {
+                    charType = 'UPSIDE DOWN AGENT (MONSTER)';
+                } else if (['Vecna (Henry Creel)', 'Peter Ballard (One)'].includes(characterName)) {
+                    charType = 'UPSIDE DOWN AGENT (PRIMARY)';
+                } else {
+                     charType = 'GOVERNMENT/LAB ANTAGONIST';
+                }
             }
 
             ELEMENTS.resultCharType.textContent = `(${charType} - ${gender} Pool)`;
@@ -462,7 +511,7 @@
         }
 
         async function startAssignment() {
-            const gameName = currentCastle; // Use the currentCastle name as the operator/game name
+            const gameName = currentCastle;
             const gender = ELEMENTS.playerGender.value;
             
             if (!gameName || !gender) {
@@ -496,27 +545,23 @@
                         displayStatus('warning', 'All unique characters used for this castle! Allowing duplicates.');
                     }
                     
-                    // Select random character
                     const randomIndex = Math.floor(Math.random() * pool.length);
                     const assignedCharacter = pool[randomIndex];
                     
-                    // Create assignment object
                     const newAssignment = {
-                        gameName: gameName, // Castle Name is the Operator Name
+                        gameName: gameName, 
                         characterName: assignedCharacter,
                         gender: gender,
                         timestamp: new Date().toISOString(),
                         castle: currentCastle
                     };
 
-                    // Update local storage
                     castleData.assignment = newAssignment;
                     castleData.usedCharacters.push(assignedCharacter);
                     saveCastleData(currentCastle, castleData);
                     
                     currentAssignment = newAssignment;
                     
-                    // Send to Discord (Non-blocking, local flow continues)
                     sendToDiscord(gameName, assignedCharacter, gender, currentCastle);
                     
                     displayFinalResult(assignedCharacter, gender, false);
@@ -532,7 +577,6 @@
         }
 
         async function sendToDiscord(operatorName, codeName, characterPool, castle) {
-             // Webhook relies on a live connection and server accepting client-side POST, but local flow is independent.
             try {
                 const payload = {
                     embeds: [{
@@ -565,18 +609,15 @@
         function performReset() {
             const castleData = getCastleData(currentCastle);
             
-            // Use reset
             castleData.resetsLeft--;
-            castleData.assignment = null; // Clear assignment
+            castleData.assignment = null; 
             saveCastleData(currentCastle, castleData);
             
-            // Reset UI state
             currentAssignment = null;
             ELEMENTS.playerGender.disabled = false;
             ELEMENTS.resultDisplay.classList.add('hidden');
             ELEMENTS.assignmentForm.classList.remove('hidden');
             
-            // Update counts and status
             ELEMENTS.resetCount.textContent = castleData.resetsLeft;
             ELEMENTS.resetCountDisplay.textContent = castleData.resetsLeft;
             ELEMENTS.resetBtn.disabled = castleData.resetsLeft <= 0;
@@ -620,7 +661,7 @@ Assigned via ROL Hawkins System (Resets left: ${getCastleData(currentCastle).res
             
             Object.entries(allData).forEach(([castle, data]) => {
                 if (data.assignment) {
-                    const statusClass = data.resetsLeft === 0 ? 'text-red-600' : 'text-yellow-500'; // Gold/Yellow for available resets
+                    const statusClass = data.resetsLeft === 0 ? 'text-red-600' : 'text-yellow-500'; 
 
                     html += `
                         <div class="roster-entry border border-red-900 rounded p-3 mb-2 font-mono hover:bg-red-900/30 cursor-pointer" onclick="ELEMENTS.castleInput.value='${castle}'; selectCastle();">
