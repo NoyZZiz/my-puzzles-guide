@@ -98,7 +98,7 @@
                 Code Name: HAWKINS
             </h1>
             <p class="text-center text-red-700 mb-8 text-sm uppercase tracking-wider font-semibold tech-font">
-                STRANGER THINGS GLOBAL ROSTER & DISCORD SYNC
+                STRANGER THINGS GLOBAL ROSTER - ROL ALLIANCE
             </p>
 
             <div id="user-profile" class="bg-gray-900/50 border border-red-900 text-gray-400 p-3 rounded-lg mb-6 text-xs font-mono">
@@ -173,7 +173,7 @@
 
     <script>
         // ===== CONFIGURATION =====
-        const API_URL = 'https://script.google.com/macros/s/AKfycbwJNZjanQwD08j7vTmjNvCij8FHmFWRicymiPmbHfp2SY2WWJLZBm6aKxT6j-5Z06oq/exec';
+        const API_URL = 'https://script.google.com/macros/s/AKfycbw6VK2Qa9Pvh7UBa8eT3CoPVYjZyVvC4hPbhHgvN8n22gQdmrsdZlxdHVXhkfCDt-/exec';
         
         // ===== GLOBAL STATE =====
         let currentAssignment = null;
@@ -228,11 +228,23 @@
         async function callAPI(action, data = {}) {
             try {
                 const params = new URLSearchParams({ action, ...data });
-                const response = await fetch(`${API_URL}?${params}`);
+                
+                // Add cache busting to avoid CORS issues
+                const url = `${API_URL}?${params}&t=${Date.now()}`;
+                
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'no-cors' // This helps with CORS issues
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 return await response.json();
             } catch (error) {
                 console.error('API call failed:', error);
-                throw new Error('Network error - cannot reach global database');
+                throw new Error('Cannot reach global database');
             }
         }
 
