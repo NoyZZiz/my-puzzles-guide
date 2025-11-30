@@ -368,14 +368,64 @@
         // --- LOCAL STORAGE HANDLERS ---
         function getCastleData(castle) {
             const allData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            const prevDefault = 6; // previous default resets used by older clients
+
             if (!allData[castle]) {
                 allData[castle] = {
                     resetsLeft: MAX_RESETS,
                     assignment: null,
-                    usedCharacters: []
+                    usedCharacters: [],
+                    initialMaxResets: MAX_RESETS
                 };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+                return allData[castle];
             }
+
+            // Migration: if stored castle doesn't have an initialMaxResets value,
+            // assume it was created when the previous default was prevDefault (6).
+            // Recalculate resetsLeft = MAX_RESETS - used
+            const data = allData[castle];
+            if (!('initialMaxResets' in data)) {
+                const used = Math.max(0, prevDefault - (data.resetsLeft ?? 0));
+                data.resetsLeft = Math.max(0, MAX_RESETS - used);
+                data.initialMaxResets = MAX_RESETS;
+                allData[castle] = data;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+            } else if (data.initialMaxResets !== MAX_RESETS) {
+                // If MAX_RESETS changed between versions, keep tracking used resets
+                const used = Math.max(0, data.initialMaxResets - (data.resetsLeft ?? 0));
+                data.resetsLeft = Math.max(0, MAX_RESETS - used);
+                data.initialMaxResets = MAX_RESETS;
+                allData[castle] = data;
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+            }
+
             return allData[castle];
+        }
+
+        // Migrate all saved castles to use the new MAX_RESETS value while preserving used attempts
+        function migrateAllCastles() {
+            const allData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            const prevDefault = 6;
+            let changed = false;
+
+            for (const castle in allData) {
+                if (!Object.prototype.hasOwnProperty.call(allData, castle)) continue;
+                const data = allData[castle];
+                const oldInitial = data.initialMaxResets || prevDefault;
+                const used = Math.max(0, oldInitial - (data.resetsLeft ?? 0));
+                const newResetsLeft = Math.max(0, MAX_RESETS - used);
+                if (newResetsLeft !== data.resetsLeft || data.initialMaxResets !== MAX_RESETS) {
+                    data.resetsLeft = newResetsLeft;
+                    data.initialMaxResets = MAX_RESETS;
+                    allData[castle] = data;
+                    changed = true;
+                }
+            }
+
+            if (changed) {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
+            }
         }
 
         function saveCastleData(castle, data) {
@@ -463,6 +513,8 @@
                 displayStatus('success', `Assignment complete! **${characterName.toUpperCase()}** secured.`);
             }
             
+            // Migrate existing castle data if MAX_RESETS was increased
+            migrateAllCastles();
             loadCastleAssignments();
             ELEMENTS.resetBtn.disabled = castleData.resetsLeft <= 0; 
         }
