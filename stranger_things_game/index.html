@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Code Name: Hawkins - ROL Operator Assignment</title>
+    <title data-i18n="doc_title">Code Name: Hawkins - ROL Operator Assignment</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -61,7 +61,7 @@
         .game-panel::before { top: 10px; }
         .game-panel::after { bottom: 10px; }
         
-        /* INPUTS */
+        /* INPUTS and SELECT */
         input[type="text"], select {
             background-color: #1a0000;
             border: 1px solid #d1121c;
@@ -77,6 +77,18 @@
             outline: none;
         }
         
+        /* TRANSLATOR STYLING */
+        #lang-selector {
+            padding: 6px 10px;
+            font-size: 0.8rem;
+            background-color: #1a0000;
+            border: 1px solid #d1121c;
+            color: #ffcc00; 
+            border-radius: 4px;
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+        }
+
         /* BUTTONS */
         .spin-button {
             background-color: #d1121c; 
@@ -149,8 +161,12 @@
                 <i class="fa-solid fa-bolt mr-2 text-red-600" style="text-shadow: 0 0 5px #d1121c;"></i> 
                 NOYZZING // OPS
             </a>
-            <div class="text-sm font-semibold tech-font text-red-500 uppercase tracking-wider">
-                Alliance: **ROL**
+            <div class="flex items-center space-x-4">
+                <select id="lang-selector"></select>
+                
+                <div class="text-sm font-semibold tech-font text-red-500 uppercase tracking-wider">
+                    Alliance: **ROL**
+                </div>
             </div>
         </div>
     </header>
@@ -161,7 +177,7 @@
             <h1 class="text-4xl md:text-6xl text-center mb-1 uppercase tracking-wider st-title">
                 Code Name: HAWKINS
             </h1>
-            <p class="text-center text-red-700 mb-8 text-sm uppercase tracking-wider font-semibold tech-font">
+            <p class="text-center text-red-700 mb-8 text-sm uppercase tracking-wider font-semibold tech-font" data-i18n="castle_title">
                 HAWKINS CHARACTER ASSIGNMENT DATABASE
             </p>
 
@@ -170,74 +186,74 @@
             </div>
 
             <div id="castle-selection" class="space-y-4">
-                <p class="text-sm text-gray-300 mb-4 tech-font">Enter your unique castle identifier (e.g., Main, Alt 1)</p>
+                <p class="text-sm text-gray-300 mb-4 tech-font" data-i18n="select_castle_prompt">Enter your unique castle identifier (e.g., Main, Alt 1)</p>
                 <div class="space-y-4">
                     <div>
-                        <label for="castle-input" class="block text-sm font-medium text-red-400 mb-1">Castle Identifier:</label>
+                        <label for="castle-input" class="block text-sm font-medium text-red-400 mb-1" data-i18n="castle_label">Castle Identifier:</label>
                         <input type="text" id="castle-input" placeholder="ROL | Alt Castle" maxlength="30" required>
                     </div>
-                    <button id="select-castle-btn" class="spin-button w-full">
+                    <button id="select-castle-btn" class="spin-button w-full" data-i18n="access_file">
                         <i class="fa-solid fa-chess-rook mr-2"></i> ACCESS CASTLE FILE
                     </button>
                 </div>
                 
                 <div class="mt-6 p-4 border border-red-600 rounded-lg bg-red-900/20">
-                    <h3 class="text-red-400 font-bold mb-2">💡 IMPORTANT:</h3>
-                    <p class="text-xs text-gray-300">Each unique identifier gets **10 re-roll attempts** maximum. Use this name for all future checks on this castle.</p>
+                    <h3 class="text-red-400 font-bold mb-2" data-i18n="info_important">💡 IMPORTANT:</h3>
+                    <p class="text-xs text-gray-300" data-i18n="info_resets">Each unique identifier gets **10 re-roll attempts** maximum. Use this name for all future checks on this castle.</p>
                 </div>
             </div>
 
             <div id="assignment-form" class="space-y-4 hidden">
                 
                 <div id="castle-info" class="bg-gray-900/50 border border-red-900 text-gray-400 p-3 rounded-lg text-xs font-mono">
-                    <p class="font-bold text-red-400 mb-1">ACTIVE CASTLE/OPERATOR ALIAS: <span id="current-castle">None</span></p>
-                    <p><span class="text-red-500">Resets Left:</span> <span id="reset-count-display">10</span>/10</p>
+                    <p class="font-bold text-red-400 mb-1" data-i18n="active_alias">ACTIVE CASTLE/OPERATOR ALIAS: <span id="current-castle">None</span></p>
+                    <p><span class="text-red-500" data-i18n="resets_left">Resets Left:</span> <span id="reset-count-display">10</span>/10</p>
                 </div>
 
-                <p class="text-sm text-gray-300 mb-4 tech-font">Select the character pool for <span id="castle-name" class="text-red-400">your castle</span></p>
+                <p class="text-sm text-gray-300 mb-4 tech-font"><span data-i18n="pool_prompt">Select the character pool for</span> <span id="castle-name" class="text-red-400">your castle</span></p>
                 
                 <div class="grid grid-cols-1 gap-4">
                     <div>
-                        <label for="player-gender" class="block text-sm font-medium text-red-400 mb-1">Character Pool Selection:</label>
+                        <label for="player-gender" class="block text-sm font-medium text-red-400 mb-1" data-i18n="char_pool_select">Character Pool Selection:</label>
                         <select id="player-gender" required>
-                            <option value="" disabled selected>-- Select --</option>
-                            <option value="Male">Male Characters</option>
-                            <option value="Female">Female Characters</option>
+                            <option value="" disabled selected data-i18n="select_default">-- Select --</option>
+                            <option value="Male" data-i18n="male_chars">Male Characters</option>
+                            <option value="Female" data-i18n="female_chars">Female Characters</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="pt-4">
-                    <button id="assign-btn" class="spin-button w-full">
+                    <button id="assign-btn" class="spin-button w-full" data-i18n="assign_code">
                         <i class="fa-solid fa-mask mr-2"></i> ASSIGN CODE NAME
                     </button>
                 </div>
             </div>
 
             <div id="spinner-container" class="mt-8 flex items-center justify-center p-6 hidden">
-                <span id="spinner-text" class="st-title text-4xl">SEARCHING REALITY...</span>
+                <span id="spinner-text" class="st-title text-4xl" data-i18n-spinner="SEARCHING REALITY...">SEARCHING REALITY...</span>
             </div>
 
             <div id="result-display" class="mt-8 text-center hidden p-6 border-2 border-red-900 rounded-lg">
-                <h3 class="text-lg text-gray-300 font-medium uppercase tracking-wider mb-2 tech-font">CASTLE ASSIGNMENT SECURED:</h3>
+                <h3 class="text-lg text-gray-300 font-medium uppercase tracking-wider mb-2 tech-font" data-i18n="assignment_secured">CASTLE ASSIGNMENT SECURED:</h3>
                 <p id="result-name" class="font-bold"></p>
                 <p id="result-char-type" class="text-sm text-red-600 mt-2 font-mono"></p>
                 
                 <div class="space-y-2 mt-6">
-                    <button id="share-btn" class="spin-button w-full bg-yellow-600 hover:bg-yellow-700 text-black text-xs">
+                    <button id="share-btn" class="spin-button w-full bg-yellow-600 hover:bg-yellow-700 text-black text-xs" data-i18n="copy_details">
                         <i class="fa-solid fa-share-nodes mr-1"></i> COPY ASSIGNMENT DETAILS
                     </button>
-                    <button id="reset-btn" class="spin-button w-full bg-red-800 hover:bg-red-900 text-xs">
+                    <button id="reset-btn" class="spin-button w-full bg-red-800 hover:bg-red-900 text-xs" data-i18n="reset_reroll">
                         <i class="fa-solid fa-radiation mr-1"></i> RESET & RE-ROLL (<span id="reset-count">10</span> LEFT)
                     </button>
-                    <button id="new-castle-btn" class="spin-button w-full bg-gray-600 hover:bg-gray-700 text-xs">
+                    <button id="new-castle-btn" class="spin-button w-full bg-gray-600 hover:bg-gray-700 text-xs" data-i18n="change_new_castle">
                         <i class="fa-solid fa-chess-rook mr-1"></i> CHANGE / NEW CASTLE
                     </button>
                 </div>
             </div>
             
             <div class="mt-10">
-                <h2 class="text-2xl st-title mb-3 border-b border-red-900 pb-1">
+                <h2 class="text-2xl st-title mb-3 border-b border-red-900 pb-1" data-i18n="log_title">
                     <i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> ROL CASTLE ASSIGNMENT LOG
                 </h2>
                 <div id="castle-assignments" class="text-sm text-gray-400 space-y-2 max-h-60 overflow-y-auto p-3 font-mono">
@@ -254,80 +270,415 @@
     <div id="theme-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 hidden opacity-0 transition-opacity">
         <div class="modal-content w-full max-w-sm p-6 relative">
             
-            <h3 id="modal-title" class="st-title text-2xl mb-4 uppercase">WARNING: CLASSIFIED OPERATION</h3>
+            <h3 id="modal-title" class="st-title text-2xl mb-4 uppercase" data-i18n="modal_override_title">WARNING: CLASSIFIED OPERATION</h3>
             
             <p id="modal-message" class="text-gray-300 text-sm mb-6 tech-font">
                 </p>
             
             <div class="flex justify-end space-x-3">
-                <button id="modal-cancel" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded text-sm tech-font">
+                <button id="modal-cancel" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded text-sm tech-font" data-i18n="cancel_btn">
                     CANCEL
                 </button>
-                <button id="modal-confirm" class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded text-sm tech-font">
+                <button id="modal-confirm" class="bg-red-700 hover:bg-red-800 text-white font-bold py-2 px-4 rounded text-sm tech-font" data-i18n="confirm_reroll_btn">
                     CONFIRM RE-ROLL
                 </button>
             </div>
         </div>
     </div>
     <script>
-        // --- CONFIGURATION & CONSTANTS ---
+        // --- TRANSLATION DATA (i18n) ---
+        const TRANSLATIONS = {
+            'en': {
+                'lang_name': 'English', 'doc_title': 'Code Name: Hawkins - ROL Operator Assignment', 
+                'castle_title': 'HAWKINS CHARACTER ASSIGNMENT DATABASE',
+                'select_castle_prompt': 'Enter your unique castle identifier (e.g., Main, Alt 1)', 'castle_label': 'Castle Identifier:',
+                'access_file': 'ACCESS CASTLE FILE', 'info_important': '💡 IMPORTANT:',
+                'info_resets': 'Each unique identifier gets **10 re-roll attempts** maximum. Use this name for all future checks on this castle.',
+                'active_alias': 'ACTIVE CASTLE/OPERATOR ALIAS:', 'resets_left': 'Resets Left:',
+                'pool_prompt': 'Select the character pool for', 'char_pool_select': 'Character Pool Selection:',
+                'select_default': '-- Select --', 'male_chars': 'Male Characters', 'female_chars': 'Female Characters',
+                'assign_code': '<i class="fa-solid fa-mask mr-2"></i> ASSIGN CODE NAME',
+                'assignment_secured': 'CASTLE ASSIGNMENT SECURED:',
+                'copy_details': '<i class="fa-solid fa-share-nodes mr-1"></i> COPY ASSIGNMENT DETAILS',
+                'reset_reroll': '<i class="fa-solid fa-radiation mr-1"></i> RESET & RE-ROLL',
+                'change_new_castle': '<i class="fa-solid fa-chess-rook mr-1"></i> CHANGE / NEW CASTLE',
+                'log_title': '<i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> ROL CASTLE ASSIGNMENT LOG',
+                'modal_override_title': 'WARNING: CLASSIFIED OPERATION',
+                'cancel_btn': 'CANCEL', 'confirm_reroll_btn': 'CONFIRM RE-ROLL',
+                'status_default': 'Select your castle name to begin assignment.', 
+                'status_enter_name': 'Please enter a castle name.', 'status_select_pool': 'Please select a character pool.',
+                'status_assignment_exists': 'Assignment already completed. Use Reset to re-roll.',
+                'status_ready': 'Selected "$1". Ready for assignment.',
+                'status_no_resets': '❌ No reset attempts remaining for this castle.',
+                'status_reset_confirm_msg': 'This will consume **1 of your $1 re-roll attempts** for **$2**. The current code name will be lost.',
+                'status_reset_cancel': 'Re-roll cancelled. Current assignment remains active.',
+                'status_reset_complete': 'Reset complete. $1 attempt(s) remaining for "$2".',
+                'status_new_castle': 'Enter a new or existing castle name to proceed.',
+                'status_copy_success': 'Copied to clipboard! Share this assignment in Discord.',
+                'status_duplicate_warning': 'All unique characters used for this castle! Allowing duplicates.',
+                'spinner_searching': 'SEARCHING REALITY...', 'spinner_upside_down': 'SEARCHING THE UPSIDE DOWN',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> INITIATING SEARCH...',
+                'result_welcome': 'Welcome back! **$1** assigned to $2',
+                'result_secured': 'Assignment complete! **$1** secured.',
+                'result_failed': 'Assignment failed. Try again.',
+                'roster_empty': 'No castle assignments found locally.'
+            },
+            'ru': {
+                'lang_name': 'Русский', 'doc_title': 'Кодовое имя: Хокинс — Назначение оператора ROL',
+                'castle_title': 'БАЗА ДАННЫХ НАЗНАЧЕНИЙ ПЕРСОНАЖЕЙ HAWKINS',
+                'select_castle_prompt': 'Введите уникальный идентификатор вашего замка (например, Main, Alt 1)', 'castle_label': 'Идентификатор Замка:',
+                'access_file': 'ДОСТУП К ФАЙЛУ ЗАМКА', 'info_important': '💡 ВАЖНО:',
+                'info_resets': 'Каждый уникальный идентификатор получает максимум **10 попыток повторного броска**. Используйте это имя для всех будущих проверок этого замка.',
+                'active_alias': 'АКТИВНЫЙ ЗАМОК/ПСЕВДОНИМ ОПЕРАТОРА:', 'resets_left': 'Осталось сбросов:',
+                'pool_prompt': 'Выберите пул персонажей для', 'char_pool_select': 'Выбор пула персонажей:',
+                'select_default': '-- Выбрать --', 'male_chars': 'Мужские персонажи', 'female_chars': 'Женские персонажи',
+                'assign_code': '<i class="fa-solid fa-mask mr-2"></i> НАЗНАЧИТЬ КОДОВОЕ ИМЯ',
+                'assignment_secured': 'НАЗНАЧЕНИЕ ЗАМКА ЗАВЕРШЕНО:',
+                'copy_details': '<i class="fa-solid fa-share-nodes mr-1"></i> КОПИРОВАТЬ ДЕТАЛИ',
+                'reset_reroll': '<i class="fa-solid fa-radiation mr-1"></i> СБРОСИТЬ И ПОВТОРНО БРОСИТЬ',
+                'change_new_castle': '<i class="fa-solid fa-chess-rook mr-1"></i> ИЗМЕНИТЬ / НОВЫЙ ЗАМОК',
+                'log_title': '<i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> ЖУРНАЛ НАЗНАЧЕНИЙ ЗАМКА ROL',
+                'modal_override_title': 'ВНИМАНИЕ: СЕКРЕТНАЯ ОПЕРАЦИЯ',
+                'cancel_btn': 'ОТМЕНА', 'confirm_reroll_btn': 'ПОДТВЕРДИТЬ ПОВТОРНЫЙ БРОСОК',
+                'status_default': 'Выберите имя своего замка, чтобы начать назначение.', 
+                'status_enter_name': 'Пожалуйста, введите имя замка.', 'status_select_pool': 'Пожалуйста, выберите пул персонажей.',
+                'status_assignment_exists': 'Назначение уже выполнено. Используйте Сброс для повторного броска.',
+                'status_ready': 'Выбран "$1". Готов к назначению.',
+                'status_no_resets': '❌ Попыток сброса для этого замка не осталось.',
+                'status_reset_confirm_msg': 'Это потратит **1 из ваших $1 попыток повторного броска** для **$2**. Текущее кодовое имя будет потеряно.',
+                'status_reset_cancel': 'Повторный бросок отменен. Текущее назначение остается активным.',
+                'status_reset_complete': 'Сброс завершен. Осталось $1 попыток для "$2".',
+                'status_new_castle': 'Введите новое или существующее имя замка для продолжения.',
+                'status_copy_success': 'Скопировано в буфер обмена! Поделитесь этим назначением в Discord.',
+                'status_duplicate_warning': 'Все уникальные персонажи использованы для этого замка! Разрешаются дубликаты.',
+                'spinner_searching': 'ПОИСК РЕАЛЬНОСТИ...', 'spinner_upside_down': 'ПОИСК ИЗНАНОЧНОГО МИРА',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> НАЧАЛО ПОИСКА...',
+                'result_welcome': 'С возвращением! **$1** назначен на $2',
+                'result_secured': 'Назначение завершено! **$1** закреплен.',
+                'result_failed': 'Назначение не удалось. Попробуйте еще раз.',
+                'roster_empty': 'Локальные назначения замков не найдены.'
+            },
+            'pt': {
+                'lang_name': 'Português', 'doc_title': 'Nome de Código: Hawkins - Atribuição de Operador ROL',
+                'castle_title': 'BANCO DE DADOS DE ATRIBUIÇÃO DE PERSONAGENS DE HAWKINS',
+                'select_castle_prompt': 'Insira seu identificador de castelo exclusivo (ex: Main, Alt 1)', 'castle_label': 'Identificador do Castelo:',
+                'access_file': 'ACESSAR ARQUIVO DO CASTELO', 'info_important': '💡 IMPORTANTE:',
+                'info_resets': 'Cada identificador único recebe um máximo de **10 tentativas de repetição**. Use este nome para todas as futuras verificações neste castelo.',
+                'active_alias': 'CASTELO ATIVO/APELIDO DO OPERADOR:', 'resets_left': 'Reinicializações Restantes:',
+                'pool_prompt': 'Selecione o grupo de personagens para', 'char_pool_select': 'Seleção do Grupo de Personagens:',
+                'select_default': '-- Selecionar --', 'male_chars': 'Personagens Masculinos', 'female_chars': 'Personagens Femininas',
+                'assign_code': '<i class="fa-solid fa-mask mr-2"></i> ATRIBUIR NOME DE CÓDIGO',
+                'assignment_secured': 'ATRIBUIÇÃO DO CASTELO GARANTIDA:',
+                'copy_details': '<i class="fa-solid fa-share-nodes mr-1"></i> COPIAR DETALHES DA ATRIBUIÇÃO',
+                'reset_reroll': '<i class="fa-solid fa-radiation mr-1"></i> REINICIAR E REPETIR',
+                'change_new_castle': '<i class="fa-solid fa-chess-rook mr-1"></i> MUDAR / NOVO CASTELO',
+                'log_title': '<i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> REGISTRO DE ATRIBUIÇÃO DE CASTELO ROL',
+                'modal_override_title': 'AVISO: OPERAÇÃO CLASSIFICADA',
+                'cancel_btn': 'CANCELAR', 'confirm_reroll_btn': 'CONFIRMAR REPETIÇÃO',
+                'status_default': 'Selecione o nome do seu castelo para iniciar a atribuição.',
+                'status_enter_name': 'Por favor, insira um nome de castelo.', 'status_select_pool': 'Por favor, selecione um grupo de personagens.',
+                'status_assignment_exists': 'Atribuição já concluída. Use Reiniciar para repetir.',
+                'status_ready': 'Selecionado "$1". Pronto para atribuição.',
+                'status_no_resets': '❌ Não há tentativas de reinicialização restantes para este castelo.',
+                'status_reset_confirm_msg': 'Isso consumirá **1 das suas $1 tentativas de repetição** para **$2**. O nome de código atual será perdido.',
+                'status_reset_cancel': 'Repetição cancelada. A atribuição atual permanece ativa.',
+                'status_reset_complete': 'Reinicialização concluída. Restam $1 tentativa(s) para "$2".',
+                'status_new_castle': 'Insira um nome de castelo novo ou existente para continuar.',
+                'status_copy_success': 'Copiado para a área de transferência! Compartilhe esta atribuição no Discord.',
+                'status_duplicate_warning': 'Todos os personagens únicos usados para este castelo! Duplicatas permitidas.',
+                'spinner_searching': 'PESQUISANDO REALIDADE...', 'spinner_upside_down': 'PESQUISANDO O MUNDO INVERTIDO',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> INICIANDO PESQUISA...',
+                'result_welcome': 'Bem-vindo de volta! **$1** atribuído a $2',
+                'result_secured': 'Atribuição completa! **$1** garantido.',
+                'result_failed': 'Atribuição falhou. Tente novamente.',
+                'roster_empty': 'Nenhuma atribuição de castelo encontrada localmente.'
+            },
+            'fr': {
+                'lang_name': 'Français', 'doc_title': 'Nom de Code: Hawkins - Attribution d\'Opérateur ROL',
+                'castle_title': 'BASE DE DONNÉES D’ATTRIBUTION DE PERSONNAGES HAWKINS',
+                'select_castle_prompt': 'Entrez votre identifiant de château unique (ex : Main, Alt 1)', 'castle_label': 'Identifiant du Château:',
+                'access_file': 'ACCÉDER AU FICHIER DU CHÂTEAU', 'info_important': '💡 IMPORTANT:',
+                'info_resets': 'Chaque identifiant unique dispose d\'un maximum de **10 tentatives de relance**. Utilisez ce nom pour toutes les futures vérifications sur ce château.',
+                'active_alias': 'CHÂTEAU ACTIF/ALIAS OPÉRATEUR:', 'resets_left': 'Relances Restantes:',
+                'pool_prompt': 'Sélectionnez le pool de personnages pour', 'char_pool_select': 'Sélection du pool de personnages:',
+                'select_default': '-- Sélectionner --', 'male_chars': 'Personnages Masculins', 'female_chars': 'Personnages Féminins',
+                'assign_code': '<i class="fa-solid fa-mask mr-2"></i> ATTRIBUER UN NOM DE CODE',
+                'assignment_secured': 'ATTRIBUTION DE CHÂTEAU SÉCURISÉE:',
+                'copy_details': '<i class="fa-solid fa-share-nodes mr-1"></i> COPIER LES DÉTAILS DE L\'ATTRIBUTION',
+                'reset_reroll': '<i class="fa-solid fa-radiation mr-1"></i> RÉINITIALISER ET RELANCER',
+                'change_new_castle': '<i class="fa-solid fa-chess-rook mr-1"></i> CHANGER / NOUVEAU CHÂTEAU',
+                'log_title': '<i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> JOURNAL D’ATTRIBUTION DE CHÂTEAUX ROL',
+                'modal_override_title': 'AVERTISSEMENT: OPÉRATION CLASSIFIÉE',
+                'cancel_btn': 'ANNULER', 'confirm_reroll_btn': 'CONFIRMER LA RELANCE',
+                'status_default': 'Sélectionnez le nom de votre château pour commencer l\'attribution.',
+                'status_enter_name': 'Veuillez entrer un nom de château.', 'status_select_pool': 'Veuillez sélectionner un pool de personnages.',
+                'status_assignment_exists': 'Attribution déjà terminée. Utilisez Réinitialiser pour relancer.',
+                'status_ready': 'Sélectionné "$1". Prêt pour l\'attribution.',
+                'status_no_resets': '❌ Aucune tentative de réinitialisation restante pour ce château.',
+                'status_reset_confirm_msg': 'Ceci consommera **1 de vos $1 tentatives de relance** pour **$2**. Le nom de code actuel sera perdu.',
+                'status_reset_cancel': 'Relance annulée. L\'attribution actuelle reste active.',
+                'status_reset_complete': 'Réinitialisation terminée. $1 tentative(s) restante(s) pour "$2".',
+                'status_new_castle': 'Entrez un nom de château nouveau ou existant pour continuer.',
+                'status_copy_success': 'Copié dans le presse-papiers! Partagez cette attribution dans Discord.',
+                'status_duplicate_warning': 'Tous les personnages uniques utilisés pour ce château! Les doublons sont autorisés.',
+                'spinner_searching': 'RECHERCHE DE LA RÉALITÉ...', 'spinner_upside_down': 'RECHERCHE DE L\'UPSIDE DOWN',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> INITIALISATION DE LA RECHERCHE...',
+                'result_welcome': 'Bienvenue de retour! **$1** attribué à $2',
+                'result_secured': 'Attribution complète! **$1** sécurisé.',
+                'result_failed': 'Attribution échouée. Veuillez réessayer.',
+                'roster_empty': 'Aucune attribution de château trouvée localement.'
+            },
+            'es': {
+                'lang_name': 'Español', 'doc_title': 'Nombre Clave: Hawkins - Asignación de Operador ROL',
+                'castle_title': 'BASE DE DATOS DE ASIGNACIÓN DE PERSONAJES DE HAWKINS',
+                'select_castle_prompt': 'Introduce tu identificador de castillo único (ej: Main, Alt 1)', 'castle_label': 'Identificador del Castillo:',
+                'access_file': 'ACCEDER AL ARCHIVO DEL CASTILLO', 'info_important': '💡 IMPORTANTE:',
+                'info_resets': 'Cada identificador único tiene un máximo de **10 intentos de repetición**. Usa este nombre para todas las comprobaciones futuras en este castillo.',
+                'active_alias': 'CASTILLO ACTIVO/ALIAS OPERADOR:', 'resets_left': 'Intentos Restantes:',
+                'pool_prompt': 'Selecciona el grupo de personajes para', 'char_pool_select': 'Selección de Grupo de Personajes:',
+                'select_default': '-- Seleccionar --', 'male_chars': 'Personajes Masculinos', 'female_chars': 'Personajes Femeninos',
+                'assign_code': '<i class="fa-solid fa-mask mr-2"></i> ASIGNAR NOMBRE CLAVE',
+                'assignment_secured': 'ASIGNACIÓN DE CASTILLO ASEGURADA:',
+                'copy_details': '<i class="fa-solid fa-share-nodes mr-1"></i> COPIAR DETALLES DE ASIGNACIÓN',
+                'reset_reroll': '<i class="fa-solid fa-radiation mr-1"></i> REINICIAR Y REPETIR',
+                'change_new_castle': '<i class="fa-solid fa-chess-rook mr-1"></i> CAMBIAR / NUEVO CASTILLO',
+                'log_title': '<i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> REGISTRO DE ASIGNACIÓN DE CASTILLO ROL',
+                'modal_override_title': 'ADVERTENCIA: OPERACIÓN CLASIFICADA',
+                'cancel_btn': 'CANCELAR', 'confirm_reroll_btn': 'CONFIRMAR REPETICIÓN',
+                'status_default': 'Selecciona el nombre de tu castillo para iniciar la asignación.',
+                'status_enter_name': 'Por favor, introduce un nombre de castillo.', 'status_select_pool': 'Por favor, selecciona un grupo de personajes.',
+                'status_assignment_exists': 'Asignación ya completada. Usa Reiniciar para repetir.',
+                'status_ready': 'Seleccionado "$1". Listo para la asignación.',
+                'status_no_resets': '❌ No quedan intentos de reinicio para este castillo.',
+                'status_reset_confirm_msg': 'Esto consumirá **1 de tus $1 intentos de repetición** para **$2**. El nombre clave actual se perderá.',
+                'status_reset_cancel': 'Repetición cancelada. La asignación actual permanece activa.',
+                'status_reset_complete': 'Reinicio completado. $1 intento(s) restante(s) para "$2".',
+                'status_new_castle': 'Introduce un nombre de castillo nuevo o existente para continuar.',
+                'status_copy_success': '¡Copiado al portapapeles! Comparte esta asignación en Discord.',
+                'status_duplicate_warning': '¡Todos los personajes únicos utilizados para este castillo! Se permiten duplicados.',
+                'spinner_searching': 'BUSCANDO REALIDAD...', 'spinner_upside_down': 'BUSCANDO EL MUNDO AL REVÉS',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> INICIANDO BÚSQUEDA...',
+                'result_welcome': '¡Bienvenido de nuevo! **$1** asignado a $2',
+                'result_secured': '¡Asignación completa! **$1** asegurado.',
+                'result_failed': 'La asignación falló. Inténtalo de nuevo.',
+                'roster_empty': 'No se encontraron asignaciones de castillo localmente.'
+            },
+            'de': {
+                'lang_name': 'Deutsch', 'doc_title': 'Codename: Hawkins - ROL Operatorzuweisung',
+                'castle_title': 'HAWKINS CHARAKTERZUWEISUNGSDATENBANK',
+                'select_castle_prompt': 'Geben Sie Ihre eindeutige Burg-Kennung ein (z. B. Main, Alt 1)', 'castle_label': 'Burg-Kennung:',
+                'access_file': 'AUF BURG-DATEI ZUGREIFEN', 'info_important': '💡 WICHTIG:',
+                'info_resets': 'Jede eindeutige Kennung erhält maximal **10 Neuversuche**. Verwenden Sie diesen Namen für alle zukünftigen Überprüfungen dieser Burg.',
+                'active_alias': 'AKTIVE BURG/OPERATOR-ALIAS:', 'resets_left': 'Neustarts übrig:',
+                'pool_prompt': 'Wählen Sie den Charakterpool für', 'char_pool_select': 'Charakterpool-Auswahl:',
+                'select_default': '-- Auswählen --', 'male_chars': 'Männliche Charaktere', 'female_chars': 'Weibliche Charaktere',
+                'assign_code': '<i class="fa-solid fa-mask mr-2"></i> CODENAMEN ZUWEISEN',
+                'assignment_secured': 'BURG-ZUWEISUNG GESICHERT:',
+                'copy_details': '<i class="fa-solid fa-share-nodes mr-1"></i> ZUWEISUNGSDETAILS KOPIEREN',
+                'reset_reroll': '<i class="fa-solid fa-radiation mr-1"></i> ZURÜCKSETZEN & NEU WÜRFELN',
+                'change_new_castle': '<i class="fa-solid fa-chess-rook mr-1"></i> BURG WECHSELN / NEU',
+                'log_title': '<i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> ROL BURG-ZUWEISUNGSPROTOKOLL',
+                'modal_override_title': 'WARNUNG: GEHEIME OPERATION',
+                'cancel_btn': 'ABBRECHEN', 'confirm_reroll_btn': 'NEU WÜRFELN BESTÄTIGEN',
+                'status_default': 'Wählen Sie Ihren Burgnamen, um die Zuweisung zu starten.',
+                'status_enter_name': 'Bitte geben Sie einen Burgnamen ein.', 'status_select_pool': 'Bitte wählen Sie einen Charakterpool aus.',
+                'status_assignment_exists': 'Zuweisung bereits abgeschlossen. Verwenden Sie Zurücksetzen, um neu zu würfeln.',
+                'status_ready': 'Ausgewählt "$1". Bereit zur Zuweisung.',
+                'status_no_resets': '❌ Keine Neustartversuche mehr für diese Burg übrig.',
+                'status_reset_confirm_msg': 'Dies verbraucht **1 von Ihren $1 Neuversuchen** für **$2**. Der aktuelle Codename geht verloren.',
+                'status_reset_cancel': 'Neuwürfeln abgebrochen. Die aktuelle Zuweisung bleibt aktiv.',
+                'status_reset_complete': 'Zurücksetzung abgeschlossen. $1 Versuch(e) verbleiben für "$2".',
+                'status_new_castle': 'Geben Sie einen neuen oder bestehenden Burgnamen ein, um fortzufahren.',
+                'status_copy_success': 'In die Zwischenablage kopiert! Teilen Sie diese Zuweisung in Discord.',
+                'status_duplicate_warning': 'Alle einzigartigen Charaktere für diese Burg verwendet! Duplikate erlaubt.',
+                'spinner_searching': 'SUCHE REALITÄT...', 'spinner_upside_down': 'SUCHE IM UPSIDE DOWN',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> SUCHE WIRD INITIIERT...',
+                'result_welcome': 'Willkommen zurück! **$1** zugewiesen an $2',
+                'result_secured': 'Zuweisung abgeschlossen! **$1** gesichert.',
+                'result_failed': 'Zuweisung fehlgeschlagen. Versuchen Sie es erneut.',
+                'roster_empty': 'Keine lokalen Burg-Zuweisungen gefunden.'
+            },
+            'ja': {
+                'lang_name': '日本語', 'doc_title': 'コードネーム: ホーキンス - ROLオペレーターの割り当て',
+                'castle_title': 'ホーキンス キャラクター割り当てデータベース',
+                'select_castle_prompt': '固有のキャッスル識別子を入力してください (例: Main, Alt 1)', 'castle_label': 'キャッスル識別子:',
+                'access_file': 'キャッスルファイルにアクセス', 'info_important': '💡 重要:',
+                'info_resets': '各固有の識別子は、最大で**10回の再ロール試行**を得ます。この名前を、このキャッスルに関する今後のすべてのチェックに使用してください。',
+                'active_alias': 'アクティブなキャッスル/オペレーターエイリアス:', 'resets_left': '残りリセット回数:',
+                'pool_prompt': 'のキャラクタープールを選択してください', 'char_pool_select': 'キャラクタープール選択:',
+                'select_default': '-- 選択 --', 'male_chars': '男性キャラクター', 'female_chars': '女性キャラクター',
+                'assign_code': '<i class="fa-solid fa-mask mr-2"></i> コードネームを割り当てる',
+                'assignment_secured': 'キャッスル割り当て確保:',
+                'copy_details': '<i class="fa-solid fa-share-nodes mr-1"></i> 割り当ての詳細をコピー',
+                'reset_reroll': '<i class="fa-solid fa-radiation mr-1"></i> リセットして再ロール',
+                'change_new_castle': '<i class="fa-solid fa-chess-rook mr-1"></i> キャッスルを変更/新規作成',
+                'log_title': '<i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> ROL キャッスル割り当てログ',
+                'modal_override_title': '警告: 機密操作',
+                'cancel_btn': 'キャンセル', 'confirm_reroll_btn': '再ロールを確定',
+                'status_default': '割り当てを開始するためにキャッスル名を選択してください。',
+                'status_enter_name': 'キャッスル名を入力してください。', 'status_select_pool': 'キャラクタープールを選択してください。',
+                'status_assignment_exists': '割り当ては既に完了しています。リセットを使用して再ロールしてください。',
+                'status_ready': '"$1" が選択されました。割り当ての準備ができました。',
+                'status_no_resets': '❌ このキャッスルにはリセット試行が残っていません。',
+                'status_reset_confirm_msg': 'これにより、**$2** の**$1回の再ロール試行**のうち1回が消費されます。現在のコードネームは失われます。',
+                'status_reset_cancel': '再ロールはキャンセルされました。現在の割り当ては有効なままです。',
+                'status_reset_complete': 'リセットが完了しました。"$2" の残り試行回数は $1 回です。',
+                'status_new_castle': '続行するには、新規または既存のキャッスル名を入力してください。',
+                'status_copy_success': 'クリップボードにコピーされました！Discordでこの割り当てを共有してください。',
+                'status_duplicate_warning': 'このキャッスルの固有キャラクターはすべて使用されました! 重複が許可されます。',
+                'spinner_searching': '現実を検索中...', 'spinner_upside_down': '裏側の世界を検索中...',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 検索を初期化中...',
+                'result_welcome': 'おかえりなさい！**$1** が $2 に割り当てられました',
+                'result_secured': '割り当て完了！**$1** 確保済み。',
+                'result_failed': '割り当てに失敗しました。もう一度試してください。',
+                'roster_empty': 'ローカルなキャッスル割り当ては見つかりませんでした。'
+            },
+            'ko': {
+                'lang_name': '한국어', 'doc_title': '코드명: 호킨스 - ROL 오퍼레이터 할당',
+                'castle_title': '호킨스 캐릭터 할당 데이터베이스',
+                'select_castle_prompt': '고유한 캐슬 식별자를 입력하세요 (예: Main, Alt 1)', 'castle_label': '캐슬 식별자:',
+                'access_file': '캐슬 파일 접근', 'info_important': '💡 중요:',
+                'info_resets': '각 고유 식별자는 최대 **10회의 재시도 기회**를 갖습니다. 이 이름은 해당 캐슬의 향후 모든 검사에 사용됩니다.',
+                'active_alias': '활성 캐슬/오퍼레이터 별칭:', 'resets_left': '남은 재시도 횟수:',
+                'pool_prompt': '의 캐릭터 풀을 선택하십시오', 'char_pool_select': '캐릭터 풀 선택:',
+                'select_default': '-- 선택 --', 'male_chars': '남성 캐릭터', 'female_chars': '여성 캐릭터',
+                'assign_code': '<i class="fa-solid fa-mask mr-2"></i> 코드명 할당',
+                'assignment_secured': '캐슬 할당 확보:',
+                'copy_details': '<i class="fa-solid fa-share-nodes mr-1"></i> 할당 세부 정보 복사',
+                'reset_reroll': '<i class="fa-solid fa-radiation mr-1"></i> 재설정 및 재시도',
+                'change_new_castle': '<i class="fa-solid fa-chess-rook mr-1"></i> 캐슬 변경/신규',
+                'log_title': '<i class="fa-solid fa-chess-rook text-red-500 mr-2"></i> ROL 캐슬 할당 로그',
+                'modal_override_title': '경고: 기밀 작전',
+                'cancel_btn': '취소', 'confirm_reroll_btn': '재시도 확인',
+                'status_default': '할당을 시작하려면 캐슬 이름을 선택하세요.',
+                'status_enter_name': '캐슬 이름을 입력해주세요.', 'status_select_pool': '캐릭터 풀을 선택해주세요.',
+                'status_assignment_exists': '이미 할당이 완료되었습니다. 재설정을 사용하여 재시도하세요.',
+                'status_ready': '"$1" 이(가) 선택되었습니다. 할당 준비 완료.',
+                'status_no_resets': '❌ 이 캐슬에 남은 재설정 시도 횟수가 없습니다.',
+                'status_reset_confirm_msg': '이것은 **$2**에 대한 **$1회의 재시도 기회** 중 1회를 소모합니다. 현재 코드명은 손실됩니다.',
+                'status_reset_cancel': '재시도가 취소되었습니다. 현재 할당은 활성 상태를 유지합니다.',
+                'status_reset_complete': '재설정 완료. "$2" 에 $1 회의 시도 횟수가 남았습니다.',
+                'status_new_castle': '계속하려면 새 캐슬 이름 또는 기존 캐슬 이름을 입력하십시오.',
+                'status_copy_success': '클립보드에 복사되었습니다! Discord에서 이 할당을 공유하십시오.',
+                'status_duplicate_warning': '이 캐슬에 대한 모든 고유 캐릭터가 사용되었습니다! 중복이 허용됩니다.',
+                'spinner_searching': '현실 검색 중...', 'spinner_upside_down': '뒤집힌 세계 검색 중',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 검색 초기화 중...',
+                'result_welcome': '다시 오신 것을 환영합니다! **$1** 이(가) $2 에 할당되었습니다',
+                'result_secured': '할당 완료! **$1** 확보.',
+                'result_failed': '할당에 실패했습니다. 다시 시도하십시오.',
+                'roster_empty': '로컬 캐슬 할당을 찾을 수 없습니다.'
+            }
+        };
+        
+        // --- NEW i18n CORE FUNCTIONS ---
+        let currentLang = localStorage.getItem('game_language') || 'en';
+        
+        function setLanguage(langCode) {
+            const translations = TRANSLATIONS[langCode];
+            if (!translations) return;
+
+            currentLang = langCode;
+            localStorage.setItem('game_language', langCode);
+            
+            // Set the document title (which is outside the body)
+            document.title = translations['doc_title'] || 'Code Name: Hawkins';
+
+            // 1. Translate all marked elements (data-i18n)
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[key]) {
+                    // Use innerHTML to preserve font awesome icons or **bold** tags
+                    el.innerHTML = translations[key];
+                }
+            });
+            
+            // 2. Translate spinner text (if needed)
+            ELEMENTS.spinnerText.textContent = translations['spinner_searching'];
+
+            // 3. Re-display status message using new language
+            displayStatus('info', 'status_default');
+            
+            // Re-run translation on specific dynamic elements (e.g., if assignment result is showing)
+            if (currentAssignment) {
+                const isExisting = true; // Use a dummy true value to force status message update
+                displayFinalResult(currentAssignment.characterName, currentAssignment.gender, isExisting);
+            }
+        }
+
+        function setupLanguageSelector() {
+            const selector = document.getElementById('lang-selector');
+            const languages = Object.keys(TRANSLATIONS);
+            
+            selector.innerHTML = '';
+            
+            languages.forEach(langCode => {
+                const option = document.createElement('option');
+                option.value = langCode;
+                option.textContent = TRANSLATIONS[langCode]['lang_name'];
+                selector.appendChild(option);
+            });
+            
+            // Set initial language (defaults to 'en')
+            selector.value = currentLang;
+            setLanguage(currentLang);
+
+            selector.addEventListener('change', (e) => setLanguage(e.target.value));
+        }
+        
+        // --- CONFIGURATION & CONSTANTS (rest of your original script) ---
         const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1444330680858447903/dvcgQu42zAycH3rsEx8GADtmKoIGl3mY0PaznYMHhuOdtTlUHcliQJAk_No0NEtQ3Bg0';
         const STORAGE_KEY = 'rol_castle_assignments';
         const MAX_RESETS = 10; 
 
         // --- UPDATED AND VERIFIED CHARACTER ROSTER (130+ CHARACTERS, FILTERED) ---
        const CHARACTERS = {
-    Male: [
-        // Core Party/Teens
-        'Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper',
-        'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman',
-        // Secondary Heroes/Adults
-        'Bob Newby', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove', 'Enzo (Dmitri)', 'Yuri Ismaylov',
-        // Hawkins Residents / Side Characters
-        'Jason Carver', 'Patrick McKinney', 'Fred Benson', 'Calvin Powell', 'Phillip Callahan', 
-        'Tommy H.', 'Keith', 'Lonnie Byers', 'Benny Hammond', 'Mr. Harrington', 'Charles Sinclair',
-        'Mr. Henderson', 'Mr. Wheeler', 'Mr. Mayfield', 'Mr. Munson', 'Scott Clarke', 'Greg', 'Rich',
-        'Dr. Alexey', 'Alexi', 'Officer Callahan', 'Officer Powell', 'Mr. Baldo', 'Mr. Mooney',
-        'Coach Skip', 'Mr. Sinclair', 'Mayor Larry Kline', 'Senator Hatch', 'Father Mike', 'Clyde',
-        // Kali's Gang / Military
-        'Axel', 'Mick', 'Funshine', 'Dusty', 'Ray', 'Pierce', 'Bauer', 'Duff',
-        // EPIC/FAMOUS ADDITIONS
-        'Grigori', 'Gary', 'Tom Holloway', 'Brian', 'Derek Turnbow(Dipshit)'
-    ],
-    Female: [
-        // Core Party/Teens
-        'Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers', 
-        'Erica Sinclair', 'Suzie Bingham', 'Kali Prasad (Eight)',
-        // Secondary Heroes/Adults
-        'Chrissy Cunningham', 'Angela', 'Vickie', 'Holly Wheeler', 'Tammy Thompson', 
-        'Karen Wheeler', 'Claudia Henderson', 'Patty', 
-        // Mothers / Residents
-        'Mrs. Sinclair', 'Mrs. Byers', 'Mrs. Mayfield', 'Mrs. Munson', 'Mrs. Kelly',
-        'Mrs. Driscoll', 'Anya', 'Sara Hopper', 'Janet Hayes', 'Florence',
-        'Carol', 'Tina', 'Stacy', 'Melanie', 'Mrs. Reardon', 'Mrs. O\'Donnell',
-        'Mrs. Bingley', 'Mrs. Harrington', 'Mrs. Coleman',
-        // Added for completeness
-        'Becky Ives', 'Sue', 'Dottie', 'Jen',
-        // EPIC/FAMOUS ADDITIONS
-        'Barb', 'Heather Holloway', 'Moe Eldridge', 'Terry Ives', 'Dr. Kay'
-    ],
-    Villain_Neutral: [
-        // Monsters
-        'Vecna (Henry Creel)', 
-        'The Mind Flayer', 
-        'Demogorgon', 
-        'Demo-Dog', 
-        // Human Antagonists
-        'Peter Ballard (One)',
-        'Dr. Brenner (Papa)', 
-        'Dr. Owens', 
-        'Lt. Colonel Sullivan', 
-        'Connie Frazier', 
-        'Agent Florence',
-        // EPIC ADDITIONS
-        'Grigori (Russian)', 'Antonov'
-    ]
-};
+            Male: [
+                // Core Party/Teens
+                'Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper',
+                'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman',
+                // Secondary Heroes/Adults
+                'Bob Newby', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove', 'Enzo (Dmitri)', 'Yuri Ismaylov',
+                // Hawkins Residents / Side Characters
+                'Jason Carver', 'Patrick McKinney', 'Fred Benson', 'Calvin Powell', 'Phillip Callahan', 
+                'Tommy H.', 'Keith', 'Lonnie Byers', 'Benny Hammond', 'Mr. Harrington', 'Charles Sinclair',
+                'Mr. Henderson', 'Mr. Wheeler', 'Mr. Mayfield', 'Mr. Munson', 'Scott Clarke', 'Greg', 'Rich',
+                'Dr. Alexey', 'Alexi', 'Officer Callahan', 'Officer Powell', 'Mr. Baldo', 'Mr. Mooney',
+                'Coach Skip', 'Mr. Sinclair', 'Mayor Larry Kline', 'Senator Hatch', 'Father Mike', 'Clyde',
+                'Grigori', 'Gary', 'Tom Holloway', 'Brian', 'Derek Turnbow(Dipshit)'
+            ],
+            Female: [
+                // Core Party/Teens
+                'Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers', 
+                'Erica Sinclair', 'Suzie Bingham', 'Kali Prasad (Eight)',
+                // Secondary Heroes/Adults
+                'Chrissy Cunningham', 'Angela', 'Vickie', 'Holly Wheeler', 'Tammy Thompson', 
+                'Karen Wheeler', 'Claudia Henderson', 'Patty', 
+                // Mothers / Residents
+                'Mrs. Sinclair', 'Mrs. Byers', 'Mrs. Mayfield', 'Mrs. Munson', 'Mrs. Kelly',
+                'Mrs. Driscoll', 'Anya', 'Sara Hopper', 'Janet Hayes', 'Florence',
+                'Carol', 'Tina', 'Stacy', 'Melanie', 'Mrs. Reardon', 'Mrs. O\'Donnell',
+                'Mrs. Bingley', 'Mrs. Harrington', 'Mrs. Coleman',
+                // Added for completeness
+                'Becky Ives', 'Sue', 'Dottie', 'Jen',
+                'Barb', 'Heather Holloway', 'Moe Eldridge', 'Terry Ives', 'Dr. Kay'
+            ],
+            Villain_Neutral: [
+                // Monsters
+                'Vecna (Henry Creel)', 
+                'The Mind Flayer', 
+                'Demogorgon', 
+                'Demo-Dog', 
+                // Human Antagonists
+                'Peter Ballard (One)',
+                'Dr. Brenner (Papa)', 
+                'Dr. Owens', 
+                'Lt. Colonel Sullivan', 
+                'Connie Frazier', 
+                'Agent Florence',
+                // EPIC ADDITIONS
+                'Grigori (Russian)', 'Antonov'
+            ]
+        };
 
         // --- GLOBAL STATE & ELEMENTS ---
         let currentCastle = null;
@@ -381,19 +732,11 @@
                 return allData[castle];
             }
 
-            // Migration: if stored castle doesn't have an initialMaxResets value,
-            // assume it was created when the previous default was prevDefault (6).
-            // Recalculate resetsLeft = MAX_RESETS - used
+            // Migration logic:
             const data = allData[castle];
-            if (!('initialMaxResets' in data)) {
-                const used = Math.max(0, prevDefault - (data.resetsLeft ?? 0));
-                data.resetsLeft = Math.max(0, MAX_RESETS - used);
-                data.initialMaxResets = MAX_RESETS;
-                allData[castle] = data;
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(allData));
-            } else if (data.initialMaxResets !== MAX_RESETS) {
-                // If MAX_RESETS changed between versions, keep tracking used resets
-                const used = Math.max(0, data.initialMaxResets - (data.resetsLeft ?? 0));
+            if (!('initialMaxResets' in data) || data.initialMaxResets !== MAX_RESETS) {
+                const oldInitial = data.initialMaxResets || prevDefault;
+                const used = Math.max(0, oldInitial - (data.resetsLeft ?? 0));
                 data.resetsLeft = Math.max(0, MAX_RESETS - used);
                 data.initialMaxResets = MAX_RESETS;
                 allData[castle] = data;
@@ -403,7 +746,7 @@
             return allData[castle];
         }
 
-        // Migrate all saved castles to use the new MAX_RESETS value while preserving used attempts
+        // Migration all saved castles to use the new MAX_RESETS value while preserving used attempts
         function migrateAllCastles() {
             const allData = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
             const prevDefault = 6;
@@ -435,8 +778,15 @@
         }
 
         // --- MODAL HANDLERS ---
-        function showModal(title, message, onConfirm) {
-            ELEMENTS.modalTitle.textContent = title;
+        function showModal(titleKey, messageKey, onConfirm, param1 = null, param2 = null) {
+            const translations = TRANSLATIONS[currentLang];
+            
+            let message = translations[messageKey] || messageKey; // Fallback to key if not found
+            // Replace placeholders: $1, $2
+            if (param1 !== null) message = message.replace('$1', param1);
+            if (param2 !== null) message = message.replace('$2', param2);
+            
+            ELEMENTS.modalTitle.textContent = translations[titleKey] || titleKey;
             ELEMENTS.modalMessage.innerHTML = message;
             
             ELEMENTS.themeModal.classList.remove('hidden');
@@ -465,6 +815,9 @@
             
             ELEMENTS.modalConfirm = newConfirm;
             ELEMENTS.modalCancel = newCancel;
+            
+            // Re-apply i18n to button text if language was just changed
+            setLanguage(currentLang);
         }
 
         function hideModal() {
@@ -474,22 +827,31 @@
             }, 300);
         }
 
-        // --- UI & STATUS LOGIC ---
-        function displayStatus(type, message) {
+        // --- UI & STATUS LOGIC (MODIFIED TO USE i18n keys) ---
+        function displayStatus(type, messageKey, param1 = null, param2 = null) {
+            const translations = TRANSLATIONS[currentLang];
+            let message = translations[messageKey] || messageKey; // Fallback to key if not found
+            
+            // Replace placeholders: $1, $2
+            if (param1 !== null) message = message.replace('$1', param1);
+            if (param2 !== null) message = message.replace('$2', param2);
+            
             ELEMENTS.statusMessage.innerHTML = `<i class="fa-solid fa-circle-info mr-2"></i> ${message}`;
             ELEMENTS.statusMessage.className = `p-3 rounded-lg mb-6 status-${type}`;
         }
         
         function resetToForm() {
             ELEMENTS.assignBtn.disabled = false;
-            ELEMENTS.assignBtn.innerHTML = '<i class="fa-solid fa-mask mr-2"></i> ASSIGN CODE NAME';
+            ELEMENTS.assignBtn.innerHTML = TRANSLATIONS[currentLang]['assign_code'];
         }
 
         function displayFinalResult(characterName, gender, isExisting) {
+            const translations = TRANSLATIONS[currentLang];
+            
             ELEMENTS.resultName.textContent = characterName.toUpperCase();
             
             let charType = 'HAWKINS CREW';
-            // Logic to determine specific antagonist type
+            // Logic to determine specific antagonist type (NOTE: These types are NOT translated here, only the surrounding text)
             if (CHARACTERS.Villain_Neutral.includes(characterName)) {
                 if (['The Mind Flayer', 'Demogorgon', 'Demo-Dog'].includes(characterName)) {
                     charType = 'UPSIDE DOWN AGENT (MONSTER)';
@@ -499,8 +861,11 @@
                      charType = 'GOVERNMENT/LAB ANTAGONIST';
                 }
             }
+            
+            // Get the translated gender text and remove HTML tags (like <i>) if present
+            const translatedGender = translations[gender.toLowerCase() + '_chars'].replace(/<[^>]*>?/gm, '');
 
-            ELEMENTS.resultCharType.textContent = `(${charType} - ${gender} Pool)`;
+            ELEMENTS.resultCharType.textContent = `(${charType} - ${translatedGender} Pool)`;
             ELEMENTS.assignmentForm.classList.add('hidden');
             ELEMENTS.resultDisplay.classList.remove('hidden');
             
@@ -508,9 +873,9 @@
             ELEMENTS.resetCount.textContent = castleData.resetsLeft;
             
             if(isExisting) {
-                displayStatus('info', `Welcome back! **${characterName.toUpperCase()}** assigned to ${currentCastle}`);
+                displayStatus('info', 'result_welcome', characterName.toUpperCase(), currentCastle);
             } else {
-                displayStatus('success', `Assignment complete! **${characterName.toUpperCase()}** secured.`);
+                displayStatus('success', 'result_secured', characterName.toUpperCase());
             }
             
             // Migrate existing castle data if MAX_RESETS was increased
@@ -521,6 +886,9 @@
 
         // --- CORE GAME FLOW ---
         function initializeGame() {
+            // Setup the translator first
+            setupLanguageSelector();
+            
             // Set up initial event listeners
             ELEMENTS.selectCastleBtn.addEventListener('click', selectCastle);
             ELEMENTS.assignBtn.addEventListener('click', startAssignment);
@@ -531,20 +899,22 @@
             ELEMENTS.resetBtn.addEventListener('click', function() {
                 const castleData = getCastleData(currentCastle);
                 if (castleData.resetsLeft <= 0) {
-                    displayStatus('error', '❌ No reset attempts remaining for this castle.');
+                    displayStatus('error', 'status_no_resets');
                     return;
                 }
                 
                 showModal(
-                    'SECURITY OVERRIDE REQUEST', 
-                    `This will consume **1 of your ${castleData.resetsLeft} re-roll attempts** for **${currentCastle}**. The current code name will be lost.`,
+                    'modal_override_title', 
+                    'status_reset_confirm_msg',
                     (confirmed) => {
                         if (confirmed) {
                             performReset();
                         } else {
-                            displayStatus('info', 'Re-roll cancelled. Current assignment remains active.');
+                            displayStatus('info', 'status_reset_cancel');
                         }
-                    }
+                    },
+                    castleData.resetsLeft,
+                    currentCastle
                 );
             });
 
@@ -555,7 +925,7 @@
             const castleName = ELEMENTS.castleInput.value.trim();
             
             if (!castleName) {
-                displayStatus('error', 'Please enter a castle name.');
+                displayStatus('error', 'status_enter_name');
                 return;
             }
 
@@ -584,7 +954,7 @@
                 ELEMENTS.playerGender.value = '';
                 ELEMENTS.playerGender.disabled = false;
                 ELEMENTS.assignBtn.disabled = false;
-                displayStatus('info', `Selected "${castleName}". Ready for assignment.`);
+                displayStatus('info', 'status_ready', castleName);
             }
 
             // Disable reset button if no resets left
@@ -594,26 +964,27 @@
         async function startAssignment() {
             const gameName = currentCastle;
             const gender = ELEMENTS.playerGender.value;
+            const translations = TRANSLATIONS[currentLang];
             
             if (!gameName || !gender) {
-                displayStatus('error', 'Please select a character pool.');
+                displayStatus('error', 'status_select_pool');
                 return;
             }
 
             const castleData = getCastleData(currentCastle);
             
             if (castleData.assignment) {
-                displayStatus('info', 'Assignment already completed. Use Reset to re-roll.');
+                displayStatus('info', 'status_assignment_exists');
                 return;
             }
 
             ELEMENTS.assignBtn.disabled = true;
-            ELEMENTS.assignBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> INITIATING SEARCH...';
+            ELEMENTS.assignBtn.innerHTML = translations['spinner_initiating'];
 
             // Show spinner container and start animation
             ELEMENTS.spinnerContainer.classList.remove('hidden');
             ELEMENTS.spinnerText.classList.add('glitch-anim');
-            ELEMENTS.spinnerText.textContent = "SEARCHING THE UPSIDE DOWN";
+            ELEMENTS.spinnerText.textContent = translations['spinner_upside_down'];
             ELEMENTS.assignmentForm.classList.add('hidden');
 
 
@@ -630,7 +1001,7 @@
                     
                     if (pool.length === 0) {
                         pool = (gender === 'Male' ? CHARACTERS.Male : CHARACTERS.Female).concat(CHARACTERS.Villain_Neutral);
-                        displayStatus('warning', 'All unique characters used for this castle! Allowing duplicates.');
+                        displayStatus('warning', 'status_duplicate_warning');
                     }
                     
                     const randomIndex = Math.floor(Math.random() * pool.length);
@@ -667,7 +1038,7 @@
                 } catch (error) {
                     console.error("Assignment failed:", error);
                     ELEMENTS.spinnerContainer.classList.add('hidden');
-                    displayStatus('error', 'Assignment failed. Try again.');
+                    displayStatus('error', 'result_failed');
                     resetToForm();
                 }
             }, 1500);
@@ -720,7 +1091,7 @@
             ELEMENTS.resetCountDisplay.textContent = castleData.resetsLeft;
             ELEMENTS.resetBtn.disabled = castleData.resetsLeft <= 0;
             
-            displayStatus('warning', `Reset complete. ${castleData.resetsLeft} attempt(s) remaining for "${currentCastle}".`);
+            displayStatus('warning', 'status_reset_complete', castleData.resetsLeft, currentCastle);
             resetToForm();
             loadCastleAssignments();
         }
@@ -732,7 +1103,7 @@
             ELEMENTS.assignmentForm.classList.add('hidden');
             ELEMENTS.resultDisplay.classList.add('hidden');
             ELEMENTS.castleSelection.classList.remove('hidden');
-            displayStatus('info', 'Enter a new or existing castle name to proceed.');
+            displayStatus('info', 'status_new_castle');
         }
 
         function shareAssignment() {
@@ -749,7 +1120,7 @@ Assigned via ROL Hawkins System (Resets left: ${getCastleData(currentCastle).res
             `.trim();
 
             navigator.clipboard.writeText(shareText).then(() => {
-                displayStatus('success', 'Copied to clipboard! Share this assignment in Discord.');
+                displayStatus('success', 'status_copy_success');
             });
         }
 
@@ -759,6 +1130,8 @@ Assigned via ROL Hawkins System (Resets left: ${getCastleData(currentCastle).res
             
             Object.entries(allData).forEach(([castle, data]) => {
                 if (data.assignment) {
+                    const translations = TRANSLATIONS[currentLang];
+                    const resetsText = translations['resets_left'].replace(':', '');
                     const statusClass = data.resetsLeft === 0 ? 'text-red-600' : 'text-yellow-500'; 
 
                     html += `
@@ -767,13 +1140,13 @@ Assigned via ROL Hawkins System (Resets left: ${getCastleData(currentCastle).res
                             <div class="text-xs">
                                 <span class="roster-name-glow st-title">${data.assignment.characterName.toUpperCase()}</span> 
                             </div>
-                            <div class="text-xs ${statusClass}">Resets left: ${data.resetsLeft}/${MAX_RESETS}</div>
+                            <div class="text-xs ${statusClass}">${resetsText}: ${data.resetsLeft}/${MAX_RESETS}</div>
                         </div>
                     `;
                 }
             });
             
-            ELEMENTS.castleAssignments.innerHTML = html || '<p class="text-gray-500 text-center">No castle assignments found locally.</p>';
+            ELEMENTS.castleAssignments.innerHTML = html || `<p class="text-gray-500 text-center">${TRANSLATIONS[currentLang]['roster_empty']}</p>`;
         }
 
         // Start the game!
