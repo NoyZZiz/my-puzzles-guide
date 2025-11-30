@@ -122,6 +122,22 @@
             box-shadow: 0 0 25px rgba(209, 18, 28, 0.8);
             border-radius: 8px;
         }
+        
+        /* CRAZY ANIMATION FOR SPINNER */
+        .glitch-anim {
+            animation: glitch 1.5s linear infinite alternate, shake 0.15s infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 0 0 5px rgba(255, 0, 0, 0.7); transform: translate(1px, 1px); }
+            50% { text-shadow: 0 0 5px rgba(0, 255, 0, 0.7); transform: translate(-1px, -1px); }
+            100% { text-shadow: 0 0 5px rgba(0, 0, 255, 0.7); transform: translate(0, 0); }
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 0); }
+            100% { transform: translate(-1px, 0); }
+        }
 
     </style>
 </head>
@@ -198,6 +214,10 @@
                 </div>
             </div>
 
+            <div id="spinner-container" class="mt-8 flex items-center justify-center p-6 hidden">
+                <span id="spinner-text" class="st-title text-4xl">SEARCHING REALITY...</span>
+            </div>
+
             <div id="result-display" class="mt-8 text-center hidden p-6 border-2 border-red-900 rounded-lg">
                 <h3 class="text-lg text-gray-300 font-medium uppercase tracking-wider mb-2 tech-font">CASTLE ASSIGNMENT SECURED:</h3>
                 <p id="result-name" class="font-bold"></p>
@@ -253,61 +273,55 @@
         // --- CONFIGURATION & CONSTANTS ---
         const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1444330680858447903/dvcgQu42zAycH3rsEx8GADtmKoIGl3mY0PaznYMHhuOdtTlUHcliQJAk_No0NEtQ3Bg0';
         const STORAGE_KEY = 'rol_castle_assignments';
-        const MAX_RESETS = 6; // *** FINAL CONFIRMED MAX RESETS ***
+        const MAX_RESETS = 6; 
 
         // --- UPDATED AND VERIFIED CHARACTER ROSTER (130+ CHARACTERS, FILTERED) ---
-const CHARACTERS = {
-    Male: [
-        // Core Party/Teens
-        'Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper',
-        'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman',
-        // Secondary Heroes/Adults
-        'Bob Newby', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove', 'Enzo (Dmitri)', 'Yuri Ismaylov',
-        // Hawkins Residents / Side Characters
-        'Jason Carver', 'Patrick McKinney', 'Fred Benson', 'Calvin Powell', 'Phillip Callahan', 
-        'Tommy H.', 'Keith', 'Lonnie Byers', 'Benny Hammond', 'Mr. Harrington', 'Charles Sinclair',
-        'Mr. Henderson', 'Mr. Mayfield', 'Mr. Munson', 'Scott Clarke', 'Greg', 'Rich',
-        'Dr. Alexey', 'Alexi', 'Officer Callahan', 'Officer Powell', 'Mr. Baldo', 'Mr. Mooney',
-        'Coach Skip', 'Mr. Sinclair', 'Mayor Larry Kline', 'Senator Hatch', 'Father Mike', 'Dmitri', 'Clyde',
-        // Kali's Gang / Military
-        'Axel', 'Mick', 'Funshine', 'Ray', 'Pierce', 'Bauer', 'Duff',
-        // Funny/Quirky Characters
-        'Dr. Owens', 'Agent Wallace', 'Reporter', 'Vendor', 'Cashier',
-        // Season 5 Characters - New
-        'Derek Turnbow', 'Gunnar Kline', 'Kas', 'Lt. Robert Akers', 'Andy', 'Chance'
-    ],
-    Female: [
-        // Core Party/Teens
-        'Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers', 
-        'Erica Sinclair', 'Suzie Bingham', 'Kali Prasad (Eight)',
-        // Secondary Heroes/Adults
-        'Chrissy Cunningham', 'Angela', 'Vickie', 'Holly Wheeler', 'Tammy Thompson', 
-        'Karen Wheeler', 'Claudia Henderson', 'Patty', 
-        // Mothers / Residents
-        'Mrs. Sinclair', 'Mrs. Byers', 'Mrs. Mayfield', 'Mrs. Munson', 'Mrs. Kelly',
-        'Mrs. Driscoll', 'Anya', 'Sara Hopper', 'Janet Hayes', 'Florence', 'Ms. Kelly',
-        'Carol', 'Tina', 'Stacy', 'Melanie', 'Mrs. Reardon', 'Mrs. O\'Donnell',
-        'Mrs. Bingley', 'Mrs. Harrington', 'Mrs. Coleman',
-        // Added for completeness
-        'Becky Ives', 'Sue', 'Dottie', 'The Librarian', 'Jen',
-        // Season 5 Characters - New
-        'Iris', 'Yuki', 'Dr. Kay'
-    ],
-    Villain_Neutral: [
-        // Monsters
-        'Vecna (Henry Creel)', 
-        'The Mind Flayer', 
-        'Demogorgon', 
-        'Demo-Dog', 
-        // Human Antagonists
-        'Peter Ballard (One)',
-        'Dr. Brenner (Papa)', 
-        'Lt. Colonel Sullivan', 
-        'Connie Frazier', 
-        'Agent Florence'
-    ]
-};
-
+        const CHARACTERS = {
+            Male: [
+                // Core Party/Teens
+                'Mike Wheeler', 'Will Byers', 'Dustin Henderson', 'Lucas Sinclair', 'Jim Hopper',
+                'Steve Harrington', 'Eddie Munson', 'Jonathan Byers', 'Argyle', 'Murray Bauman',
+                // Secondary Heroes/Adults
+                'Bob Newby', 'Ted Wheeler', 'Mr. Clarke', 'Billy Hargrove', 'Enzo (Dmitri)', 'Yuri Ismaylov',
+                // Hawkins Residents / Side Characters
+                'Jason Carver', 'Patrick McKinney', 'Fred Benson', 'Calvin Powell', 'Phillip Callahan', 
+                'Tommy H.', 'Keith', 'Lonnie Byers', 'Benny Hammond', 'Mr. Harrington', 'Charles Sinclair',
+                'Mr. Henderson', 'Mr. Wheeler', 'Mr. Mayfield', 'Mr. Munson', 'Scott Clarke', 'Greg', 'Rich',
+                'Dr. Alexey', 'Alexi', 'Officer Callahan', 'Officer Powell', 'Mr. Baldo', 'Mr. Mooney', 'Mr. Newby',
+                'Coach Skip', 'Mr. Sinclair', 'Mayor Larry Kline', 'Senator Hatch', 'Father Mike', 'Dmitri', 'Clyde',
+                // Kali's Gang / Military
+                'Axel', 'Mick', 'Funshine', 'Dusty', 'Ray', 'Pierce', 'Bauer', 'Duff'
+            ],
+            Female: [
+                // Core Party/Teens
+                'Eleven (El)', 'Max Mayfield', 'Nancy Wheeler', 'Robin Buckley', 'Joyce Byers', 
+                'Erica Sinclair', 'Suzie Bingham', 'Kali Prasad (Eight)',
+                // Secondary Heroes/Adults
+                'Chrissy Cunningham', 'Angela', 'Vickie', 'Holly Wheeler', 'Tammy Thompson', 
+                'Mrs. Wheeler (Karen)', 'Mrs. Henderson (Claudia)', 'Patty', 
+                // Mothers / Residents
+                'Mrs. Sinclair', 'Mrs. Byers', 'Mrs. Mayfield', 'Mrs. Munson', 'Mrs. Kelly',
+                'Mrs. Driscoll', 'Anya', 'Sara Hopper', 'Janet Hayes', 'Florence', 'Ms. Kelly',
+                'Carol', 'Tina', 'Stacy', 'Melanie', 'Mrs. Reardon', 'Mrs. O\'Donnell', 'Mrs. Henderson',
+                'Mrs. Wheeler', 'Mrs. Sinclair', 'Mrs. Bingley', 'Mrs. Harrington', 'Mrs. Coleman',
+                // Added for completeness
+                'Becky Ives', 'Sue', 'Dottie', 'The Librarian', 'Jen'
+            ],
+            Villain_Neutral: [
+                // Monsters
+                'Vecna (Henry Creel)', 
+                'The Mind Flayer', 
+                'Demogorgon', 
+                'Demo-Dog', 
+                // Human Antagonists (Moved from Male/Female)
+                'Peter Ballard (One)',
+                'Dr. Brenner (Papa)', 
+                'Dr. Owens', 
+                'Lt. Colonel Sullivan', 
+                'Connie Frazier', 
+                'Agent Florence'
+            ]
+        };
 
         // --- GLOBAL STATE & ELEMENTS ---
         let currentCastle = null;
@@ -333,6 +347,10 @@ const CHARACTERS = {
             resetCountDisplay: document.getElementById('reset-count-display'),
             castleAssignments: document.getElementById('castle-assignments'),
             
+            // Spinner update
+            spinnerContainer: document.getElementById('spinner-container'),
+            spinnerText: document.getElementById('spinner-text'),
+
             // Modal Elements
             themeModal: document.getElementById('theme-modal'),
             modalTitle: document.getElementById('modal-title'),
@@ -415,9 +433,8 @@ const CHARACTERS = {
             ELEMENTS.resultName.textContent = characterName.toUpperCase();
             
             let charType = 'HAWKINS CREW';
-            // Logic updated to check if the character is listed in the dedicated Villain_Neutral pool
+            // Logic to determine specific antagonist type
             if (CHARACTERS.Villain_Neutral.includes(characterName)) {
-                // If the villain is a monster, mark as AGENT, otherwise just ANTAGONIST
                 if (['The Mind Flayer', 'Demogorgon', 'Demo-Dog'].includes(characterName)) {
                     charType = 'UPSIDE DOWN AGENT (MONSTER)';
                 } else if (['Vecna (Henry Creel)', 'Peter Ballard (One)'].includes(characterName)) {
@@ -533,7 +550,14 @@ const CHARACTERS = {
             }
 
             ELEMENTS.assignBtn.disabled = true;
-            ELEMENTS.assignBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> SEARCHING REALITY...';
+            ELEMENTS.assignBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> INITIATING SEARCH...';
+
+            // Show spinner container and start animation
+            ELEMENTS.spinnerContainer.classList.remove('hidden');
+            ELEMENTS.spinnerText.classList.add('glitch-anim');
+            ELEMENTS.spinnerText.textContent = "SEARCHING THE UPSIDE DOWN";
+            ELEMENTS.assignmentForm.classList.add('hidden');
+
 
             setTimeout(async () => {
                 try {
@@ -570,12 +594,21 @@ const CHARACTERS = {
                     
                     sendToDiscord(gameName, assignedCharacter, gender, currentCastle);
                     
-                    displayFinalResult(assignedCharacter, gender, false);
-                    ELEMENTS.assignBtn.disabled = true; 
-                    ELEMENTS.playerGender.disabled = true;
+                    // Stop animation and display final name in spinner area briefly
+                    ELEMENTS.spinnerText.classList.remove('glitch-anim');
+                    ELEMENTS.spinnerText.textContent = assignedCharacter.toUpperCase();
+
+                    setTimeout(() => {
+                        ELEMENTS.spinnerContainer.classList.add('hidden');
+                        displayFinalResult(assignedCharacter, gender, false);
+                        ELEMENTS.assignBtn.disabled = true; 
+                        ELEMENTS.playerGender.disabled = true;
+                    }, 1000); // Wait 1 second after name reveal
+
                     
                 } catch (error) {
                     console.error("Assignment failed:", error);
+                    ELEMENTS.spinnerContainer.classList.add('hidden');
                     displayStatus('error', 'Assignment failed. Try again.');
                     resetToForm();
                 }
@@ -586,16 +619,16 @@ const CHARACTERS = {
             try {
                 const payload = {
                     embeds: [{
-                        title: '🎭 ROL CASTLE CHARACTER ASSIGNED',
-                        description: `**${operatorName}** claimed **${codeName}** for castle **${castle}**!`,
+                        title: `🔴 CODE NAME ASSIGNMENT: ${codeName.toUpperCase()}`,
+                        description: `Assignment confirmed for Operator **${operatorName}** (Castle: ${castle}).`,
                         fields: [
-                            { name: 'CASTLE/ALIAS', value: operatorName, inline: true },
+                            { name: 'OPERATOR ALIAS', value: operatorName, inline: true },
                             { name: 'CODE NAME', value: codeName, inline: true },
                             { name: 'POOL', value: characterPool, inline: true }
                         ],
                         // ST Red color in decimal
                         color: 13369344, 
-                        footer: { text: 'ROL Alliance - Hawkins System (Local Log)' },
+                        footer: { text: 'ROL Hawkins System | CLASSIFIED TRANSMISSION' },
                         timestamp: new Date().toISOString()
                     }]
                 };
@@ -608,6 +641,7 @@ const CHARACTERS = {
                 
                 return true;
             } catch (error) {
+                // If Discord fails, we ensure the local flow continues.
                 return false;
             }
         }
