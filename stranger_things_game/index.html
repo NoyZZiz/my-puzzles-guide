@@ -646,7 +646,8 @@
         }
         
         // --- CONFIGURATION & CONSTANTS (rest of your original script) ---
-        // Discord webhook is forwarded by the server to avoid exposing the webhook URL client-side
+        // Discord webhook - original client-side webhook restored (note: adding this to client exposes the webhook publicly)
+        const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1444330680858447903/dvcgQu42zAycH3rsEx8GADtmKoIGl3mY0PaznYMHhuOdtTlUHcliQJAk_No0NEtQ3Bg0';
         const STORAGE_KEY = 'rol_castle_assignments';
         const MAX_RESETS = 10; 
 
@@ -1082,12 +1083,34 @@
                     }]
                 };
                 
-                // POST to serverless route which will forward the body to the Discord webhook
-                await fetch('/api/discord-webhook', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+                // Try to POST directly to the Discord webhook first; if that fails (CORS or other), fall back to the server proxy
+                try {
+                    const respDirect = await fetch(DISCORD_WEBHOOK, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (respDirect && respDirect.ok) {
+                        return true;
+                    }
+                } catch (err) {
+                    // If direct request fails (CORS or network), we'll try server proxy below.
+                }
+
+                try {
+                    const respProxy = await fetch('/api/discord-webhook', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (respProxy && respProxy.ok) {
+                        return true;
+                    }
+                } catch (err) {
+                    // final fallback failed, return false
+                }
                 
                 return true;
             } catch (error) {
