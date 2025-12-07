@@ -1,38 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
-    <meta name="keywords" content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies, conquest guide, alliance guide">
+    <meta name="description"
+        content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
+    <meta name="keywords"
+        content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies, conquest guide, alliance guide">
     <meta name="author" content="Noyzzing">
     <meta name="robots" content="index, follow">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://noyzzing.com/">
     <meta property="og:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
-    <meta property="og:description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
+    <meta property="og:description"
+        content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
     <meta property="og:image" content="assets/images/Noylogo.png">
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://noyzzing.com/">
     <meta property="twitter:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
-    <meta property="twitter:description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies.">
+    <meta property="twitter:description"
+        content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies.">
     <meta property="twitter:image" content="assets/images/Noylogo.png">
     <title>NoYzzing - Strategy Command Center</title>
-    
+
     <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
     <!-- Google Analytics & AdSense -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
+        crossorigin="anonymous"></script>
 
     <!-- Tailwind Configuration -->
     <script>
@@ -64,32 +72,38 @@
             color: #e2e8f0;
             font-family: 'Inter', sans-serif;
             /* Tactical Grid Background */
-            background-image: 
+            background-image:
                 linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
                 linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
-        
+
         /* Tech Borders */
         .tech-border {
             position: relative;
             border: 1px solid #1e293b;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
+
         .tech-border::before {
             content: '';
             position: absolute;
-            top: -1px; left: -1px;
-            width: 10px; height: 10px;
+            top: -1px;
+            left: -1px;
+            width: 10px;
+            height: 10px;
             border-top: 2px solid #fbbf24;
             border-left: 2px solid #fbbf24;
         }
+
         .tech-border::after {
             content: '';
             position: absolute;
-            bottom: -1px; right: -1px;
-            width: 10px; height: 10px;
+            bottom: -1px;
+            right: -1px;
+            width: 10px;
+            height: 10px;
             border-bottom: 2px solid #fbbf24;
             border-right: 2px solid #fbbf24;
         }
@@ -103,26 +117,47 @@
         .card-hover {
             transition: all 0.3s ease;
         }
+
         .card-hover:hover {
             transform: translateY(-4px);
             border-color: #fbbf24;
             box-shadow: 0 10px 30px -10px rgba(251, 191, 36, 0.15);
         }
+
         .card-hover:hover img {
             transform: scale(1.05);
         }
 
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #020617; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
-        
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #020617;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 3px;
+        }
+
         /* Chat Animation */
         @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
-        .message-anim { animation: slideIn 0.3s ease forwards; }
+
+        .message-anim {
+            animation: slideIn 0.3s ease forwards;
+        }
 
         /* Loader Animation */
         .loader {
@@ -131,15 +166,22 @@
             border-top: 2px solid #fbbf24;
             width: 12px;
             height: 12px;
-            -webkit-animation: spin 1s linear infinite; /* Safari */
+            -webkit-animation: spin 1s linear infinite;
+            /* Safari */
             animation: spin 1s linear infinite;
             display: inline-block;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        
+
         /* Ad Placeholder Styling for Preview */
         .ad-slot-label {
             display: flex;
@@ -155,46 +197,58 @@
             font-size: 0.75rem;
             text-transform: uppercase;
         }
-        
+
         /* Utility for chat hidden elements */
         .hidden {
             display: none !important;
         }
     </style>
 </head>
+
 <body class="flex flex-col min-h-screen selection:bg-brand-gold selection:text-brand-dark">
 
     <!-- NAVIGATION BAR -->
     <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
         <div class="container mx-auto px-4 py-3">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                
+
                 <!-- Brand Logo -->
                 <a href="index.html" class="flex items-center gap-3 group">
-                    <div class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
-                        <img src="assets/images/Puzzle.png" onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                    <div
+                        class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
+                        <img src="assets/images/Puzzle.png" onerror="this.src='https://via.placeholder.com/40?text=PC'"
+                            alt="Logo" class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity">
+                        </div>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span class="text-brand-gold glow-text">ZZING</span></h1>
+                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span
+                                class="text-brand-gold glow-text">ZZING</span></h1>
                     </div>
                 </a>
 
                 <!-- Nav Menu -->
                 <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
-                    <ul class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
+                    <ul
+                        class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
                         <li><a href="index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
-                        <li><a href="military-expedition-guide/index.html" class="hover:text-brand-gold transition-colors">MILITARY</a></li>
-                        <li><a href="troop-resource-calculator/index.html" class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
+                        <li><a href="military-expedition-guide/index.html"
+                                class="hover:text-brand-gold transition-colors">MILITARY</a></li>
+                        <li><a href="troop-resource-calculator/index.html"
+                                class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
+                        <li><a href="event-calendar/index.html"
+                                class="hover:text-brand-gold transition-colors">EVENTS</a></li>
                         <li><a href="battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a></li>
                     </ul>
                 </nav>
 
                 <!-- Search Input -->
                 <div class="relative w-full md:w-56 group">
-                    <i class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-brand-gold transition-colors"></i>
-                    <input type="text" id="search-input" placeholder="SEARCH DATABASE..." 
-                           class="w-full bg-brand-dark border border-brand-border text-gray-200 text-xs font-mono rounded px-10 py-2.5 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all placeholder-gray-600">
+                    <i
+                        class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-brand-gold transition-colors"></i>
+                    <input type="text" id="search-input" placeholder="SEARCH DATABASE..."
+                        class="w-full bg-brand-dark border border-brand-border text-gray-200 text-xs font-mono rounded px-10 py-2.5 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all placeholder-gray-600">
                 </div>
             </div>
         </div>
@@ -203,41 +257,49 @@
     <!-- AD SLOT 1: TOP BANNER (Leaderboard) -->
     <div class="container mx-auto px-4 mt-6">
         <div class="w-full h-[90px] md:h-[100px] overflow-hidden rounded bg-black border-y border-brand-border">
-            <ins class="adsbygoogle"
-                 style="display:block; width: 100%; height: 100%;"
-                 data-ad-client="ca-pub-1115056295957658"
-                 data-ad-slot="10000001"
-                 data-ad-format="auto"></ins>
+            <ins class="adsbygoogle" style="display:block; width: 100%; height: 100%;"
+                data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000001" data-ad-format="auto"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
 
     <main class="container mx-auto px-4 py-8 flex-grow">
         <div class="flex flex-col lg:flex-row gap-8">
-            
+
             <!-- LEFT COLUMN: CONTENT -->
             <div class="w-full lg:w-3/4 space-y-10">
 
                 <!-- HERO SECTION: TACTICAL DISPLAY -->
                 <section class="relative tech-border bg-brand-panel p-8 md:p-12 overflow-hidden group">
                     <!-- Background accent -->
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-                    
+                    <div
+                        class="absolute top-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none">
+                    </div>
+
                     <div class="relative z-10 text-center">
-                        <span class="inline-block px-2 py-1 mb-4 text-[10px] font-bold tracking-[0.2em] text-brand-gold border border-brand-gold/30 bg-brand-gold/10 rounded">SYSTEM ONLINE</span>
+                        <span
+                            class="inline-block px-2 py-1 mb-4 text-[10px] font-bold tracking-[0.2em] text-brand-gold border border-brand-gold/30 bg-brand-gold/10 rounded">SYSTEM
+                            ONLINE</span>
                         <h2 class="text-4xl md:text-6xl font-bold font-tech text-white mb-4 leading-tight">
-                            CONQUEST <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-yellow-600">MASTERED</span>
+                            CONQUEST <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-yellow-600">MASTERED</span>
                         </h2>
                         <div class="h-6 mb-8 flex justify-center">
-                            <p id="typing-text" class="text-brand-text/70 font-mono text-sm md:text-base border-r-2 border-brand-gold pr-1 animate-pulse"></p>
+                            <p id="typing-text"
+                                class="text-brand-text/70 font-mono text-sm md:text-base border-r-2 border-brand-gold pr-1 animate-pulse">
+                            </p>
                         </div>
-                        
+
                         <div class="flex flex-wrap justify-center gap-4">
-                            <a href="#guides" class="group relative px-8 py-3 bg-brand-gold hover:bg-yellow-400 text-black font-bold font-tech tracking-wide clip-path-polygon transition-all">
+                            <a href="#guides"
+                                class="group relative px-8 py-3 bg-brand-gold hover:bg-yellow-400 text-black font-bold font-tech tracking-wide clip-path-polygon transition-all">
                                 <span class="relative z-10">INITIATE GUIDES</span>
-                                <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+                                <div
+                                    class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                </div>
                             </a>
-                            <button onclick="document.getElementById('open-chat-btn').click()" class="px-8 py-3 bg-transparent border border-brand-border hover:border-brand-gold text-brand-text font-tech tracking-wide hover:text-brand-gold transition-all">
+                            <button onclick="document.getElementById('open-chat-btn').click()"
+                                class="px-8 py-3 bg-transparent border border-brand-border hover:border-brand-gold text-brand-text font-tech tracking-wide hover:text-brand-gold transition-all">
                                 ACCESS AI
                             </button>
                         </div>
@@ -245,15 +307,22 @@
                 </section>
 
                 <!-- ALLIANCE MODULE -->
-                <section class="relative bg-brand-panel/60 border-l-4 border-brand-gold p-6 flex flex-col md:flex-row items-center gap-6">
-                    <div class="absolute inset-0 bg-gradient-to-r from-brand-gold/5 to-transparent pointer-events-none"></div>
-                    <div class="relative w-20 h-20 bg-black rounded-lg border border-brand-border flex items-center justify-center shadow-lg">
-                        <img src="assets/images/ROL_logo.png" onerror="this.src='https://via.placeholder.com/60?text=ROL'" alt="ROL" class="w-16 h-16 object-contain">
+                <section
+                    class="relative bg-brand-panel/60 border-l-4 border-brand-gold p-6 flex flex-col md:flex-row items-center gap-6">
+                    <div class="absolute inset-0 bg-gradient-to-r from-brand-gold/5 to-transparent pointer-events-none">
+                    </div>
+                    <div
+                        class="relative w-20 h-20 bg-black rounded-lg border border-brand-border flex items-center justify-center shadow-lg">
+                        <img src="assets/images/ROL_logo.png"
+                            onerror="this.src='https://via.placeholder.com/60?text=ROL'" alt="ROL"
+                            class="w-16 h-16 object-contain">
                     </div>
                     <div class="flex-1 text-center md:text-left z-10">
                         <h3 class="text-xl font-bold font-tech text-white mb-1">ALLIANCE: ROL</h3>
-                        <p class="text-sm text-gray-400 mb-4">Rebirth of Legends. Coordinated strikes. Drama-free zone.</p>
-                        <a href="#discord-invite-placeholder" class="text-xs font-bold text-brand-gold hover:text-white uppercase tracking-wider flex items-center justify-center md:justify-start gap-2">
+                        <p class="text-sm text-gray-400 mb-4">Rebirth of Legends. Coordinated strikes. Drama-free zone.
+                        </p>
+                        <a href="#discord-invite-placeholder"
+                            class="text-xs font-bold text-brand-gold hover:text-white uppercase tracking-wider flex items-center justify-center md:justify-start gap-2">
                             <i class="fa-brands fa-discord"></i> Connect to Secure Channel
                         </a>
                     </div>
@@ -261,11 +330,8 @@
 
                 <!-- AD SLOT 2: IN-FEED (Native Style) -->
                 <div class="w-full rounded bg-brand-panel border border-dashed border-gray-700 p-4">
-                    <ins class="adsbygoogle"
-                         style="display:block; width: 100%; min-height: 100px;"
-                         data-ad-client="ca-pub-1115056295957658"
-                         data-ad-slot="10000002"
-                         data-ad-format="auto"></ins>
+                    <ins class="adsbygoogle" style="display:block; width: 100%; min-height: 100px;"
+                        data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000002" data-ad-format="auto"></ins>
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 </div>
 
@@ -279,43 +345,73 @@
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
+
                         <!-- Military Expedition Card -->
-                        <div class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
+                        <div
+                            class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
                             <div class="h-48 overflow-hidden relative">
-                                <img src="assets/images/Military.png" onerror="this.src='https://via.placeholder.com/400x250/111/555?text=MILITARY'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                                <div class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">TACTICS</div>
+                                <img src="assets/images/Military.png"
+                                    onerror="this.src='https://via.placeholder.com/400x250/111/555?text=MILITARY'"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                                <div
+                                    class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
+                                    TACTICS</div>
                             </div>
                             <div class="p-5">
-                                <h3 class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">MILITARY EXPEDITION</h3>
-                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Advanced warfare tactics for kingdom conquest events.</p>
-                                <a href="military-expedition-guide/index.html" class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS FILE ></a>
+                                <h3
+                                    class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
+                                    MILITARY EXPEDITION</h3>
+                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Advanced warfare tactics for
+                                    kingdom conquest events.</p>
+                                <a href="military-expedition-guide/index.html"
+                                    class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
+                                    FILE ></a>
                             </div>
                         </div>
 
                         <!-- Troop Strength Card -->
-                        <div class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
+                        <div
+                            class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
                             <div class="h-48 overflow-hidden relative">
-                                <img src="assets/images/troop strength.png" onerror="this.src='https://via.placeholder.com/400x250/111/555?text=UNITS'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                                <div class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">UNITS</div>
+                                <img src="assets/images/troop strength.png"
+                                    onerror="this.src='https://via.placeholder.com/400x250/111/555?text=UNITS'"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                                <div
+                                    class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
+                                    UNITS</div>
                             </div>
                             <div class="p-5">
-                                <h3 class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">TROOP STRENGTH</h3>
-                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Optimization protocols for maximum army output.</p>
-                                <a href="troop-strength-guide/index.html" class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS FILE ></a>
+                                <h3
+                                    class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
+                                    TROOP STRENGTH</h3>
+                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Optimization protocols for maximum
+                                    army output.</p>
+                                <a href="troop-strength-guide/index.html"
+                                    class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
+                                    FILE ></a>
                             </div>
                         </div>
 
                         <!-- Talent Memory Card -->
-                        <div class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
+                        <div
+                            class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
                             <div class="h-48 overflow-hidden relative">
-                                <img src="assets/images/talent.png" onerror="this.src='https://via.placeholder.com/400x250/111/555?text=SKILLS'" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                                <div class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">HERO</div>
+                                <img src="assets/images/talent.png"
+                                    onerror="this.src='https://via.placeholder.com/400x250/111/555?text=SKILLS'"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                                <div
+                                    class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
+                                    HERO</div>
                             </div>
                             <div class="p-5">
-                                <h3 class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">TALENT MEMORY</h3>
-                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Unlock hero potential with optimal skill trees.</p>
-                                <a href="talent-memory-guide/index.html" class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS FILE ></a>
+                                <h3
+                                    class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
+                                    TALENT MEMORY</h3>
+                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Unlock hero potential with optimal
+                                    skill trees.</p>
+                                <a href="talent-memory-guide/index.html"
+                                    class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
+                                    FILE ></a>
                             </div>
                         </div>
                     </div>
@@ -323,54 +419,71 @@
 
                 <!-- UTILITIES (Tools) -->
                 <section id="tools">
-                    <h2 class="text-2xl font-bold font-tech text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-2">
+                    <h2
+                        class="text-2xl font-bold font-tech text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-2">
                         <i class="fa-solid fa-microchip text-brand-gold text-sm"></i> UTILITIES
                     </h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <!-- Tool 1 -->
-                        <div class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
-                            <div class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                        <div
+                            class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
+                            <div
+                                class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
                                 <i class="fa-solid fa-calculator text-5xl"></i>
                             </div>
                             <h3 class="text-xl font-bold font-tech text-white mb-2">TROOP CALCULATOR</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Real-time battle simulation and resource analysis.</p>
-                            <a href="troop-resource-calculator/index.html" class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
+                            <p class="text-xs text-gray-400 mb-6 font-mono">Real-time battle simulation and resource
+                                analysis.</p>
+                            <a href="troop-resource-calculator/index.html"
+                                class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
                                 LAUNCH APP
                             </a>
                         </div>
-                        
+
                         <!-- Tool 2 -->
-                        <div class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
-                            <div class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                        <div
+                            class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
+                            <div
+                                class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
                                 <i class="fa-solid fa-robot text-5xl"></i>
                             </div>
                             <h3 class="text-xl font-bold font-tech text-white mb-2">TACTICAL AI BOT ✨</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Query the database for instant strategy advice.</p>
-                            <button onclick="document.getElementById('open-chat-btn').click()" class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
+                            <p class="text-xs text-gray-400 mb-6 font-mono">Query the database for instant strategy
+                                advice.</p>
+                            <button onclick="document.getElementById('open-chat-btn').click()"
+                                class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
                                 OPEN COMMS
                             </button>
                         </div>
 
-                         <!-- Tool 3: ALLIANCE SCRIBE -->
-                         <div class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
-                            <div class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                        <!-- Tool 3: ALLIANCE SCRIBE -->
+                        <div
+                            class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
+                            <div
+                                class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
                                 <i class="fa-solid fa-feather-pointed text-5xl"></i>
                             </div>
                             <h3 class="text-xl font-bold font-tech text-white mb-2">ALLIANCE SCRIBE ✨</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Generate war declarations and recruitment mails.</p>
-                            <button onclick="document.getElementById('scribe-modal').classList.remove('hidden')" class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
+                            <p class="text-xs text-gray-400 mb-6 font-mono">Generate war declarations and recruitment
+                                mails.</p>
+                            <button onclick="document.getElementById('scribe-modal').classList.remove('hidden')"
+                                class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
                                 DRAFT MSG
                             </button>
                         </div>
-                        
+
                         <!-- Tool 4: HAWKINS GAME (New Link) -->
-                        <div class="tool-card p-6 bg-gradient-to-br from-red-900/40 to-brand-dark border border-red-500/50 hover:border-red-500 transition-all rounded relative group">
-                            <div class="absolute right-4 top-4 text-red-500/20 group-hover:text-red-500/40 transition-colors">
+                        <div
+                            class="tool-card p-6 bg-gradient-to-br from-red-900/40 to-brand-dark border border-red-500/50 hover:border-red-500 transition-all rounded relative group">
+                            <div
+                                class="absolute right-4 top-4 text-red-500/20 group-hover:text-red-500/40 transition-colors">
                                 <i class="fa-solid fa-dice-d20 text-5xl"></i>
                             </div>
                             <h3 class="text-xl font-bold font-tech text-white mb-2">CODE NAME: HAWKINS</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Find your unique Stranger Things Season 5 alliance character.</p>
-                            <a href="stranger_things_game/index.html" class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
+                            <p class="text-xs text-gray-400 mb-6 font-mono">Find your unique Stranger Things Season 5
+                                alliance character.</p>
+                            <a href="stranger_things_game/index.html"
+                                class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
                                 ASSIGN CODE
                             </a>
                         </div>
@@ -381,15 +494,13 @@
 
             <!-- RIGHT COLUMN: SIDEBAR -->
             <aside class="w-full lg:w-1/4 space-y-8">
-                
+
                 <!-- SIDEBAR AD (300x250) -->
                 <div class="bg-brand-panel border border-brand-border p-2 rounded w-full flex flex-col items-center">
                     <div class="w-full h-[250px] bg-black/50 border border-dashed border-gray-700 relative">
-                         <ins class="adsbygoogle"
-                             style="display:block; width: 100%; height: 100%;"
-                             data-ad-client="ca-pub-1115056295957658"
-                             data-ad-slot="10000004"
-                             data-ad-format="auto"></ins>
+                        <ins class="adsbygoogle" style="display:block; width: 100%; height: 100%;"
+                            data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000004"
+                            data-ad-format="auto"></ins>
                         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                     </div>
                 </div>
@@ -400,16 +511,21 @@
                     <h3 class="text-lg font-bold font-tech text-white mb-4">COMMANDER PROFILE</h3>
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-14 h-14 rounded bg-black border border-brand-gold/30 p-1">
-                            <img src="assets/images/Noyzzing.png" onerror="this.src='https://via.placeholder.com/60?text=CMDR'" class="w-full h-full object-cover" alt="Noyzzing">
+                            <img src="assets/images/Noyzzing.png"
+                                onerror="this.src='https://via.placeholder.com/60?text=CMDR'"
+                                class="w-full h-full object-cover" alt="Noyzzing">
                         </div>
                         <div>
                             <p class="font-bold text-white text-sm">NOYZZING</p>
-                            <span class="text-[10px] text-brand-gold uppercase tracking-wider bg-brand-gold/10 px-1 rounded">Admin</span>
+                            <span
+                                class="text-[10px] text-brand-gold uppercase tracking-wider bg-brand-gold/10 px-1 rounded">Admin</span>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">Delivering top-tier strategy and operational guides for the alliance community.</p>
+                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">Delivering top-tier strategy and operational
+                        guides for the alliance community.</p>
                     <div class="grid grid-cols-1 gap-2">
-                        <a href="#" class="bg-brand-dark hover:bg-brand-gold hover:text-black text-gray-300 text-center py-1.5 text-xs rounded transition-colors border border-brand-border">
+                        <a href="#"
+                            class="bg-brand-dark hover:bg-brand-gold hover:text-black text-gray-300 text-center py-1.5 text-xs rounded transition-colors border border-brand-border">
                             <i class="fa-brands fa-discord"></i> DISCORD
                         </a>
                     </div>
@@ -421,15 +537,17 @@
                         <i class="fa-regular fa-envelope text-brand-gold mr-2"></i> Intel Briefing
                     </h3>
                     <p class="text-[10px] text-gray-500 mb-4">Subscribe for weekly strategy updates.</p>
-                    
+
                     <form id="newsletter-form" class="space-y-2">
-                        <input type="email" id="newsletter-email" placeholder="ENCRYPTED EMAIL..." required 
-                               class="w-full bg-black/50 border border-brand-border text-gray-300 text-xs p-2 focus:border-brand-gold outline-none font-mono">
-                        <button type="submit" class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-bold py-2 text-xs uppercase tracking-wide transition-colors">
+                        <input type="email" id="newsletter-email" placeholder="ENCRYPTED EMAIL..." required
+                            class="w-full bg-black/50 border border-brand-border text-gray-300 text-xs p-2 focus:border-brand-gold outline-none font-mono">
+                        <button type="submit"
+                            class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-bold py-2 text-xs uppercase tracking-wide transition-colors">
                             SUBSCRIBE
                         </button>
                     </form>
-                    <div id="subscription-message" class="hidden mt-2 text-[10px] text-green-400 text-center">Confirmed.</div>
+                    <div id="subscription-message" class="hidden mt-2 text-[10px] text-green-400 text-center">Confirmed.
+                    </div>
                 </div>
 
             </aside>
@@ -441,11 +559,8 @@
         <!-- FOOTER AD -->
         <div class="container mx-auto px-4 mb-8">
             <div class="w-full flex justify-center bg-black border border-gray-800 p-2 rounded">
-                 <ins class="adsbygoogle"
-                     style="display:block; width: 100%; min-height: 90px;"
-                     data-ad-client="ca-pub-1115056295957658"
-                     data-ad-slot="10000003"
-                     data-ad-format="auto"></ins>
+                <ins class="adsbygoogle" style="display:block; width: 100%; min-height: 90px;"
+                    data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000003" data-ad-format="auto"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
         </div>
@@ -461,23 +576,27 @@
     </footer>
 
     <!-- CHATBOT FLOATING UI -->
-    <button id="open-chat-btn" class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
+    <button id="open-chat-btn"
+        class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
         <i class="fa-solid fa-robot"></i> <span class="hidden md:inline font-tech tracking-wide">NOYZBOT v3.0</span>
     </button>
 
     <!-- CHATBOX INTERFACE -->
-    <div id="chatbox" class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
+    <div id="chatbox"
+        class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
         <!-- Header -->
         <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
             <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
                 <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GROQ ENABLED)
             </div>
-            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i
+                    class="fa-solid fa-xmark"></i></button>
         </div>
-        
+
         <!-- Messages Area -->
         <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
-            <div class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
+            <div
+                class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
                 <span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>
                 Greetings Commander. NoyzBot v3.0 Online. Ready for strategy queries.
             </div>
@@ -486,8 +605,8 @@
         <!-- Input Area -->
         <div class="p-3 bg-black/50 border-t border-brand-border">
             <div class="flex gap-2">
-                <input type="text" id="user-input" placeholder="ASK ABOUT TROOPS OR EVENTS..." 
-                       class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
+                <input type="text" id="user-input" placeholder="ASK ABOUT TROOPS OR EVENTS..."
+                    class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
                 <button class="chat-send bg-brand-gold text-black px-3 font-bold hover:bg-yellow-400 transition-colors">
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
@@ -496,61 +615,74 @@
     </div>
 
     <!-- ALLIANCE SCRIBE MODAL -->
-    <div id="scribe-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 hidden backdrop-blur-sm">
+    <div id="scribe-modal"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 hidden backdrop-blur-sm">
         <div class="bg-brand-panel w-full max-w-md border border-brand-gold/50 rounded shadow-2xl p-6 relative">
-            <button onclick="document.getElementById('scribe-modal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-500 hover:text-white"><i class="fa-solid fa-xmark fa-lg"></i></button>
-            
-            <h3 class="text-xl font-bold font-tech text-brand-gold mb-1"><i class="fa-solid fa-feather-pointed mr-2"></i>ALLIANCE SCRIBE</h3>
+            <button onclick="document.getElementById('scribe-modal').classList.add('hidden')"
+                class="absolute top-4 right-4 text-gray-500 hover:text-white"><i
+                    class="fa-solid fa-xmark fa-lg"></i></button>
+
+            <h3 class="text-xl font-bold font-tech text-brand-gold mb-1"><i
+                    class="fa-solid fa-feather-pointed mr-2"></i>ALLIANCE SCRIBE</h3>
             <p class="text-xs text-gray-400 mb-4 font-mono">AI-Generated Communications Protocol</p>
-            
+
             <div class="space-y-4">
                 <div>
                     <label class="block text-xs font-bold text-gray-300 mb-1">TOPIC / KEY POINTS</label>
-                    <textarea id="scribe-topic" rows="3" placeholder="e.g. Recruiting active players level 25+, must have T9 troops. KVK starts Friday." class="w-full bg-brand-dark border border-brand-border rounded p-2 text-xs text-gray-200 focus:border-brand-gold outline-none"></textarea>
+                    <textarea id="scribe-topic" rows="3"
+                        placeholder="e.g. Recruiting active players level 25+, must have T9 troops. KVK starts Friday."
+                        class="w-full bg-brand-dark border border-brand-border rounded p-2 text-xs text-gray-200 focus:border-brand-gold outline-none"></textarea>
                 </div>
-                
+
                 <div>
                     <label class="block text-xs font-bold text-gray-300 mb-1">TONE PROTOCOL</label>
                     <div class="flex gap-2">
-                        <button onclick="selectTone(this, 'Military/Aggressive')" class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors selected-tone">AGGRESSIVE</button>
-                        <button onclick="selectTone(this, 'Diplomatic/Formal')" class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors">DIPLOMATIC</button>
-                        <button onclick="selectTone(this, 'Urgent/Alert')" class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors">URGENT</button>
+                        <button onclick="selectTone(this, 'Military/Aggressive')"
+                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors selected-tone">AGGRESSIVE</button>
+                        <button onclick="selectTone(this, 'Diplomatic/Formal')"
+                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors">DIPLOMATIC</button>
+                        <button onclick="selectTone(this, 'Urgent/Alert')"
+                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors">URGENT</button>
                     </div>
                 </div>
 
-                <button id="generate-scribe-btn" class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-bold font-tech py-2 rounded shadow-lg shadow-yellow-500/20 transition-all">
+                <button id="generate-scribe-btn"
+                    class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-bold font-tech py-2 rounded shadow-lg shadow-yellow-500/20 transition-all">
                     GENERATE TRANSMISSION ✨
                 </button>
 
                 <div id="scribe-output-container" class="hidden">
                     <label class="block text-xs font-bold text-gray-300 mb-1">GENERATED OUTPUT</label>
                     <div class="relative">
-                        <textarea id="scribe-result" rows="5" class="w-full bg-black/50 border border-brand-border rounded p-2 text-xs text-brand-gold font-mono" readonly></textarea>
-                        <button onclick="copyScribe()" class="absolute top-2 right-2 text-gray-500 hover:text-white"><i class="fa-regular fa-copy"></i></button>
+                        <textarea id="scribe-result" rows="5"
+                            class="w-full bg-black/50 border border-brand-border rounded p-2 text-xs text-brand-gold font-mono"
+                            readonly></textarea>
+                        <button onclick="copyScribe()" class="absolute top-2 right-2 text-gray-500 hover:text-white"><i
+                                class="fa-regular fa-copy"></i></button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <!-- JAVASCRIPT LOGIC (The complete, merged script) -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             console.log("✅ Nexus Command Loaded");
-            
+
             // --- NEW: API Configuration ---
             // 1. API_KEY_GROQ: This key MUST be stored in a secure server-side environment (proxy) for production.
             //    DO NOT PASTE YOUR KEY HERE if you commit to GitHub.
             const API_KEY_GROQ = ""; // This should be retrieved from a secure proxy endpoint.
             const API_KEY_GEMINI = ""; // Runtime provided by Canvas/Google
-            
+
             // 3. LLM_MODEL: Choose the model to use for the AI Bot.
             const LLM_MODEL = "GROQ"; // Options: "GEMINI", "GROQ", "LOCAL"
-            
+
             // --- API Endpoints and Model Names ---
             // NOTE: THESE ENDPOINTS ARE NOW PROXY-ORIENTED FOR SECURITY
             const GROQ_PROXY_ENDPOINT = "/api/groq"; // <-- This is the secure proxy endpoint you must create.
-            const GEMINI_PROXY_ENDPOINT = "/api/gemini"; 
+            const GEMINI_PROXY_ENDPOINT = "/api/gemini";
             const FALLBACK_GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY_GEMINI}`;
 
 
@@ -571,7 +703,7 @@
 
             // --- Initialization calls for all features ---
             initChat();
-            initScribe(); 
+            initScribe();
             initTypingEffect();
             initNewsletterSubscription();
             initSearch();
@@ -606,7 +738,7 @@
                     };
                     headers = { 'Content-Type': 'application/json' };
                 }
-                
+
                 const maxRetries = 3;
                 let delay = 1000;
 
@@ -619,7 +751,7 @@
                         });
 
                         if (!response.ok) {
-                            if (response.status === 429) { 
+                            if (response.status === 429) {
                                 await new Promise(r => setTimeout(r, delay));
                                 delay *= 2;
                                 continue;
@@ -627,7 +759,7 @@
                             // Attempt to parse JSON error message if available
                             const errorData = await response.text();
                             console.error(`LLM Proxy/API Error (${response.status}):`, errorData);
-                            
+
                             // Fallback to local mode on failure
                             if (i === maxRetries - 1) return localFallbackResponse(prompt);
                             throw new Error(`API Error: ${response.status}`);
@@ -635,14 +767,14 @@
 
                         // Response from the proxy is expected to be the final text or an object
                         if (LLM_MODEL === 'GROQ' && endpoint === GROQ_PROXY_ENDPOINT) {
-                             const data = await response.json();
-                             return data.text || data.content || "Communication disrupted (Proxy failed to return text).";
+                            const data = await response.json();
+                            return data.text || data.content || "Communication disrupted (Proxy failed to return text).";
                         } else {
                             // Handle standard Gemini response format
                             const data = await response.json();
                             return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted (Gemini).";
                         }
-                        
+
                     } catch (error) {
                         console.error("LLM Call failed entirely (Network/Execution error):", error);
                         if (i === maxRetries - 1) return localFallbackResponse(prompt);
@@ -663,8 +795,8 @@
 
             // --- Chat System ---
             function initChat() {
-                if (!elements.chatbox) return; 
-                
+                if (!elements.chatbox) return;
+
                 elements.openBtn.addEventListener('click', toggleChat);
                 elements.closeBtn.addEventListener('click', toggleChat);
                 elements.sendBtn.addEventListener('click', sendMessage);
@@ -692,7 +824,7 @@
 
                 try {
                     let reply = await callLLMAPI(text, systemPrompt);
-                    
+
                     document.getElementById(loadingId)?.remove();
                     addMessage(reply, 'bot');
                 } catch (error) {
@@ -703,10 +835,10 @@
 
             function addMessage(html, type, id = '') {
                 const div = document.createElement('div');
-                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user' 
-                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500' 
+                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user'
+                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500'
                     : 'bg-brand-panel text-gray-300 self-start rounded-tr-lg rounded-br-lg rounded-bl-lg border-brand-border'}`;
-                
+
                 if (id) div.id = id;
                 div.innerHTML = type === 'bot' ? `<span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>${html}` : html;
                 elements.messages.appendChild(div);
@@ -716,8 +848,8 @@
             // --- Alliance Scribe Tool (Homepage Only) ---
             let currentTone = 'Military/Aggressive';
             function initScribe() {
-                if (!elements.generateScribeBtn) return; 
-                
+                if (!elements.generateScribeBtn) return;
+
                 window.selectTone = (btn, tone) => {
                     document.querySelectorAll('.tone-btn').forEach(b => {
                         b.classList.remove('bg-brand-gold', 'text-black', 'border-transparent');
@@ -727,17 +859,17 @@
                     btn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
                     currentTone = tone;
                 };
-                
+
                 const defaultToneBtn = document.querySelector('.tone-btn');
                 if (defaultToneBtn) {
-                     defaultToneBtn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
-                     defaultToneBtn.classList.remove('bg-brand-dark', 'text-gray-400');
+                    defaultToneBtn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
+                    defaultToneBtn.classList.remove('bg-brand-dark', 'text-gray-400');
                 }
-                
+
 
                 elements.generateScribeBtn.addEventListener('click', async () => {
                     const topic = elements.scribeTopic.value.trim();
-                    if(!topic) return;
+                    if (!topic) return;
 
                     elements.generateScribeBtn.disabled = true;
                     elements.generateScribeBtn.innerHTML = '<span class="loader border-black border-t-transparent"></span> GENERATING...';
@@ -750,7 +882,7 @@
                         const result = await callLLMAPI(prompt, systemInstruction);
                         elements.scribeResult.value = result;
                         elements.scribeContainer.classList.remove('hidden');
-                    } catch(e) {
+                    } catch (e) {
                         elements.scribeResult.value = "ERROR: Cannot reach strategic communications channel. Check API connection.";
                         elements.scribeContainer.classList.remove('hidden');
                     } finally {
@@ -763,7 +895,7 @@
                     const copyText = document.getElementById("scribe-result");
                     copyText.select();
                     document.execCommand("copy");
-                    console.log("Transmission copied to clipboard!"); 
+                    console.log("Transmission copied to clipboard!");
                 }
             }
 
@@ -772,12 +904,12 @@
             function initTypingEffect() {
                 const typingText = document.getElementById('typing-text');
                 if (!typingText) return;
-                
+
                 const config = {
                     typingText: "INITIALIZING STRATEGY PROTOCOLS...",
                     typingSpeed: 40
                 };
-                
+
                 let i = 0;
                 function type() {
                     if (i < config.typingText.length) {
@@ -798,7 +930,7 @@
                 searchInput.addEventListener('input', (e) => {
                     const term = e.target.value.toLowerCase();
                     const cards = document.querySelectorAll('.guide-card, .tool-card');
-                    
+
                     cards.forEach(card => {
                         const title = card.querySelector('h3')?.textContent.toLowerCase() || "";
                         card.style.display = title.includes(term) ? 'block' : 'none';
@@ -810,7 +942,7 @@
             function initNewsletterSubscription() {
                 const form = document.getElementById('newsletter-form');
                 const msg = document.getElementById('subscription-message');
-                if(form) {
+                if (form) {
                     form.addEventListener('submit', (e) => {
                         e.preventDefault();
                         msg.classList.remove('hidden');
@@ -820,7 +952,7 @@
                 }
             }
 
-            
+
             // --- Helper: Smooth Scrolling ---
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -834,4 +966,5 @@
         });
     </script>
 </body>
+
 </html>
