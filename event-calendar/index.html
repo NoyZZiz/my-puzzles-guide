@@ -488,128 +488,115 @@
 
             // Update cycle indicator
             document.getElementById('current-cycle').textContent = cycle.type.toUpperCase();
-            document.getElementById('cycle-info').textContent = `Day ${cycle.dayInCycle + 1} of ${cycle.totalDays} | ${dayOfWeek}`;
+            document.getElementById('cycle-info').textContent = `Day ${cycle.dayInCycle + 1} of ${cycle.totalDays} |
+    ${dayOfWeek}`;
 
             // Update today's events
             const todayEvent = getEventForDay(cycle.type, dayOfWeek, isLastDay);
             const todayHTML = `
-                <div class="bg-gradient-to-r from-brand-gold/20 to-transparent p-6 rounded-lg border-l-4 border-brand-gold">
-                    <div class="flex items-center gap-4">
-                        <i class="fas ${todayEvent.icon} text-brand-gold text-4xl"></i>
-                        <div class="flex-1">
-                            <h3 class="text-2xl font-bold mb-1">${todayEvent.name}</h3>
-                            <p class="text-brand-text/70 text-sm">${todayEvent.notes || 'Starts 00:01 UTC'}</p>
-                            ${showdown ? '<span class="inline-block mt-2 px-3 py-1 bg-red-500/20 border border-red-500 rounded text-red-400 text-xs font-bold">+ SHOWDOWN ACTIVE</span>' : ''}
-                        </div>
-                        <div class="event-badge">LIVE NOW</div>
-                    </div>
-                </div>
-            `;
-            document.getElementById('today-events').innerHTML = todayHTML;
-
-            // Show/hide showdown alert
-            document.getElementById('showdown-alert').classList.toggle('hidden', !showdown);
-
-            // Update countdown
-            updateCountdown(cycle);
-
-            // Update 7-day forecast
-            update7DayForecast(cycle);
-        }
-
-        // Update countdown timer
-        function updateCountdown(cycle) {
-            const now = new Date();
-            const tomorrow = new Date(now);
-            tomorrow.setUTCHours(24, 1, 0, 0); // Next 00:01 UTC
-
-            const diff = tomorrow - now;
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            const countdownHTML = `
-                <div class="countdown-segment">
-                    <div class="countdown-number">${String(hours).padStart(2, '0')}</div>
-                    <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Hours</div>
-                </div>
-                <div class="countdown-segment">
-                    <div class="countdown-number">${String(minutes).padStart(2, '0')}</div>
-                    <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Minutes</div>
-                </div>
-                <div class="countdown-segment">
-                    <div class="countdown-number">${String(seconds).padStart(2, '0')}</div>
-                    <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Seconds</div>
-                </div>
-            `;
-            document.getElementById('countdown').innerHTML = countdownHTML;
-        }
-
-        // Update 7-day forecast
-        function update7DayForecast(currentCycle) {
-            let forecastHTML = '';
-            const now = new Date();
-
-            for (let i = 1; i <= 7; i++) {
-                const futureDate = new Date(now);
-                futureDate.setDate(futureDate.getDate() + i);
-
-                // Calculate which cycle this day falls into
-                const futureCycle = getCurrentCycleForDate(futureDate);
-                const dayOfWeek = getDayOfWeek(futureDate);
-                const isLastDay = futureCycle.dayInCycle === futureCycle.totalDays - 1;
-                const event = getEventForDay(futureCycle.type, dayOfWeek, isLastDay);
-
-                forecastHTML += `
-                    <div class="glass-card p-4 rounded-lg hover:bg-brand-gold/5 transition-colors">
-                        <div class="flex items-start gap-3">
-                            <i class="fas ${event.icon} text-brand-gold text-2xl mt-1"></i>
-                            <div class="flex-1">
-                                <div class="text-xs text-brand-text/50 mb-1">${futureDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} • ${dayOfWeek}</div>
-                                <h4 class="font-bold mb-1">${event.name}</h4>
-                                <p class="text-xs text-brand-text/60">${event.notes || 'Starts 00:01 UTC'}</p>
-                                <span class="inline-block mt-2 px-2 py-1 bg-brand-gold/10 rounded text-brand-gold text-xs font-semibold">${futureCycle.type}</span>
-                            </div>
-                        </div>
-                    </div>
+    <div class="bg-gradient-to-r from-brand-gold/20 to-transparent p-6 rounded-lg border-l-4 border-brand-gold">
+        <div class="flex items-center gap-4">
+            <i class="fas ${todayEvent.icon} text-brand-gold text-4xl"></i>
+            <div class="flex-1">
+                <h3 class="text-2xl font-bold mb-1">${todayEvent.name}</h3>
+                <p class="text-brand-text/70 text-sm">${todayEvent.notes || 'Starts 00:01 UTC'}</p>
+                ${showdown ? '<span
+                    class="inline-block mt-2 px-3 py-1 bg-red-500/20 border border-red-500 rounded text-red-400 text-xs font-bold" > +
+                SHOWDOWN ACTIVE</span > ' : ''}
+            </div >
+                <div class="event-badge">LIVE NOW</div>
+        </div >
+    </div >
                 `;
-            }
+    document.getElementById('today-events').innerHTML = todayHTML;
 
-            document.getElementById('week-forecast').innerHTML = forecastHTML;
+    // Show/hide showdown alert
+    document.getElementById('showdown-alert').classList.toggle('hidden', !showdown);
+
+    // Update countdown
+    updateCountdown(cycle);
+
+    // Update 7-day forecast
+    update7DayForecast(cycle);
+    }
+
+    // Update countdown timer
+    function updateCountdown(cycle) {
+    const now = new Date();
+    const tomorrow = new Date(now);
+    tomorrow.setUTCHours(24, 1, 0, 0); // Next 00:01 UTC
+
+    const diff = tomorrow - now;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const countdownHTML = `
+                < div class="countdown-segment" >
+        <div class="countdown-number">${String(hours).padStart(2, '0')}</div>
+        <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Hours</div>
+    </div >
+    <div class="countdown-segment">
+        <div class="countdown-number">${String(minutes).padStart(2, '0')}</div>
+        <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Minutes
+        </div>
+    </div>
+    <div class="countdown-segment">
+        <div class="countdown-number">${String(seconds).padStart(2, '0')}</div>
+        <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Seconds
+        </div>
+    </div>
+            `;
+    document.getElementById('countdown').innerHTML = countdownHTML;
+    }
+
+    // Update 7-day forecast
+    function update7DayForecast(currentCycle) {
+    let forecastHTML = '';
+    const now = new Date();
+
+    for (let i = 1; i <= 7; i++) { const futureDate=new Date(now); futureDate.setDate(futureDate.getDate() + i); //
+        Calculate which cycle this day falls into const futureCycle=getCurrentCycleForDate(futureDate); const
+        dayOfWeek=getDayOfWeek(futureDate); const isLastDay=futureCycle.dayInCycle===futureCycle.totalDays - 1; const
+        event=getEventForDay(futureCycle.type, dayOfWeek, isLastDay); forecastHTML +=` < div
+            class="glass-card p-4 rounded-lg hover:bg-brand-gold/5 transition-colors" >
+                <div class="flex items-start gap-3">
+                    <i class="fas ${event.icon} text-brand-gold text-2xl mt-1"></i>
+                    <div class="flex-1">
+                        <div class="text-xs text-brand-text/50 mb-1">${futureDate.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric'
+                        })} • ${dayOfWeek}</div>
+                        <h4 class="font-bold mb-1">${event.name}</h4>
+                        <p class="text-xs text-brand-text/60">${event.notes || 'Starts 00:01 UTC'}</p>
+                        <span
+                            class="inline-block mt-2 px-2 py-1 bg-brand-gold/10 rounded text-brand-gold text-xs font-semibold">${futureCycle.type}</span>
+                    </div>
+                </div>
+        </div >
+        `;
+        }
+
+        document.getElementById('week-forecast').innerHTML = forecastHTML;
         }
 
         // Helper function to get cycle for any date
         function getCurrentCycleForDate(date) {
-            const diffTime = date - ACE_REFERENCE;
-            const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            const pattern = cycleDays % 15;
+        const diffTime = date - ACE_REFERENCE;
+        const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        const pattern = cycleDays % 15;
 
-            if (pattern < 7) {
-                return { type: 'Ace', dayInCycle: pattern, totalDays: 7 };
-            } else {
-                return { type: 'Weekly', dayInCycle: pattern - 7, totalDays: 8 };
-            }
-        }
-
-        // Generate particles
-        function createParticles() {
-            const container = document.getElementById('particles');
-            for (let i = 0; i < 30; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 15 + 's';
-                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
-                container.appendChild(particle);
-            }
-        }
-
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
+        if (pattern < 7) { return { type: 'Ace' , dayInCycle: pattern, totalDays: 7 }; } else { return { type: 'Weekly'
+            , dayInCycle: pattern - 7, totalDays: 8 }; } } // Generate particles function createParticles() { const
+            container=document.getElementById('particles'); for (let i=0; i < 30; i++) { const
+            particle=document.createElement('div'); particle.className='particle' ; particle.style.left=Math.random() *
+            100 + '%' ; particle.style.animationDelay=Math.random() * 15 + 's' ;
+            particle.style.animationDuration=(Math.random() * 10 + 10) + 's' ; container.appendChild(particle); } } //
+            Initialize document.addEventListener('DOMContentLoaded', ()=> {
             createParticles();
             updateUI();
             setInterval(updateUI, 1000); // Update every second
-        });
+            });
     </script>
 
 </body>
