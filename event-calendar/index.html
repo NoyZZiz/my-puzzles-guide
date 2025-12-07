@@ -416,44 +416,55 @@
         // EVENT DATA
         const EVENTS = {
             Weekly: {
-                Monday: { name: "Hero Upgrade", notes: "Timed Recruit (2 days), Banner Brawl, Time Rift (1/3)", icon: "fa-user-shield" },
-                Tuesday: { name: "Training Troops", notes: "Building/Research, Timed Recruit ENDS, Time Rift (2/3)", icon: "fa-users" },
-                Wednesday: { name: "Gear, Relic & Runes", notes: "Time Rift (3/3), Orb ends Friday", icon: "fa-gem" },
-                Thursday: { name: "Saurgem", notes: "Orb continues", icon: "fa-diamond" },
-                Friday: { name: "Gem/Warsagil", notes: "Orb ENDS", icon: "fa-coins" },
-                Saturday: { name: "Diamond Event", notes: "2 day event", icon: "fa-crown" },
-                Sunday: { name: "Saurgril", notes: "Glory, Stone of Blessing", icon: "fa-ankh" },
-                Monday2: { name: "Curio Event", notes: "WEEKLY ENDS, ACE STARTS", icon: "fa-box" }
-            },
-            Ace: {
-                Monday: { name: "Resource Gathering", notes: "Diamond Purchases, Trials", icon: "fa-leaf" },
-                Tuesday: { name: "Building/Research", notes: "", icon: "fa-hammer" },
-                Wednesday: { name: "Training Troops", notes: "", icon: "fa-users" },
-                Thursday: { name: "Hero Upgrade", notes: "Lucky Spin (1/3)", icon: "fa-user-shield" },
-                Friday: { name: "Essence Event", notes: "Gear/Saurgem/Gem/Warsagil", icon: "fa-fire" },
-                Saturday: { name: "Refine/Recruit", notes: "Saurgril, Lucky Spin ENDS", icon: "fa-wand-magic-sparkles" },
-                Sunday: { name: "Training Troops", notes: "Building/Research", icon: "fa-users" }
-            }
-        };
+                Monday: {
+                    name: "Hero Upgrade",
+                    notes: "Banner Brawl starts (Mon-Sun) • Timed Recruit starts (Mon-Tue)",
+                    icon: "fa-user-shield"
+                },
+                Tuesday: {
+                    name: "Training Troops",
+                    notes: "Banner Brawl continues • Timed Recruit ENDS",
+                    icon: "fa-users"
+                },
+                Wednesday: {
+                    name: "Gear, Relic & Runes",
+                    notes: "Banner Brawl continues • Orb starts (Wed-Fri)",
+                    icon: "fa-gem"
+                },
+                Thursday: {
+                    name: "Saurgem",
+                    notes: "Banner Brawl continues • Orb continues",
+                    icon: "fa-diamond"
+                },
+                Friday: {
+                    name: "Gem/Warsagil",
+                    notes: "Banner Brawl continues • Orb ENDS",
+                    icon: "fa-coins"
+                },
+                Saturday: {
+                    name: "Diamond Expert",
+                    notes: "Banner Brawl continues • Valiant Conquest • Diamond Expert (Sat-Sun, 2 days)",
+                    icon: "fa-crown"
+                },
+                Sunday: {
+                    name: "Diamond Expert & Saurgril",
+                    notes: "Saurgril & Blessing of Glory • Diamond Expert day 2 • Banner Brawl ENDS",
+                    icon: "fa-ankh"
+                },
+                Monday2: {
+                    function getCurrentCycle() {
+                        const now = new Date();
+        const diffTime = now - ACE_REFERENCE;
+        const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-        // REFERENCE DATES
-        const ACE_REFERENCE = new Date('2024-12-08T00:01:00Z'); // Ace starts Dec 8, 2024
-        const SHOWDOWN_REFERENCE = new Date('2024-12-22T00:01:00Z'); // Showdown starts Dec 22, 2024
+        // Cycle pattern: Ace (7 days) → Weekly (8 days)
+        const pattern = cycleDays % 15;
 
-        // Calculate current cycle
-        function getCurrentCycle() {
-            const now = new Date();
-            const diffTime = now - ACE_REFERENCE;
-            const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-
-            // Cycle pattern: Ace (7 days) → Weekly (8 days)
-            const pattern = cycleDays % 15;
-
-            if (pattern < 7) {
-                return { type: 'Ace', dayInCycle: pattern, totalDays: 7 };
-            } else {
-                return { type: 'Weekly', dayInCycle: pattern - 7, totalDays: 8 };
-            }
+        if (pattern < 7) {
+            return { type: 'Ace', dayInCycle: pattern, totalDays: 7 };
+        } else {
+            return { type: 'Weekly', dayInCycle: pattern - 7, totalDays: 8 };
+        }
         }
 
         // Check if it's Showdown week
