@@ -488,7 +488,7 @@
             const now = new Date();
             const diffTime = now - ACE_REFERENCE;
             const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            const pattern = cycleDays % 15;
+            const pattern = cycleDays % 14;
 
             if (pattern < 7) {
                 return { type: 'Ace', dayInCycle: pattern, totalDays: 7 };
@@ -616,7 +616,7 @@
         function getCurrentCycleForDate(date) {
             const diffTime = date - ACE_REFERENCE;
             const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            const pattern = cycleDays % 15;
+            const pattern = cycleDays % 14;
 
             if (pattern < 7) {
                 return { type: 'Ace', dayInCycle: pattern, totalDays: 7 };
