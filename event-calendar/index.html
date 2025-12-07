@@ -255,7 +255,8 @@
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span
+                        <h1 class="text-2xl font-bold text-white tracking-wider"
+                            style="font-family: 'Orbitron', sans-serif;">NOY<span
                                 class="text-brand-gold glow-text">ZZING</span></h1>
                     </div>
                 </a>
@@ -488,7 +489,7 @@
             const now = new Date();
             const diffTime = now - ACE_REFERENCE;
             const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            const pattern = cycleDays % 14;
+            const pattern = ((cycleDays % 14) + 14) % 14;
 
             if (pattern < 7) {
                 return { type: 'Ace', dayInCycle: pattern, totalDays: 7 };
@@ -616,7 +617,7 @@
         function getCurrentCycleForDate(date) {
             const diffTime = date - ACE_REFERENCE;
             const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            const pattern = cycleDays % 14;
+            const pattern = ((cycleDays % 14) + 14) % 14;
 
             if (pattern < 7) {
                 return { type: 'Ace', dayInCycle: pattern, totalDays: 7 };
