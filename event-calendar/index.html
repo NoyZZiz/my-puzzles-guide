@@ -394,186 +394,257 @@
             </div>
         </div>
     </footer>
-    notes: "Apex sign-up starts (Mon-Tue) • Diamond Purchases • Trials",
-    icon: "fa-leaf"
-    },
-    Tuesday: {
-    name: "Building/Research",
-    notes: "Apex sign-up ENDS",
-    icon: "fa-hammer"
-    },
-    Wednesday: {
-    name: "Training Troops",
-    notes: "",
-    icon: "fa-users"
-    },
-    Thursday: {
-    name: "Hero Upgrade",
-    notes: "Lucky Spin starts (Thu-Sat, day 1/3)",
-    icon: "fa-user-shield"
-    },
-    Friday: {
-    name: "Essence Event",
-    notes: "Gear/Saurgem/Gem/Warsagil • Lucky Spin (day 2/3)",
-    icon: "fa-fire"
-    },
-    Saturday: {
-    name: "Refine/Recruit",
-    notes: "Saurgril • Lucky Spin ENDS (day 3/3) • Military Expedition",
-    icon: "fa-wand-magic-sparkles"
-    },
-    Sunday: {
-    name: "Training Troops",
-    notes: "Building/Research",
-    icon: "fa-users"
-    }
-    }
-    };
 
-    // REFERENCE DATES
-    const ACE_REFERENCE = new Date('2024-12-08T00:01:00Z');
-    const SHOWDOWN_REFERENCE = new Date('2024-12-22T00:01:00Z');
+    <script>
+        // EVENT DATA
+        const EVENTS = {
+            Weekly: {
+                Monday: {
+                    name: "Hero Upgrade",
+                    notes: "Banner Brawl SIGN-UP starts (Mon-Tue) • Timed Recruit starts (Mon-Tue)",
+                    icon: "fa-user-shield"
+                },
+                Tuesday: {
+                    name: "Training Troops",
+                    notes: "Banner Brawl SIGN-UP ENDS • Timed Recruit ENDS",
+                    icon: "fa-users"
+                },
+                Wednesday: {
+                    name: "Gear, Relic & Runes",
+                    notes: "Orb starts (Wed-Fri)",
+                    icon: "fa-gem"
+                },
+                Thursday: {
+                    name: "Saurgem",
+                    notes: "Orb continues",
+                    icon: "fa-diamond"
+                },
+                Friday: {
+                    name: "Gem/Warsagil",
+                    notes: "Orb ENDS",
+                    icon: "fa-coins"
+                },
+                Saturday: {
+                    name: "Diamond Expert",
+                    notes: "Valiant Conquest • Diamond Expert (Sat-Sun, 2 days)",
+                    icon: "fa-crown"
+                },
+                Sunday: {
+                    name: "Diamond Expert & Saurgril",
+                    notes: "Saurgril & Blessing of Glory • Diamond Expert day 2",
+                    icon: "fa-ankh"
+                },
+                Monday2: {
+                    name: "Curio Event",
+                    notes: "WEEKLY ENDS, ACE STARTS",
+                    icon: "fa-box"
+                }
+            },
+            Ace: {
+                Monday: {
+                    name: "Resource Gathering",
+                    notes: "Apex sign-up starts (Mon-Tue) • Diamond Purchases • Trials",
+                    icon: "fa-leaf"
+                },
+                Tuesday: {
+                    name: "Building/Research",
+                    notes: "Apex sign-up ENDS",
+                    icon: "fa-hammer"
+                },
+                Wednesday: {
+                    name: "Training Troops",
+                    notes: "",
+                    icon: "fa-users"
+                },
+                Thursday: {
+                    name: "Hero Upgrade",
+                    notes: "Lucky Spin starts (Thu-Sat, day 1/3)",
+                    icon: "fa-user-shield"
+                },
+                Friday: {
+                    name: "Essence Event",
+                    notes: "Gear/Saurgem/Gem/Warsagil • Lucky Spin (day 2/3)",
+                    icon: "fa-fire"
+                },
+                Saturday: {
+                    name: "Refine/Recruit",
+                    notes: "Saurgril • Lucky Spin ENDS (day 3/3) • Military Expedition",
+                    icon: "fa-wand-magic-sparkles"
+                },
+                Sunday: {
+                    name: "Training Troops",
+                    notes: "Building/Research",
+                    icon: "fa-users"
+                }
+            }
+        };
 
-    // Calculate current cycle
-    function getCurrentCycle() {
-    const now = new Date();
-    const diffTime = now - ACE_REFERENCE;
-    const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const pattern = cycleDays % 15;
+        // REFERENCE DATES
+        const ACE_REFERENCE = new Date('2024-12-08T00:01:00Z');
+        const SHOWDOWN_REFERENCE = new Date('2024-12-22T00:01:00Z');
 
-    if (pattern < 7) { return { type: 'Ace' , dayInCycle: pattern, totalDays: 7 }; } else { return { type: 'Weekly' ,
-        dayInCycle: pattern - 7, totalDays: 8 }; } } // Check if it's Showdown week function isShowdownWeek() { const
-        now=new Date(); const diffTime=now - SHOWDOWN_REFERENCE; const weeks=Math.floor(diffTime / (1000 * 60 * 60 * 24
-        * 7)); return weeks>= 0 && weeks % 3 === 0;
+        // Calculate current cycle
+        function getCurrentCycle() {
+            const now = new Date();
+            const diffTime = now - ACE_REFERENCE;
+            const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const pattern = cycleDays % 15;
+
+            if (pattern < 7) {
+                return { type: 'Ace', dayInCycle: pattern, totalDays: 7 };
+            } else {
+                return { type: 'Weekly', dayInCycle: pattern - 7, totalDays: 8 };
+            }
+        }
+
+        // Check if it's Showdown week
+        function isShowdownWeek() {
+            const now = new Date();
+            const diffTime = now - SHOWDOWN_REFERENCE;
+            const weeks = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 7));
+            return weeks >= 0 && weeks % 3 === 0;
         }
 
         // Get day of week
         function getDayOfWeek(date = new Date()) {
-        const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        return days[date.getUTCDay()];
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            return days[date.getUTCDay()];
         }
 
         // Get event for specific day and cycle
         function getEventForDay(cycle, dayOfWeek, isLastDay = false) {
-        if (cycle === 'Weekly' && isLastDay) {
-        return EVENTS.Weekly.Monday2;
-        }
-        return EVENTS[cycle][dayOfWeek];
+            if (cycle === 'Weekly' && isLastDay) {
+                return EVENTS.Weekly.Monday2;
+            }
+            return EVENTS[cycle][dayOfWeek];
         }
 
         // Update UI
         function updateUI() {
-        const cycle = getCurrentCycle();
-        const now = new Date();
-        const dayOfWeek = getDayOfWeek();
-        const isLastDay = cycle.dayInCycle === cycle.totalDays - 1;
-        const showdown = isShowdownWeek();
+            const cycle = getCurrentCycle();
+            const now = new Date();
+            const dayOfWeek = getDayOfWeek();
+            const isLastDay = cycle.dayInCycle === cycle.totalDays - 1;
+            const showdown = isShowdownWeek();
 
-        document.getElementById('current-cycle').textContent = cycle.type.toUpperCase();
-        document.getElementById('cycle-info').textContent = `Day ${cycle.dayInCycle + 1} of ${cycle.totalDays} |
-        ${dayOfWeek}`;
+            document.getElementById('current-cycle').textContent = cycle.type.toUpperCase();
+            document.getElementById('cycle-info').textContent = `Day ${cycle.dayInCycle + 1} of ${cycle.totalDays} | ${dayOfWeek}`;
 
-        const todayEvent = getEventForDay(cycle.type, dayOfWeek, isLastDay);
-        const todayHTML = `
-        <div class="bg-gradient-to-r from-brand-gold/20 to-transparent p-6 rounded-lg border-l-4 border-brand-gold">
-            <div class="flex items-center gap-4">
-                <i class="fas ${todayEvent.icon} text-brand-gold text-4xl"></i>
-                <div class="flex-1">
-                    <h3 class="text-2xl font-bold mb-1">${todayEvent.name}</h3>
-                    <p class="text-brand-text/70 text-sm">${todayEvent.notes || 'Starts 00:01 UTC'}</p>
-                    ${showdown ? '<span
-                        class="inline-block mt-2 px-3 py-1 bg-red-500/20 border border-red-500 rounded text-red-400 text-xs font-bold">+
-                        SHOWDOWN ACTIVE</span>' : ''}
+            const todayEvent = getEventForDay(cycle.type, dayOfWeek, isLastDay);
+            const todayHTML = `
+                <div class="bg-gradient-to-r from-brand-gold/20 to-transparent p-6 rounded-lg border-l-4 border-brand-gold">
+                    <div class="flex items-center gap-4">
+                        <i class="fas ${todayEvent.icon} text-brand-gold text-4xl"></i>
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-bold mb-1">${todayEvent.name}</h3>
+                            <p class="text-brand-text/70 text-sm">${todayEvent.notes || 'Starts 00:01 UTC'}</p>
+                            ${showdown ? '<span class="inline-block mt-2 px-3 py-1 bg-red-500/20 border border-red-500 rounded text-red-400 text-xs font-bold">+ SHOWDOWN ACTIVE</span>' : ''}
+                        </div>
+                        <div class="event-badge">LIVE NOW</div>
+                    </div>
                 </div>
-                <div class="event-badge">LIVE NOW</div>
-            </div>
-        </div>
-        `;
-        document.getElementById('today-events').innerHTML = todayHTML;
+            `;
+            document.getElementById('today-events').innerHTML = todayHTML;
 
-        document.getElementById('showdown-alert').classList.toggle('hidden', !showdown);
+            document.getElementById('showdown-alert').classList.toggle('hidden', !showdown);
 
-        updateCountdown(cycle);
-        update7DayForecast(cycle);
+            updateCountdown(cycle);
+            update7DayForecast(cycle);
         }
 
         // Update countdown timer
         function updateCountdown(cycle) {
-        const now = new Date();
-        const tomorrow = new Date(now);
-        tomorrow.setUTCHours(24, 1, 0, 0);
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setUTCHours(24, 1, 0, 0);
 
-        const diff = tomorrow - now;
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            const diff = tomorrow - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        const countdownHTML = `
-        <div class="countdown-segment">
-            <div class="countdown-number">${String(hours).padStart(2, '0')}</div>
-            <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Hours
-            </div>
-        </div>
-        <div class="countdown-segment">
-            <div class="countdown-number">${String(minutes).padStart(2, '0')}</div>
-            <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Minutes
-            </div>
-        </div>
-        <div class="countdown-segment">
-            <div class="countdown-number">${String(seconds).padStart(2, '0')}</div>
-            <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Seconds
-            </div>
-        </div>
-        `;
-        document.getElementById('countdown').innerHTML = countdownHTML;
+            const countdownHTML = `
+                <div class="countdown-segment">
+                    <div class="countdown-number">${String(hours).padStart(2, '0')}</div>
+                    <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Hours</div>
+                </div>
+                <div class="countdown-segment">
+                    <div class="countdown-number">${String(minutes).padStart(2, '0')}</div>
+                    <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Minutes</div>
+                </div>
+                <div class="countdown-segment">
+                    <div class="countdown-number">${String(seconds).padStart(2, '0')}</div>
+                    <div class="text-xs text-brand-text/50 uppercase mt-1" style="font-family: 'Rajdhani', sans-serif;">Seconds</div>
+                </div>
+            `;
+            document.getElementById('countdown').innerHTML = countdownHTML;
         }
 
         // Update 7-day forecast
         function update7DayForecast(currentCycle) {
-        let forecastHTML = '';
-        const now = new Date();
+            let forecastHTML = '';
+            const now = new Date();
 
-        for (let i = 1; i <= 7; i++) { const futureDate=new Date(now); futureDate.setDate(futureDate.getDate() + i);
-            const futureCycle=getCurrentCycleForDate(futureDate); const dayOfWeek=getDayOfWeek(futureDate); const
-            isLastDay=futureCycle.dayInCycle===futureCycle.totalDays - 1; const event=getEventForDay(futureCycle.type,
-            dayOfWeek, isLastDay); forecastHTML +=` <div
-            class="glass-card p-4 rounded-lg hover:bg-brand-gold/5 transition-colors">
-            <div class="flex items-start gap-3">
-                <i class="fas ${event.icon} text-brand-gold text-2xl mt-1"></i>
-                <div class="flex-1">
-                    <div class="text-xs text-brand-text/50 mb-1">${futureDate.toLocaleDateString('en-US', { month:
-                        'short', day: 'numeric' })} • ${dayOfWeek}</div>
-                    <h4 class="font-bold mb-1">${event.name}</h4>
-                    <p class="text-xs text-brand-text/60">${event.notes || 'Starts 00:01 UTC'}</p>
-                    <span
-                        class="inline-block mt-2 px-2 py-1 bg-brand-gold/10 rounded text-brand-gold text-xs font-semibold">${futureCycle.type}</span>
-                </div>
-            </div>
-            </div>
-            `;
+            for (let i = 1; i <= 7; i++) {
+                const futureDate = new Date(now);
+                futureDate.setDate(futureDate.getDate() + i);
+
+                const futureCycle = getCurrentCycleForDate(futureDate);
+                const dayOfWeek = getDayOfWeek(futureDate);
+                const isLastDay = futureCycle.dayInCycle === futureCycle.totalDays - 1;
+                const event = getEventForDay(futureCycle.type, dayOfWeek, isLastDay);
+
+                forecastHTML += `
+                    <div class="glass-card p-4 rounded-lg hover:bg-brand-gold/5 transition-colors">
+                        <div class="flex items-start gap-3">
+                            <i class="fas ${event.icon} text-brand-gold text-2xl mt-1"></i>
+                            <div class="flex-1">
+                                <div class="text-xs text-brand-text/50 mb-1">${futureDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} • ${dayOfWeek}</div>
+                                <h4 class="font-bold mb-1">${event.name}</h4>
+                                <p class="text-xs text-brand-text/60">${event.notes || 'Starts 00:01 UTC'}</p>
+                                <span class="inline-block mt-2 px-2 py-1 bg-brand-gold/10 rounded text-brand-gold text-xs font-semibold">${futureCycle.type}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
 
             document.getElementById('week-forecast').innerHTML = forecastHTML;
-            }
+        }
 
-            // Helper function to get cycle for any date
-            function getCurrentCycleForDate(date) {
+        // Helper function to get cycle for any date
+        function getCurrentCycleForDate(date) {
             const diffTime = date - ACE_REFERENCE;
             const cycleDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
             const pattern = cycleDays % 15;
 
-            if (pattern < 7) { return { type: 'Ace' , dayInCycle: pattern, totalDays: 7 }; } else { return {
-                type: 'Weekly' , dayInCycle: pattern - 7, totalDays: 8 }; } } // Generate particles function
-                createParticles() { const container=document.getElementById('particles'); for (let i=0; i < 30; i++) {
-                const particle=document.createElement('div'); particle.className='particle' ;
-                particle.style.left=Math.random() * 100 + '%' ; particle.style.animationDelay=Math.random() * 15 + 's' ;
-                particle.style.animationDuration=(Math.random() * 10 + 10) + 's' ; container.appendChild(particle); } }
-                // Initialize document.addEventListener('DOMContentLoaded', ()=> {
-                createParticles();
-                updateUI();
-                setInterval(updateUI, 1000);
-                });
-                </script>
+            if (pattern < 7) {
+                return { type: 'Ace', dayInCycle: pattern, totalDays: 7 };
+            } else {
+                return { type: 'Weekly', dayInCycle: pattern - 7, totalDays: 8 };
+            }
+        }
+
+        // Generate particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            updateUI();
+            setInterval(updateUI, 1000);
+        });
+    </script>
 
 </body>
 
