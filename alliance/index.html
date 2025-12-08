@@ -69,12 +69,132 @@
             </div>
         </div>
     </header>
-    <p class="text-xl text-gray-300 mb-8">Contact us on Discord to apply!</p>
-    <a href="https://discord.gg/qbKhybjh" target="_blank"
-        class="inline-block px-12 py-4 bg-brand-gold text-black font-bold text-lg rounded-lg hover:bg-yellow-300 transition-all transform hover:scale-105 shadow-lg shadow-brand-gold/30">
-        <i class="fab fa-discord mr-2"></i>Join Discord Now
-    </a>
-    </div>
+
+    <main class="container mx-auto px-4 py-12">
+
+        <!-- Hero -->
+        <div class="text-center mb-16">
+            <div class="inline-block mb-6">
+                <img src="../assets/images/ROL_logo.png" alt="ROL Alliance"
+                    onerror="this.src='https://via.placeholder.com/128?text=ROL'"
+                    class="w-32 h-32 mx-auto rounded-lg border-4 border-brand-gold shadow-2xl shadow-brand-gold/30">
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-4" style="font-family: 'Orbitron', sans-serif;">
+                REBIRTH OF <span class="text-brand-gold glow-text">LEGENDS</span>
+            </h1>
+            <p class="text-xl text-gray-300 mb-2">TOP 3 Military Expedition Alliance</p>
+            <p class="text-lg text-gray-400 mb-8">Drama-Free | Active Community | Coordinated Events</p>
+            <a href="https://discord.gg/qbKhybjh" target="_blank"
+                class="inline-block px-8 py-4 bg-brand-gold text-black font-bold rounded-lg hover:bg-yellow-300 transition-all transform hover:scale-105">
+                <i class="fab fa-discord mr-2"></i>Join Our Discord
+            </a>
+        </div>
+
+        <!-- What We Offer -->
+        <div class="glass-card p-8 rounded-xl mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-center">
+                <i class="fas fa-star text-brand-gold mr-3"></i>Why Join ROL?
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-trophy text-brand-gold text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">TOP 3 Military Expedition</h3>
+                        <p class="text-gray-400">We do dragon rotation</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-users text-brand-gold text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Active Discord</h3>
+                        <p class="text-gray-400">Strategy discussions and friendly community</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-calendar-alt text-brand-gold text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Coordinated Events</h3>
+                        <p class="text-gray-400">Organized Gates, Alliance Party, and more</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-dragon text-brand-gold text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Monthly Challenges</h3>
+                        <p class="text-gray-400">Stranger Things events and custom competitions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Event Timer -->
+        <div class="glass-card p-6 rounded-xl mb-8 text-center border-2 border-brand-gold">
+            <p class="text-sm text-gray-400 mb-2">Next Event Starts In:</p>
+            <div id="countdown" class="text-4xl font-black text-brand-gold mb-2"></div>
+            <p id="next-event" class="text-sm text-gray-300"></p>
+        </div>
+
+        <!-- Event Schedule -->
+        <div class="glass-card p-8 rounded-xl mb-12 border-l-4 border-brand-gold">
+            <h2 class="text-3xl font-bold mb-4 text-center">
+                <i class="fas fa-calendar-check text-brand-gold mr-3"></i>Event Schedule
+            </h2>
+            <p class="text-center text-gray-400 mb-6 text-sm">All times: <strong class="text-brand-gold">6 hours before
+                    daily reset (UTC)</strong></p>
+
+            <div class="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
+                    <h3 class="font-bold mb-2 text-brand-gold">Monday</h3>
+                    <p class="text-sm"><i class="fas fa-dungeon text-gray-400 mr-2"></i>Gates</p>
+                </div>
+                <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
+                    <h3 class="font-bold mb-2 text-brand-gold">Tuesday</h3>
+                    <p class="text-sm"><i class="fas fa-users text-gray-400 mr-2"></i>Alliance Party</p>
+                    <p class="text-sm"><i class="fas fa-skull-crossbones text-purple-400 mr-2"></i>Demon Incursion</p>
+                </div>
+                <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
+                    <h3 class="font-bold mb-2 text-brand-gold">Thursday</h3>
+                    <p class="text-sm"><i class="fas fa-dungeon text-gray-400 mr-2"></i>Gates</p>
+                    <p class="text-sm"><i class="fas fa-paw text-green-400 mr-2"></i>Monster Hunt</p>
+                </div>
+                <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
+                    <h3 class="font-bold mb-2 text-brand-gold">Friday</h3>
+                    <p class="text-sm"><i class="fas fa-users text-gray-400 mr-2"></i>Alliance Party</p>
+                    <p class="text-sm"><i class="fas fa-swords text-red-400 mr-2"></i>Battle of Sarnesia <span
+                            class="text-yellow-400">(5hrs)</span></p>
+                </div>
+            </div>
+
+            <div class="mt-6 p-4 bg-brand-gold/10 border border-brand-gold/30 rounded-lg text-center">
+                <p class="text-sm"><i class="fas fa-info-circle text-brand-gold mr-2"></i><strong>All events coordinated
+                        in Discord</strong></p>
+            </div>
+        </div>
+
+        <!-- Requirements -->
+        <div class="glass-card p-8 rounded-xl mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-center">
+                <i class="fas fa-clipboard-check text-brand-gold mr-3"></i>What We Need
+            </h2>
+            <div class="max-w-2xl mx-auto space-y-3">
+                <p class="flex items-center gap-3"><i class="fas fa-check text-brand-gold"></i> Daily login and event
+                    participation</p>
+                <p class="flex items-center gap-3"><i class="fas fa-check text-brand-gold"></i> Join Discord and stay
+                    active</p>
+                <p class="flex items-center gap-3"><i class="fas fa-check text-brand-gold"></i> Respectful,
+                    team-oriented attitude</p>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center glass-card p-12 rounded-xl">
+            <h2 class="text-4xl font-black mb-4">Ready to Join?</h2>
+            <p class="text-xl text-gray-300 mb-8">Contact us on Discord to apply!</p>
+            <a href="https://discord.gg/qbKhybjh" target="_blank"
+                class="inline-block px-12 py-4 bg-brand-gold text-black font-bold text-lg rounded-lg hover:bg-yellow-300 transition-all transform hover:scale-105 shadow-lg shadow-brand-gold/30">
+                <i class="fab fa-discord mr-2"></i>Join Discord Now
+            </a>
+        </div>
 
     </main>
 
@@ -93,9 +213,8 @@
             const now = new Date();
             const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
 
-            // Daily reset is at 00:00 UTC, events are 6 hours before (18:00 UTC previous day)
-            const resetHour = 0;
-            const eventHourUTC = 18; // 6 hours before midnight UTC
+            // Events are at 18:00 UTC (6 hours before midnight reset)
+            const eventHourUTC = 18;
 
             // Calculate next event time
             let nextEvent = new Date(utc);
@@ -112,35 +231,19 @@
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            // Update countdown display
-            document.getElementById('countdown').textContent =
-                `${hours}h ${minutes}m ${seconds}s`;
+            // Update countdown
+            document.getElementById('countdown').textContent = `${hours}h ${minutes}m ${seconds}s`;
 
-            // Determine which event is next based on day of week
+            // Determine which event is next
             const dayOfWeek = nextEvent.getUTCDay();
             const eventNames = {
                 1: 'Gates',
                 2: 'Alliance Party + Demon Incursion',
                 4: 'Gates + Monster Hunt',
-                5: 'Battle of Sarnesia (5hrs before reset)'
+                5: 'Alliance Party + Battle of Sarnesia (5hrs)'
             };
 
-            let eventName = eventNames[dayOfWeek] || 'Check schedule';
-            if (dayOfWeek === 5) {
-                // Friday BOS is 5hrs before reset, not 6
-                const bosTime = new Date(nextEvent);
-                bosTime.setUTCHours(19, 0, 0, 0); // 19:00 UTC = 5hrs before reset
-                if (utc < bosTime) {
-                    const bosDiff = bosTime - utc;
-                    const bosHours = Math.floor(bosDiff / (1000 * 60 * 60));
-                    const bosMinutes = Math.floor((bosDiff % (1000 * 60 * 60)) / (1000 * 60));
-                    const bosSeconds = Math.floor((bosDiff % (1000 * 60)) / 1000);
-                    document.getElementById('countdown').textContent =
-                        `${bosHours}h ${bosMinutes}m ${bosSeconds}s`;
-                }
-            }
-
-            document.getElementById('next-event').textContent = eventName;
+            document.getElementById('next-event').textContent = eventNames[dayOfWeek] || 'Check schedule';
         }
 
         // Update every second
