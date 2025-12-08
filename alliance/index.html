@@ -38,12 +38,43 @@
 
         .glow-text {
             text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            }
+
+            50% {
+                text-shadow: 0 0 30px rgba(251, 191, 36, 0.9);
+            }
         }
 
         .glass-card {
             background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .rol-logo {
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+                filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.4));
+            }
+
+            50% {
+                transform: translateY(-10px);
+                filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.7));
+            }
         }
     </style>
 </head>
@@ -77,7 +108,7 @@
             <div class="inline-block mb-6">
                 <img src="../assets/images/ROL_logo.png" alt="ROL Alliance"
                     onerror="this.src='https://via.placeholder.com/128?text=ROL'"
-                    class="w-32 h-32 mx-auto rounded-lg border-4 border-brand-gold shadow-2xl shadow-brand-gold/30">
+                    class="rol-logo w-32 h-32 mx-auto rounded-lg border-4 border-brand-gold shadow-2xl shadow-brand-gold/30">
             </div>
             <h1 class="text-5xl md:text-7xl font-black mb-4" style="font-family: 'Orbitron', sans-serif;">
                 REBIRTH OF <span class="text-brand-gold glow-text">LEGENDS</span>
@@ -127,20 +158,17 @@
             </div>
         </div>
 
-        <!-- Live Event Timer -->
-        <div class="glass-card p-6 rounded-xl mb-8 text-center border-2 border-brand-gold">
-            <p class="text-sm text-gray-400 mb-2">Next Event Starts In:</p>
-            <div id="countdown" class="text-4xl font-black text-brand-gold mb-2"></div>
-            <p id="next-event" class="text-sm text-gray-300"></p>
-        </div>
-
         <!-- Event Schedule -->
         <div class="glass-card p-8 rounded-xl mb-12 border-l-4 border-brand-gold">
             <h2 class="text-3xl font-bold mb-4 text-center">
                 <i class="fas fa-calendar-check text-brand-gold mr-3"></i>Event Schedule
             </h2>
-            <p class="text-center text-gray-400 mb-6 text-sm">All times: <strong class="text-brand-gold">6 hours before
-                    daily reset (UTC)</strong></p>
+            <p class="text-center text-gray-400 mb-2 text-sm">
+                <strong class="text-brand-gold">Events: 6 hours before daily reset (18:00 UTC)</strong>
+            </p>
+            <p class="text-center text-gray-400 mb-6 text-sm">
+                <strong class="text-yellow-400">Battle of Sarnesia: 5 hours before reset (19:00 UTC)</strong>
+            </p>
 
             <div class="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
                 <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
@@ -153,7 +181,7 @@
                     <p class="text-sm"><i class="fas fa-skull-crossbones text-purple-400 mr-2"></i>Demon Incursion <span
                             class="text-gray-500">(Ace week)</span></p>
                     <p class="text-sm"><i class="fas fa-paw text-green-400 mr-2"></i>Monster Hunt <span
-                            class="text-gray-500">(Weekly week)</span></p>
+                            class="text-gray-500">(Weekly)</span></p>
                 </div>
                 <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
                     <h3 class="font-bold mb-2 text-brand-gold">Thursday</h3>
@@ -161,7 +189,7 @@
                     <p class="text-sm"><i class="fas fa-skull-crossbones text-purple-400 mr-2"></i>Demon Incursion <span
                             class="text-gray-500">(Ace week)</span></p>
                     <p class="text-sm"><i class="fas fa-paw text-green-400 mr-2"></i>Monster Hunt <span
-                            class="text-gray-500">(Weekly week)</span></p>
+                            class="text-gray-500">(Weekly)</span></p>
                 </div>
                 <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
                     <h3 class="font-bold mb-2 text-brand-gold">Friday</h3>
@@ -212,50 +240,6 @@
 
     <!-- Monetag Ads -->
     <script src="https://quge5.com/88/tag.min.js" data-zone="191338" async data-cfasync="false"></script>
-
-    <!-- Countdown Timer -->
-    <script>
-        function updateCountdown() {
-            const now = new Date();
-            const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
-
-            // Events are at 18:00 UTC (6 hours before midnight reset)
-            const eventHourUTC = 18;
-
-            // Calculate next event time
-            let nextEvent = new Date(utc);
-            nextEvent.setUTCHours(eventHourUTC, 0, 0, 0);
-
-            // If we're past today's event time, move to tomorrow
-            if (utc >= nextEvent) {
-                nextEvent.setUTCDate(nextEvent.getUTCDate() + 1);
-            }
-
-            // Calculate time difference
-            const diff = nextEvent - utc;
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            // Update countdown
-            document.getElementById('countdown').textContent = `${hours}h ${minutes}m ${seconds}s`;
-
-            // Determine which event is next
-            const dayOfWeek = nextEvent.getUTCDay();
-            const eventNames = {
-                1: 'Gates',
-                2: 'Alliance Party + Demon Incursion / Monster Hunt',
-                4: 'Gates + Demon Incursion / Monster Hunt',
-                5: 'Alliance Party + Battle of Sarnesia (5hrs before reset)'
-            };
-
-            document.getElementById('next-event').textContent = eventNames[dayOfWeek] || 'Check schedule';
-        }
-
-        // Update every second
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-    </script>
 
 </body>
 
