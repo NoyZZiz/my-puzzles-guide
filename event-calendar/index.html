@@ -238,6 +238,7 @@
     <!-- Particle Background -->
     <div class="particles" id="particles"></div>
 
+
     <!-- NAVIGATION BAR -->
     <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
         <div class="container mx-auto px-4 py-3">
@@ -246,24 +247,22 @@
                 <!-- Brand Logo -->
                 <a href="../index.html" class="flex items-center gap-3 group">
                     <div
-                        class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
-                        <img src="../assets/images/Puzzle.png"
-                            onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo"
-                            class="w-full h-full object-cover">
-                        <div
-                            class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity">
-                        </div>
+                        class="relative w-12 h-12 flex items-center justify-center bg-brand-panel border-2 border-brand-gold/30 rounded-lg overflow-hidden hover:border-brand-gold transition-all">
+                        <img src="event-calendar-logo.png" onerror="this.src='../assets/images/Puzzle.png'"
+                            alt="NOYZZING Logo" class="w-full h-full object-contain p-1">
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-white tracking-wider"
-                            style="font-family: 'Orbitron', sans-serif;">NOY<span
-                                class="text-brand-gold glow-text">ZZING</span></h1>
+                            style="font-family: 'Orbitron', sans-serif;">
+                            NOY<span class="text-brand-gold"
+                                style="text-shadow: 0 0 10px rgba(251, 191, 36, 0.8);">ZZING</span>
+                        </h1>
                     </div>
                 </a>
 
                 <!-- Nav Menu -->
                 <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
-                    <ul class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400"
+                    <ul class="flex flex-wrap justify-center gap-6 text-sm font-semibold tracking-wider text-gray-400"
                         style="font-family: 'Rajdhani', sans-serif;">
                         <li><a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
                         <li><a href="../military-expedition-guide/index.html"
@@ -278,6 +277,7 @@
             </div>
         </div>
     </header>
+
 
     <!-- Top Ad -->
     <div class="container mx-auto px-4 mt-6">
@@ -362,13 +362,32 @@
         </div>
 
         <!-- Showdown Alert -->
-        <div id="showdown-alert" class="hidden glass-card p-6 rounded-xl border-2 border-red-500 bg-red-500/10 mb-8">
-            <div class="flex items-center gap-4">
-                <i class="fas fa-exclamation-triangle text-red-400 text-4xl"></i>
-                <div>
-                    <h3 class="text-2xl font-bold text-red-400 mb-1" style="font-family: 'Rajdhani', sans-serif;">
-                        SHOWDOWN WEEK ACTIVE</h3>
-                    <p class="text-brand-text/80">Complete your Showdown quests before the week ends!</p>
+        <div id="showdown-alert" class="hidden mb-8">
+            <div
+                class="relative p-8 rounded-xl border-4 border-red-500 bg-gradient-to-r from-red-900/40 via-red-800/30 to-red-900/40 backdrop-blur-sm overflow-hidden">
+                <!-- Animated background -->
+                <div
+                    class="absolute inset-0 bg-gradient-to-r from-transparent via-red-500/10 to-transparent animate-pulse">
+                </div>
+
+                <div class="relative flex items-center gap-6">
+                    <div
+                        class="flex-shrink-0 w-16 h-16 flex items-center justify-center bg-red-500/20 rounded-full border-2 border-red-400">
+                        <i class="fas fa-exclamation-triangle text-red-400 text-3xl"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-3xl font-black text-red-400 mb-2 tracking-wide"
+                            style="font-family: 'Rajdhani', sans-serif; text-shadow: 0 0 20px rgba(248, 113, 113, 0.8);">
+                            SHOWDOWN WEEK ACTIVE
+                        </h3>
+                        <p class="text-white text-lg font-semibold">Complete your Showdown quests before the week ends!
+                        </p>
+                    </div>
+                    <div class="hidden md:block flex-shrink-0">
+                        <div class="px-6 py-3 bg-red-500/20 border-2 border-red-400 rounded-lg">
+                            <span class="text-red-400 font-bold text-sm uppercase tracking-wider">Urgent</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -591,8 +610,13 @@
                 futureDate.setDate(futureDate.getDate() + i);
 
                 const futureCycle = getCurrentCycleForDate(futureDate);
-                const dayOfWeek = getDayOfWeek(futureDate);
+                const dayOfWeek = futureDate.toLocaleDateString('en-US', { weekday: 'long' });
                 const isLastDay = futureCycle.dayInCycle === futureCycle.totalDays - 1;
+                // Note: We use the cycle type and calculated day index to map even if the day name string varies
+                // For looking up event strictly by name we might need to map 'Tuesday' back to index or keep logic as is
+                // Actually, the EVENTS object keys are 'Monday', 'Tuesday' etc.
+                // So we do need the English day name.
+
                 const event = getEventForDay(futureCycle.type, dayOfWeek, isLastDay);
 
                 forecastHTML += `
