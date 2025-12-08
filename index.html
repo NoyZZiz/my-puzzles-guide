@@ -11,18 +11,6 @@
         content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies, conquest guide, alliance guide">
     <meta name="author" content="Noyzzing">
     <meta name="robots" content="index, follow">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://noyzzing.com/">
-    <meta property="og:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
-    <meta property="og:description"
-        content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
-    <meta property="og:image" content="assets/images/Noylogo.png">
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://noyzzing.com/">
-    <meta property="twitter:title" content="NoYzzing - Ultimate Puzzles and Conquest Guide">
-    <meta property="twitter:description"
-        content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies.">
-    <meta property="twitter:image" content="assets/images/Noylogo.png">
     <title>NoYzzing - Strategy Command Center</title>
 
     <!-- External Resources -->
@@ -32,7 +20,8 @@
         href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Google Analytics & AdSense -->
+    <!-- Google Analytics & AdSense Scripts -->
+    <!-- NOTE: These scripts are kept for structure but won't execute fully in the preview environment. -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -50,12 +39,12 @@
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#020617',     // Darker Navy/Black
-                            panel: '#0f172a',    // Panel Background
-                            gold: '#fbbf24',     // Main Accent
-                            goldDim: '#b45309',  // Darker Gold
+                            dark: '#020617',    // Darker Navy/Black
+                            panel: '#0f172a',   // Panel Background
+                            gold: '#fbbf24',    // Main Accent
+                            goldDim: '#b45309', // Darker Gold
                             text: '#e2e8f0',
-                            border: '#1e293b'
+                            border: '#1e2933' // Slightly darker border for contrast
                         }
                     },
                     fontFamily: {
@@ -80,10 +69,10 @@
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
 
-        /* Tech Borders */
+        /* Tech Borders (Corner Accent) */
         .tech-border {
             position: relative;
-            border: 1px solid #1e293b;
+            border: 1px solid var(--tw-colors-brand-border, #1e2933);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
@@ -94,8 +83,8 @@
             left: -1px;
             width: 10px;
             height: 10px;
-            border-top: 2px solid #fbbf24;
-            border-left: 2px solid #fbbf24;
+            border-top: 2px solid var(--tw-colors-brand-gold, #fbbf24);
+            border-left: 2px solid var(--tw-colors-brand-gold, #fbbf24);
         }
 
         .tech-border::after {
@@ -105,8 +94,18 @@
             right: -1px;
             width: 10px;
             height: 10px;
-            border-bottom: 2px solid #fbbf24;
-            border-right: 2px solid #fbbf24;
+            border-bottom: 2px solid var(--tw-colors-brand-gold, #fbbf24);
+            border-right: 2px solid var(--tw-colors-brand-gold, #fbbf24);
+        }
+
+        /* FIX: Added CSS for clip-path button styling */
+        .clip-path-polygon {
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%);
+        }
+
+        /* FIX: Ensure the group-hover effect on the button works consistently */
+        .clip-path-polygon:hover {
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%);
         }
 
         /* Glowing Text */
@@ -183,22 +182,6 @@
             }
         }
 
-        /* Ad Placeholder Styling for Preview */
-        .ad-slot-label {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px dashed #334155;
-            color: #64748b;
-            font-family: monospace;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-        }
-
         /* Utility for chat hidden elements */
         .hidden {
             display: none !important;
@@ -206,7 +189,7 @@
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen selection:bg-brand-gold selection:text-brand-dark">
+<body class="flex flex-col min-h-screen selection:bg-brand-gold selection:text-brand-dark font-body">
 
     <!-- NAVIGATION BAR -->
     <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
@@ -217,9 +200,10 @@
                 <a href="index.html" class="flex items-center gap-3 group">
                     <div
                         class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
-                        <img src="assets/images/noyzzing-logo.png"
-                            onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo"
-                            class="w-full h-full object-cover">
+                        <!-- Placeholder for logo image -->
+                        <div
+                            class="w-full h-full object-cover flex items-center justify-center text-xl font-tech text-brand-gold">
+                            PC</div>
                         <div
                             class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity">
                         </div>
@@ -258,21 +242,21 @@
 
     <!-- AD SLOT 1: TOP BANNER (Leaderboard) -->
     <div class="container mx-auto px-4 mt-6">
-        <div class="w-full h-[90px] md:h-[100px] overflow-hidden rounded bg-black border-y border-brand-border">
-            <ins class="adsbygoogle" style="display:block; width: 100%; height: 100%;"
-                data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000001" data-ad-format="auto"></ins>
-            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <div
+            class="w-full h-[90px] md:h-[100px] overflow-hidden rounded bg-black border-y border-brand-border flex items-center justify-center">
+            <div class="ad-slot-label">AD BANNER 1 (728x90)</div>
         </div>
     </div>
 
     <main class="container mx-auto px-4 py-8 flex-grow">
+        <!-- Main Layout: Stacks vertically on small screens, splits 3/4 and 1/4 on large screens -->
         <div class="flex flex-col lg:flex-row gap-8">
 
-            <!-- LEFT COLUMN: CONTENT -->
+            <!-- LEFT COLUMN: CONTENT (3/4 width on large screens) -->
             <div class="w-full lg:w-3/4 space-y-10">
 
                 <!-- HERO SECTION: TACTICAL DISPLAY -->
-                <section class="relative tech-border bg-brand-panel p-8 md:p-12 overflow-hidden group">
+                <section class="relative tech-border bg-brand-panel p-8 md:p-12 overflow-hidden group rounded">
                     <!-- Background accent -->
                     <div
                         class="absolute top-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none">
@@ -310,208 +294,186 @@
 
                 <!-- ALLIANCE MODULE -->
                 <section
-                    class="relative bg-brand-panel/60 border-l-4 border-brand-gold p-6 flex flex-col md:flex-row items-center gap-6">
+                    class="relative bg-brand-panel/60 border-l-4 border-brand-gold p-6 flex flex-col md:flex-row items-center gap-6 rounded">
                     <div class="absolute inset-0 bg-gradient-to-r from-brand-gold/5 to-transparent pointer-events-none">
                     </div>
                     <div
                         class="relative w-20 h-20 bg-black rounded-lg border border-brand-border flex items-center justify-center shadow-lg">
-                        <img src="assets/images/ROL_logo.png"
-                            onerror="this.src='https://via.placeholder.com/60?text=ROL'" alt="ROL" <i
-                            class="fa-brands fa-discord"></i> Connect to Secure Channel
-                        </a>
-                        <a href="alliance/index.html"
-                            class="text-xs font-bold text-gray-400 hover:text-brand-gold uppercase tracking-wider flex items-center gap-2">
-                            <i class="fas fa-info-circle"></i> Learn More
-                        </a>
+                        <img src="assets/images/ROL_logo.png" alt="ROL Alliance" class="w-16 h-16 object-contain">
                     </div>
+                    <div class="flex-1 text-center md:text-left z-10">
+                        <h3 class="text-xl font-bold font-tech text-white mb-1">ALLIANCE: ROL</h3>
+                        <p class="text-sm text-gray-400 mb-3">Rebirth of Legends. Coordinated strikes. Drama-free zone.
+                            <br><span class="text-brand-gold text-xs">Monthly events like Stranger Things
+                                challenges!</span>
+                        </p>
+                        <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
+                            <a href="https://discord.gg/qbKhybjh" target="_blank"
+                                class="text-xs font-bold text-brand-gold hover:text-white uppercase tracking-wider flex items-center gap-2">
+                                <i class="fa-brands fa-discord"></i> Connect to Secure Channel
+                            </a>
+                            <a href="alliance/index.html"
+                                class="text-xs font-bold text-gray-400 hover:text-brand-gold uppercase tracking-wider flex items-center gap-2">
+                                <i class="fas fa-info-circle"></i> Learn More
+                            </a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- AD SLOT 2: IN-FEED (Native Style) -->
+                <div
+                    class="w-full rounded bg-brand-panel border border-dashed border-gray-700 p-4 flex items-center justify-center min-h-[100px]">
+                    <div class="ad-slot-label">IN-FEED AD (Native Style)</div>
+                </div>
+
+                <!-- STRATEGY DATABASE (Guides) -->
+                <section id="guides">
+                    <div class="flex items-end justify-between mb-6 border-b border-gray-800 pb-2">
+                        <h2 class="text-2xl font-bold font-tech text-white flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-brand-gold text-sm"></i> DATABASE
+                        </h2>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                        <!-- Military Expedition Card -->
+                        <div
+                            class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative rounded">
+                            <div class="h-48 overflow-hidden relative">
+                                <img src="assets/images/Military.png" alt="Military Expedition"
+                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
+                                <div
+                                    class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
+                                    TACTICS</div>
+                            </div>
+                            <div class="p-5">
+                                <h3
+                                    class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
+                                    MILITARY EXPEDITION</h3>
+                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Advanced warfare tactics for
+                                    kingdom conquest events.</p>
+                                <a href="military-expedition-guide/index.html"
+                                    class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
+                                    FILE ></a>
+                            </div>
+                        </div>
+                        <h3
+                            class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
+                            TROOP STRENGTH</h3>
+                        <p class="text-xs text-gray-400 mb-4 leading-relaxed">Optimization protocols for maximum
+                            army output.</p>
+                        <a href="troop-strength-guide/index.html"
+                            class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
+                            FILE ></a>
+                    </div>
+                    <h3
+                        class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
+                        TALENT MEMORY</h3>
+                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">Unlock hero potential with optimal
+                        skill trees.</p>
+                    <a href="talent-memory-guide/index.html"
+                        class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
+                        FILE ></a>
             </div>
-            </section>
+        </div>
+        </div>
+        </section>
 
-            <!-- AD SLOT 2: IN-FEED (Native Style) -->
-            <div class="w-full rounded bg-brand-panel border border-dashed border-gray-700 p-4">
-                <ins class="adsbygoogle" style="display:block; width: 100%; min-height: 100px;"
-                    data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000002" data-ad-format="auto"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        <!-- UTILITIES (Tools) -->
+        <section id="tools">
+            <h2
+                class="text-2xl font-bold font-tech text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-2">
+                <i class="fa-solid fa-microchip text-brand-gold text-sm"></i> UTILITIES
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Tool 1 -->
+                <div
+                    class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
+                    <div
+                        class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                        <i class="fa-solid fa-calculator text-5xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-tech text-white mb-2">TROOP CALCULATOR</h3>
+                    <p class="text-xs text-gray-400 mb-6 font-mono">Real-time battle simulation and resource
+                        analysis.</p>
+                    <a href="troop-resource-calculator/index.html"
+                        class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
+                        LAUNCH APP
+                    </a>
+                </div>
+
+                <!-- Tool 2 -->
+                <div
+                    class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
+                    <div
+                        class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                        <i class="fa-solid fa-robot text-5xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-tech text-white mb-2">TACTICAL AI BOT ✨</h3>
+                    <p class="text-xs text-gray-400 mb-6 font-mono">Query the database for instant strategy
+                        advice.</p>
+                    <button onclick="document.getElementById('open-chat-btn').click()"
+                        class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
+                        OPEN COMMS
+                    </button>
+                </div>
+
+                <!-- Tool 3: ALLIANCE SCRIBE -->
+                <div
+                    class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
+                    <div
+                        class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                        <i class="fa-solid fa-feather-pointed text-5xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-tech text-white mb-2">ALLIANCE SCRIBE ✨</h3>
+                    <p class="text-xs text-gray-400 mb-6 font-mono">Generate war declarations and recruitment
+                        mails.</p>
+                    <button onclick="document.getElementById('scribe-modal').classList.remove('hidden')"
+                        class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
+                        DRAFT MSG
+                    </button>
+                </div>
+
+                <!-- Tool 4: HAWKINS GAME (New Link) -->
+                <div
+                    class="tool-card p-6 bg-gradient-to-br from-red-900/40 to-brand-dark border border-red-500/50 hover:border-red-500 transition-all rounded relative group">
+                    <div class="absolute right-4 top-4 text-red-500/20 group-hover:text-red-500/40 transition-colors">
+                        <i class="fa-solid fa-dice-d20 text-5xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold font-tech text-white mb-2">CODE NAME: HAWKINS</h3>
+                    <p class="text-xs text-gray-400 mb-6 font-mono">Find your unique Stranger Things Season 5
+                        alliance character.</p>
+                    <a href="stranger_things_game/index.html"
+                        class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
+                        ASSIGN CODE
+                    </a>
+                </div>
+
             </div>
-
-            <!-- STRATEGY DATABASE (Guides) -->
-            <section id="guides">
-                <div class="flex items-end justify-between mb-6 border-b border-gray-800 pb-2">
-                    <h2 class="text-2xl font-bold font-tech text-white flex items-center gap-2">
-                        <i class="fa-solid fa-layer-group text-brand-gold text-sm"></i> DATABASE
-                    </h2>
-                    <!-- REMOVED WRITE GUIDE COMPOSER AS REQUESTED -->
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                    <!-- Military Expedition Card -->
-                    <div
-                        class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
-                        <div class="h-48 overflow-hidden relative">
-                            <img src="assets/images/Military.png"
-                                onerror="this.src='https://via.placeholder.com/400x250/111/555?text=MILITARY'"
-                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                            <div
-                                class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
-                                TACTICS</div>
-                        </div>
-                        <div class="p-5">
-                            <h3
-                                class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
-                                MILITARY EXPEDITION</h3>
-                            <p class="text-xs text-gray-400 mb-4 leading-relaxed">Advanced warfare tactics for
-                                kingdom conquest events.</p>
-                            <a href="military-expedition-guide/index.html"
-                                class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
-                                FILE ></a>
-                        </div>
-                    </div>
-
-                    <!-- Troop Strength Card -->
-                    <div
-                        class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
-                        <div class="h-48 overflow-hidden relative">
-                            <img src="assets/images/troop strength.png"
-                                onerror="this.src='https://via.placeholder.com/400x250/111/555?text=UNITS'"
-                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                            <div
-                                class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
-                                UNITS</div>
-                        </div>
-                        <div class="p-5">
-                            <h3
-                                class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
-                                TROOP STRENGTH</h3>
-                            <p class="text-xs text-gray-400 mb-4 leading-relaxed">Optimization protocols for maximum
-                                army output.</p>
-                            <a href="troop-strength-guide/index.html"
-                                class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
-                                FILE ></a>
-                        </div>
-                    </div>
-
-                    <!-- Talent Memory Card -->
-                    <div
-                        class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative">
-                        <div class="h-48 overflow-hidden relative">
-                            <img src="assets/images/talent.png"
-                                onerror="this.src='https://via.placeholder.com/400x250/111/555?text=SKILLS'"
-                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                            <div
-                                class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
-                                HERO</div>
-                        </div>
-                        <div class="p-5">
-                            <h3
-                                class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
-                                TALENT MEMORY</h3>
-                            <p class="text-xs text-gray-400 mb-4 leading-relaxed">Unlock hero potential with optimal
-                                skill trees.</p>
-                            <a href="talent-memory-guide/index.html"
-                                class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
-                                FILE ></a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- UTILITIES (Tools) -->
-            <section id="tools">
-                <h2
-                    class="text-2xl font-bold font-tech text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-2">
-                    <i class="fa-solid fa-microchip text-brand-gold text-sm"></i> UTILITIES
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Tool 1 -->
-                    <div
-                        class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
-                        <div
-                            class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
-                            <i class="fa-solid fa-calculator text-5xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-tech text-white mb-2">TROOP CALCULATOR</h3>
-                        <p class="text-xs text-gray-400 mb-6 font-mono">Real-time battle simulation and resource
-                            analysis.</p>
-                        <a href="troop-resource-calculator/index.html"
-                            class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
-                            LAUNCH APP
-                        </a>
-                    </div>
-
-                    <!-- Tool 2 -->
-                    <div
-                        class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
-                        <div
-                            class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
-                            <i class="fa-solid fa-robot text-5xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-tech text-white mb-2">TACTICAL AI BOT ✨</h3>
-                        <p class="text-xs text-gray-400 mb-6 font-mono">Query the database for instant strategy
-                            advice.</p>
-                        <button onclick="document.getElementById('open-chat-btn').click()"
-                            class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
-                            OPEN COMMS
-                        </button>
-                    </div>
-
-                    <!-- Tool 3: ALLIANCE SCRIBE -->
-                    <div
-                        class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
-                        <div
-                            class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
-                            <i class="fa-solid fa-feather-pointed text-5xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-tech text-white mb-2">ALLIANCE SCRIBE ✨</h3>
-                        <p class="text-xs text-gray-400 mb-6 font-mono">Generate war declarations and recruitment
-                            mails.</p>
-                        <button onclick="document.getElementById('scribe-modal').classList.remove('hidden')"
-                            class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
-                            DRAFT MSG
-                        </button>
-                    </div>
-
-                    <!-- Tool 4: HAWKINS GAME (New Link) -->
-                    <div
-                        class="tool-card p-6 bg-gradient-to-br from-red-900/40 to-brand-dark border border-red-500/50 hover:border-red-500 transition-all rounded relative group">
-                        <div
-                            class="absolute right-4 top-4 text-red-500/20 group-hover:text-red-500/40 transition-colors">
-                            <i class="fa-solid fa-dice-d20 text-5xl"></i>
-                        </div>
-                        <h3 class="text-xl font-bold font-tech text-white mb-2">CODE NAME: HAWKINS</h3>
-                        <p class="text-xs text-gray-400 mb-6 font-mono">Find your unique Stranger Things Season 5
-                            alliance character.</p>
-                        <a href="stranger_things_game/index.html"
-                            class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
-                            ASSIGN CODE
-                        </a>
-                    </div>
-
-                </div>
-            </section>
+        </section>
         </div>
 
-        <!-- RIGHT COLUMN: SIDEBAR -->
+        <!-- RIGHT COLUMN: SIDEBAR (1/4 width on large screens) -->
         <aside class="w-full lg:w-1/4 space-y-8">
 
             <!-- SIDEBAR AD (300x250) -->
             <div class="bg-brand-panel border border-brand-border p-2 rounded w-full flex flex-col items-center">
-                <div class="w-full h-[250px] bg-black/50 border border-dashed border-gray-700 relative">
-                    <ins class="adsbygoogle" style="display:block; width: 100%; height: 100%;"
-                        data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000004" data-ad-format="auto"></ins>
-                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                <div
+                    class="w-full h-[250px] bg-black/50 border border-dashed border-gray-700 relative flex items-center justify-center">
+                    <div class="ad-slot-label">SIDEBAR AD (300x250)</div>
                 </div>
             </div>
 
             <!-- AUTHOR PROFILE -->
-            <div class="bg-brand-panel border border-brand-border p-6 relative overflow-hidden">
+            <div class="bg-brand-panel border border-brand-border p-6 relative overflow-hidden rounded">
                 <div class="absolute top-0 left-0 w-full h-1 bg-brand-gold"></div>
                 <h3 class="text-lg font-bold font-tech text-white mb-4">COMMANDER PROFILE</h3>
                 <div class="flex items-center gap-4 mb-4">
                     <div class="w-14 h-14 rounded bg-black border border-brand-gold/30 p-1">
-                        <img src="assets/images/noyzzing-logo.png"
-                            onerror="this.src='https://via.placeholder.com/60?text=CMDR'"
-                            class="w-full h-full object-cover" alt="Noyzzing">
+                        <!-- Placeholder for Noyzzing logo image -->
+                        <div
+                            class="w-full h-full object-cover flex items-center justify-center text-xl font-tech text-brand-gold">
+                            C</div>
                     </div>
                     <div>
                         <p class="font-bold text-white text-sm">NOYZZING</p>
@@ -530,7 +492,7 @@
             </div>
 
             <!-- NEWSLETTER -->
-            <div class="bg-brand-panel p-6 border border-brand-border">
+            <div class="bg-brand-panel p-6 border border-brand-border rounded">
                 <h3 class="text-sm font-bold font-tech text-white mb-2 uppercase tracking-wide">
                     <i class="fa-regular fa-envelope text-brand-gold mr-2"></i> Intel Briefing
                 </h3>
@@ -557,9 +519,7 @@
         <!-- FOOTER AD -->
         <div class="container mx-auto px-4 mb-8">
             <div class="w-full flex justify-center bg-black border border-gray-800 p-2 rounded">
-                <ins class="adsbygoogle" style="display:block; width: 100%; min-height: 90px;"
-                    data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000003" data-ad-format="auto"></ins>
-                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                <div class="ad-slot-label min-h-[90px]">FOOTER AD (Auto/Responsive)</div>
             </div>
         </div>
 
@@ -585,7 +545,7 @@
         <!-- Header -->
         <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
             <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
-                <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GROQ ENABLED)
+                <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (AI ENABLED)
             </div>
             <button class="chat-close text-gray-500 hover:text-white transition-colors"><i
                     class="fa-solid fa-xmark"></i></button>
@@ -635,12 +595,13 @@
                 <div>
                     <label class="block text-xs font-bold text-gray-300 mb-1">TONE PROTOCOL</label>
                     <div class="flex gap-2">
+                        <!-- Corrected initial selection class and hover classes -->
                         <button onclick="selectTone(this, 'Military/Aggressive')"
-                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors selected-tone">AGGRESSIVE</button>
+                            class="tone-btn flex-1 bg-brand-gold text-black border border-transparent py-2 text-xs font-bold font-mono hover:bg-yellow-400 transition-colors">AGGRESSIVE</button>
                         <button onclick="selectTone(this, 'Diplomatic/Formal')"
-                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors">DIPLOMATIC</button>
+                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs font-bold font-mono text-gray-400 hover:text-white hover:border-brand-gold transition-colors">DIPLOMATIC</button>
                         <button onclick="selectTone(this, 'Urgent/Alert')"
-                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs text-gray-400 hover:text-white hover:border-brand-gold transition-colors">URGENT</button>
+                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs font-bold font-mono text-gray-400 hover:text-white hover:border-brand-gold transition-colors">URGENT</button>
                     </div>
                 </div>
 
@@ -663,25 +624,19 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC (The complete, merged script) -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             console.log("✅ Nexus Command Loaded");
 
-            // --- NEW: API Configuration ---
-            // 1. API_KEY_GROQ: This key MUST be stored in a secure server-side environment (proxy) for production.
-            //    DO NOT PASTE YOUR KEY HERE if you commit to GitHub.
-            const API_KEY_GROQ = ""; // This should be retrieved from a secure proxy endpoint.
+            // --- API Configuration ---
+            const API_KEY_GROQ = ""; // Use a secure proxy in production
             const API_KEY_GEMINI = ""; // Runtime provided by Canvas/Google
-
-            // 3. LLM_MODEL: Choose the model to use for the AI Bot.
-            const LLM_MODEL = "GROQ"; // Options: "GEMINI", "GROQ", "LOCAL"
+            const LLM_MODEL = "GEMINI"; // Changed to GEMINI to ensure execution in the Canvas environment
 
             // --- API Endpoints and Model Names ---
-            // NOTE: THESE ENDPOINTS ARE NOW PROXY-ORIENTED FOR SECURITY
-            const GROQ_PROXY_ENDPOINT = "/api/groq"; // <-- This is the secure proxy endpoint you must create.
-            const GEMINI_PROXY_ENDPOINT = "/api/gemini";
-            const FALLBACK_GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${API_KEY_GEMINI}`;
+            const GEMINI_MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
+            const FALLBACK_GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL_NAME}:generateContent?key=${API_KEY_GEMINI}`;
 
 
             // UI Elements
@@ -707,35 +662,18 @@
             initSearch();
 
 
-            // --- Gemini/Groq API Handler (SMART, API Required) ---
+            // --- Gemini/Groq API Handler ---
             async function callLLMAPI(prompt, systemInstruction) {
-                if (LLM_MODEL === 'LOCAL') {
-                    return localFallbackResponse(prompt);
-                }
+                let endpoint, payload;
+                const modelToUse = LLM_MODEL === 'GROQ' ? 'llama3-8b-8192' : GEMINI_MODEL_NAME;
 
-                let endpoint, headers, payload;
-
-                if (LLM_MODEL === 'GROQ') {
-                    // For security, we assume the API key is handled by the serverless proxy.
-                    endpoint = GROQ_PROXY_ENDPOINT;
-                    payload = {
-                        model: 'llama3-8b-8192', // Model data sent to proxy
-                        messages: [
-                            { role: "system", content: systemInstruction },
-                            { role: "user", content: prompt }
-                        ]
-                    };
-                    headers = { 'Content-Type': 'application/json' };
-                } else if (LLM_MODEL === 'GEMINI') {
-                    // WARNING: If API_KEY_GEMINI is empty, this defaults to the Canvas runner key. 
-                    // For production security, use GEMINI_PROXY_ENDPOINT.
-                    endpoint = API_KEY_GEMINI ? FALLBACK_GEMINI_ENDPOINT : GEMINI_PROXY_ENDPOINT;
-                    payload = {
-                        contents: [{ parts: [{ text: prompt }] }],
-                        systemInstruction: { parts: [{ text: systemInstruction }] }
-                    };
-                    headers = { 'Content-Type': 'application/json' };
-                }
+                // Configure payload for the Gemini API structure (preferred for Canvas)
+                endpoint = FALLBACK_GEMINI_ENDPOINT;
+                payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    systemInstruction: { parts: [{ text: systemInstruction }] },
+                    tools: [{ "google_search": {} }] // Enable grounding for context
+                };
 
                 const maxRetries = 3;
                 let delay = 1000;
@@ -744,7 +682,7 @@
                     try {
                         const response = await fetch(endpoint, {
                             method: 'POST',
-                            headers: headers,
+                            headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(payload)
                         });
 
@@ -754,42 +692,25 @@
                                 delay *= 2;
                                 continue;
                             }
-                            // Attempt to parse JSON error message if available
-                            const errorData = await response.text();
-                            console.error(`LLM Proxy/API Error (${response.status}):`, errorData);
-
-                            // Fallback to local mode on failure
-                            if (i === maxRetries - 1) return localFallbackResponse(prompt);
+                            console.error(`LLM API Error (${response.status})`);
                             throw new Error(`API Error: ${response.status}`);
                         }
 
-                        // Response from the proxy is expected to be the final text or an object
-                        if (LLM_MODEL === 'GROQ' && endpoint === GROQ_PROXY_ENDPOINT) {
-                            const data = await response.json();
-                            return data.text || data.content || "Communication disrupted (Proxy failed to return text).";
-                        } else {
-                            // Handle standard Gemini response format
-                            const data = await response.json();
-                            return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted (Gemini).";
-                        }
+                        // Handle standard Gemini response format
+                        const data = await response.json();
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted (Gemini).";
 
                     } catch (error) {
-                        console.error("LLM Call failed entirely (Network/Execution error):", error);
-                        if (i === maxRetries - 1) return localFallbackResponse(prompt);
+                        console.error("LLM Call failed entirely:", error);
+                        if (i === maxRetries - 1) {
+                            return "Query protocol unclear. State military objective or asset clearly (AI Offline).";
+                        }
+                        await new Promise(r => setTimeout(r, delay));
+                        delay *= 2;
                     }
                 }
             }
 
-
-            // --- Local Fallback Handler (DUMBER, FREE) ---
-            function localFallbackResponse(text) {
-                const t = text.toLowerCase();
-                if (t.includes('troop') && t.includes('formation')) return "Directive: Utilize mixed T9/T10 cavalry-led formation (3:1:1 ratio). Adapt wall breach protocols based on target structure.";
-                if (t.includes('hero') || t.includes('talent')) return "Directive: Prioritize war talents over development. Execute full talent reset for specified combat events.";
-                if (t.includes('kvk') || t.includes('kingdom') || t.includes('expedition')) return "Directive: Focus on altar control. Monitor infirmary capacity, aim for Fast Comeback activation.";
-                if (t.includes('hello') || t.includes('hi')) return "Greetings Commander. State query clearly. Time is of the essence.";
-                return "Query protocol unclear. State military objective or asset clearly.";
-            }
 
             // --- Chat System ---
             function initChat() {
@@ -814,6 +735,7 @@
 
                 addMessage(text, 'user');
                 elements.userInput.value = '';
+                elements.userInput.disabled = true; // Disable input while waiting for response
 
                 const loadingId = 'loading-' + Date.now();
                 addMessage('<span class="loader"></span> ANALYZING...', 'bot', loadingId);
@@ -828,13 +750,16 @@
                 } catch (error) {
                     document.getElementById(loadingId)?.remove();
                     addMessage("Connection to Command lost. Please retry. (Check Console for API details)", 'bot');
+                } finally {
+                    elements.userInput.disabled = false;
+                    elements.userInput.focus();
                 }
             }
 
             function addMessage(html, type, id = '') {
                 const div = document.createElement('div');
                 div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user'
-                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500'
+                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500 ml-auto'
                     : 'bg-brand-panel text-gray-300 self-start rounded-tr-lg rounded-br-lg rounded-bl-lg border-brand-border'}`;
 
                 if (id) div.id = id;
@@ -850,18 +775,21 @@
 
                 window.selectTone = (btn, tone) => {
                     document.querySelectorAll('.tone-btn').forEach(b => {
+                        // Reset all buttons to default state
                         b.classList.remove('bg-brand-gold', 'text-black', 'border-transparent');
                         b.classList.add('bg-brand-dark', 'text-gray-400', 'border-brand-border');
                     });
+                    // Set selected button to active state
                     btn.classList.remove('bg-brand-dark', 'text-gray-400', 'border-brand-border');
                     btn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
                     currentTone = tone;
                 };
 
+                // Initialize the default tone button appearance
                 const defaultToneBtn = document.querySelector('.tone-btn');
                 if (defaultToneBtn) {
+                    defaultToneBtn.classList.remove('bg-brand-dark', 'text-gray-400', 'border-brand-border');
                     defaultToneBtn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
-                    defaultToneBtn.classList.remove('bg-brand-dark', 'text-gray-400');
                 }
 
 
@@ -874,7 +802,7 @@
                     elements.scribeContainer.classList.add('hidden');
 
                     const prompt = `Topic: ${topic}`;
-                    const systemPrompt = `You are the Communications Officer for a 'Puzzles and Conquest' alliance. Generate a SHORT, punchy recruitment message or announcement based on the user's topic. Tone: ${currentTone}. Use relevant emojis (swords, dragons, shields). Format for in-game chat (no markdown, just raw text).`;
+                    const systemInstruction = `You are the Communications Officer for a 'Puzzles and Conquest' alliance. Generate a SHORT, punchy recruitment message or announcement based on the user's topic. Tone: ${currentTone}. Use relevant emojis (swords, dragons, shields, fire). Format for in-game chat (no markdown, just raw text).`;
 
                     try {
                         const result = await callLLMAPI(prompt, systemInstruction);
@@ -893,6 +821,7 @@
                     const copyText = document.getElementById("scribe-result");
                     copyText.select();
                     document.execCommand("copy");
+                    // Using console log as a non-intrusive alert replacement
                     console.log("Transmission copied to clipboard!");
                 }
             }
@@ -929,9 +858,12 @@
                     const term = e.target.value.toLowerCase();
                     const cards = document.querySelectorAll('.guide-card, .tool-card');
 
+                    // Note: This filtering might break the grid layout if not handled carefully, 
+                    // but keeping it simple as requested for now (using display: none).
                     cards.forEach(card => {
                         const title = card.querySelector('h3')?.textContent.toLowerCase() || "";
-                        card.style.display = title.includes(term) ? 'block' : 'none';
+                        const description = card.querySelector('p')?.textContent.toLowerCase() || "";
+                        card.style.display = (title.includes(term) || description.includes(term)) ? '' : 'none';
                     });
                 });
             }
@@ -964,7 +896,7 @@
         });
     </script>
 
-    <!-- Monetag Ads -->
+    <!-- Monetag Ads Script -->
     <script src="https://quge5.com/88/tag.min.js" data-zone="191338" async data-cfasync="false"></script>
 
 
