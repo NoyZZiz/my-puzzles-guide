@@ -228,29 +228,7 @@
             // Calculate time difference
             const diff = nextEvent - utc;
             const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-            // Update countdown
-            document.getElementById('countdown').textContent = `${hours}h ${minutes}m ${seconds}s`;
+</body >
 
-            // Determine which event is next
-            const dayOfWeek = nextEvent.getUTCDay();
-            const eventNames = {
-                1: 'Gates',
-                2: 'Alliance Party + Demon Incursion',
-                4: 'Gates + Monster Hunt',
-                5: 'Alliance Party + Battle of Sarnesia (5hrs)'
-            };
-
-            document.getElementById('next-event').textContent = eventNames[dayOfWeek] || 'Check schedule';
-        }
-
-        // Update every second
-        updateCountdown();
-        setInterval(updateCountdown, 1000);
-    </script>
-
-</body>
-
-</html>
+</html >
