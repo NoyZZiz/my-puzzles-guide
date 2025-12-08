@@ -126,6 +126,13 @@
             </div>
         </div>
 
+        <!-- Live Event Timer -->
+        <div class="glass-card p-6 rounded-xl mb-8 text-center border-2 border-brand-gold">
+            <p class="text-sm text-gray-400 mb-2">Next Event Starts In:</p>
+            <div id="countdown" class="text-4xl font-black text-brand-gold mb-2"></div>
+            <p id="next-event" class="text-sm text-gray-300"></p>
+        </div>
+
         <!-- Event Schedule -->
         <div class="glass-card p-8 rounded-xl mb-12 border-l-4 border-brand-gold">
             <h2 class="text-3xl font-bold mb-4 text-center">
@@ -200,6 +207,67 @@
 
     <!-- Monetag Ads -->
     <script src="https://quge5.com/88/tag.min.js" data-zone="191338" async data-cfasync="false"></script>
+
+    <!-- Countdown Timer -->
+    <script>
+        function updateCountdown() {
+            const now = new Date();
+            const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+
+            // Daily reset is at 00:00 UTC, events are 6 hours before (18:00 UTC previous day)
+            const resetHour = 0;
+            const eventHourUTC = 18; // 6 hours before midnight UTC
+
+            // Calculate next event time
+            let nextEvent = new Date(utc);
+            nextEvent.setUTCHours(eventHourUTC, 0, 0, 0);
+
+            // If we're past today's event time, move to tomorrow
+            if (utc.getUTCHours() >= eventHourUTC) {
+                nextEvent.setUTCDate(nextEvent.getUTCDate() + 1);
+            }
+
+            // Calculate time difference
+            const diff = nextEvent - utc;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // Update countdown display
+            document.getElementById('countdown').textContent =
+                `${hours}h ${minutes}m ${seconds}s`;
+
+            // Determine which event is next based on day of week
+            const dayOfWeek = nextEvent.getUTCDay();
+            const eventNames = {
+                1: 'Gates',
+                2: 'Alliance Party + Demon Incursion',
+                4: 'Gates + Monster Hunt',
+                5: 'Battle of Sarnesia (5hrs before reset)'
+            };
+
+            let eventName = eventNames[dayOfWeek] || 'Check schedule';
+            if (dayOfWeek === 5) {
+                // Friday BOS is 5hrs before reset, not 6
+                const bosTime = new Date(nextEvent);
+                bosTime.setUTCHours(19, 0, 0, 0); // 19:00 UTC = 5hrs before reset
+                if (utc < bosTime) {
+                    const bosDiff = bosTime - utc;
+                    const bosHours = Math.floor(bosDiff / (1000 * 60 * 60));
+                    const bosMinutes = Math.floor((bosDiff % (1000 * 60 * 60)) / (1000 * 60));
+                    const bosSeconds = Math.floor((bosDiff % (1000 * 60)) / 1000);
+                    document.getElementById('countdown').textContent =
+                        `${bosHours}h ${bosMinutes}m ${bosSeconds}s`;
+                }
+            }
+
+            document.getElementById('next-event').textContent = eventName;
+        }
+
+        // Update every second
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
 
 </body>
 
