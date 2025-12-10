@@ -2873,7 +2873,7 @@
                         gameState.heroes[i].xp = (gameState.heroes[i].xp || 0) + gym.reward.xp;
                         // Check for level up
                         const xpNeeded = gameState.heroes[i].level * 20;
-                        while (gameState.heroes[i].xp >= xpNeeded && gameState.heroes[i].level < 210) {
+                        while (gameState.heroes[i].xp >= xpNeeded && gameState.heroes[i].level < getMaxLevel(gameState.heroes[i])) {
                             gameState.heroes[i].xp -= xpNeeded;
                             gameState.heroes[i].level++;
                             gameState.heroes[i].hp += 3;
@@ -2925,7 +2925,8 @@
                 if (gameState.heroes.length === 0) {
                     allHeroes = starterHeroes;
                 } else {
-                    allHeroes = [...starterHeroes, ...wildHeroes];
+                    // Filter out Malice (Boss Only for now)
+                    allHeroes = [...starterHeroes, ...wildHeroes].filter(h => h.id !== 'malice');
                 }
 
                 // Random hero from full pool
@@ -2941,7 +2942,7 @@
 
                     // Check for level up immediately
                     const xpNeeded = existingHero.level * 20;
-                    if (existingHero.xp >= xpNeeded && existingHero.level < 210) {
+                    if (existingHero.xp >= xpNeeded && existingHero.level < getMaxLevel(existingHero)) {
                         existingHero.xp -= xpNeeded;
                         existingHero.level++;
                         existingHero.hp += 3;
@@ -3394,6 +3395,12 @@
                 battleState.isPlayerTurn = true;
             }
 
+            function getMaxLevel(hero) {
+                if (hero.id === 'malice') return 210;
+                const isStarter = starterHeroes.some(h => h.id === hero.id);
+                return isStarter ? 70 : 130;
+            }
+
             function endBattle(victory) {
                 battleState.battleCount++;
 
@@ -3422,7 +3429,7 @@
                 // Check for level up
                 const hero = gameState.heroes[battleState.playerHeroIndex];
                 const xpNeeded = hero.level * 20;
-                if (hero.xp >= xpNeeded && hero.level < 70) {
+                if (hero.xp >= xpNeeded && hero.level < getMaxLevel(hero)) {
                     hero.level++;
                     hero.xp -= xpNeeded;
                     hero.maxHp += 3;
