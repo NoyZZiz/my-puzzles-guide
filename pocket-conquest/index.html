@@ -1849,324 +1849,325 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- ===== BATTLE SCREEN (SEARCH) ===== -->
-        <div id="searchScreen" class="screen">
-            <button class="back-btn" onclick="fleeBattle()">← Flee</button>
+    <!-- ===== BATTLE SCREEN (SEARCH) ===== -->
+    <div id="searchScreen" class="screen">
+        <button class="back-btn" onclick="fleeBattle()">← Flee</button>
 
-            <!-- ENEMY SIDE (top) -->
-            <div class="battle-enemy-side">
-                <img id="enemyImage" src="" alt="Enemy" class="battle-enemy-img">
-                <div class="battle-enemy-info">
-                    <span class="battle-name" id="enemyName">Wild Hero</span>
-                    <span class="battle-level" id="enemyLevel">Lv.1</span>
-                </div>
-                <div class="battle-hp-bar">
-                    <div class="hp-fill enemy-hp" id="enemyHpBar" style="width:100%"></div>
-                </div>
-                <div class="battle-hp-text" id="enemyHpText">100/100</div>
-                <div class="status-icons" id="enemyStatusIcons"></div>
+        <!-- ENEMY SIDE (top) -->
+        <div class="battle-enemy-side">
+            <img id="enemyImage" src="" alt="Enemy" class="battle-enemy-img">
+            <div class="battle-enemy-info">
+                <span class="battle-name" id="enemyName">Wild Hero</span>
+                <span class="battle-level" id="enemyLevel">Lv.1</span>
             </div>
-
-            <!-- PLAYER SIDE (bottom) -->
-            <div class="battle-player-side">
-                <img id="playerHeroImage" src="" alt="Hero" class="battle-player-img">
-                <div class="battle-player-info">
-                    <span class="battle-name" id="playerHeroName">Your Hero</span>
-                    <span class="battle-level" id="playerHeroLevel">Lv.1</span>
-                </div>
-                <div class="battle-hp-bar player-bar">
-                    <div class="hp-fill player-hp" id="playerHpBar" style="width:100%"></div>
-                </div>
-                <div class="battle-hp-text" id="playerHpText">100/100</div>
-                <div class="status-icons" id="playerStatusIcons"></div>
+            <div class="battle-hp-bar">
+                <div class="hp-fill enemy-hp" id="enemyHpBar" style="width:100%"></div>
             </div>
+            <div class="battle-hp-text" id="enemyHpText">100/100</div>
+            <div class="status-icons" id="enemyStatusIcons"></div>
+        </div>
 
-            <!-- BATTLE LOG -->
-            <div class="battle-log" id="battleLog">
-                <p>A wild hero appeared!</p>
+        <!-- PLAYER SIDE (bottom) -->
+        <div class="battle-player-side">
+            <img id="playerHeroImage" src="" alt="Hero" class="battle-player-img">
+            <div class="battle-player-info">
+                <span class="battle-name" id="playerHeroName">Your Hero</span>
+                <span class="battle-level" id="playerHeroLevel">Lv.1</span>
             </div>
+            <div class="battle-hp-bar player-bar">
+                <div class="hp-fill player-hp" id="playerHpBar" style="width:100%"></div>
+            </div>
+            <div class="battle-hp-text" id="playerHpText">100/100</div>
+            <div class="status-icons" id="playerStatusIcons"></div>
+        </div>
 
-            <!-- ATTACK BUTTONS -->
-            <div class="attack-panel" id="attackPanel">
-                <button class="attack-btn" onclick="useAttack(0)" id="atkBtn0">Attack 1</button>
-                <button class="attack-btn" onclick="useAttack(1)" id="atkBtn1">Attack 2</button>
-                <button class="attack-btn" onclick="useAttack(2)" id="atkBtn2">Attack 3</button>
-                <button class="attack-btn ultimate" onclick="useAttack(3)" id="atkBtn3">Ultimate</button>
+        <!-- BATTLE LOG -->
+        <div class="battle-log" id="battleLog">
+            <p>A wild hero appeared!</p>
+        </div>
+
+        <!-- ATTACK BUTTONS -->
+        <div class="attack-panel" id="attackPanel">
+            <button class="attack-btn" onclick="useAttack(0)" id="atkBtn0">Attack 1</button>
+            <button class="attack-btn" onclick="useAttack(1)" id="atkBtn1">Attack 2</button>
+            <button class="attack-btn" onclick="useAttack(2)" id="atkBtn2">Attack 3</button>
+            <button class="attack-btn ultimate" onclick="useAttack(3)" id="atkBtn3">Ultimate</button>
+        </div>
+    </div>
+
+    <!-- ===== GYM INTRO VIDEO SCREEN ===== -->
+    <div id="gymIntroScreen" class="screen">
+        <div class="gym-intro-container">
+            <video id="gymIntroVideo" class="gym-intro-video" autoplay playsinline>
+                <source src="" type="video/mp4">
+            </video>
+            <button class="skip-intro-btn" onclick="skipGymIntro()">Skip →</button>
+        </div>
+    </div>
+
+    <!-- ===== GYM HERO SELECTION ===== -->
+    <div id="gymSelectScreen" class="screen">
+        <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
+        <h2 class="screen-title">SELECT YOUR TEAM</h2>
+        <p style="text-align:center;color:#94a3b8;margin-bottom:15px;">Choose 5 heroes for the gym battle</p>
+
+        <div class="gym-select-grid" id="gymSelectGrid">
+            <!-- Heroes rendered here -->
+        </div>
+
+        <div class="selected-team">
+            <h3>Your Team (<span id="selectedCount">0</span>/5)</h3>
+            <div class="selected-team-row" id="selectedTeamRow">
+                <!-- Selected heroes appear here -->
             </div>
         </div>
 
-        <!-- ===== GYM INTRO VIDEO SCREEN ===== -->
-        <div id="gymIntroScreen" class="screen">
-            <div class="gym-intro-container">
-                <video id="gymIntroVideo" class="gym-intro-video" autoplay playsinline>
-                    <source src="" type="video/mp4">
-                </video>
-                <button class="skip-intro-btn" onclick="skipGymIntro()">Skip →</button>
+        <button id="startGymBattleBtn" class="confirm-btn" onclick="startGymBattle()" disabled>START GYM
+            BATTLE</button>
+    </div>
+
+    <!-- ===== GYM BATTLE SCREEN ===== -->
+    <div id="gymBattleScreen" class="screen">
+        <button class="back-btn" onclick="fleeGymBattle()" style="left:auto;right:20px;">Forfeit 🏳️</button>
+
+        <!-- GYM LEADER INFO -->
+        <div class="gym-leader-header">
+            <img id="gymLeaderImg" src="" alt="Gym Leader" class="gym-leader-portrait">
+            <div class="gym-leader-info">
+                <div class="gym-leader-name" id="gymLeaderName">GYM LEADER</div>
+                <div class="gym-leader-title" id="gymLeaderTitle">The Flame Warden</div>
             </div>
         </div>
 
-        <!-- ===== GYM HERO SELECTION ===== -->
-        <div id="gymSelectScreen" class="screen">
-            <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
-            <h2 class="screen-title">SELECT YOUR TEAM</h2>
-            <p style="text-align:center;color:#94a3b8;margin-bottom:15px;">Choose 5 heroes for the gym battle</p>
-
-            <div class="gym-select-grid" id="gymSelectGrid">
-                <!-- Heroes rendered here -->
-            </div>
-
-            <div class="selected-team">
-                <h3>Your Team (<span id="selectedCount">0</span>/5)</h3>
-                <div class="selected-team-row" id="selectedTeamRow">
-                    <!-- Selected heroes appear here -->
-                </div>
-            </div>
-
-            <button id="startGymBattleBtn" class="confirm-btn" onclick="startGymBattle()" disabled>START GYM
-                BATTLE</button>
-        </div>
-
-        <!-- ===== GYM BATTLE SCREEN ===== -->
-        <div id="gymBattleScreen" class="screen">
-            <button class="back-btn" onclick="fleeGymBattle()" style="left:auto;right:20px;">Forfeit 🏳️</button>
-
-            <!-- GYM LEADER INFO -->
-            <div class="gym-leader-header">
-                <img id="gymLeaderImg" src="" alt="Gym Leader" class="gym-leader-portrait">
-                <div class="gym-leader-info">
-                    <div class="gym-leader-name" id="gymLeaderName">GYM LEADER</div>
-                    <div class="gym-leader-title" id="gymLeaderTitle">The Flame Warden</div>
-                </div>
-            </div>
-
-            <!-- ENEMY TEAM ROSTER -->
-            <div class="gym-roster enemy-roster">
-                <div class="roster-icons" id="enemyRoster">
-                    <!-- Enemy hero icons -->
-                </div>
-            </div>
-
-            <!-- ACTIVE ENEMY -->
-            <div class="gym-battle-enemy">
-                <img id="gymEnemyImage" src="" alt="Enemy" class="gym-battle-img">
-                <div class="gym-battle-info">
-                    <span class="battle-name" id="gymEnemyName">Enemy</span>
-                    <span class="battle-level" id="gymEnemyLevel">Lv.130</span>
-                </div>
-                <div class="battle-hp-bar">
-                    <div class="hp-fill enemy-hp" id="gymEnemyHpBar" style="width:100%"></div>
-                </div>
-                <div class="battle-hp-text" id="gymEnemyHpText">500/500</div>
-                <div class="status-icons" id="gymEnemyStatusIcons"></div>
-            </div>
-
-            <!-- PLAYER TEAM ROSTER -->
-            <div class="gym-roster player-roster">
-                <div class="roster-icons" id="playerRoster">
-                    <!-- Player hero icons -->
-                </div>
-            </div>
-
-            <!-- ACTIVE PLAYER HERO -->
-            <div class="gym-battle-player">
-                <img id="gymPlayerImage" src="" alt="Hero" class="gym-battle-img">
-                <div class="gym-battle-info">
-                    <span class="battle-name" id="gymPlayerName">Your Hero</span>
-                    <span class="battle-level" id="gymPlayerLevel">Lv.1</span>
-                </div>
-                <div class="battle-hp-bar player-bar">
-                    <div class="hp-fill player-hp" id="gymPlayerHpBar" style="width:100%"></div>
-                </div>
-                <div class="battle-hp-text" id="gymPlayerHpText">100/100</div>
-                <div class="status-icons" id="gymPlayerStatusIcons"></div>
-            </div>
-
-            <!-- BATTLE LOG -->
-            <div class="battle-log" id="gymBattleLog">
-                <p>Gym battle started!</p>
-            </div>
-
-            <!-- ATTACK BUTTONS -->
-            <div class="attack-panel" id="gymAttackPanel">
-                <button class="attack-btn" onclick="useGymAttack(0)" id="gymAtkBtn0">Attack 1</button>
-                <button class="attack-btn" onclick="useGymAttack(1)" id="gymAtkBtn1">Attack 2</button>
-                <button class="attack-btn" onclick="useGymAttack(2)" id="gymAtkBtn2">Attack 3</button>
-                <button class="attack-btn ultimate" onclick="useGymAttack(3)" id="gymAtkBtn3">Ultimate</button>
+        <!-- ENEMY TEAM ROSTER -->
+        <div class="gym-roster enemy-roster">
+            <div class="roster-icons" id="enemyRoster">
+                <!-- Enemy hero icons -->
             </div>
         </div>
 
-        <!-- ===== HEROES SCREEN ===== -->
-        <div id="heroesScreen" class="screen">
-            <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
-
-            <h2 class="screen-title">MY HEROES</h2>
-
-            <div id="heroListContainer">
-                <!-- Heroes will be dynamically rendered here -->
+        <!-- ACTIVE ENEMY -->
+        <div class="gym-battle-enemy">
+            <img id="gymEnemyImage" src="" alt="Enemy" class="gym-battle-img">
+            <div class="gym-battle-info">
+                <span class="battle-name" id="gymEnemyName">Enemy</span>
+                <span class="battle-level" id="gymEnemyLevel">Lv.130</span>
             </div>
+            <div class="battle-hp-bar">
+                <div class="hp-fill enemy-hp" id="gymEnemyHpBar" style="width:100%"></div>
+            </div>
+            <div class="battle-hp-text" id="gymEnemyHpText">500/500</div>
+            <div class="status-icons" id="gymEnemyStatusIcons"></div>
+        </div>
 
-            <div id="noHeroesMessage" class="coming-soon-box">
-                <img id="heroesTrainerImg" src="assets/trainers/kai.png" alt="Trainer"
-                    style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);margin-bottom:20px;">
-                <h3>No Heroes Yet</h3>
-                <p>Use Time Recruit to summon your first hero!</p>
+        <!-- PLAYER TEAM ROSTER -->
+        <div class="gym-roster player-roster">
+            <div class="roster-icons" id="playerRoster">
+                <!-- Player hero icons -->
             </div>
         </div>
 
-
-
-        <!-- ===== SUMMON RESULT MODAL ===== -->
-        <div id="summonModal" class="modal-overlay" style="display:none;">
-            <div class="summon-modal">
-                <div class="summon-glow"></div>
-                <div class="summon-hero-reveal">
-                    <img id="summonHeroImg" src="" alt="Hero" class="summon-hero-img">
-                </div>
-                <div class="summon-hero-info">
-                    <div class="summon-rarity" id="summonRarity">RARE</div>
-                    <h2 class="summon-hero-name" id="summonHeroName">Hero Name</h2>
-                    <div class="summon-hero-type" id="summonHeroType">Type</div>
-                    <div class="summon-stats">
-                        <div class="stat-box"><span class="stat-label">HP</span><span class="stat-value"
-                                id="summonHP">100</span></div>
-                        <div class="stat-box"><span class="stat-label">ATK</span><span class="stat-value"
-                                id="summonATK">30</span></div>
-                        <div class="stat-box"><span class="stat-label">DEF</span><span class="stat-value"
-                                id="summonDEF">25</span></div>
-                    </div>
-                </div>
-                <button class="summon-close-btn" onclick="closeSummonModal()">TAP TO CONTINUE</button>
+        <!-- ACTIVE PLAYER HERO -->
+        <div class="gym-battle-player">
+            <img id="gymPlayerImage" src="" alt="Hero" class="gym-battle-img">
+            <div class="gym-battle-info">
+                <span class="battle-name" id="gymPlayerName">Your Hero</span>
+                <span class="battle-level" id="gymPlayerLevel">Lv.1</span>
             </div>
+            <div class="battle-hp-bar player-bar">
+                <div class="hp-fill player-hp" id="gymPlayerHpBar" style="width:100%"></div>
+            </div>
+            <div class="battle-hp-text" id="gymPlayerHpText">100/100</div>
+            <div class="status-icons" id="gymPlayerStatusIcons"></div>
         </div>
 
-        <!-- ===== CUSTOM MESSAGE MODAL ===== -->
-        <div id="messageModal" class="modal-overlay" style="display:none;">
-            <div class="message-modal">
-                <div class="message-icon" id="messageIcon">❌</div>
-                <h3 class="message-title" id="messageTitle">Title</h3>
-                <p class="message-text" id="messageText">Message text here</p>
-                <button class="message-ok-btn" onclick="closeMessageModal()">OK</button>
-            </div>
+        <!-- BATTLE LOG -->
+        <div class="battle-log" id="gymBattleLog">
+            <p>Gym battle started!</p>
         </div>
 
-        <!-- ===== HERO DETAILS MODAL ===== -->
-        <div id="heroDetailModal" class="modal-overlay" style="display:none;">
-            <div class="hero-detail-modal">
-                <button class="modal-close-x" onclick="closeHeroDetailModal()">✕</button>
-                <img id="heroDetailImg" src="" alt="Hero" class="hero-detail-img">
-                <div class="hero-detail-info">
-                    <div class="hero-detail-rarity" id="heroDetailRarity">COMMON</div>
-                    <h2 class="hero-detail-name" id="heroDetailName">Hero Name</h2>
-                    <div class="hero-detail-type" id="heroDetailType">Type</div>
-                    <div class="hero-detail-level" id="heroDetailLevel">Level 1</div>
-                </div>
-                <div class="hero-detail-stats">
+        <!-- ATTACK BUTTONS -->
+        <div class="attack-panel" id="gymAttackPanel">
+            <button class="attack-btn" onclick="useGymAttack(0)" id="gymAtkBtn0">Attack 1</button>
+            <button class="attack-btn" onclick="useGymAttack(1)" id="gymAtkBtn1">Attack 2</button>
+            <button class="attack-btn" onclick="useGymAttack(2)" id="gymAtkBtn2">Attack 3</button>
+            <button class="attack-btn ultimate" onclick="useGymAttack(3)" id="gymAtkBtn3">Ultimate</button>
+        </div>
+    </div>
+
+    <!-- ===== HEROES SCREEN ===== -->
+    <div id="heroesScreen" class="screen">
+        <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
+
+        <h2 class="screen-title">MY HEROES</h2>
+
+        <div id="heroListContainer">
+            <!-- Heroes will be dynamically rendered here -->
+        </div>
+
+        <div id="noHeroesMessage" class="coming-soon-box">
+            <img id="heroesTrainerImg" src="assets/trainers/kai.png" alt="Trainer"
+                style="width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);margin-bottom:20px;">
+            <h3>No Heroes Yet</h3>
+            <p>Use Time Recruit to summon your first hero!</p>
+        </div>
+    </div>
+
+
+
+    <!-- ===== SUMMON RESULT MODAL ===== -->
+    <div id="summonModal" class="modal-overlay" style="display:none;">
+        <div class="summon-modal">
+            <div class="summon-glow"></div>
+            <div class="summon-hero-reveal">
+                <img id="summonHeroImg" src="" alt="Hero" class="summon-hero-img">
+            </div>
+            <div class="summon-hero-info">
+                <div class="summon-rarity" id="summonRarity">RARE</div>
+                <h2 class="summon-hero-name" id="summonHeroName">Hero Name</h2>
+                <div class="summon-hero-type" id="summonHeroType">Type</div>
+                <div class="summon-stats">
                     <div class="stat-box"><span class="stat-label">HP</span><span class="stat-value"
-                            id="heroDetailHP">100</span></div>
+                            id="summonHP">100</span></div>
                     <div class="stat-box"><span class="stat-label">ATK</span><span class="stat-value"
-                            id="heroDetailATK">30</span></div>
+                            id="summonATK">30</span></div>
                     <div class="stat-box"><span class="stat-label">DEF</span><span class="stat-value"
-                            id="heroDetailDEF">25</span></div>
-                </div>
-                <div class="hero-xp-section">
-                    <div class="xp-header">
-                        <span class="xp-label">EXP</span>
-                        <span class="xp-text" id="heroDetailXP">0 / 20</span>
-                    </div>
-                    <div class="xp-bar">
-                        <div class="xp-fill" id="heroDetailXPBar" style="width:0%"></div>
-                    </div>
-                    <div class="xp-next">Next Level: <span id="heroDetailXPNeeded">20 XP</span></div>
-                </div>
-                <div class="hero-detail-attacks">
-                    <h4>ATTACKS</h4>
-                    <div id="heroDetailAttacksList" class="attacks-list"></div>
-                </div>
-                <button class="message-ok-btn" onclick="closeHeroDetailModal()">CLOSE</button>
-            </div>
-        </div>
-
-        <!-- ===== BATTLE HERO SELECT MODAL ===== -->
-        <div id="battleSelectModal" class="modal-overlay" style="display:none;">
-            <div class="battle-select-modal">
-                <button class="modal-close-x" onclick="closeBattleSelect()">✕</button>
-                <h2 class="modal-title">SELECT YOUR HERO</h2>
-                <p class="modal-subtitle">Choose a hero to battle with</p>
-                <div id="battleHeroGrid" class="battle-hero-grid">
-                    <!-- Heroes will be rendered here -->
-                </div>
-                <div id="noHeroesForBattle" style="display:none; text-align:center; padding:20px;">
-                    <p style="color:#94a3b8;">You need at least 1 hero to battle!</p>
-                    <button class="message-ok-btn" onclick="closeBattleSelect(); showScreen('timeRecruitScreen');">
-                        Go Summon
-                    </button>
+                            id="summonDEF">25</span></div>
                 </div>
             </div>
+            <button class="summon-close-btn" onclick="closeSummonModal()">TAP TO CONTINUE</button>
         </div>
+    </div>
 
-        <!-- ===== BATTLE RESULT MODAL ===== -->
-        <div id="battleResultModal" class="modal-overlay" style="display:none;">
-            <div class="battle-result-modal">
-                <div class="result-icon" id="resultIcon">⚔️</div>
-                <h2 class="result-title" id="resultTitle">VICTORY!</h2>
-                <div class="result-rewards">
-                    <div class="reward-item">
-                        <span class="reward-label">XP Gained:</span>
-                        <span class="reward-value" id="resultXP">+20</span>
-                    </div>
-                    <div class="reward-item" id="coinRewardRow" style="display:none;">
-                        <span class="reward-label">TR Coin:</span>
-                        <span class="reward-value">+1 🪙</span>
-                    </div>
+    <!-- ===== CUSTOM MESSAGE MODAL ===== -->
+    <div id="messageModal" class="modal-overlay" style="display:none;">
+        <div class="message-modal">
+            <div class="message-icon" id="messageIcon">❌</div>
+            <h3 class="message-title" id="messageTitle">Title</h3>
+            <p class="message-text" id="messageText">Message text here</p>
+            <button class="message-ok-btn" onclick="closeMessageModal()">OK</button>
+        </div>
+    </div>
+
+    <!-- ===== HERO DETAILS MODAL ===== -->
+    <div id="heroDetailModal" class="modal-overlay" style="display:none;">
+        <div class="hero-detail-modal">
+            <button class="modal-close-x" onclick="closeHeroDetailModal()">✕</button>
+            <img id="heroDetailImg" src="" alt="Hero" class="hero-detail-img">
+            <div class="hero-detail-info">
+                <div class="hero-detail-rarity" id="heroDetailRarity">COMMON</div>
+                <h2 class="hero-detail-name" id="heroDetailName">Hero Name</h2>
+                <div class="hero-detail-type" id="heroDetailType">Type</div>
+                <div class="hero-detail-level" id="heroDetailLevel">Level 1</div>
+            </div>
+            <div class="hero-detail-stats">
+                <div class="stat-box"><span class="stat-label">HP</span><span class="stat-value"
+                        id="heroDetailHP">100</span></div>
+                <div class="stat-box"><span class="stat-label">ATK</span><span class="stat-value"
+                        id="heroDetailATK">30</span></div>
+                <div class="stat-box"><span class="stat-label">DEF</span><span class="stat-value"
+                        id="heroDetailDEF">25</span></div>
+            </div>
+            <div class="hero-xp-section">
+                <div class="xp-header">
+                    <span class="xp-label">EXP</span>
+                    <span class="xp-text" id="heroDetailXP">0 / 20</span>
                 </div>
-                <button class="message-ok-btn" onclick="closeBattleResult()">CONTINUE</button>
+                <div class="xp-bar">
+                    <div class="xp-fill" id="heroDetailXPBar" style="width:0%"></div>
+                </div>
+                <div class="xp-next">Next Level: <span id="heroDetailXPNeeded">20 XP</span></div>
+            </div>
+            <div class="hero-detail-attacks">
+                <h4>ATTACKS</h4>
+                <div id="heroDetailAttacksList" class="attacks-list"></div>
+            </div>
+            <button class="message-ok-btn" onclick="closeHeroDetailModal()">CLOSE</button>
+        </div>
+    </div>
+
+    <!-- ===== BATTLE HERO SELECT MODAL ===== -->
+    <div id="battleSelectModal" class="modal-overlay" style="display:none;">
+        <div class="battle-select-modal">
+            <button class="modal-close-x" onclick="closeBattleSelect()">✕</button>
+            <h2 class="modal-title">SELECT YOUR HERO</h2>
+            <p class="modal-subtitle">Choose a hero to battle with</p>
+            <div id="battleHeroGrid" class="battle-hero-grid">
+                <!-- Heroes will be rendered here -->
+            </div>
+            <div id="noHeroesForBattle" style="display:none; text-align:center; padding:20px;">
+                <p style="color:#94a3b8;">You need at least 1 hero to battle!</p>
+                <button class="message-ok-btn" onclick="closeBattleSelect(); showScreen('timeRecruitScreen');">
+                    Go Summon
+                </button>
             </div>
         </div>
+    </div>
 
-        <script>
-            // ========== GAME STATE ==========
-            let gameState = {
-                trainer: null,
-                trainerName: '',
-                level: 1,
-                trCoins: 0,
-                gems: 100,
-                badges: 0,
-                heroes: []
-            };
+    <!-- ===== BATTLE RESULT MODAL ===== -->
+    <div id="battleResultModal" class="modal-overlay" style="display:none;">
+        <div class="battle-result-modal">
+            <div class="result-icon" id="resultIcon">⚔️</div>
+            <h2 class="result-title" id="resultTitle">VICTORY!</h2>
+            <div class="result-rewards">
+                <div class="reward-item">
+                    <span class="reward-label">XP Gained:</span>
+                    <span class="reward-value" id="resultXP">+20</span>
+                </div>
+                <div class="reward-item" id="coinRewardRow" style="display:none;">
+                    <span class="reward-label">TR Coin:</span>
+                    <span class="reward-value">+1 🪙</span>
+                </div>
+            </div>
+            <button class="message-ok-btn" onclick="closeBattleResult()">CONTINUE</button>
+        </div>
+    </div>
 
-            // ========== SCREEN MANAGEMENT ==========
-            function showScreen(screenId) {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById(screenId).classList.add('active');
+    <script>
+        // ========== GAME STATE ==========
+        let gameState = {
+            trainer: null,
+            trainerName: '',
+            level: 1,
+            trCoins: 0,
+            gems: 100,
+            badges: 0,
+            heroes: []
+        };
 
-                if (screenId === 'homeScreen') updateHomeScreen();
-                if (screenId === 'heroesScreen') updateHeroesScreen();
+        // ========== SCREEN MANAGEMENT ==========
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+
+            if (screenId === 'homeScreen') updateHomeScreen();
+            if (screenId === 'heroesScreen') updateHeroesScreen();
+        }
+
+        function updateHeroesScreen() {
+            const container = document.getElementById('heroListContainer');
+            const noHeroesMsg = document.getElementById('noHeroesMessage');
+
+            // Update trainer image
+            if (gameState.trainer) {
+                document.getElementById('heroesTrainerImg').src = 'assets/trainers/' + gameState.trainer + '.png';
             }
 
-            function updateHeroesScreen() {
-                const container = document.getElementById('heroListContainer');
-                const noHeroesMsg = document.getElementById('noHeroesMessage');
+            // Check if player has heroes
+            if (gameState.heroes.length === 0) {
+                container.innerHTML = '';
+                noHeroesMsg.style.display = 'block';
+                return;
+            }
 
-                // Update trainer image
-                if (gameState.trainer) {
-                    document.getElementById('heroesTrainerImg').src = 'assets/trainers/' + gameState.trainer + '.png';
-                }
+            // Hide no heroes message
+            noHeroesMsg.style.display = 'none';
 
-                // Check if player has heroes
-                if (gameState.heroes.length === 0) {
-                    container.innerHTML = '';
-                    noHeroesMsg.style.display = 'block';
-                    return;
-                }
-
-                // Hide no heroes message
-                noHeroesMsg.style.display = 'none';
-
-                // Render hero grid
-                container.innerHTML = '<div class="heroes-grid">' +
-                    gameState.heroes.map((hero, index) => `
+            // Render hero grid
+            container.innerHTML = '<div class="heroes-grid">' +
+                gameState.heroes.map((hero, index) => `
                     <div class="hero-card" onclick="showHeroDetails(${index})">
                         <img src="${hero.image}" alt="${hero.name}" class="hero-card-img">
                         <div class="hero-card-info">
@@ -2176,543 +2177,543 @@
                         </div>
                     </div>
                 `).join('') +
-                    '</div>';
-            }
+                '</div>';
+        }
 
-            function showHeroDetails(index) {
-                const hero = gameState.heroes[index];
-                if (!hero) return;
+        function showHeroDetails(index) {
+            const hero = gameState.heroes[index];
+            if (!hero) return;
 
-                // Populate modal
-                document.getElementById('heroDetailImg').src = hero.image;
-                document.getElementById('heroDetailRarity').textContent = hero.rarity.toUpperCase();
-                document.getElementById('heroDetailName').textContent = hero.name;
-                document.getElementById('heroDetailType').textContent = hero.type + ' Type';
-                document.getElementById('heroDetailLevel').textContent = 'Level ' + hero.level;
-                document.getElementById('heroDetailHP').textContent = hero.hp + '/' + hero.maxHp;
-                document.getElementById('heroDetailATK').textContent = hero.attack;
-                document.getElementById('heroDetailDEF').textContent = hero.defense;
+            // Populate modal
+            document.getElementById('heroDetailImg').src = hero.image;
+            document.getElementById('heroDetailRarity').textContent = hero.rarity.toUpperCase();
+            document.getElementById('heroDetailName').textContent = hero.name;
+            document.getElementById('heroDetailType').textContent = hero.type + ' Type';
+            document.getElementById('heroDetailLevel').textContent = 'Level ' + hero.level;
+            document.getElementById('heroDetailHP').textContent = hero.hp + '/' + hero.maxHp;
+            document.getElementById('heroDetailATK').textContent = hero.attack;
+            document.getElementById('heroDetailDEF').textContent = hero.defense;
 
-                // Calculate XP progress
-                const xpNeeded = hero.level * 20;
-                const currentXp = hero.xp || 0;
-                const xpPct = Math.min(100, (currentXp / xpNeeded) * 100);
-                document.getElementById('heroDetailXP').textContent = currentXp + ' / ' + xpNeeded;
-                document.getElementById('heroDetailXPBar').style.width = xpPct + '%';
-                document.getElementById('heroDetailXPNeeded').textContent = (xpNeeded - currentXp) + ' XP';
+            // Calculate XP progress
+            const xpNeeded = hero.level * 20;
+            const currentXp = hero.xp || 0;
+            const xpPct = Math.min(100, (currentXp / xpNeeded) * 100);
+            document.getElementById('heroDetailXP').textContent = currentXp + ' / ' + xpNeeded;
+            document.getElementById('heroDetailXPBar').style.width = xpPct + '%';
+            document.getElementById('heroDetailXPNeeded').textContent = (xpNeeded - currentXp) + ' XP';
 
-                // Build attacks list
-                let attacksHtml = hero.attacks.map(a => `
+            // Build attacks list
+            let attacksHtml = hero.attacks.map(a => `
                 <div class="attack-item">
                     <span class="attack-name">${a.name}</span>
                     <span class="attack-dmg">${a.damage} DMG</span>
                     ${a.effect ? '<span class="attack-effect">' + a.effect + '</span>' : ''}
                 </div>
             `).join('');
-                document.getElementById('heroDetailAttacksList').innerHTML = attacksHtml;
+            document.getElementById('heroDetailAttacksList').innerHTML = attacksHtml;
 
-                // Show modal
-                document.getElementById('heroDetailModal').style.display = 'flex';
+            // Show modal
+            document.getElementById('heroDetailModal').style.display = 'flex';
+        }
+
+        function closeHeroDetailModal() {
+            document.getElementById('heroDetailModal').style.display = 'none';
+        }
+
+        // ========== CHARACTER SELECTION ==========
+        let selectedTrainer = null;
+
+        function selectCharacter(name, element) {
+            document.querySelectorAll('.character-card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedTrainer = name;
+            document.getElementById('confirmCharBtn').disabled = false;
+        }
+
+        function handleAllianceChange() {
+            const select = document.getElementById('allianceSelect');
+            const customInput = document.getElementById('customAllianceInput');
+
+            if (select.value === 'custom') {
+                customInput.classList.remove('hidden');
+                customInput.focus();
+            } else {
+                customInput.classList.add('hidden');
+                customInput.value = '';
+            }
+        }
+
+        function confirmCharacter() {
+            if (!selectedTrainer) return;
+
+            // Get username
+            const usernameInput = document.getElementById('usernameInput');
+            const username = usernameInput.value.trim();
+
+            if (!username) {
+                showMessage('Please enter your name!');
+                usernameInput.focus();
+                return;
             }
 
-            function closeHeroDetailModal() {
-                document.getElementById('heroDetailModal').style.display = 'none';
-            }
+            // Get alliance
+            const allianceSelect = document.getElementById('allianceSelect');
+            const customAlliance = document.getElementById('customAllianceInput');
+            let alliance = allianceSelect.value;
 
-            // ========== CHARACTER SELECTION ==========
-            let selectedTrainer = null;
-
-            function selectCharacter(name, element) {
-                document.querySelectorAll('.character-card').forEach(c => c.classList.remove('selected'));
-                element.classList.add('selected');
-                selectedTrainer = name;
-                document.getElementById('confirmCharBtn').disabled = false;
-            }
-
-            function handleAllianceChange() {
-                const select = document.getElementById('allianceSelect');
-                const customInput = document.getElementById('customAllianceInput');
-
-                if (select.value === 'custom') {
-                    customInput.classList.remove('hidden');
-                    customInput.focus();
-                } else {
-                    customInput.classList.add('hidden');
-                    customInput.value = '';
-                }
-            }
-
-            function confirmCharacter() {
-                if (!selectedTrainer) return;
-
-                // Get username
-                const usernameInput = document.getElementById('usernameInput');
-                const username = usernameInput.value.trim();
-
-                if (!username) {
-                    showMessage('Please enter your name!');
-                    usernameInput.focus();
+            if (alliance === 'custom') {
+                alliance = customAlliance.value.trim();
+                if (!alliance) {
+                    showMessage('Please enter your alliance name!');
+                    customAlliance.focus();
                     return;
                 }
+            }
 
-                // Get alliance
-                const allianceSelect = document.getElementById('allianceSelect');
-                const customAlliance = document.getElementById('customAllianceInput');
-                let alliance = allianceSelect.value;
+            gameState.trainer = selectedTrainer;
+            gameState.username = username;
+            gameState.trainerName = username.toUpperCase();
+            gameState.alliance = alliance;
+            // Special Tester Access
+            if (username.toLowerCase() === 'noyzzing' && alliance === 'ROL') {
+                gameState.trCoins = 100; // Tester bonus
+                showMessage('Tester Access Granted! +100 TR Coins');
+            } else {
+                gameState.trCoins = 1; // Standard starter bonus
+            }
 
-                if (alliance === 'custom') {
-                    alliance = customAlliance.value.trim();
-                    if (!alliance) {
-                        showMessage('Please enter your alliance name!');
-                        customAlliance.focus();
-                        return;
+            // No fake heroes - wait for user to provide real hero images
+            // Heroes will be added via Time Recruit when we have the assets
+
+            saveGame();
+            showScreen('homeScreen');
+        }
+
+        // ========== HOME SCREEN ==========
+        function updateHomeScreen() {
+            document.getElementById('homePlayerName').textContent = gameState.trainerName;
+            document.getElementById('homePlayerLevel').textContent = gameState.level;
+            document.getElementById('homeGymBadges').textContent = gameState.badges;
+            document.getElementById('homeTRCoins').textContent = gameState.trCoins;
+            document.getElementById('homeAlliance').textContent = gameState.alliance || 'ROL';
+
+            // Update avatar to selected trainer image
+            if (gameState.trainer) {
+                document.getElementById('homeAvatar').src = 'assets/trainers/' + gameState.trainer + '.png';
+            }
+        }
+
+        // ========== STARTER HEROES DATABASE ==========
+        const starterHeroes = [
+            {
+                id: 'naax',
+                name: 'Naax',
+                type: 'Steel',
+                rarity: 'Common',
+                image: 'assets/heroes/naax.png',
+                baseHp: 120,
+                baseAtk: 35,
+                baseDef: 40,
+                attacks: [
+                    { name: 'Sword Slash', damage: 25, type: 'Physical' },
+                    { name: 'Shield Bash', damage: 20, type: 'Physical', effect: 'Stun 20%' },
+                    { name: 'Steel Guard', damage: 0, type: 'Buff', effect: 'Defense +30%' },
+                    { name: 'Knight\'s Fury', damage: 45, type: 'Physical', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'lamassu',
+                name: 'Lamassu',
+                type: 'Dark',
+                rarity: 'Common',
+                image: 'assets/heroes/lamassu.png',
+                baseHp: 100,
+                baseAtk: 45,
+                baseDef: 25,
+                attacks: [
+                    { name: 'Shadow Claw', damage: 30, type: 'Dark' },
+                    { name: 'Wing Gust', damage: 25, type: 'Wind', effect: 'Knockback' },
+                    { name: 'Curse of Ages', damage: 20, type: 'Dark', effect: 'Poison 3 turns' },
+                    { name: 'Abyssal Roar', damage: 50, type: 'Dark', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'albertus',
+                name: 'Albertus',
+                type: 'Light',
+                rarity: 'Common',
+                image: 'assets/heroes/albertus.png',
+                baseHp: 130,
+                baseAtk: 30,
+                baseDef: 45,
+                attacks: [
+                    { name: 'Holy Flail', damage: 28, type: 'Light' },
+                    { name: 'Divine Shield', damage: 0, type: 'Buff', effect: 'Block next hit' },
+                    { name: 'Blessing', damage: 0, type: 'Heal', effect: 'Heal 30 HP' },
+                    { name: 'Judgement', damage: 55, type: 'Light', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'garnet',
+                name: 'Garnet',
+                type: 'Fire',
+                rarity: 'Common',
+                image: 'assets/heroes/garnet.png',
+                baseHp: 90,
+                baseAtk: 50,
+                baseDef: 20,
+                attacks: [
+                    { name: 'Flame Burst', damage: 35, type: 'Fire' },
+                    { name: 'Ember Burst', damage: 18, type: 'Fire', effect: 'Burns enemy for 3 turns' },
+                    { name: 'Ember Touch', damage: 25, type: 'Fire', effect: 'Burn 2 turns' },
+                    { name: 'Inferno Crown', damage: 60, type: 'Fire', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'florine',
+                name: 'Florine',
+                type: 'Wind',
+                rarity: 'Common',
+                image: 'assets/heroes/florine.png',
+                baseHp: 95,
+                baseAtk: 40,
+                baseDef: 30,
+                attacks: [
+                    { name: 'Swift Strike', damage: 28, type: 'Physical', effect: 'Always first' },
+                    { name: 'Wind Cloak', damage: 0, type: 'Buff', effect: 'Evasion +40%' },
+                    { name: 'Poison Dagger', damage: 22, type: 'Physical', effect: 'Poison 3 turns' },
+                    { name: 'Gale Assault', damage: 48, type: 'Wind', effect: 'Ultimate, hits twice' }
+                ]
+            }
+        ];
+
+        // ========== WILD HEROES DATABASE (Unlocked after first starter) ==========
+        // These appear as wild enemies AND are summonable via Time Recruit
+        // Slightly stronger than starters - Uncommon rarity
+        const wildHeroes = [
+            {
+                id: 'talon',
+                name: 'Talon',
+                type: 'Wind',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/talon.png',
+                baseHp: 140,
+                baseAtk: 42,
+                baseDef: 35,
+                attacks: [
+                    { name: 'Talon Strike', damage: 32, type: 'Physical' },
+                    { name: 'Wing Buffet', damage: 28, type: 'Wind', effect: 'Knockback' },
+                    { name: 'Eagle Eye', damage: 0, type: 'Buff', effect: 'Accuracy +50%' },
+                    { name: 'Sky Dive', damage: 55, type: 'Wind', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'harald',
+                name: 'Harald',
+                type: 'Fire',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/harald.png',
+                baseHp: 155,
+                baseAtk: 48,
+                baseDef: 30,
+                attacks: [
+                    { name: 'Axe Cleave', damage: 35, type: 'Physical' },
+                    { name: 'Lava Blade', damage: 30, type: 'Fire', effect: 'Burn 2 turns' },
+                    { name: 'Stone Skin', damage: 0, type: 'Buff', effect: 'Defense +40%' },
+                    { name: 'Magma Fury', damage: 60, type: 'Fire', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'hendrik',
+                name: 'Hendrik',
+                type: 'Light',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/hendrik.png',
+                baseHp: 160,
+                baseAtk: 40,
+                baseDef: 45,
+                attacks: [
+                    { name: 'Golden Blade', damage: 30, type: 'Light' },
+                    { name: 'Shield Wall', damage: 0, type: 'Buff', effect: 'Block 2 hits' },
+                    { name: 'Radiant Smite', damage: 35, type: 'Light', effect: 'Blind' },
+                    { name: 'Divine Wrath', damage: 58, type: 'Light', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'eri',
+                name: 'Eri',
+                type: 'Nature',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/eri.png',
+                baseHp: 130,
+                baseAtk: 38,
+                baseDef: 32,
+                attacks: [
+                    { name: 'Thorn Whip', damage: 28, type: 'Nature' },
+                    { name: 'Nature\'s Blessing', damage: 0, type: 'Heal', effect: 'Heal 35 HP' },
+                    { name: 'Entangle', damage: 22, type: 'Nature', effect: 'Root 2 turns' },
+                    { name: 'Forest Spirit', damage: 52, type: 'Nature', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'elros',
+                name: 'Elros',
+                type: 'Arcane',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/elros.png',
+                baseHp: 115,
+                baseAtk: 52,
+                baseDef: 25,
+                attacks: [
+                    { name: 'Fireball', damage: 38, type: 'Fire' },
+                    { name: 'Ice Shard', damage: 32, type: 'Ice', effect: 'Slow' },
+                    { name: 'Arcane Shield', damage: 0, type: 'Buff', effect: 'Magic DEF +50%' },
+                    { name: 'Elemental Storm', damage: 65, type: 'Arcane', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'sakhir',
+                name: 'Sakhir',
+                type: 'Dark',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/sakhir.png',
+                baseHp: 125,
+                baseAtk: 50,
+                baseDef: 28,
+                attacks: [
+                    { name: 'Soul Drain', damage: 30, type: 'Dark', effect: 'Lifesteal' },
+                    { name: 'Curse', damage: 25, type: 'Dark', effect: 'ATK -30%' },
+                    { name: 'Dark Tome', damage: 0, type: 'Buff', effect: 'ATK +40%' },
+                    { name: 'Necrotic Blast', damage: 62, type: 'Dark', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'dracula',
+                name: 'Dracula',
+                type: 'Dark',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/dracula.png',
+                baseHp: 135,
+                baseAtk: 48,
+                baseDef: 32,
+                attacks: [
+                    { name: 'Blood Lance', damage: 32, type: 'Dark' },
+                    { name: 'Vampiric Bite', damage: 28, type: 'Dark', effect: 'Lifesteal 50%' },
+                    { name: 'Bat Swarm', damage: 20, type: 'Dark', effect: 'Hits 3 times' },
+                    { name: 'Crimson Night', damage: 58, type: 'Dark', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'al-morrah',
+                name: 'Al-Morrah',
+                type: 'Arcane',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/al-morrah.png',
+                baseHp: 120,
+                baseAtk: 45,
+                baseDef: 35,
+                attacks: [
+                    { name: 'Mystic Bolt', damage: 30, type: 'Arcane' },
+                    { name: 'Wish', damage: 0, type: 'Heal', effect: 'Heal 40 HP' },
+                    { name: 'Sandstorm', damage: 25, type: 'Arcane', effect: 'Blind 2 turns' },
+                    { name: 'Genie\'s Wrath', damage: 56, type: 'Arcane', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'scarlet',
+                name: 'Scarlet',
+                type: 'Dark',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/scarlet.png',
+                baseHp: 110,
+                baseAtk: 55,
+                baseDef: 22,
+                attacks: [
+                    { name: 'Whip Lash', damage: 35, type: 'Physical' },
+                    { name: 'Charm', damage: 0, type: 'Debuff', effect: 'Confuse 2 turns' },
+                    { name: 'Hellfire', damage: 38, type: 'Fire', effect: 'Burn' },
+                    { name: 'Demon\'s Embrace', damage: 60, type: 'Dark', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'cerno',
+                name: 'Cerno',
+                type: 'Nature',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/cerno.png',
+                baseHp: 165,
+                baseAtk: 44,
+                baseDef: 38,
+                attacks: [
+                    { name: 'Battle Axe', damage: 34, type: 'Physical' },
+                    { name: 'Nature\'s Rage', damage: 30, type: 'Nature', effect: 'ATK +25%' },
+                    { name: 'Stampede', damage: 28, type: 'Physical', effect: 'Stun' },
+                    { name: 'Wild Fury', damage: 58, type: 'Nature', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'malice',
+                name: 'Malice',
+                type: 'Fire',
+                rarity: 'Uncommon',
+                image: 'assets/heroes/malice.png',
+                baseHp: 150,
+                baseAtk: 60,
+                baseDef: 35,
+                attacks: [
+                    { name: 'Lava Fist', damage: 38, type: 'Fire', effect: 'Burn' },
+                    { name: 'Demon Crush', damage: 42, type: 'Physical', effect: 'Stun' },
+                    { name: 'Hellforge', damage: 0, type: 'Buff', effect: 'ATK +50%' },
+                    { name: 'Infernal Wrath', damage: 70, type: 'Fire', effect: 'Ultimate' }
+                ]
+            }
+        ];
+
+        // ========== GYM DATA ==========
+        const gyms = [
+            {
+                id: 1,
+                name: 'Shelak',
+                title: 'The Flame Warden',
+                image: 'assets/gym_leaders/shelak.png',
+                introVideo: 'assets/cutscenes/gym1_intro.mp4',
+                heroes: [
+                    {
+                        id: 'harald',
+                        name: 'Harald',
+                        type: 'Fire',
+                        image: 'assets/heroes/harald.png',
+                        level: 130,
+                        baseHp: 130,
+                        baseAtk: 48,
+                        baseDef: 35,
+                        attacks: [
+                            { name: 'Lava Axe', damage: 35, type: 'Fire' },
+                            { name: 'Molten Shield', damage: 0, type: 'Buff', effect: 'DEF +30%' },
+                            { name: 'Magma Slam', damage: 40, type: 'Fire', effect: 'Burn' },
+                            { name: 'Volcanic Eruption', damage: 55, type: 'Fire', effect: 'Ultimate' }
+                        ]
+                    },
+                    {
+                        ...wildHeroes.find(h => h.id === 'malice'),
+                        level: 130
                     }
-                }
-
-                gameState.trainer = selectedTrainer;
-                gameState.username = username;
-                gameState.trainerName = username.toUpperCase();
-                gameState.alliance = alliance;
-                // Special Tester Access
-                if (username.toLowerCase() === 'noyzzing' && alliance === 'ROL') {
-                    gameState.trCoins = 100; // Tester bonus
-                    showMessage('Tester Access Granted! +100 TR Coins');
-                } else {
-                    gameState.trCoins = 1; // Standard starter bonus
-                }
-
-                // No fake heroes - wait for user to provide real hero images
-                // Heroes will be added via Time Recruit when we have the assets
-
-                saveGame();
-                showScreen('homeScreen');
+                ],
+                badge: 'Flame Badge',
+                reward: { trCoins: 5, xp: 100 }
             }
+        ];
 
-            // ========== HOME SCREEN ==========
-            function updateHomeScreen() {
-                document.getElementById('homePlayerName').textContent = gameState.trainerName;
-                document.getElementById('homePlayerLevel').textContent = gameState.level;
-                document.getElementById('homeGymBadges').textContent = gameState.badges;
-                document.getElementById('homeTRCoins').textContent = gameState.trCoins;
-                document.getElementById('homeAlliance').textContent = gameState.alliance || 'ROL';
+        // ========== GYM BATTLE STATE ==========
+        let gymState = {
+            currentGym: null,
+            playerTeam: [],           // Array of player heroes
+            enemyTeam: [],            // Array of gym heroes
+            playerIndex: 0,           // Current player hero index
+            enemyIndex: 0,            // Current enemy hero index
+            playerCurrentHp: [],      // HP for each player hero
+            enemyCurrentHp: [],       // HP for each enemy hero
+            playerStatus: [],         // Status effects per player hero
+            enemyStatus: [],          // Status effects per enemy hero
+            isPlayerTurn: true,
+            selectedHeroIndices: []   // Indices of heroes selected for gym battle
+        };
 
-                // Update avatar to selected trainer image
-                if (gameState.trainer) {
-                    document.getElementById('homeAvatar').src = 'assets/trainers/' + gameState.trainer + '.png';
-                }
+        // ========== GYM FUNCTIONS ==========
+        function goToGym() {
+            // Check if player has at least 5 heroes
+            if (gameState.heroes.length < 5) {
+                showMessage('You need at least 5 heroes to challenge a gym! You have ' + gameState.heroes.length + '.');
+                return;
             }
+            showScreen('gymCampaignScreen');
+        }
 
-            // ========== STARTER HEROES DATABASE ==========
-            const starterHeroes = [
-                {
-                    id: 'naax',
-                    name: 'Naax',
-                    type: 'Steel',
-                    rarity: 'Common',
-                    image: 'assets/heroes/naax.png',
-                    baseHp: 120,
-                    baseAtk: 35,
-                    baseDef: 40,
-                    attacks: [
-                        { name: 'Sword Slash', damage: 25, type: 'Physical' },
-                        { name: 'Shield Bash', damage: 20, type: 'Physical', effect: 'Stun 20%' },
-                        { name: 'Steel Guard', damage: 0, type: 'Buff', effect: 'Defense +30%' },
-                        { name: 'Knight\'s Fury', damage: 45, type: 'Physical', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'lamassu',
-                    name: 'Lamassu',
-                    type: 'Dark',
-                    rarity: 'Common',
-                    image: 'assets/heroes/lamassu.png',
-                    baseHp: 100,
-                    baseAtk: 45,
-                    baseDef: 25,
-                    attacks: [
-                        { name: 'Shadow Claw', damage: 30, type: 'Dark' },
-                        { name: 'Wing Gust', damage: 25, type: 'Wind', effect: 'Knockback' },
-                        { name: 'Curse of Ages', damage: 20, type: 'Dark', effect: 'Poison 3 turns' },
-                        { name: 'Abyssal Roar', damage: 50, type: 'Dark', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'albertus',
-                    name: 'Albertus',
-                    type: 'Light',
-                    rarity: 'Common',
-                    image: 'assets/heroes/albertus.png',
-                    baseHp: 130,
-                    baseAtk: 30,
-                    baseDef: 45,
-                    attacks: [
-                        { name: 'Holy Flail', damage: 28, type: 'Light' },
-                        { name: 'Divine Shield', damage: 0, type: 'Buff', effect: 'Block next hit' },
-                        { name: 'Blessing', damage: 0, type: 'Heal', effect: 'Heal 30 HP' },
-                        { name: 'Judgement', damage: 55, type: 'Light', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'garnet',
-                    name: 'Garnet',
-                    type: 'Fire',
-                    rarity: 'Common',
-                    image: 'assets/heroes/garnet.png',
-                    baseHp: 90,
-                    baseAtk: 50,
-                    baseDef: 20,
-                    attacks: [
-                        { name: 'Flame Burst', damage: 35, type: 'Fire' },
-                        { name: 'Ember Burst', damage: 18, type: 'Fire', effect: 'Burns enemy for 3 turns' },
-                        { name: 'Ember Touch', damage: 25, type: 'Fire', effect: 'Burn 2 turns' },
-                        { name: 'Inferno Crown', damage: 60, type: 'Fire', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'florine',
-                    name: 'Florine',
-                    type: 'Wind',
-                    rarity: 'Common',
-                    image: 'assets/heroes/florine.png',
-                    baseHp: 95,
-                    baseAtk: 40,
-                    baseDef: 30,
-                    attacks: [
-                        { name: 'Swift Strike', damage: 28, type: 'Physical', effect: 'Always first' },
-                        { name: 'Wind Cloak', damage: 0, type: 'Buff', effect: 'Evasion +40%' },
-                        { name: 'Poison Dagger', damage: 22, type: 'Physical', effect: 'Poison 3 turns' },
-                        { name: 'Gale Assault', damage: 48, type: 'Wind', effect: 'Ultimate, hits twice' }
-                    ]
-                }
-            ];
+        function selectGym(id) {
+            if (id === 1) {
+                gymState.currentGym = gyms[0];
+                showGymSelectScreen();
+            } else {
+                showMessage('Locked', 'Coming Soon', 'This challenge is not available yet!');
+            }
+        }
 
-            // ========== WILD HEROES DATABASE (Unlocked after first starter) ==========
-            // These appear as wild enemies AND are summonable via Time Recruit
-            // Slightly stronger than starters - Uncommon rarity
-            const wildHeroes = [
-                {
-                    id: 'talon',
-                    name: 'Talon',
-                    type: 'Wind',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/talon.png',
-                    baseHp: 140,
-                    baseAtk: 42,
-                    baseDef: 35,
-                    attacks: [
-                        { name: 'Talon Strike', damage: 32, type: 'Physical' },
-                        { name: 'Wing Buffet', damage: 28, type: 'Wind', effect: 'Knockback' },
-                        { name: 'Eagle Eye', damage: 0, type: 'Buff', effect: 'Accuracy +50%' },
-                        { name: 'Sky Dive', damage: 55, type: 'Wind', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'harald',
-                    name: 'Harald',
-                    type: 'Fire',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/harald.png',
-                    baseHp: 155,
-                    baseAtk: 48,
-                    baseDef: 30,
-                    attacks: [
-                        { name: 'Axe Cleave', damage: 35, type: 'Physical' },
-                        { name: 'Lava Blade', damage: 30, type: 'Fire', effect: 'Burn 2 turns' },
-                        { name: 'Stone Skin', damage: 0, type: 'Buff', effect: 'Defense +40%' },
-                        { name: 'Magma Fury', damage: 60, type: 'Fire', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'hendrik',
-                    name: 'Hendrik',
-                    type: 'Light',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/hendrik.png',
-                    baseHp: 160,
-                    baseAtk: 40,
-                    baseDef: 45,
-                    attacks: [
-                        { name: 'Golden Blade', damage: 30, type: 'Light' },
-                        { name: 'Shield Wall', damage: 0, type: 'Buff', effect: 'Block 2 hits' },
-                        { name: 'Radiant Smite', damage: 35, type: 'Light', effect: 'Blind' },
-                        { name: 'Divine Wrath', damage: 58, type: 'Light', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'eri',
-                    name: 'Eri',
-                    type: 'Nature',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/eri.png',
-                    baseHp: 130,
-                    baseAtk: 38,
-                    baseDef: 32,
-                    attacks: [
-                        { name: 'Thorn Whip', damage: 28, type: 'Nature' },
-                        { name: 'Nature\'s Blessing', damage: 0, type: 'Heal', effect: 'Heal 35 HP' },
-                        { name: 'Entangle', damage: 22, type: 'Nature', effect: 'Root 2 turns' },
-                        { name: 'Forest Spirit', damage: 52, type: 'Nature', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'elros',
-                    name: 'Elros',
-                    type: 'Arcane',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/elros.png',
-                    baseHp: 115,
-                    baseAtk: 52,
-                    baseDef: 25,
-                    attacks: [
-                        { name: 'Fireball', damage: 38, type: 'Fire' },
-                        { name: 'Ice Shard', damage: 32, type: 'Ice', effect: 'Slow' },
-                        { name: 'Arcane Shield', damage: 0, type: 'Buff', effect: 'Magic DEF +50%' },
-                        { name: 'Elemental Storm', damage: 65, type: 'Arcane', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'sakhir',
-                    name: 'Sakhir',
-                    type: 'Dark',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/sakhir.png',
-                    baseHp: 125,
-                    baseAtk: 50,
-                    baseDef: 28,
-                    attacks: [
-                        { name: 'Soul Drain', damage: 30, type: 'Dark', effect: 'Lifesteal' },
-                        { name: 'Curse', damage: 25, type: 'Dark', effect: 'ATK -30%' },
-                        { name: 'Dark Tome', damage: 0, type: 'Buff', effect: 'ATK +40%' },
-                        { name: 'Necrotic Blast', damage: 62, type: 'Dark', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'dracula',
-                    name: 'Dracula',
-                    type: 'Dark',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/dracula.png',
-                    baseHp: 135,
-                    baseAtk: 48,
-                    baseDef: 32,
-                    attacks: [
-                        { name: 'Blood Lance', damage: 32, type: 'Dark' },
-                        { name: 'Vampiric Bite', damage: 28, type: 'Dark', effect: 'Lifesteal 50%' },
-                        { name: 'Bat Swarm', damage: 20, type: 'Dark', effect: 'Hits 3 times' },
-                        { name: 'Crimson Night', damage: 58, type: 'Dark', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'al-morrah',
-                    name: 'Al-Morrah',
-                    type: 'Arcane',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/al-morrah.png',
-                    baseHp: 120,
-                    baseAtk: 45,
-                    baseDef: 35,
-                    attacks: [
-                        { name: 'Mystic Bolt', damage: 30, type: 'Arcane' },
-                        { name: 'Wish', damage: 0, type: 'Heal', effect: 'Heal 40 HP' },
-                        { name: 'Sandstorm', damage: 25, type: 'Arcane', effect: 'Blind 2 turns' },
-                        { name: 'Genie\'s Wrath', damage: 56, type: 'Arcane', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'scarlet',
-                    name: 'Scarlet',
-                    type: 'Dark',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/scarlet.png',
-                    baseHp: 110,
-                    baseAtk: 55,
-                    baseDef: 22,
-                    attacks: [
-                        { name: 'Whip Lash', damage: 35, type: 'Physical' },
-                        { name: 'Charm', damage: 0, type: 'Debuff', effect: 'Confuse 2 turns' },
-                        { name: 'Hellfire', damage: 38, type: 'Fire', effect: 'Burn' },
-                        { name: 'Demon\'s Embrace', damage: 60, type: 'Dark', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'cerno',
-                    name: 'Cerno',
-                    type: 'Nature',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/cerno.png',
-                    baseHp: 165,
-                    baseAtk: 44,
-                    baseDef: 38,
-                    attacks: [
-                        { name: 'Battle Axe', damage: 34, type: 'Physical' },
-                        { name: 'Nature\'s Rage', damage: 30, type: 'Nature', effect: 'ATK +25%' },
-                        { name: 'Stampede', damage: 28, type: 'Physical', effect: 'Stun' },
-                        { name: 'Wild Fury', damage: 58, type: 'Nature', effect: 'Ultimate' }
-                    ]
-                },
-                {
-                    id: 'malice',
-                    name: 'Malice',
-                    type: 'Fire',
-                    rarity: 'Uncommon',
-                    image: 'assets/heroes/malice.png',
-                    baseHp: 150,
-                    baseAtk: 60,
-                    baseDef: 35,
-                    attacks: [
-                        { name: 'Lava Fist', damage: 38, type: 'Fire', effect: 'Burn' },
-                        { name: 'Demon Crush', damage: 42, type: 'Physical', effect: 'Stun' },
-                        { name: 'Hellforge', damage: 0, type: 'Buff', effect: 'ATK +50%' },
-                        { name: 'Infernal Wrath', damage: 70, type: 'Fire', effect: 'Ultimate' }
-                    ]
-                }
-            ];
+        function sendVictoryWebhook(gymName) {
+            const webhookUrl = 'https://discord.com/api/webhooks/1448408278471016661/-tMJBZ60C32rzbPzRD2Z42E-H-YaT_rzv-5LRZOVVaShTJioT-VUBNmMwMjwptVJ2Dux';
 
-            // ========== GYM DATA ==========
-            const gyms = [
-                {
-                    id: 1,
-                    name: 'Shelak',
-                    title: 'The Flame Warden',
-                    image: 'assets/gym_leaders/shelak.png',
-                    introVideo: 'assets/cutscenes/gym1_intro.mp4',
-                    heroes: [
+            const heroesUsed = gymState.selectedHeroIndices.map(i => gameState.heroes[i].name).join(', ');
+
+            const payload = {
+                username: "Pocket Conquest Announcer",
+                avatar_url: "https://i.imgur.com/4M34hi2.png",
+                embeds: [{
+                    title: "🏆 NEW GYM CHAMPION! 🏆",
+                    description: `**${gameState.trainerName}** from alliance **[${gameState.alliance}]** has defeated **${gymName}**!`,
+                    color: 16766720, // Gold
+                    fields: [
                         {
-                            id: 'harald',
-                            name: 'Harald',
-                            type: 'Fire',
-                            image: 'assets/heroes/harald.png',
-                            level: 130,
-                            baseHp: 130,
-                            baseAtk: 48,
-                            baseDef: 35,
-                            attacks: [
-                                { name: 'Lava Axe', damage: 35, type: 'Fire' },
-                                { name: 'Molten Shield', damage: 0, type: 'Buff', effect: 'DEF +30%' },
-                                { name: 'Magma Slam', damage: 40, type: 'Fire', effect: 'Burn' },
-                                { name: 'Volcanic Eruption', damage: 55, type: 'Fire', effect: 'Ultimate' }
-                            ]
-                        },
-                        {
-                            ...wildHeroes.find(h => h.id === 'malice'),
-                            level: 130
+                            name: "Winning Team",
+                            value: heroesUsed,
+                            inline: false
                         }
                     ],
-                    badge: 'Flame Badge',
-                    reward: { trCoins: 5, xp: 100 }
-                }
-            ];
-
-            // ========== GYM BATTLE STATE ==========
-            let gymState = {
-                currentGym: null,
-                playerTeam: [],           // Array of player heroes
-                enemyTeam: [],            // Array of gym heroes
-                playerIndex: 0,           // Current player hero index
-                enemyIndex: 0,            // Current enemy hero index
-                playerCurrentHp: [],      // HP for each player hero
-                enemyCurrentHp: [],       // HP for each enemy hero
-                playerStatus: [],         // Status effects per player hero
-                enemyStatus: [],          // Status effects per enemy hero
-                isPlayerTurn: true,
-                selectedHeroIndices: []   // Indices of heroes selected for gym battle
+                    footer: {
+                        text: "Pocket Conquest - Time Recruit"
+                    },
+                    timestamp: new Date().toISOString()
+                }]
             };
 
-            // ========== GYM FUNCTIONS ==========
-            function goToGym() {
-                // Check if player has at least 5 heroes
-                if (gameState.heroes.length < 5) {
-                    showMessage('You need at least 5 heroes to challenge a gym! You have ' + gameState.heroes.length + '.');
-                    return;
-                }
-                showScreen('gymCampaignScreen');
-            }
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            }).catch(console.error);
+        }
 
-            function selectGym(id) {
-                if (id === 1) {
-                    gymState.currentGym = gyms[0];
-                    showGymSelectScreen();
-                } else {
-                    showMessage('Locked', 'Coming Soon', 'This challenge is not available yet!');
-                }
-            }
+        function playGymIntro() {
+            const gym = gymState.currentGym;
+            const video = document.getElementById('gymIntroVideo');
+            // Update source
+            const source = video.querySelector('source');
+            if (source) source.src = gym.introVideo;
+            else video.src = gym.introVideo;
 
-            function sendVictoryWebhook(gymName) {
-                const webhookUrl = 'https://discord.com/api/webhooks/1448408278471016661/-tMJBZ60C32rzbPzRD2Z42E-H-YaT_rzv-5LRZOVVaShTJioT-VUBNmMwMjwptVJ2Dux';
+            video.load();
 
-                const heroesUsed = gymState.selectedHeroIndices.map(i => gameState.heroes[i].name).join(', ');
+            showScreen('gymIntroScreen');
 
-                const payload = {
-                    username: "Pocket Conquest Announcer",
-                    avatar_url: "https://i.imgur.com/4M34hi2.png",
-                    embeds: [{
-                        title: "🏆 NEW GYM CHAMPION! 🏆",
-                        description: `**${gameState.trainerName}** from alliance **[${gameState.alliance}]** has defeated **${gymName}**!`,
-                        color: 16766720, // Gold
-                        fields: [
-                            {
-                                name: "Winning Team",
-                                value: heroesUsed,
-                                inline: false
-                            }
-                        ],
-                        footer: {
-                            text: "Pocket Conquest - Time Recruit"
-                        },
-                        timestamp: new Date().toISOString()
-                    }]
-                };
+            video.play().catch(e => {
+                console.log('Video error:', e);
+                video.muted = true;
+                video.play().catch(() => startGymBattle());
+            });
 
-                fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                }).catch(console.error);
-            }
-
-            function playGymIntro() {
-                const gym = gymState.currentGym;
-                const video = document.getElementById('gymIntroVideo');
-                // Update source
-                const source = video.querySelector('source');
-                if (source) source.src = gym.introVideo;
-                else video.src = gym.introVideo;
-
-                video.load();
-
-                showScreen('gymIntroScreen');
-
-                video.play().catch(e => {
-                    console.log('Video error:', e);
-                    video.muted = true;
-                    video.play().catch(() => startGymBattle());
-                });
-
-                video.onended = function () {
-                    startGymBattle();
-                };
-            }
-
-            function skipGymIntro() {
-                const video = document.getElementById('gymIntroVideo');
-                video.pause();
+            video.onended = function () {
                 startGymBattle();
-            }
+            };
+        }
 
-            function showGymSelectScreen() {
-                gymState.selectedHeroIndices = [];
-                updateGymSelectGrid();
+        function skipGymIntro() {
+            const video = document.getElementById('gymIntroVideo');
+            video.pause();
+            startGymBattle();
+        }
 
-                // Override button to play video first
-                const startBtn = document.getElementById('startGymBattleBtn');
-                if (startBtn) startBtn.onclick = playGymIntro;
+        function showGymSelectScreen() {
+            gymState.selectedHeroIndices = [];
+            updateGymSelectGrid();
 
-                showScreen('gymSelectScreen');
-            }
+            // Override button to play video first
+            const startBtn = document.getElementById('startGymBattleBtn');
+            if (startBtn) startBtn.onclick = playGymIntro;
 
-            function updateGymSelectGrid() {
-                const grid = document.getElementById('gymSelectGrid');
-                grid.innerHTML = gameState.heroes.map((hero, i) => `
+            showScreen('gymSelectScreen');
+        }
+
+        function updateGymSelectGrid() {
+            const grid = document.getElementById('gymSelectGrid');
+            grid.innerHTML = gameState.heroes.map((hero, i) => `
                 <div class="gym-select-hero ${gymState.selectedHeroIndices.includes(i) ? 'selected' : ''}" 
                      onclick="toggleGymHero(${i})">
                     <img src="${hero.image}" alt="${hero.name}">
@@ -2721,905 +2722,905 @@
                 </div>
             `).join('');
 
-                // Update selected team display
-                const teamRow = document.getElementById('selectedTeamRow');
-                teamRow.innerHTML = gymState.selectedHeroIndices.map(i =>
-                    `<img src="${gameState.heroes[i].image}" alt="${gameState.heroes[i].name}">`
-                ).join('');
+            // Update selected team display
+            const teamRow = document.getElementById('selectedTeamRow');
+            teamRow.innerHTML = gymState.selectedHeroIndices.map(i =>
+                `<img src="${gameState.heroes[i].image}" alt="${gameState.heroes[i].name}">`
+            ).join('');
 
-                document.getElementById('selectedCount').textContent = gymState.selectedHeroIndices.length;
-                document.getElementById('startGymBattleBtn').disabled = gymState.selectedHeroIndices.length !== 5;
+            document.getElementById('selectedCount').textContent = gymState.selectedHeroIndices.length;
+            document.getElementById('startGymBattleBtn').disabled = gymState.selectedHeroIndices.length !== 5;
+        }
+
+        function toggleGymHero(index) {
+            const pos = gymState.selectedHeroIndices.indexOf(index);
+            if (pos > -1) {
+                gymState.selectedHeroIndices.splice(pos, 1);
+            } else if (gymState.selectedHeroIndices.length < 5) {
+                gymState.selectedHeroIndices.push(index);
             }
+            updateGymSelectGrid();
+        }
 
-            function toggleGymHero(index) {
-                const pos = gymState.selectedHeroIndices.indexOf(index);
-                if (pos > -1) {
-                    gymState.selectedHeroIndices.splice(pos, 1);
-                } else if (gymState.selectedHeroIndices.length < 5) {
-                    gymState.selectedHeroIndices.push(index);
-                }
-                updateGymSelectGrid();
-            }
+        function startGymBattle() {
+            if (gymState.selectedHeroIndices.length !== 5) return;
 
-            function startGymBattle() {
-                if (gymState.selectedHeroIndices.length !== 5) return;
+            const gym = gymState.currentGym;
 
-                const gym = gymState.currentGym;
+            // Build player team
+            gymState.playerTeam = gymState.selectedHeroIndices.map(i => {
+                const hero = { ...gameState.heroes[i] };
+                hero.maxHp = hero.hp;
+                return hero;
+            });
 
-                // Build player team
-                gymState.playerTeam = gymState.selectedHeroIndices.map(i => {
-                    const hero = { ...gameState.heroes[i] };
-                    hero.maxHp = hero.hp;
-                    return hero;
-                });
-
-                // Build enemy team with scaled stats
-                gymState.enemyTeam = gym.heroes.map(h => {
-                    const levelBonus = h.level - 1;
-                    return {
-                        ...h,
-                        hp: h.baseHp + (levelBonus * 3),
-                        maxHp: h.baseHp + (levelBonus * 3),
-                        attack: h.baseAtk + (levelBonus * 2),
-                        defense: h.baseDef + (levelBonus * 1)
-                    };
-                });
-
-                // Initialize HP arrays
-                gymState.playerCurrentHp = gymState.playerTeam.map(h => h.maxHp);
-                gymState.enemyCurrentHp = gymState.enemyTeam.map(h => h.maxHp);
-                gymState.playerStatus = gymState.playerTeam.map(() => []);
-                gymState.enemyStatus = gymState.enemyTeam.map(() => []);
-                gymState.playerIndex = 0;
-                gymState.enemyIndex = 0;
-                gymState.isPlayerTurn = true;
-
-                // Update UI
-                document.getElementById('gymLeaderImg').src = gym.image;
-                document.getElementById('gymLeaderName').textContent = gym.name.toUpperCase();
-                document.getElementById('gymLeaderTitle').textContent = gym.title;
-
-                updateGymRosters();
-                updateGymBattleUI();
-
-                document.getElementById('gymBattleLog').innerHTML = '<p>' + gym.name + ' challenges you!</p>';
-
-                showScreen('gymBattleScreen');
-            }
-
-            function updateGymRosters() {
-                // Enemy roster
-                document.getElementById('enemyRoster').innerHTML = gymState.enemyTeam.map((h, i) =>
-                    `<img src="${h.image}" alt="${h.name}" class="roster-icon ${i === gymState.enemyIndex ? 'active' : ''} ${gymState.enemyCurrentHp[i] <= 0 ? 'fainted' : ''}">`
-                ).join('');
-
-                // Player roster
-                document.getElementById('playerRoster').innerHTML = gymState.playerTeam.map((h, i) =>
-                    `<img src="${h.image}" alt="${h.name}" class="roster-icon ${i === gymState.playerIndex ? 'active' : ''} ${gymState.playerCurrentHp[i] <= 0 ? 'fainted' : ''}">`
-                ).join('');
-            }
-
-            function updateGymBattleUI() {
-                const currentEnemy = gymState.enemyTeam[gymState.enemyIndex];
-                const currentPlayer = gymState.playerTeam[gymState.playerIndex];
-
-                // Enemy
-                document.getElementById('gymEnemyImage').src = currentEnemy.image;
-                document.getElementById('gymEnemyName').textContent = currentEnemy.name;
-                document.getElementById('gymEnemyLevel').textContent = 'Lv.' + currentEnemy.level;
-
-                const enemyHp = gymState.enemyCurrentHp[gymState.enemyIndex];
-                const enemyMaxHp = currentEnemy.maxHp;
-                document.getElementById('gymEnemyHpBar').style.width = Math.max(0, (enemyHp / enemyMaxHp) * 100) + '%';
-                document.getElementById('gymEnemyHpText').textContent = Math.max(0, enemyHp) + '/' + enemyMaxHp;
-
-                // Player
-                document.getElementById('gymPlayerImage').src = currentPlayer.image;
-                document.getElementById('gymPlayerName').textContent = currentPlayer.name;
-                document.getElementById('gymPlayerLevel').textContent = 'Lv.' + currentPlayer.level;
-
-                const playerHp = gymState.playerCurrentHp[gymState.playerIndex];
-                const playerMaxHp = currentPlayer.maxHp;
-                document.getElementById('gymPlayerHpBar').style.width = Math.max(0, (playerHp / playerMaxHp) * 100) + '%';
-                document.getElementById('gymPlayerHpText').textContent = Math.max(0, playerHp) + '/' + playerMaxHp;
-
-                // Attack buttons
-                currentPlayer.attacks.forEach((atk, i) => {
-                    document.getElementById('gymAtkBtn' + i).textContent = atk.name;
-                });
-            }
-
-            function addGymBattleLog(message) {
-                const log = document.getElementById('gymBattleLog');
-                log.innerHTML += '<p>' + message + '</p>';
-                log.scrollTop = log.scrollHeight;
-            }
-
-            function useGymAttack(index) {
-                if (!gymState.isPlayerTurn) return;
-                gymState.isPlayerTurn = false;
-
-                const currentPlayer = gymState.playerTeam[gymState.playerIndex];
-                const currentEnemy = gymState.enemyTeam[gymState.enemyIndex];
-                const attack = currentPlayer.attacks[index];
-
-                // Apply damage
-                const damage = Math.max(1, attack.damage + currentPlayer.attack - currentEnemy.defense);
-                gymState.enemyCurrentHp[gymState.enemyIndex] -= damage;
-                addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! -' + damage + ' HP');
-
-                updateGymBattleUI();
-                updateGymRosters();
-
-                // Check if enemy fainted
-                if (gymState.enemyCurrentHp[gymState.enemyIndex] <= 0) {
-                    addGymBattleLog(currentEnemy.name + ' fainted!');
-
-                    // Check if all enemies defeated
-                    const allEnemiesFainted = gymState.enemyCurrentHp.every(hp => hp <= 0);
-                    if (allEnemiesFainted) {
-                        setTimeout(() => endGymBattle(true), 1000);
-                        return;
-                    }
-
-                    // Switch to next enemy
-                    gymState.enemyIndex++;
-                    updateGymRosters();
-                    updateGymBattleUI();
-                    addGymBattleLog(gymState.enemyTeam[gymState.enemyIndex].name + ' enters the battle!');
-                }
-
-                setTimeout(gymEnemyTurn, 1000);
-            }
-
-            function gymEnemyTurn() {
-                const currentEnemy = gymState.enemyTeam[gymState.enemyIndex];
-                const currentPlayer = gymState.playerTeam[gymState.playerIndex];
-
-                // Pick random attack
-                const attack = currentEnemy.attacks[Math.floor(Math.random() * currentEnemy.attacks.length)];
-
-                // Apply damage
-                const damage = Math.max(1, attack.damage + currentEnemy.attack - currentPlayer.defense);
-                gymState.playerCurrentHp[gymState.playerIndex] -= damage;
-                addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
-
-                updateGymBattleUI();
-                updateGymRosters();
-
-                // Check if player hero fainted
-                if (gymState.playerCurrentHp[gymState.playerIndex] <= 0) {
-                    addGymBattleLog(currentPlayer.name + ' fainted!');
-
-                    // Check if all player heroes defeated
-                    const allPlayersFainted = gymState.playerCurrentHp.every(hp => hp <= 0);
-                    if (allPlayersFainted) {
-                        setTimeout(() => endGymBattle(false), 1000);
-                        return;
-                    }
-
-                    // Switch to next alive hero
-                    for (let i = 0; i < gymState.playerTeam.length; i++) {
-                        if (gymState.playerCurrentHp[i] > 0) {
-                            gymState.playerIndex = i;
-                            break;
-                        }
-                    }
-                    updateGymRosters();
-                    updateGymBattleUI();
-                    addGymBattleLog(gymState.playerTeam[gymState.playerIndex].name + ' enters the battle!');
-                }
-
-                gymState.isPlayerTurn = true;
-            }
-
-            function endGymBattle(victory) {
-                if (victory) {
-                    const gym = gymState.currentGym;
-                    gameState.badges++;
-                    gameState.trCoins += gym.reward.trCoins;
-
-                    // Give XP to all heroes that participated
-                    gymState.selectedHeroIndices.forEach(i => {
-                        gameState.heroes[i].xp = (gameState.heroes[i].xp || 0) + gym.reward.xp;
-                        // Check for level up
-                        const xpNeeded = gameState.heroes[i].level * 20;
-                        while (gameState.heroes[i].xp >= xpNeeded && gameState.heroes[i].level < getMaxLevel(gameState.heroes[i])) {
-                            gameState.heroes[i].xp -= xpNeeded;
-                            gameState.heroes[i].level++;
-                            gameState.heroes[i].hp += 3;
-                            gameState.heroes[i].maxHp += 3;
-                            gameState.heroes[i].attack += 2;
-                            gameState.heroes[i].defense += 1;
-                        }
-                    });
-
-                    saveGame();
-                    showMessage('🏆 Victory! You earned the ' + gym.badge + '! +' + gym.reward.trCoins + ' TR Coins!');
-
-                    // Webhook
-                    sendVictoryWebhook(gym.name);
-                } else {
-                    showMessage('😢 Defeated! Train your heroes and try again!');
-                }
-
-                showScreen('homeScreen');
-            }
-
-            function fleeGymBattle() {
-                showMessage('You forfeited the gym battle!');
-                showScreen('homeScreen');
-            }
-
-            // ========== TIME RECRUIT ==========
-            function summonHero() {
-                const cost = 1;
-
-                // Check if player has enough coins
-                if (gameState.trCoins < cost) {
-                    showMessage('❌', 'Not Enough Coins!', 'You need ' + cost + ' Time Recruit coin to summon.');
-                    return;
-                }
-
-                // Check if there are heroes available
-                if (starterHeroes.length === 0) {
-                    showMessage('🌀', 'Coming Soon', 'More heroes coming soon...');
-                    return;
-                }
-
-                // Deduct cost
-                gameState.trCoins -= cost;
-
-                // Combine pools (allow duplicates for challenge)
-                // Rule: First summon IS ALWAYS a Starter Hero
-                let allHeroes;
-                if (gameState.heroes.length === 0) {
-                    allHeroes = starterHeroes;
-                } else {
-                    // Filter out Malice (Boss Only for now)
-                    allHeroes = [...starterHeroes, ...wildHeroes].filter(h => h.id !== 'malice');
-                }
-
-                // Random hero from full pool
-                const heroData = allHeroes[Math.floor(Math.random() * allHeroes.length)];
-
-                // Check if player already owns this hero
-                const existingHero = gameState.heroes.find(h => h.id === heroData.id);
-
-                if (existingHero) {
-                    // DUPLICATE: Convert to XP
-                    const xpAmount = 80;
-                    existingHero.xp = (existingHero.xp || 0) + xpAmount;
-
-                    // Check for level up immediately
-                    const xpNeeded = existingHero.level * 20;
-                    if (existingHero.xp >= xpNeeded && existingHero.level < getMaxLevel(existingHero)) {
-                        existingHero.xp -= xpNeeded;
-                        existingHero.level++;
-                        existingHero.hp += 3;
-                        existingHero.maxHp += 3;
-                        existingHero.attack += 2;
-                        existingHero.defense += 1;
-                    }
-
-                    saveGame();
-                    showMessage('Duplicate Summon!', 'Power Up!', `You already own ${heroData.name}. Converted to ${xpAmount} XP!`);
-
-                    // Simple feedback for now, skips the summon reveal animation
-                    return;
-                }
-
-                // NEW HERO: Create instance
-                const newHero = {
-                    id: heroData.id,
-                    name: heroData.name,
-                    type: heroData.type,
-                    rarity: heroData.rarity,
-                    image: heroData.image,
-                    level: 1,
-                    xp: 0,
-                    hp: heroData.baseHp,
-                    maxHp: heroData.baseHp,
-                    attack: heroData.baseAtk,
-                    defense: heroData.baseDef,
-                    attacks: heroData.attacks
+            // Build enemy team with scaled stats
+            gymState.enemyTeam = gym.heroes.map(h => {
+                const levelBonus = h.level - 1;
+                return {
+                    ...h,
+                    hp: h.baseHp + (levelBonus * 3),
+                    maxHp: h.baseHp + (levelBonus * 3),
+                    attack: h.baseAtk + (levelBonus * 2),
+                    defense: h.baseDef + (levelBonus * 1)
                 };
+            });
 
-                // Add to player's heroes
-                gameState.heroes.push(newHero);
+            // Initialize HP arrays
+            gymState.playerCurrentHp = gymState.playerTeam.map(h => h.maxHp);
+            gymState.enemyCurrentHp = gymState.enemyTeam.map(h => h.maxHp);
+            gymState.playerStatus = gymState.playerTeam.map(() => []);
+            gymState.enemyStatus = gymState.enemyTeam.map(() => []);
+            gymState.playerIndex = 0;
+            gymState.enemyIndex = 0;
+            gymState.isPlayerTurn = true;
 
-                // Save game
+            // Update UI
+            document.getElementById('gymLeaderImg').src = gym.image;
+            document.getElementById('gymLeaderName').textContent = gym.name.toUpperCase();
+            document.getElementById('gymLeaderTitle').textContent = gym.title;
+
+            updateGymRosters();
+            updateGymBattleUI();
+
+            document.getElementById('gymBattleLog').innerHTML = '<p>' + gym.name + ' challenges you!</p>';
+
+            showScreen('gymBattleScreen');
+        }
+
+        function updateGymRosters() {
+            // Enemy roster
+            document.getElementById('enemyRoster').innerHTML = gymState.enemyTeam.map((h, i) =>
+                `<img src="${h.image}" alt="${h.name}" class="roster-icon ${i === gymState.enemyIndex ? 'active' : ''} ${gymState.enemyCurrentHp[i] <= 0 ? 'fainted' : ''}">`
+            ).join('');
+
+            // Player roster
+            document.getElementById('playerRoster').innerHTML = gymState.playerTeam.map((h, i) =>
+                `<img src="${h.image}" alt="${h.name}" class="roster-icon ${i === gymState.playerIndex ? 'active' : ''} ${gymState.playerCurrentHp[i] <= 0 ? 'fainted' : ''}">`
+            ).join('');
+        }
+
+        function updateGymBattleUI() {
+            const currentEnemy = gymState.enemyTeam[gymState.enemyIndex];
+            const currentPlayer = gymState.playerTeam[gymState.playerIndex];
+
+            // Enemy
+            document.getElementById('gymEnemyImage').src = currentEnemy.image;
+            document.getElementById('gymEnemyName').textContent = currentEnemy.name;
+            document.getElementById('gymEnemyLevel').textContent = 'Lv.' + currentEnemy.level;
+
+            const enemyHp = gymState.enemyCurrentHp[gymState.enemyIndex];
+            const enemyMaxHp = currentEnemy.maxHp;
+            document.getElementById('gymEnemyHpBar').style.width = Math.max(0, (enemyHp / enemyMaxHp) * 100) + '%';
+            document.getElementById('gymEnemyHpText').textContent = Math.max(0, enemyHp) + '/' + enemyMaxHp;
+
+            // Player
+            document.getElementById('gymPlayerImage').src = currentPlayer.image;
+            document.getElementById('gymPlayerName').textContent = currentPlayer.name;
+            document.getElementById('gymPlayerLevel').textContent = 'Lv.' + currentPlayer.level;
+
+            const playerHp = gymState.playerCurrentHp[gymState.playerIndex];
+            const playerMaxHp = currentPlayer.maxHp;
+            document.getElementById('gymPlayerHpBar').style.width = Math.max(0, (playerHp / playerMaxHp) * 100) + '%';
+            document.getElementById('gymPlayerHpText').textContent = Math.max(0, playerHp) + '/' + playerMaxHp;
+
+            // Attack buttons
+            currentPlayer.attacks.forEach((atk, i) => {
+                document.getElementById('gymAtkBtn' + i).textContent = atk.name;
+            });
+        }
+
+        function addGymBattleLog(message) {
+            const log = document.getElementById('gymBattleLog');
+            log.innerHTML += '<p>' + message + '</p>';
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function useGymAttack(index) {
+            if (!gymState.isPlayerTurn) return;
+            gymState.isPlayerTurn = false;
+
+            const currentPlayer = gymState.playerTeam[gymState.playerIndex];
+            const currentEnemy = gymState.enemyTeam[gymState.enemyIndex];
+            const attack = currentPlayer.attacks[index];
+
+            // Apply damage
+            const damage = Math.max(1, attack.damage + currentPlayer.attack - currentEnemy.defense);
+            gymState.enemyCurrentHp[gymState.enemyIndex] -= damage;
+            addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! -' + damage + ' HP');
+
+            updateGymBattleUI();
+            updateGymRosters();
+
+            // Check if enemy fainted
+            if (gymState.enemyCurrentHp[gymState.enemyIndex] <= 0) {
+                addGymBattleLog(currentEnemy.name + ' fainted!');
+
+                // Check if all enemies defeated
+                const allEnemiesFainted = gymState.enemyCurrentHp.every(hp => hp <= 0);
+                if (allEnemiesFainted) {
+                    setTimeout(() => endGymBattle(true), 1000);
+                    return;
+                }
+
+                // Switch to next enemy
+                gymState.enemyIndex++;
+                updateGymRosters();
+                updateGymBattleUI();
+                addGymBattleLog(gymState.enemyTeam[gymState.enemyIndex].name + ' enters the battle!');
+            }
+
+            setTimeout(gymEnemyTurn, 1000);
+        }
+
+        function gymEnemyTurn() {
+            const currentEnemy = gymState.enemyTeam[gymState.enemyIndex];
+            const currentPlayer = gymState.playerTeam[gymState.playerIndex];
+
+            // Pick random attack
+            const attack = currentEnemy.attacks[Math.floor(Math.random() * currentEnemy.attacks.length)];
+
+            // Apply damage
+            const damage = Math.max(1, attack.damage + currentEnemy.attack - currentPlayer.defense);
+            gymState.playerCurrentHp[gymState.playerIndex] -= damage;
+            addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
+
+            updateGymBattleUI();
+            updateGymRosters();
+
+            // Check if player hero fainted
+            if (gymState.playerCurrentHp[gymState.playerIndex] <= 0) {
+                addGymBattleLog(currentPlayer.name + ' fainted!');
+
+                // Check if all player heroes defeated
+                const allPlayersFainted = gymState.playerCurrentHp.every(hp => hp <= 0);
+                if (allPlayersFainted) {
+                    setTimeout(() => endGymBattle(false), 1000);
+                    return;
+                }
+
+                // Switch to next alive hero
+                for (let i = 0; i < gymState.playerTeam.length; i++) {
+                    if (gymState.playerCurrentHp[i] > 0) {
+                        gymState.playerIndex = i;
+                        break;
+                    }
+                }
+                updateGymRosters();
+                updateGymBattleUI();
+                addGymBattleLog(gymState.playerTeam[gymState.playerIndex].name + ' enters the battle!');
+            }
+
+            gymState.isPlayerTurn = true;
+        }
+
+        function endGymBattle(victory) {
+            if (victory) {
+                const gym = gymState.currentGym;
+                gameState.badges++;
+                gameState.trCoins += gym.reward.trCoins;
+
+                // Give XP to all heroes that participated
+                gymState.selectedHeroIndices.forEach(i => {
+                    gameState.heroes[i].xp = (gameState.heroes[i].xp || 0) + gym.reward.xp;
+                    // Check for level up
+                    const xpNeeded = gameState.heroes[i].level * 20;
+                    while (gameState.heroes[i].xp >= xpNeeded && gameState.heroes[i].level < getMaxLevel(gameState.heroes[i])) {
+                        gameState.heroes[i].xp -= xpNeeded;
+                        gameState.heroes[i].level++;
+                        gameState.heroes[i].hp += 3;
+                        gameState.heroes[i].maxHp += 3;
+                        gameState.heroes[i].attack += 2;
+                        gameState.heroes[i].defense += 1;
+                    }
+                });
+
                 saveGame();
+                showMessage('🏆 Victory! You earned the ' + gym.badge + '! +' + gym.reward.trCoins + ' TR Coins!');
 
-                // Show result with animation
-                showSummonResult(newHero);
+                // Webhook
+                sendVictoryWebhook(gym.name);
+            } else {
+                showMessage('😢 Defeated! Train your heroes and try again!');
             }
 
-            function showSummonResult(hero) {
-                try {
-                    console.log('showSummonResult called with:', hero);
-                    // Populate modal
-                    document.getElementById('summonHeroImg').src = hero.image;
-                    document.getElementById('summonHeroName').textContent = hero.name;
-                    document.getElementById('summonRarity').textContent = hero.rarity.toUpperCase();
-                    document.getElementById('summonHeroType').textContent = hero.type + ' Type';
-                    document.getElementById('summonHP').textContent = hero.hp;
-                    document.getElementById('summonATK').textContent = hero.attack;
-                    document.getElementById('summonDEF').textContent = hero.defense;
+            showScreen('homeScreen');
+        }
 
-                    // Reset animation by forcing reflow
-                    const heroImg = document.getElementById('summonHeroImg');
-                    const modal = document.getElementById('summonModal');
-                    if (heroImg) {
-                        heroImg.style.animation = 'none';
-                        heroImg.offsetHeight; // Trigger reflow
-                        heroImg.style.animation = null;
-                    }
+        function fleeGymBattle() {
+            showMessage('You forfeited the gym battle!');
+            showScreen('homeScreen');
+        }
 
-                    // Show modal with small delay to ensure animations trigger
-                    setTimeout(() => {
-                        if (modal) {
-                            modal.style.display = 'flex';
-                            console.log('Summon modal shown');
-                        }
-                    }, 10);
+        // ========== TIME RECRUIT ==========
+        function summonHero() {
+            const cost = 1;
 
-                    // Update home screen in background
-                    updateHomeScreen();
-                } catch (e) {
-                    console.error('Error in showSummonResult:', e);
-                }
+            // Check if player has enough coins
+            if (gameState.trCoins < cost) {
+                showMessage('❌', 'Not Enough Coins!', 'You need ' + cost + ' Time Recruit coin to summon.');
+                return;
             }
 
-            function closeSummonModal() {
-                document.getElementById('summonModal').style.display = 'none';
+            // Check if there are heroes available
+            if (starterHeroes.length === 0) {
+                showMessage('🌀', 'Coming Soon', 'More heroes coming soon...');
+                return;
             }
 
-            // ========== MESSAGE MODAL ==========
-            function showMessage(arg1, arg2, arg3) {
-                let icon = 'ℹ️';
-                let title = 'Message';
-                let text = '';
+            // Deduct cost
+            gameState.trCoins -= cost;
 
-                // Handle different call signatures
-                if (arg3 !== undefined) {
-                    // 3 args: could be (icon, title, text) or (title, subtitle, text)
-                    // Check if first arg is emoji-like (short)
-                    if (arg1 && arg1.length <= 2) {
-                        icon = arg1;
-                        title = arg2 || 'Message';
-                        text = arg3 || '';
-                    } else {
-                        // Title, Subtitle, Text format
-                        icon = '📢';
-                        title = arg1 || 'Message';
-                        text = (arg2 ? '**' + arg2 + '**\n\n' : '') + (arg3 || '');
-                    }
-                } else if (arg2 !== undefined) {
-                    // 2 args: (title, text)
-                    title = arg1 || 'Message';
-                    text = arg2 || '';
-                } else if (arg1 !== undefined) {
-                    // 1 arg: just text
-                    text = arg1 || '';
+            // Combine pools (allow duplicates for challenge)
+            // Rule: First summon IS ALWAYS a Starter Hero
+            let allHeroes;
+            if (gameState.heroes.length === 0) {
+                allHeroes = starterHeroes;
+            } else {
+                // Filter out Malice (Boss Only for now)
+                allHeroes = [...starterHeroes, ...wildHeroes].filter(h => h.id !== 'malice');
+            }
+
+            // Random hero from full pool
+            const heroData = allHeroes[Math.floor(Math.random() * allHeroes.length)];
+
+            // Check if player already owns this hero
+            const existingHero = gameState.heroes.find(h => h.id === heroData.id);
+
+            if (existingHero) {
+                // DUPLICATE: Convert to XP
+                const xpAmount = 80;
+                existingHero.xp = (existingHero.xp || 0) + xpAmount;
+
+                // Check for level up immediately
+                const xpNeeded = existingHero.level * 20;
+                if (existingHero.xp >= xpNeeded && existingHero.level < getMaxLevel(existingHero)) {
+                    existingHero.xp -= xpNeeded;
+                    existingHero.level++;
+                    existingHero.hp += 3;
+                    existingHero.maxHp += 3;
+                    existingHero.attack += 2;
+                    existingHero.defense += 1;
                 }
 
-                // Safely set content
-                const iconEl = document.getElementById('messageIcon');
-                const titleEl = document.getElementById('messageTitle');
-                const textEl = document.getElementById('messageText');
-                const modal = document.getElementById('messageModal');
+                saveGame();
+                showMessage('Duplicate Summon!', 'Power Up!', `You already own ${heroData.name}. Converted to ${xpAmount} XP!`);
 
-                if (iconEl) iconEl.textContent = icon;
-                if (titleEl) titleEl.textContent = title;
-                if (textEl) textEl.innerHTML = String(text).replace(/\n/g, '<br>');
-                if (modal) modal.style.display = 'flex';
+                // Simple feedback for now, skips the summon reveal animation
+                return;
             }
 
-            function closeMessageModal() {
-                const modal = document.getElementById('messageModal');
-                if (modal) modal.style.display = 'none';
-            }
-
-            // ========== BATTLE SYSTEM ==========
-            let battleState = {
-                playerHero: null,
-                playerHeroIndex: null,
-                enemy: null,
-                playerCurrentHp: 0,
-                enemyCurrentHp: 0,
-                isPlayerTurn: true,
-                battleCount: 0,
-                // Status effects: { name: 'Confuse', turns: 2 }
-                playerStatus: [],
-                enemyStatus: []
+            // NEW HERO: Create instance
+            const newHero = {
+                id: heroData.id,
+                name: heroData.name,
+                type: heroData.type,
+                rarity: heroData.rarity,
+                image: heroData.image,
+                level: 1,
+                xp: 0,
+                hp: heroData.baseHp,
+                maxHp: heroData.baseHp,
+                attack: heroData.baseAtk,
+                defense: heroData.baseDef,
+                attacks: heroData.attacks
             };
 
-            function openBattleSelect() {
-                try {
-                    console.log('openBattleSelect called');
-                    const grid = document.getElementById('battleHeroGrid');
-                    const noHeroes = document.getElementById('noHeroesForBattle');
-                    const modal = document.getElementById('battleSelectModal');
+            // Add to player's heroes
+            gameState.heroes.push(newHero);
 
-                    console.log('Elements:', { grid: !!grid, noHeroes: !!noHeroes, modal: !!modal });
+            // Save game
+            saveGame();
 
-                    if (gameState.heroes.length === 0) {
-                        if (grid) grid.style.display = 'none';
-                        if (noHeroes) noHeroes.style.display = 'block';
-                    } else {
-                        if (noHeroes) noHeroes.style.display = 'none';
-                        if (grid) {
-                            grid.style.display = 'grid';
-                            grid.innerHTML = gameState.heroes.map((hero, i) => `
+            // Show result with animation
+            showSummonResult(newHero);
+        }
+
+        function showSummonResult(hero) {
+            try {
+                console.log('showSummonResult called with:', hero);
+                // Populate modal
+                document.getElementById('summonHeroImg').src = hero.image;
+                document.getElementById('summonHeroName').textContent = hero.name;
+                document.getElementById('summonRarity').textContent = hero.rarity.toUpperCase();
+                document.getElementById('summonHeroType').textContent = hero.type + ' Type';
+                document.getElementById('summonHP').textContent = hero.hp;
+                document.getElementById('summonATK').textContent = hero.attack;
+                document.getElementById('summonDEF').textContent = hero.defense;
+
+                // Reset animation by forcing reflow
+                const heroImg = document.getElementById('summonHeroImg');
+                const modal = document.getElementById('summonModal');
+                if (heroImg) {
+                    heroImg.style.animation = 'none';
+                    heroImg.offsetHeight; // Trigger reflow
+                    heroImg.style.animation = null;
+                }
+
+                // Show modal with small delay to ensure animations trigger
+                setTimeout(() => {
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        console.log('Summon modal shown');
+                    }
+                }, 10);
+
+                // Update home screen in background
+                updateHomeScreen();
+            } catch (e) {
+                console.error('Error in showSummonResult:', e);
+            }
+        }
+
+        function closeSummonModal() {
+            document.getElementById('summonModal').style.display = 'none';
+        }
+
+        // ========== MESSAGE MODAL ==========
+        function showMessage(arg1, arg2, arg3) {
+            let icon = 'ℹ️';
+            let title = 'Message';
+            let text = '';
+
+            // Handle different call signatures
+            if (arg3 !== undefined) {
+                // 3 args: could be (icon, title, text) or (title, subtitle, text)
+                // Check if first arg is emoji-like (short)
+                if (arg1 && arg1.length <= 2) {
+                    icon = arg1;
+                    title = arg2 || 'Message';
+                    text = arg3 || '';
+                } else {
+                    // Title, Subtitle, Text format
+                    icon = '📢';
+                    title = arg1 || 'Message';
+                    text = (arg2 ? '**' + arg2 + '**\n\n' : '') + (arg3 || '');
+                }
+            } else if (arg2 !== undefined) {
+                // 2 args: (title, text)
+                title = arg1 || 'Message';
+                text = arg2 || '';
+            } else if (arg1 !== undefined) {
+                // 1 arg: just text
+                text = arg1 || '';
+            }
+
+            // Safely set content
+            const iconEl = document.getElementById('messageIcon');
+            const titleEl = document.getElementById('messageTitle');
+            const textEl = document.getElementById('messageText');
+            const modal = document.getElementById('messageModal');
+
+            if (iconEl) iconEl.textContent = icon;
+            if (titleEl) titleEl.textContent = title;
+            if (textEl) textEl.innerHTML = String(text).replace(/\n/g, '<br>');
+            if (modal) modal.style.display = 'flex';
+        }
+
+        function closeMessageModal() {
+            const modal = document.getElementById('messageModal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        // ========== BATTLE SYSTEM ==========
+        let battleState = {
+            playerHero: null,
+            playerHeroIndex: null,
+            enemy: null,
+            playerCurrentHp: 0,
+            enemyCurrentHp: 0,
+            isPlayerTurn: true,
+            battleCount: 0,
+            // Status effects: { name: 'Confuse', turns: 2 }
+            playerStatus: [],
+            enemyStatus: []
+        };
+
+        function openBattleSelect() {
+            try {
+                console.log('openBattleSelect called');
+                const grid = document.getElementById('battleHeroGrid');
+                const noHeroes = document.getElementById('noHeroesForBattle');
+                const modal = document.getElementById('battleSelectModal');
+
+                console.log('Elements:', { grid: !!grid, noHeroes: !!noHeroes, modal: !!modal });
+
+                if (gameState.heroes.length === 0) {
+                    if (grid) grid.style.display = 'none';
+                    if (noHeroes) noHeroes.style.display = 'block';
+                } else {
+                    if (noHeroes) noHeroes.style.display = 'none';
+                    if (grid) {
+                        grid.style.display = 'grid';
+                        grid.innerHTML = gameState.heroes.map((hero, i) => `
                             <div class="battle-hero-option" onclick="selectHeroForBattle(${i})">
                                 <img src="${hero.image}" alt="${hero.name}">
                                 <div class="hero-name">${hero.name}</div>
                                 <div class="hero-lvl">Lv.${hero.level}</div>
                             </div>
                         `).join('');
-                        }
-                    }
-                    if (modal) {
-                        modal.style.display = 'flex';
-                    }
-                } catch (e) {
-                    console.error('Error in openBattleSelect:', e);
-                }
-            }
-
-            function closeBattleSelect() {
-                document.getElementById('battleSelectModal').style.display = 'none';
-            }
-
-            function selectHeroForBattle(index) {
-                battleState.playerHero = gameState.heroes[index];
-                battleState.playerHeroIndex = index;
-                closeBattleSelect();
-                startBattle();
-            }
-
-            function getEnemyLevelRange() {
-                // Get player's max hero level
-                let maxLevel = 1;
-                gameState.heroes.forEach(h => { if (h.level > maxLevel) maxLevel = h.level; });
-
-                // Level scaling based on player progress
-                if (maxLevel <= 15) return { min: 1, max: 15 };
-                if (maxLevel <= 30) return { min: 10, max: 30 };
-                if (maxLevel <= 50) return { min: 25, max: 50 };
-                return { min: 40, max: 70 };
-            }
-
-            function startBattle() {
-                // Pick random wild enemy
-                const enemyData = wildHeroes[Math.floor(Math.random() * wildHeroes.length)];
-                const levelRange = getEnemyLevelRange();
-                const enemyLevel = Math.floor(Math.random() * (levelRange.max - levelRange.min + 1)) + levelRange.min;
-
-                // Scale enemy stats by level
-                const levelBonus = enemyLevel - 1;
-                battleState.enemy = {
-                    ...enemyData,
-                    level: enemyLevel,
-                    hp: enemyData.baseHp + (levelBonus * 3),
-                    maxHp: enemyData.baseHp + (levelBonus * 3),
-                    attack: enemyData.baseAtk + (levelBonus * 2),
-                    defense: enemyData.baseDef + (levelBonus * 1)
-                };
-
-                // Set player HP and reset status effects
-                battleState.playerCurrentHp = battleState.playerHero.hp;
-                battleState.enemyCurrentHp = battleState.enemy.maxHp;
-                battleState.isPlayerTurn = true;
-                battleState.playerStatus = [];
-                battleState.enemyStatus = [];
-
-                // Update UI
-                document.getElementById('enemyName').textContent = battleState.enemy.name;
-                document.getElementById('enemyLevel').textContent = 'Lv.' + battleState.enemy.level;
-                document.getElementById('enemyImage').src = battleState.enemy.image;
-                document.getElementById('playerHeroName').textContent = battleState.playerHero.name;
-                document.getElementById('playerHeroLevel').textContent = 'Lv.' + battleState.playerHero.level;
-                document.getElementById('playerHeroImage').src = battleState.playerHero.image;
-
-                updateHpBars();
-
-                // Set attack buttons
-                battleState.playerHero.attacks.forEach((atk, i) => {
-                    document.getElementById('atkBtn' + i).textContent = atk.name;
-                });
-
-                // Clear battle log
-                document.getElementById('battleLog').innerHTML = '<p>A wild ' + battleState.enemy.name + ' appeared!</p>';
-
-                showScreen('searchScreen');
-            }
-
-            function updateHpBars() {
-                const enemyPct = Math.max(0, (battleState.enemyCurrentHp / battleState.enemy.maxHp) * 100);
-                const playerPct = Math.max(0, (battleState.playerCurrentHp / battleState.playerHero.maxHp) * 100);
-
-                document.getElementById('enemyHpBar').style.width = enemyPct + '%';
-                document.getElementById('playerHpBar').style.width = playerPct + '%';
-                document.getElementById('enemyHpText').textContent = Math.max(0, battleState.enemyCurrentHp) + '/' + battleState.enemy.maxHp;
-                document.getElementById('playerHpText').textContent = Math.max(0, battleState.playerCurrentHp) + '/' + battleState.playerHero.maxHp;
-
-                updateStatusIcons();
-            }
-
-            function updateStatusIcons() {
-                const statusEmojis = {
-                    'Confuse': '😵',
-                    'Stun': '⚡',
-                    'Poison': '☠️',
-                    'Burn': '🔥',
-                    'Blind': '👁️',
-                    'Root': '🌿',
-                    'Slow': '🐌'
-                };
-
-                // Update enemy status icons
-                const enemyIconsDiv = document.getElementById('enemyStatusIcons');
-                enemyIconsDiv.innerHTML = battleState.enemyStatus.map(s =>
-                    '<span class="status-icon" title="' + s.name + ' (' + s.turns + ' turns)">' +
-                    (statusEmojis[s.name] || '❓') + s.turns + '</span>'
-                ).join('');
-
-                // Update player status icons
-                const playerIconsDiv = document.getElementById('playerStatusIcons');
-                playerIconsDiv.innerHTML = battleState.playerStatus.map(s =>
-                    '<span class="status-icon" title="' + s.name + ' (' + s.turns + ' turns)">' +
-                    (statusEmojis[s.name] || '❓') + s.turns + '</span>'
-                ).join('');
-            }
-
-            function addBattleLog(message) {
-                const log = document.getElementById('battleLog');
-                log.innerHTML += '<p>' + message + '</p>';
-                log.scrollTop = log.scrollHeight;
-            }
-
-            // ========== STATUS EFFECT SYSTEM ==========
-            function hasStatus(statusArray, statusName) {
-                return statusArray.some(s => s.name === statusName && s.turns > 0);
-            }
-
-            function addStatus(statusArray, statusName, turns) {
-                // Check if already has this status
-                const existing = statusArray.find(s => s.name === statusName);
-                if (existing) {
-                    existing.turns = Math.max(existing.turns, turns); // Refresh duration
-                } else {
-                    statusArray.push({ name: statusName, turns: turns });
-                }
-            }
-
-            function tickStatus(statusArray, isPlayer) {
-                // Apply damage-over-time effects and reduce turns
-                for (let i = statusArray.length - 1; i >= 0; i--) {
-                    const status = statusArray[i];
-
-                    // Poison/Burn damage
-                    if (status.name === 'Poison' || status.name === 'Burn') {
-                        const dot = Math.ceil((isPlayer ? battleState.playerHero.maxHp : battleState.enemy.maxHp) * 0.05);
-                        if (isPlayer) {
-                            battleState.playerCurrentHp = Math.max(1, battleState.playerCurrentHp - dot);
-                            addBattleLog('💀 Poison dealt ' + dot + ' damage!');
-                        } else {
-                            battleState.enemyCurrentHp = Math.max(1, battleState.enemyCurrentHp - dot);
-                            addBattleLog('💀 ' + battleState.enemy.name + ' took ' + dot + ' poison damage!');
-                        }
-                        updateHpBars();
-                    }
-
-                    // Reduce turns
-                    status.turns--;
-                    if (status.turns <= 0) {
-                        const targetName = isPlayer ? battleState.playerHero.name : battleState.enemy.name;
-                        addBattleLog('✨ ' + targetName + ' recovered from ' + status.name + '!');
-                        statusArray.splice(i, 1);
                     }
                 }
+                if (modal) {
+                    modal.style.display = 'flex';
+                }
+            } catch (e) {
+                console.error('Error in openBattleSelect:', e);
             }
+        }
 
-            function applyAttackEffect(attack, isPlayerAttacking) {
-                // Parse effect text for status effects
-                const effect = attack.effect || '';
-                const targetStatus = isPlayerAttacking ? battleState.enemyStatus : battleState.playerStatus;
-                const targetName = isPlayerAttacking ? battleState.enemy.name : battleState.playerHero.name;
+        function closeBattleSelect() {
+            document.getElementById('battleSelectModal').style.display = 'none';
+        }
 
-                // Check for various status effects
-                if (effect.includes('Confuse')) {
-                    addStatus(targetStatus, 'Confuse', 2);
-                    addBattleLog('😵 ' + targetName + ' is confused!');
-                }
-                if (effect.includes('Stun')) {
-                    addStatus(targetStatus, 'Stun', 1);
-                    addBattleLog('⚡ ' + targetName + ' is stunned!');
-                }
-                if (effect.includes('Poison')) {
-                    addStatus(targetStatus, 'Poison', 3);
-                    addBattleLog('☠️ ' + targetName + ' is poisoned!');
-                }
-                if (effect.includes('Burn')) {
-                    addStatus(targetStatus, 'Burn', 3);
-                    addBattleLog('🔥 ' + targetName + ' is burning!');
-                }
-                if (effect.includes('Blind')) {
-                    addStatus(targetStatus, 'Blind', 2);
-                    addBattleLog('👁️ ' + targetName + ' is blinded!');
-                }
-                if (effect.includes('Root')) {
-                    addStatus(targetStatus, 'Root', 2);
-                    addBattleLog('🌿 ' + targetName + ' is rooted!');
-                }
-                if (effect.includes('Slow')) {
-                    addStatus(targetStatus, 'Slow', 2);
-                    addBattleLog('🐌 ' + targetName + ' is slowed!');
-                }
-            }
+        function selectHeroForBattle(index) {
+            battleState.playerHero = gameState.heroes[index];
+            battleState.playerHeroIndex = index;
+            closeBattleSelect();
+            startBattle();
+        }
 
-            function useAttack(index) {
-                if (!battleState.isPlayerTurn) return;
-                battleState.isPlayerTurn = false;
+        function getEnemyLevelRange() {
+            // Get player's max hero level
+            let maxLevel = 1;
+            gameState.heroes.forEach(h => { if (h.level > maxLevel) maxLevel = h.level; });
 
-                // Check for status effects that prevent action
-                if (hasStatus(battleState.playerStatus, 'Stun')) {
-                    addBattleLog('⚡ ' + battleState.playerHero.name + ' is stunned and cannot move!');
-                    tickStatus(battleState.playerStatus, true);
-                    setTimeout(enemyTurn, 1000);
-                    return;
-                }
+            // Level scaling based on player progress
+            if (maxLevel <= 15) return { min: 1, max: 15 };
+            if (maxLevel <= 30) return { min: 10, max: 30 };
+            if (maxLevel <= 50) return { min: 25, max: 50 };
+            return { min: 40, max: 70 };
+        }
 
-                const attack = battleState.playerHero.attacks[index];
-                const attackType = attack.type;
+        function startBattle() {
+            // Pick random wild enemy
+            const enemyData = wildHeroes[Math.floor(Math.random() * wildHeroes.length)];
+            const levelRange = getEnemyLevelRange();
+            const enemyLevel = Math.floor(Math.random() * (levelRange.max - levelRange.min + 1)) + levelRange.min;
 
-                // Handle different attack types
-                if (attackType === 'Heal') {
-                    const healAmount = parseInt(attack.effect.match(/\d+/)[0]) || 30;
-                    const oldHp = battleState.playerCurrentHp;
-                    battleState.playerCurrentHp = Math.min(battleState.playerHero.maxHp, battleState.playerCurrentHp + healAmount);
-                    const actualHeal = battleState.playerCurrentHp - oldHp;
-                    addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
-                } else if (attackType === 'Buff') {
-                    const boost = Math.ceil(battleState.playerHero.attack * 0.05);
-                    battleState.playerHero.attack += boost;
-                    addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! ATK +' + boost + '!');
-                } else if (attackType === 'Debuff') {
-                    const reduction = Math.ceil(battleState.enemy.attack * 0.05);
-                    battleState.enemy.attack = Math.max(1, battleState.enemy.attack - reduction);
-                    addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! Enemy ATK -' + reduction + '!');
-                    applyAttackEffect(attack, true); // Apply status from debuff
-                } else {
-                    // Normal damage attack
-                    // Check for Blind - 50% miss chance
-                    if (hasStatus(battleState.playerStatus, 'Blind') && Math.random() < 0.5) {
-                        addBattleLog('👁️ ' + battleState.playerHero.name + ' missed due to blindness!');
-                    }
-                    // Check for Confuse - 50% chance to hit self
-                    else if (hasStatus(battleState.playerStatus, 'Confuse') && Math.random() < 0.5) {
-                        const damage = Math.max(1, Math.floor(attack.damage / 2));
-                        battleState.playerCurrentHp -= damage;
-                        addBattleLog('😵 ' + battleState.playerHero.name + ' hurt itself in confusion! -' + damage + ' HP');
-                    } else {
-                        const damage = Math.max(1, attack.damage + battleState.playerHero.attack - battleState.enemy.defense);
-                        battleState.enemyCurrentHp -= damage;
-                        addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! -' + damage + ' HP');
-                        applyAttackEffect(attack, true); // Apply status effects from attack
-                    }
-                }
-
-                // Tick player status effects (poison damage, reduce durations)
-                tickStatus(battleState.playerStatus, true);
-                updateHpBars();
-
-                // Check if enemy defeated
-                if (battleState.enemyCurrentHp <= 0) {
-                    setTimeout(() => endBattle(true), 500);
-                    return;
-                }
-
-                // Check if player died from confusion
-                if (battleState.playerCurrentHp <= 0) {
-                    setTimeout(() => endBattle(false), 500);
-                    return;
-                }
-
-                // Enemy turn
-                setTimeout(enemyTurn, 1000);
-            }
-
-            function enemyTurn() {
-                // Check for status effects that prevent action
-                if (hasStatus(battleState.enemyStatus, 'Stun')) {
-                    addBattleLog('⚡ ' + battleState.enemy.name + ' is stunned and cannot move!');
-                    tickStatus(battleState.enemyStatus, false);
-                    battleState.isPlayerTurn = true;
-                    return;
-                }
-
-                // Enemy picks an attack (prefer damage attacks for AI)
-                let attack = battleState.enemy.attacks[Math.floor(Math.random() * battleState.enemy.attacks.length)];
-
-                // If enemy picks a heal/buff with no benefit, pick a different attack
-                if ((attack.type === 'Heal' && battleState.enemyCurrentHp >= battleState.enemy.maxHp) ||
-                    (attack.type === 'Buff' && Math.random() > 0.3)) {
-                    const damageAttacks = battleState.enemy.attacks.filter(a => a.damage > 0);
-                    if (damageAttacks.length > 0) {
-                        attack = damageAttacks[Math.floor(Math.random() * damageAttacks.length)];
-                    }
-                }
-
-                const attackType = attack.type;
-
-                if (attackType === 'Heal') {
-                    const healAmount = parseInt(attack.effect?.match(/\d+/)?.[0]) || 30;
-                    const oldHp = battleState.enemyCurrentHp;
-                    battleState.enemyCurrentHp = Math.min(battleState.enemy.maxHp, battleState.enemyCurrentHp + healAmount);
-                    const actualHeal = battleState.enemyCurrentHp - oldHp;
-                    addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
-                } else if (attackType === 'Buff') {
-                    battleState.enemy.attack += 5;
-                    addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ' + (attack.effect || 'Stats boosted!'));
-                } else if (attackType === 'Debuff') {
-                    battleState.playerHero.attack = Math.max(1, battleState.playerHero.attack - 5);
-                    addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ' + (attack.effect || 'Your hero weakened!'));
-                    applyAttackEffect(attack, false); // Apply status from debuff
-                } else {
-                    // Normal damage attack
-                    // Check for Blind - 50% miss chance
-                    if (hasStatus(battleState.enemyStatus, 'Blind') && Math.random() < 0.5) {
-                        addBattleLog('👁️ ' + battleState.enemy.name + ' missed due to blindness!');
-                    }
-                    // Check for Confuse - 50% chance to hit self
-                    else if (hasStatus(battleState.enemyStatus, 'Confuse') && Math.random() < 0.5) {
-                        const damage = Math.max(1, Math.floor(attack.damage / 2));
-                        battleState.enemyCurrentHp -= damage;
-                        addBattleLog('😵 ' + battleState.enemy.name + ' hurt itself in confusion! -' + damage + ' HP');
-                    } else {
-                        const damage = Math.max(1, attack.damage + battleState.enemy.attack - battleState.playerHero.defense);
-                        battleState.playerCurrentHp -= damage;
-                        addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
-                        applyAttackEffect(attack, false); // Apply status effects from attack
-                    }
-                }
-
-                // Tick enemy status effects (poison damage, reduce durations)
-                tickStatus(battleState.enemyStatus, false);
-                updateHpBars();
-
-                // Check if enemy died from confusion
-                if (battleState.enemyCurrentHp <= 0) {
-                    setTimeout(() => endBattle(true), 500);
-                    return;
-                }
-
-                // Check if player defeated
-                if (battleState.playerCurrentHp <= 0) {
-                    setTimeout(() => endBattle(false), 500);
-                    return;
-                }
-
-                battleState.isPlayerTurn = true;
-            }
-
-            function getMaxLevel(hero) {
-                if (hero.id === 'malice') return 210;
-                const isStarter = starterHeroes.some(h => h.id === hero.id);
-                return isStarter ? 70 : 130;
-            }
-
-            function endBattle(victory) {
-                battleState.battleCount++;
-
-                // Calculate XP based on enemy level (higher level = more XP)
-                // WIN: much more rewarding, LOSS: minimal consolation
-                const playerLevel = battleState.playerHero.level;
-                const enemyLevel = battleState.enemy.level;
-
-                let xpGained;
-                if (victory) {
-                    // Win: base 20 + 2 XP per enemy level + bonus for higher level enemies
-                    const levelBonus = Math.max(0, enemyLevel - playerLevel) * 5;
-                    xpGained = 20 + (enemyLevel * 2) + levelBonus;
-                } else {
-                    // Loss: still decent consolation - base 8 + 1 XP per enemy level
-                    // Players shouldn't feel TOO punished for losing
-                    xpGained = 8 + enemyLevel;
-                }
-
-                // Cap at reasonable amounts
-                xpGained = Math.min(xpGained, 100);
-
-                // Award XP to player hero
-                gameState.heroes[battleState.playerHeroIndex].xp += xpGained;
-
-                // Check for level up
-                const hero = gameState.heroes[battleState.playerHeroIndex];
-                const xpNeeded = hero.level * 20;
-                if (hero.xp >= xpNeeded && hero.level < getMaxLevel(hero)) {
-                    hero.level++;
-                    hero.xp -= xpNeeded;
-                    hero.maxHp += 3;
-                    hero.hp = hero.maxHp;
-                    hero.attack += 2;
-                    hero.defense += 1;
-                    addBattleLog('🎉 ' + hero.name + ' leveled up to Lv.' + hero.level + '!');
-                }
-
-                // TR Coin drop (33% random chance on WIN)
-                let gotCoin = false;
-                if (victory && Math.random() < 0.33) {
-                    gameState.trCoins++;
-                    gotCoin = true;
-                }
-
-                saveGame();
-
-                // Show result modal
-                document.getElementById('resultIcon').textContent = victory ? '🏆' : '💔';
-                document.getElementById('resultTitle').textContent = victory ? 'VICTORY!' : 'DEFEAT';
-                document.getElementById('resultTitle').className = 'result-title ' + (victory ? 'victory' : 'defeat');
-                document.getElementById('resultXP').textContent = '+' + xpGained + ' XP';
-                document.getElementById('coinRewardRow').style.display = gotCoin ? 'flex' : 'none';
-
-                document.getElementById('battleResultModal').style.display = 'flex';
-            }
-
-            function closeBattleResult() {
-                document.getElementById('battleResultModal').style.display = 'none';
-                showScreen('homeScreen');
-            }
-
-            function fleeBattle() {
-                showScreen('homeScreen');
-            }
-
-
-
-            // ========== UTILS ==========
-
-
-            // ========== SAVE / LOAD ==========
-            function saveGame() {
-                localStorage.setItem('pocketConquest', JSON.stringify(gameState));
-            }
-
-            function loadGame() {
-                const saved = localStorage.getItem('pocketConquest');
-                if (saved) {
-                    gameState = JSON.parse(saved);
-                    showScreen('homeScreen');
-                } else {
-                    alert('No saved game found. Start a new game!');
-                }
-            }
-
-            function startNewGame() {
-                // Clear any existing save
-                localStorage.removeItem('pocketConquest');
-                // Reset game state
-                gameState = {
-                    trainer: null,
-                    trainerName: '',
-                    level: 1,
-                    trCoins: 0,
-                    gems: 100,
-                    badges: 0,
-                    heroes: []
-                };
-                showScreen('characterSelect');
-            }
-
-            // Check for existing save on load
-            window.onload = function () {
-                const saved = localStorage.getItem('pocketConquest');
-                if (saved) {
-                    document.getElementById('continueBtn').classList.remove('hidden');
-                }
+            // Scale enemy stats by level
+            const levelBonus = enemyLevel - 1;
+            battleState.enemy = {
+                ...enemyData,
+                level: enemyLevel,
+                hp: enemyData.baseHp + (levelBonus * 3),
+                maxHp: enemyData.baseHp + (levelBonus * 3),
+                attack: enemyData.baseAtk + (levelBonus * 2),
+                defense: enemyData.baseDef + (levelBonus * 1)
             };
-        </script>
+
+            // Set player HP and reset status effects
+            battleState.playerCurrentHp = battleState.playerHero.hp;
+            battleState.enemyCurrentHp = battleState.enemy.maxHp;
+            battleState.isPlayerTurn = true;
+            battleState.playerStatus = [];
+            battleState.enemyStatus = [];
+
+            // Update UI
+            document.getElementById('enemyName').textContent = battleState.enemy.name;
+            document.getElementById('enemyLevel').textContent = 'Lv.' + battleState.enemy.level;
+            document.getElementById('enemyImage').src = battleState.enemy.image;
+            document.getElementById('playerHeroName').textContent = battleState.playerHero.name;
+            document.getElementById('playerHeroLevel').textContent = 'Lv.' + battleState.playerHero.level;
+            document.getElementById('playerHeroImage').src = battleState.playerHero.image;
+
+            updateHpBars();
+
+            // Set attack buttons
+            battleState.playerHero.attacks.forEach((atk, i) => {
+                document.getElementById('atkBtn' + i).textContent = atk.name;
+            });
+
+            // Clear battle log
+            document.getElementById('battleLog').innerHTML = '<p>A wild ' + battleState.enemy.name + ' appeared!</p>';
+
+            showScreen('searchScreen');
+        }
+
+        function updateHpBars() {
+            const enemyPct = Math.max(0, (battleState.enemyCurrentHp / battleState.enemy.maxHp) * 100);
+            const playerPct = Math.max(0, (battleState.playerCurrentHp / battleState.playerHero.maxHp) * 100);
+
+            document.getElementById('enemyHpBar').style.width = enemyPct + '%';
+            document.getElementById('playerHpBar').style.width = playerPct + '%';
+            document.getElementById('enemyHpText').textContent = Math.max(0, battleState.enemyCurrentHp) + '/' + battleState.enemy.maxHp;
+            document.getElementById('playerHpText').textContent = Math.max(0, battleState.playerCurrentHp) + '/' + battleState.playerHero.maxHp;
+
+            updateStatusIcons();
+        }
+
+        function updateStatusIcons() {
+            const statusEmojis = {
+                'Confuse': '😵',
+                'Stun': '⚡',
+                'Poison': '☠️',
+                'Burn': '🔥',
+                'Blind': '👁️',
+                'Root': '🌿',
+                'Slow': '🐌'
+            };
+
+            // Update enemy status icons
+            const enemyIconsDiv = document.getElementById('enemyStatusIcons');
+            enemyIconsDiv.innerHTML = battleState.enemyStatus.map(s =>
+                '<span class="status-icon" title="' + s.name + ' (' + s.turns + ' turns)">' +
+                (statusEmojis[s.name] || '❓') + s.turns + '</span>'
+            ).join('');
+
+            // Update player status icons
+            const playerIconsDiv = document.getElementById('playerStatusIcons');
+            playerIconsDiv.innerHTML = battleState.playerStatus.map(s =>
+                '<span class="status-icon" title="' + s.name + ' (' + s.turns + ' turns)">' +
+                (statusEmojis[s.name] || '❓') + s.turns + '</span>'
+            ).join('');
+        }
+
+        function addBattleLog(message) {
+            const log = document.getElementById('battleLog');
+            log.innerHTML += '<p>' + message + '</p>';
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // ========== STATUS EFFECT SYSTEM ==========
+        function hasStatus(statusArray, statusName) {
+            return statusArray.some(s => s.name === statusName && s.turns > 0);
+        }
+
+        function addStatus(statusArray, statusName, turns) {
+            // Check if already has this status
+            const existing = statusArray.find(s => s.name === statusName);
+            if (existing) {
+                existing.turns = Math.max(existing.turns, turns); // Refresh duration
+            } else {
+                statusArray.push({ name: statusName, turns: turns });
+            }
+        }
+
+        function tickStatus(statusArray, isPlayer) {
+            // Apply damage-over-time effects and reduce turns
+            for (let i = statusArray.length - 1; i >= 0; i--) {
+                const status = statusArray[i];
+
+                // Poison/Burn damage
+                if (status.name === 'Poison' || status.name === 'Burn') {
+                    const dot = Math.ceil((isPlayer ? battleState.playerHero.maxHp : battleState.enemy.maxHp) * 0.05);
+                    if (isPlayer) {
+                        battleState.playerCurrentHp = Math.max(1, battleState.playerCurrentHp - dot);
+                        addBattleLog('💀 Poison dealt ' + dot + ' damage!');
+                    } else {
+                        battleState.enemyCurrentHp = Math.max(1, battleState.enemyCurrentHp - dot);
+                        addBattleLog('💀 ' + battleState.enemy.name + ' took ' + dot + ' poison damage!');
+                    }
+                    updateHpBars();
+                }
+
+                // Reduce turns
+                status.turns--;
+                if (status.turns <= 0) {
+                    const targetName = isPlayer ? battleState.playerHero.name : battleState.enemy.name;
+                    addBattleLog('✨ ' + targetName + ' recovered from ' + status.name + '!');
+                    statusArray.splice(i, 1);
+                }
+            }
+        }
+
+        function applyAttackEffect(attack, isPlayerAttacking) {
+            // Parse effect text for status effects
+            const effect = attack.effect || '';
+            const targetStatus = isPlayerAttacking ? battleState.enemyStatus : battleState.playerStatus;
+            const targetName = isPlayerAttacking ? battleState.enemy.name : battleState.playerHero.name;
+
+            // Check for various status effects
+            if (effect.includes('Confuse')) {
+                addStatus(targetStatus, 'Confuse', 2);
+                addBattleLog('😵 ' + targetName + ' is confused!');
+            }
+            if (effect.includes('Stun')) {
+                addStatus(targetStatus, 'Stun', 1);
+                addBattleLog('⚡ ' + targetName + ' is stunned!');
+            }
+            if (effect.includes('Poison')) {
+                addStatus(targetStatus, 'Poison', 3);
+                addBattleLog('☠️ ' + targetName + ' is poisoned!');
+            }
+            if (effect.includes('Burn')) {
+                addStatus(targetStatus, 'Burn', 3);
+                addBattleLog('🔥 ' + targetName + ' is burning!');
+            }
+            if (effect.includes('Blind')) {
+                addStatus(targetStatus, 'Blind', 2);
+                addBattleLog('👁️ ' + targetName + ' is blinded!');
+            }
+            if (effect.includes('Root')) {
+                addStatus(targetStatus, 'Root', 2);
+                addBattleLog('🌿 ' + targetName + ' is rooted!');
+            }
+            if (effect.includes('Slow')) {
+                addStatus(targetStatus, 'Slow', 2);
+                addBattleLog('🐌 ' + targetName + ' is slowed!');
+            }
+        }
+
+        function useAttack(index) {
+            if (!battleState.isPlayerTurn) return;
+            battleState.isPlayerTurn = false;
+
+            // Check for status effects that prevent action
+            if (hasStatus(battleState.playerStatus, 'Stun')) {
+                addBattleLog('⚡ ' + battleState.playerHero.name + ' is stunned and cannot move!');
+                tickStatus(battleState.playerStatus, true);
+                setTimeout(enemyTurn, 1000);
+                return;
+            }
+
+            const attack = battleState.playerHero.attacks[index];
+            const attackType = attack.type;
+
+            // Handle different attack types
+            if (attackType === 'Heal') {
+                const healAmount = parseInt(attack.effect.match(/\d+/)[0]) || 30;
+                const oldHp = battleState.playerCurrentHp;
+                battleState.playerCurrentHp = Math.min(battleState.playerHero.maxHp, battleState.playerCurrentHp + healAmount);
+                const actualHeal = battleState.playerCurrentHp - oldHp;
+                addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
+            } else if (attackType === 'Buff') {
+                const boost = Math.ceil(battleState.playerHero.attack * 0.05);
+                battleState.playerHero.attack += boost;
+                addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! ATK +' + boost + '!');
+            } else if (attackType === 'Debuff') {
+                const reduction = Math.ceil(battleState.enemy.attack * 0.05);
+                battleState.enemy.attack = Math.max(1, battleState.enemy.attack - reduction);
+                addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! Enemy ATK -' + reduction + '!');
+                applyAttackEffect(attack, true); // Apply status from debuff
+            } else {
+                // Normal damage attack
+                // Check for Blind - 50% miss chance
+                if (hasStatus(battleState.playerStatus, 'Blind') && Math.random() < 0.5) {
+                    addBattleLog('👁️ ' + battleState.playerHero.name + ' missed due to blindness!');
+                }
+                // Check for Confuse - 50% chance to hit self
+                else if (hasStatus(battleState.playerStatus, 'Confuse') && Math.random() < 0.5) {
+                    const damage = Math.max(1, Math.floor(attack.damage / 2));
+                    battleState.playerCurrentHp -= damage;
+                    addBattleLog('😵 ' + battleState.playerHero.name + ' hurt itself in confusion! -' + damage + ' HP');
+                } else {
+                    const damage = Math.max(1, attack.damage + battleState.playerHero.attack - battleState.enemy.defense);
+                    battleState.enemyCurrentHp -= damage;
+                    addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! -' + damage + ' HP');
+                    applyAttackEffect(attack, true); // Apply status effects from attack
+                }
+            }
+
+            // Tick player status effects (poison damage, reduce durations)
+            tickStatus(battleState.playerStatus, true);
+            updateHpBars();
+
+            // Check if enemy defeated
+            if (battleState.enemyCurrentHp <= 0) {
+                setTimeout(() => endBattle(true), 500);
+                return;
+            }
+
+            // Check if player died from confusion
+            if (battleState.playerCurrentHp <= 0) {
+                setTimeout(() => endBattle(false), 500);
+                return;
+            }
+
+            // Enemy turn
+            setTimeout(enemyTurn, 1000);
+        }
+
+        function enemyTurn() {
+            // Check for status effects that prevent action
+            if (hasStatus(battleState.enemyStatus, 'Stun')) {
+                addBattleLog('⚡ ' + battleState.enemy.name + ' is stunned and cannot move!');
+                tickStatus(battleState.enemyStatus, false);
+                battleState.isPlayerTurn = true;
+                return;
+            }
+
+            // Enemy picks an attack (prefer damage attacks for AI)
+            let attack = battleState.enemy.attacks[Math.floor(Math.random() * battleState.enemy.attacks.length)];
+
+            // If enemy picks a heal/buff with no benefit, pick a different attack
+            if ((attack.type === 'Heal' && battleState.enemyCurrentHp >= battleState.enemy.maxHp) ||
+                (attack.type === 'Buff' && Math.random() > 0.3)) {
+                const damageAttacks = battleState.enemy.attacks.filter(a => a.damage > 0);
+                if (damageAttacks.length > 0) {
+                    attack = damageAttacks[Math.floor(Math.random() * damageAttacks.length)];
+                }
+            }
+
+            const attackType = attack.type;
+
+            if (attackType === 'Heal') {
+                const healAmount = parseInt(attack.effect?.match(/\d+/)?.[0]) || 30;
+                const oldHp = battleState.enemyCurrentHp;
+                battleState.enemyCurrentHp = Math.min(battleState.enemy.maxHp, battleState.enemyCurrentHp + healAmount);
+                const actualHeal = battleState.enemyCurrentHp - oldHp;
+                addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
+            } else if (attackType === 'Buff') {
+                battleState.enemy.attack += 5;
+                addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ' + (attack.effect || 'Stats boosted!'));
+            } else if (attackType === 'Debuff') {
+                battleState.playerHero.attack = Math.max(1, battleState.playerHero.attack - 5);
+                addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ' + (attack.effect || 'Your hero weakened!'));
+                applyAttackEffect(attack, false); // Apply status from debuff
+            } else {
+                // Normal damage attack
+                // Check for Blind - 50% miss chance
+                if (hasStatus(battleState.enemyStatus, 'Blind') && Math.random() < 0.5) {
+                    addBattleLog('👁️ ' + battleState.enemy.name + ' missed due to blindness!');
+                }
+                // Check for Confuse - 50% chance to hit self
+                else if (hasStatus(battleState.enemyStatus, 'Confuse') && Math.random() < 0.5) {
+                    const damage = Math.max(1, Math.floor(attack.damage / 2));
+                    battleState.enemyCurrentHp -= damage;
+                    addBattleLog('😵 ' + battleState.enemy.name + ' hurt itself in confusion! -' + damage + ' HP');
+                } else {
+                    const damage = Math.max(1, attack.damage + battleState.enemy.attack - battleState.playerHero.defense);
+                    battleState.playerCurrentHp -= damage;
+                    addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
+                    applyAttackEffect(attack, false); // Apply status effects from attack
+                }
+            }
+
+            // Tick enemy status effects (poison damage, reduce durations)
+            tickStatus(battleState.enemyStatus, false);
+            updateHpBars();
+
+            // Check if enemy died from confusion
+            if (battleState.enemyCurrentHp <= 0) {
+                setTimeout(() => endBattle(true), 500);
+                return;
+            }
+
+            // Check if player defeated
+            if (battleState.playerCurrentHp <= 0) {
+                setTimeout(() => endBattle(false), 500);
+                return;
+            }
+
+            battleState.isPlayerTurn = true;
+        }
+
+        function getMaxLevel(hero) {
+            if (hero.id === 'malice') return 210;
+            const isStarter = starterHeroes.some(h => h.id === hero.id);
+            return isStarter ? 70 : 130;
+        }
+
+        function endBattle(victory) {
+            battleState.battleCount++;
+
+            // Calculate XP based on enemy level (higher level = more XP)
+            // WIN: much more rewarding, LOSS: minimal consolation
+            const playerLevel = battleState.playerHero.level;
+            const enemyLevel = battleState.enemy.level;
+
+            let xpGained;
+            if (victory) {
+                // Win: base 20 + 2 XP per enemy level + bonus for higher level enemies
+                const levelBonus = Math.max(0, enemyLevel - playerLevel) * 5;
+                xpGained = 20 + (enemyLevel * 2) + levelBonus;
+            } else {
+                // Loss: still decent consolation - base 8 + 1 XP per enemy level
+                // Players shouldn't feel TOO punished for losing
+                xpGained = 8 + enemyLevel;
+            }
+
+            // Cap at reasonable amounts
+            xpGained = Math.min(xpGained, 100);
+
+            // Award XP to player hero
+            gameState.heroes[battleState.playerHeroIndex].xp += xpGained;
+
+            // Check for level up
+            const hero = gameState.heroes[battleState.playerHeroIndex];
+            const xpNeeded = hero.level * 20;
+            if (hero.xp >= xpNeeded && hero.level < getMaxLevel(hero)) {
+                hero.level++;
+                hero.xp -= xpNeeded;
+                hero.maxHp += 3;
+                hero.hp = hero.maxHp;
+                hero.attack += 2;
+                hero.defense += 1;
+                addBattleLog('🎉 ' + hero.name + ' leveled up to Lv.' + hero.level + '!');
+            }
+
+            // TR Coin drop (33% random chance on WIN)
+            let gotCoin = false;
+            if (victory && Math.random() < 0.33) {
+                gameState.trCoins++;
+                gotCoin = true;
+            }
+
+            saveGame();
+
+            // Show result modal
+            document.getElementById('resultIcon').textContent = victory ? '🏆' : '💔';
+            document.getElementById('resultTitle').textContent = victory ? 'VICTORY!' : 'DEFEAT';
+            document.getElementById('resultTitle').className = 'result-title ' + (victory ? 'victory' : 'defeat');
+            document.getElementById('resultXP').textContent = '+' + xpGained + ' XP';
+            document.getElementById('coinRewardRow').style.display = gotCoin ? 'flex' : 'none';
+
+            document.getElementById('battleResultModal').style.display = 'flex';
+        }
+
+        function closeBattleResult() {
+            document.getElementById('battleResultModal').style.display = 'none';
+            showScreen('homeScreen');
+        }
+
+        function fleeBattle() {
+            showScreen('homeScreen');
+        }
+
+
+
+        // ========== UTILS ==========
+
+
+        // ========== SAVE / LOAD ==========
+        function saveGame() {
+            localStorage.setItem('pocketConquest', JSON.stringify(gameState));
+        }
+
+        function loadGame() {
+            const saved = localStorage.getItem('pocketConquest');
+            if (saved) {
+                gameState = JSON.parse(saved);
+                showScreen('homeScreen');
+            } else {
+                alert('No saved game found. Start a new game!');
+            }
+        }
+
+        function startNewGame() {
+            // Clear any existing save
+            localStorage.removeItem('pocketConquest');
+            // Reset game state
+            gameState = {
+                trainer: null,
+                trainerName: '',
+                level: 1,
+                trCoins: 0,
+                gems: 100,
+                badges: 0,
+                heroes: []
+            };
+            showScreen('characterSelect');
+        }
+
+        // Check for existing save on load
+        window.onload = function () {
+            const saved = localStorage.getItem('pocketConquest');
+            if (saved) {
+                document.getElementById('continueBtn').classList.remove('hidden');
+            }
+        };
+    </script>
 </body>
 
 </html>
