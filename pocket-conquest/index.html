@@ -3062,44 +3062,49 @@
             }
 
             // ========== MESSAGE MODAL ==========
-            // ========== MESSAGE MODAL ==========
             function showMessage(arg1, arg2, arg3) {
                 let icon = 'ℹ️';
                 let title = 'Message';
                 let text = '';
 
-                if (arg3) {
-                    // 3 Args: Icon, Title, Text OR Title, Subtitle, Text?
-                    // Based on usage: ('❌', 'Not Enough Coins!', 'text') -> Icon, Title, Text
-                    // AND: ('Duplicate!', 'Power Up', 'text') -> Title, Subtitle, Text
-                    // Let's heuristically detect.
-                    if (arg1.length <= 2 || arg1.includes('❌') || arg1.includes('🏆') || arg1.includes('🌀')) {
+                // Handle different call signatures
+                if (arg3 !== undefined) {
+                    // 3 args: could be (icon, title, text) or (title, subtitle, text)
+                    // Check if first arg is emoji-like (short)
+                    if (arg1 && arg1.length <= 2) {
                         icon = arg1;
-                        title = arg2;
-                        text = arg3;
+                        title = arg2 || 'Message';
+                        text = arg3 || '';
                     } else {
-                        // Assume Title, Subtitle, Text -> We'll map Subtitle to part of text or Title
-                        icon = '📢'; // Default icon
-                        title = arg1;
-                        text = `**${arg2}**\n\n${arg3}`;
+                        // Title, Subtitle, Text format
+                        icon = '📢';
+                        title = arg1 || 'Message';
+                        text = (arg2 ? '**' + arg2 + '**\n\n' : '') + (arg3 || '');
                     }
-                } else if (arg2) {
-                    // 2 Args: Title, Text
-                    title = arg1;
-                    text = arg2;
-                } else {
-                    // 1 Arg: Text only
-                    text = arg1;
+                } else if (arg2 !== undefined) {
+                    // 2 args: (title, text)
+                    title = arg1 || 'Message';
+                    text = arg2 || '';
+                } else if (arg1 !== undefined) {
+                    // 1 arg: just text
+                    text = arg1 || '';
                 }
 
-                document.getElementById('messageIcon').textContent = icon;
-                document.getElementById('messageTitle').textContent = title;
-                document.getElementById('messageText').innerHTML = text.replace(/\n/g, '<br>'); // Allow newlines
-                document.getElementById('messageModal').style.display = 'flex';
+                // Safely set content
+                const iconEl = document.getElementById('messageIcon');
+                const titleEl = document.getElementById('messageTitle');
+                const textEl = document.getElementById('messageText');
+                const modal = document.getElementById('messageModal');
+
+                if (iconEl) iconEl.textContent = icon;
+                if (titleEl) titleEl.textContent = title;
+                if (textEl) textEl.innerHTML = String(text).replace(/\n/g, '<br>');
+                if (modal) modal.style.display = 'flex';
             }
 
             function closeMessageModal() {
-                document.getElementById('messageModal').style.display = 'none';
+                const modal = document.getElementById('messageModal');
+                if (modal) modal.style.display = 'none';
             }
 
             // ========== BATTLE SYSTEM ==========
