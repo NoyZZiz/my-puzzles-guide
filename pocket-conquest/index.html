@@ -1849,6 +1849,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- ===== BATTLE SCREEN (SEARCH) ===== -->
         <div id="searchScreen" class="screen">
             <button class="back-btn" onclick="fleeBattle()">← Flee</button>
 
@@ -3054,26 +3056,18 @@
                         heroImg.style.animation = null;
                     }
 
-                    // Show modal with forced visibility
-                    if (modal) {
-                        modal.style.display = 'flex';
-                        modal.style.visibility = 'visible';
-                        modal.style.opacity = '1';
-                        modal.style.zIndex = '9999';
-                        modal.classList.remove('hidden');
-                        console.log('Summon modal shown - style.display is now:', modal.style.display);
-                        // Force alert to confirm this code runs
-                        alert('Hero summoned: ' + hero.name + '! (Tap OK to continue)');
-                    } else {
-                        console.error('summonModal not found!');
-                        alert('ERROR: Modal not found!');
-                    }
+                    // Show modal with small delay to ensure animations trigger
+                    setTimeout(() => {
+                        if (modal) {
+                            modal.style.display = 'flex';
+                            console.log('Summon modal shown');
+                        }
+                    }, 10);
 
                     // Update home screen in background
                     updateHomeScreen();
                 } catch (e) {
                     console.error('Error in showSummonResult:', e);
-                    alert('Error showing summon result: ' + e.message);
                 }
             }
 
@@ -3168,13 +3162,9 @@
                     }
                     if (modal) {
                         modal.style.display = 'flex';
-                        console.log('Battle select modal shown');
-                    } else {
-                        console.error('battleSelectModal not found!');
                     }
                 } catch (e) {
                     console.error('Error in openBattleSelect:', e);
-                    alert('Error opening battle: ' + e.message);
                 }
             }
 
