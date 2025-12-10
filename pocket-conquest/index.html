@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="monetag" content="dc4cd1c75e904df6c3759be0529f93c8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description"
+        content="Collect heroes, battle stages, and evolve your champions in Pocket Conquest - the browser RPG for Puzzles & Conquest fans.">
+    <title>Pocket Conquest | Noyzzing Games</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- CSS: ANIMATIONS & STYLES -->
+    <style>
+        :root {
+            --elem-fire: #ef4444;
+            --elem-wind: #22c55e;
+            --elem-earth: #eab308;
+            --elem-water: #3b82f6;
+            --elem-light: #fef08a;
+            --elem-dark: #a855f7;
+            --rarity-5: #eab308;
+            --rarity-4: #a855f7;
+            --rarity-3: #3b82f6;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: #0f1729;
+            color: white;
+            overflow: hidden;
+            /* App interaction */
+            user-select: none;
+        }
+
+        /* SCREEN MANAGEMENT */
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: none;
+            flex-direction: column;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* HERO SPRITES (CSS ANIMATION) */
+        .hero-sprite {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Breathing Idle */
+        .hero-idle {
+            animation: breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                transform: scale(1) translateY(0);
+            }
+
+            50% {
+                transform: scale(1.02) translateY(-5px);
+            }
+        }
+
+        /* Attack Lunge */
+        .hero-attack {
+            animation: lunge 0.4s ease-in-out;
+        }
+
+        @keyframes lunge {
+            0% {
+                transform: translateX(0);
+            }
+
+            40% {
+                transform: translateX(50px) scale(1.1);
+            }
+
+            /* Adjust based on side */
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .hero-attack-enemy {
+            animation: lungeLeft 0.4s ease-in-out;
+        }
+
+        @keyframes lungeLeft {
+            0% {
+                transform: translateX(0);
+            }
+
+            40% {
+                transform: translateX(-50px) scale(1.1);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* Damage Shake */
+        .hero-damage {
+            animation: shake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+            filter: sepia(100%) hue-rotate(-50deg) saturate(600%) contrast(0.8);
+            /* Red flash */
+        }
+
+        @keyframes shake {
+
+            10%,
+            90% {
+                transform: translate3d(-2px, 0, 0);
+            }
+
+            20%,
+            80% {
+                transform: translate3d(4px, 0, 0);
+            }
+
+            30%,
+            50%,
+            70% {
+                transform: translate3d(-8px, 0, 0);
+            }
+
+            40%,
+            60% {
+                transform: translate3d(8px, 0, 0);
+            }
+        }
+
+        /* Evolution Aura */
+        .aura-evo {
+            position: absolute;
+            inset: -10px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(234, 179, 8, 0.4) 0%, transparent 70%);
+            animation: pulseAura 2s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulseAura {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* CARD STYLES */
+        .hero-card {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .hero-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--rarity-5);
+        }
+
+        .hero-card.selected {
+            border-color: #22c55e;
+            box-shadow: 0 0 15px #22c55e;
+        }
+
+        /* ELEMENT COLORS */
+        .bg-fire {
+            background-color: var(--elem-fire);
+        }
+
+        .bg-wind {
+            background-color: var(--elem-wind);
+        }
+
+        .bg-earth {
+            background-color: var(--elem-earth);
+        }
+
+        .bg-water {
+            background-color: var(--elem-water);
+        }
+
+        .bg-light {
+            background-color: var(--elem-light);
+            color: black;
+        }
+
+        .bg-dark {
+            background-color: var(--elem-dark);
+        }
+
+        /* SUMMON ANIMATION */
+        .summon-flash {
+            animation: flashBang 2s ease-out;
+        }
+
+        @keyframes flashBang {
+            0% {
+                background: white;
+                opacity: 1;
+            }
+
+            100% {
+                background: transparent;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="h-screen w-screen bg-black">
+
+    <!-- SCREEN 1: TOWN (Main Menu) -->
+    <div id="screen-town" class="screen active bg-[url('../assets/backgrounds/town_bg.jpg')] bg-gray-900">
+        <!-- Top Bar -->
+        <div
+            class="absolute top-0 w-full p-4 flex justify-between items-center bg-gradient-to-b from-black/80 to-transparent z-10">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 border-2 border-brand-gold rounded overflow-hidden bg-black">
+                    <img src="../assets/images/noyzzing-logo.png" class="w-full h-full object-contain">
+                </div>
+                <div>
+                    <div class="text-xl font-bold tracking-wider">COMMANDER</div>
+                    <div class="text-xs text-brand-gold">LVL <span id="player-level">1</span></div>
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <div class="bg-black/50 px-3 py-1 rounded-full border border-gray-600 flex items-center gap-2">
+                    <i class="fas fa-coins text-yellow-500"></i> <span id="currency-gold">0</span>
+                </div>
+                <div class="bg-black/50 px-3 py-1 rounded-full border border-blue-500 flex items-center gap-2">
+                    <i class="fas fa-gem text-blue-400"></i> <span id="currency-gems">500</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Hub Buttons -->
+        <div class="flex-grow flex items-center justify-center gap-4 md:gap-8 px-4 relative z-0">
+            <!-- Background Placeholder if image missing -->
+            <div class="absolute inset-0 bg-gradient-to-b from-gray-800 to-gray-900 -z-10"></div>
+
+            <button onclick="Game.nav('battle')"
+                class="group flex flex-col items-center gap-2 transform hover:scale-110 transition-all">
+                <div
+                    class="w-24 h-24 md:w-32 md:h-32 bg-red-600 rounded-full border-4 border-white shadow-lg flex items-center justify-center group-hover:shadow-red-500/50">
+                    <i class="fas fa-swords text-4xl md:text-5xl"></i>
+                </div>
+                <span class="font-bold text-xl tracking-widest shadow-black drop-shadow-md">CAMPAIGN</span>
+            </button>
+
+            <button onclick="Game.nav('summon')"
+                class="group flex flex-col items-center gap-2 transform hover:scale-110 transition-all">
+                <div
+                    class="w-20 h-20 md:w-24 md:h-24 bg-purple-600 rounded-full border-4 border-white shadow-lg flex items-center justify-center group-hover:shadow-purple-500/50">
+                    <i class="fas fa-star text-3xl md:text-4xl"></i>
+                </div>
+                <span class="font-bold text-lg tracking-widest shadow-black drop-shadow-md">SUMMON</span>
+            </button>
+
+            <button onclick="Game.nav('heroes')"
+                class="group flex flex-col items-center gap-2 transform hover:scale-110 transition-all">
+                <div
+                    class="w-20 h-20 md:w-24 md:h-24 bg-green-600 rounded-full border-4 border-white shadow-lg flex items-center justify-center group-hover:shadow-green-500/50">
+                    <i class="fas fa-users text-3xl md:text-4xl"></i>
+                </div>
+                <span class="font-bold text-lg tracking-widest shadow-black drop-shadow-md">HEROES</span>
+            </button>
+        </div>
+
+        <!-- Bottom UI -->
+        <div class="p-4 flex justify-between items-end bg-gradient-to-t from-black/80 to-transparent">
+            <a href="../" class="bg-gray-800 px-4 py-2 rounded border border-gray-600 text-sm hover:bg-gray-700">
+                <i class="fas fa-arrow-left mr-2"></i>EXIT GAME
+            </a>
+            <div class="text-xs text-gray-500">v1.0.0 Alpha</div>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: BATTLE ARENA -->
+    <div id="screen-battle" class="screen bg-gray-900 relative">
+        <!-- Battle Top (Enemy) -->
+        <div
+            class="h-1/3 bg-gradient-to-b from-gray-800 to-gray-900 flex justify-center items-end pb-8 gap-8 relative overflow-hidden">
+            <!-- Enemy Sprites injected here -->
+            <div id="enemy-team-container" class="flex justify-center gap-4 md:gap-12"></div>
+        </div>
+
+        <!-- Battle Middle (Controls/Status) -->
+        <div class="h-14 bg-black/80 border-y border-gray-700 flex items-center justify-between px-4 z-20">
+            <div class="font-mono text-xl text-yellow-500 font-bold">WAVE <span id="battle-wave">1/3</span></div>
+            <div id="battle-log" class="text-sm text-gray-300 italic truncate max-w-[200px]">Battle Start!</div>
+            <button onclick="Battle.flee()"
+                class="text-red-500 text-sm font-bold border border-red-900 px-3 py-1 rounded hover:bg-red-900/50">FLEE</button>
+        </div>
+
+        <!-- Battle Bottom (Player) -->
+        <div
+            class="flex-grow bg-gradient-to-t from-gray-800 to-gray-900 flex flex-col justify-between pb-4 pt-8 relative">
+            <!-- Player Sprites -->
+            <div id="player-team-container" class="flex justify-center gap-4 md:gap-12 mb-4"></div>
+
+            <!-- Skill Bar -->
+            <div class="px-4 grid grid-cols-3 gap-2 h-20">
+                <button id="skill-btn-1"
+                    class="bg-gray-800 border-2 border-gray-600 rounded flex flex-col items-center justify-center active:bg-blue-900 disabled:opacity-30 disabled:cursor-not-allowed">
+                    <span class="font-bold text-sm">ATTACK</span>
+                </button>
+                <button id="skill-btn-2"
+                    class="bg-gray-800 border-2 border-gray-600 rounded flex flex-col items-center justify-center active:bg-blue-900 disabled:opacity-30 disabled:cursor-not-allowed">
+                    <span class="font-bold text-sm">HEAL</span>
+                    <span class="text-[10px] text-blue-400">MP: 20</span>
+                </button>
+                <button id="skill-btn-3"
+                    class="bg-gray-800 border-2 border-brand-gold rounded flex flex-col items-center justify-center active:bg-yellow-900 disabled:opacity-30 disabled:cursor-not-allowed">
+                    <span class="font-bold text-sm text-brand-gold">ULTIMATE</span>
+                    <span class="text-[10px] text-yellow-400">MP: 50</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 3: SUMMON -->
+    <div id="screen-summon" class="screen bg-purple-950 flex items-center justify-center relative">
+        <div
+            class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-800 via-gray-900 to-black">
+        </div>
+
+        <button onclick="Game.nav('town')" class="absolute top-4 left-4 z-50 text-gray-400 hover:text-white"><i
+                class="fas fa-times text-2xl"></i></button>
+
+        <div class="relative z-10 text-center">
+            <div class="w-64 h-64 mx-auto mb-8 relative group">
+                <!-- Portal Graphic -->
+                <div class="absolute inset-0 bg-purple-500 rounded-full blur-xl opacity-50 animate-pulse"></div>
+                <div
+                    class="relative w-full h-full border-4 border-purple-400 rounded-full flex items-center justify-center bg-black overflow-hidden shadow-[0_0_50px_rgba(168,85,247,0.5)]">
+                    <div id="summon-circle"
+                        class="w-full h-full bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)] animate-[spin_4s_linear_infinite] opacity-20">
+                    </div>
+                </div>
+                <!-- Summon Button -->
+                <button onclick="Summon.pull(1)"
+                    class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-brand-gold hover:bg-yellow-300 text-black font-black text-xl px-8 py-4 rounded-full shadow-lg transition-transform active:scale-95 whitespace-nowrap">
+                    SUMMON x1
+                    <div class="text-xs font-normal mt-1 flex items-center justify-center gap-1"><i
+                            class="fas fa-gem text-blue-600"></i> 100</div>
+                </button>
+            </div>
+
+            <div id="summon-result"
+                class="hidden fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center">
+                <!-- Result Card Appears Here -->
+                <div id="summon-card" class="mb-8 transform scale-0 transition-transform duration-500"></div>
+                <button onclick="Summon.closeResult()"
+                    class="text-white border border-white px-8 py-3 rounded hover:bg-white hover:text-black">CONTINUE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCREEN 4: HEROES (Inventory) -->
+    <div id="screen-heroes" class="screen bg-gray-900">
+        <div class="bg-black/80 p-4 flex items-center justify-between border-b border-gray-700">
+            <div class="flex items-center gap-4">
+                <button onclick="Game.nav('town')" class="text-gray-400 hover:text-white"><i
+                        class="fas fa-arrow-left"></i></button>
+                <h2 class="text-xl font-bold">HERO ROSTER</h2>
+            </div>
+            <div class="text-sm text-gray-400">Total: <span id="roster-count">0</span></div>
+        </div>
+        <div class="flex-grow overflow-y-auto p-4">
+            <div id="hero-grid" class="grid grid-cols-3 md:grid-cols-5 gap-3">
+                <!-- Hero Cards Injected Here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JS ENGINE -->
+    <script>
+        /* === GAME DATA & CONFIG === */
+        const DB = {
+            heroes: [
+                { id: 'zeus', name: 'Zeus', title: 'Thunder God', element: 'wind', stars: 5, hp: 1200, atk: 150 },
+                { id: 'fox', name: 'Fox Lady', title: 'Nine Tails', element: 'fire', stars: 5, hp: 1000, atk: 180 },
+                { id: 'flora', name: 'Flora', title: 'Nature Spirit', element: 'earth', stars: 4, hp: 1500, atk: 90 },
+                { id: 'frost', name: 'Frost', title: 'Ice Guard', element: 'water', stars: 4, hp: 1300, atk: 110 },
+                { id: 'recruit_s', name: 'Swordman', title: 'Recruit', element: 'fire', stars: 3, hp: 600, atk: 70 },
+                { id: 'recruit_b', name: 'Bowman', title: 'Recruit', element: 'wind', stars: 3, hp: 500, atk: 85 },
+                { id: 'recruit_k', name: 'Knight', title: 'Recruit', element: 'earth', stars: 3, hp: 800, atk: 60 },
+            ],
+            elements: {
+                fire: { icon: 'fa-fire', color: 'bg-fire' },
+                wind: { icon: 'fa-wind', color: 'bg-wind' },
+                earth: { icon: 'fa-mountain', color: 'bg-earth' },
+                water: { icon: 'fa-droplet', color: 'bg-water' },
+                light: { icon: 'fa-sun', color: 'bg-light' },
+                dark: { icon: 'fa-moon', color: 'bg-dark' }
+            }
+        };
+
+        const Player = {
+            gems: 500,
+            gold: 1000,
+            roster: [], // Captured heroes
+            team: [null, null, null], // Selected team (indices of roster)
+            save() {
+                localStorage.setItem('PocketConquest_Save', JSON.stringify({
+                    gems: this.gems,
+                    gold: this.gold,
+                    roster: this.roster,
+                    team: this.team
+                }));
+                this.updateUI();
+            },
+            load() {
+                const data = localStorage.getItem('PocketConquest_Save');
+                if (data) {
+                    const saved = JSON.parse(data);
+                    this.gems = saved.gems;
+                    this.gold = saved.gold;
+                    this.roster = saved.roster;
+                    this.team = saved.team;
+                } else {
+                    // Starter Heroes
+                    this.addHero('recruit_s');
+                    this.addHero('recruit_b');
+                    this.team = [0, 1, null];
+                }
+                this.updateUI();
+            },
+            addHero(id) {
+                const base = DB.heroes.find(h => h.id === id);
+                if (!base) return;
+                // Create Instance
+                this.roster.push({
+                    uid: Date.now() + Math.random(),
+                    baseId: id,
+                    level: 1,
+                    exp: 0,
+                    skin: 'default',
+                    // Stats calculation would go here
+                });
+                this.save();
+                return base;
+            },
+            updateUI() {
+                document.getElementById('currency-gems').innerText = this.gems;
+                document.getElementById('currency-gold').innerText = this.gold;
+                document.getElementById('roster-count').innerText = this.roster.length;
+            }
+        };
+
+        /* === CORE ENGINE === */
+        const Game = {
+            init() {
+                Player.load();
+                this.nav('town');
+                this.renderRoster();
+            },
+            nav(screenId) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById('screen-' + screenId).classList.add('active');
+                if (screenId === 'heroes') this.renderRoster();
+            },
+            renderRoster() {
+                const grid = document.getElementById('hero-grid');
+                grid.innerHTML = '';
+                Player.roster.forEach((hero, index) => {
+                    const base = DB.heroes.find(h => h.id === hero.baseId);
+                    const el = document.createElement('div');
+                    el.className = `hero-card p-2 text-center relative border-2 ${base.stars >= 5 ? 'border-yellow-500' : 'border-gray-600'}`;
+                    el.innerHTML = `
+                        <div class="w-full aspect-square bg-gray-800 rounded mb-2 overflow-hidden relative">
+                             <!-- Placeholder or Image -->
+                             <img src="../assets/heroes/${base.id}.png" onerror="this.src='https://via.placeholder.com/150/000000/FFFFFF?text=${base.name[0]}'" class="w-full h-full object-cover">
+                             <div class="absolute top-1 right-1 w-6 h-6 rounded-full ${DB.elements[base.element].color} text-white flex items-center justify-center text-xs shadow">
+                                <i class="fas ${DB.elements[base.element].icon}"></i>
+                             </div>
+                        </div>
+                        <div class="font-bold text-sm truncate">${base.name}</div>
+                        <div class="text-xs text-gray-400">Lv.${hero.level}</div>
+                        ${base.stars >= 5 ? '<i class="fas fa-star text-yellow-500 absolute top-2 left-2 text-xs shadow-black drop-shadow"></i>' : ''}
+                    `;
+                    grid.appendChild(el);
+                });
+            }
+        };
+
+        /* === SUMMON SYSTEM === */
+        const Summon = {
+            pull(amount) {
+                if (Player.gems < 100) return alert("Not enough Gems!");
+                Player.gems -= 100;
+
+                // RNG Logic
+                const roll = Math.random() * 100;
+                let pool = [];
+                if (roll < 5) pool = DB.heroes.filter(h => h.stars === 5); // 5% chance
+                else if (roll < 30) pool = DB.heroes.filter(h => h.stars === 4); // 25% chance
+                else pool = DB.heroes.filter(h => h.stars === 3); // 70% chance
+
+                const hero = pool[Math.floor(Math.random() * pool.length)];
+                Player.addHero(hero.id);
+                Player.save();
+
+                // Show Result
+                const overlay = document.getElementById('summon-result');
+                const card = document.getElementById('summon-card');
+                overlay.classList.remove('hidden');
+
+                // Flash Anim
+                overlay.classList.add('summon-flash');
+                setTimeout(() => overlay.classList.remove('summon-flash'), 1000);
+
+                card.innerHTML = `
+                    <div class="bg-gray-800 p-6 rounded-xl border-4 ${hero.stars === 5 ? 'border-yellow-400 shadow-[0_0_30px_gold]' : 'border-purple-500'} text-center w-64">
+                        <div class="text-6xl mb-4 animate-bounce">
+                           <i class="fas ${DB.elements[hero.element].icon} ${hero.element === 'fire' ? 'text-red-500' : hero.element === 'wind' ? 'text-green-500' : 'text-blue-500'}"></i>
+                        </div>
+                        <h2 class="text-2xl font-black uppercase text-white mb-1">${hero.name}</h2>
+                        <p class="text-brand-gold font-mono mb-4 text-sm tracking-widest">${"★".repeat(hero.stars)}</p>
+                        <div class="text-sm text-gray-400">"${hero.title}"</div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    card.classList.remove('scale-0');
+                    card.classList.add('scale-100');
+                }, 100);
+            },
+            closeResult() {
+                const overlay = document.getElementById('summon-result');
+                const card = document.getElementById('summon-card');
+                card.classList.remove('scale-100');
+                card.classList.add('scale-0');
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        };
+
+        /* === BATTLE SYSTEM (Placeholder for Alpha) === */
+        const Battle = {
+            flee() {
+                Game.nav('town');
+            }
+        };
+
+        // Init
+        window.onload = () => Game.init();
+
+    </script>
+</body>
+
+</html>

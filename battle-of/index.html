@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Ultimate guide to the Battle of Saurnesia (BOS) event in Puzzles and Conquest. Covers scoring, wonders, Dragon Cub Escort, and attacking strategy.">
-    <meta name="keywords" content="Battle of Saurnesia, BOS guide, Puzzles and Conquest, Dragon Cub Escort, alliance points, troop dynamics, safe zone strategy">
-    
+    <meta name="description"
+        content="Ultimate guide to the Battle of Saurnesia (BOS) event in Puzzles and Conquest. Covers scoring, wonders, Dragon Cub Escort, and attacking strategy.">
+    <meta name="keywords"
+        content="Battle of Saurnesia, BOS guide, Puzzles and Conquest, Dragon Cub Escort, alliance points, troop dynamics, safe zone strategy">
+
     <title>Battle of Saurnesia Guide - Tactical Command</title>
-    
+
     <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
     <!-- Google Analytics & AdSense -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
+        crossorigin="anonymous"></script>
 
     <!-- Tailwind Configuration (Consistent with Homepage) -->
     <script>
@@ -52,24 +58,24 @@
             background-color: #020617;
             color: #e2e8f0;
             font-family: 'Inter', sans-serif;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
                 linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
-            line-height: 1.75; 
+            line-height: 1.75;
         }
-        
+
         .tech-border {
             position: relative;
             border: 1px solid #1e293b;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .glow-text {
             text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
         }
-        
+
         /* Guide Content Styling */
         .guide-section {
             background-color: #0f172a;
@@ -101,22 +107,25 @@
         }
 
         .guide-content p {
-            color: #a1a1aa; 
+            color: #a1a1aa;
             margin-bottom: 1em;
         }
 
-        .guide-content ul, .guide-content ol {
+        .guide-content ul,
+        .guide-content ol {
             padding-left: 20px;
             margin-bottom: 1.5em;
             color: #e2e8f0;
         }
+
         .guide-content li {
             margin-bottom: 0.5em;
             list-style-type: disc;
             color: #a1a1aa;
         }
+
         .guide-content li strong {
-            color: white; 
+            color: white;
         }
 
         .author {
@@ -131,16 +140,18 @@
             background: #0f172a;
             border-bottom: 1px solid #1e293b;
         }
+
         .guide-hero h2 {
             font-size: 3em;
             font-weight: 700;
             color: #fbbf24;
         }
+
         .guide-hero p {
             font-size: 1.1em;
             color: #94a3b8;
         }
-        
+
         /* Loader and Chat Styles (consistent) */
         .loader {
             border: 2px solid #f3f3f3;
@@ -152,11 +163,17 @@
             animation: spin 1s linear infinite;
             display: inline-block;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        
+
         .chatbox {
             position: fixed;
             bottom: 80px;
@@ -174,6 +191,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
         }
+
         @media (max-width: 768px) {
             .chatbox {
                 bottom: 0;
@@ -185,30 +203,40 @@
         }
     </style>
 </head>
+
 <body class="flex flex-col min-h-screen">
 
     <!-- NAVIGATION BAR -->
     <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
         <div class="container mx-auto px-4 py-3">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                
+
                 <!-- Brand Logo -->
                 <a href="../index.html" class="flex items-center gap-3 group">
-                    <div class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
-                        <img src="../assets/images/noyzzing-logo.png" onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                    <div
+                        class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
+                        <img src="../assets/images/noyzzing-logo.png"
+                            onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity">
+                        </div>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span class="text-brand-gold glow-text">ZZING</span></h1>
+                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span
+                                class="text-brand-gold glow-text">ZZING</span></h1>
                     </div>
                 </a>
 
                 <!-- Nav Menu -->
                 <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
-                    <ul class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
+                    <ul
+                        class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
                         <li><a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
-                        <li><a href="../military-expedition-guide/index.html" class="hover:text-brand-gold transition-colors">MILITARY</a></li>
-                        <li><a href="../troop-resource-calculator/index.html" class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
+                        <li><a href="../military-expedition-guide/index.html"
+                                class="hover:text-brand-gold transition-colors">MILITARY</a></li>
+                        <li><a href="../troop-resource-calculator/index.html"
+                                class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
                         <li><a href="#" class="text-brand-gold hover:text-brand-gold transition-colors">BOS</a></li>
                     </ul>
                 </nav>
@@ -222,11 +250,8 @@
     <!-- AD SLOT 1: TOP BANNER (Leaderboard) -->
     <div class="container mx-auto px-4 mt-6">
         <div class="w-full h-[90px] md:h-[100px] overflow-hidden rounded bg-black border-y border-brand-border">
-            <ins class="adsbygoogle"
-                 style="display:block; width: 100%; height: 100%;"
-                 data-ad-client="ca-pub-1115056295957658"
-                 data-ad-slot="10000001"
-                 data-ad-format="auto"></ins>
+            <ins class="adsbygoogle" style="display:block; width: 100%; height: 100%;"
+                data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000001" data-ad-format="auto"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
     </div>
@@ -240,51 +265,67 @@
         </div>
 
         <div class="flex flex-col lg:flex-row gap-8">
-            
+
             <!-- LEFT COLUMN: GUIDE CONTENT (75%) -->
             <div class="w-full lg:w-3/4 space-y-8">
 
                 <section id="introduction" class="guide-section">
                     <h2 class="section-title">Introduction and Safe Zone Protocols</h2>
                     <div class="guide-content">
-                        <p>The **Battle of Saurnesia (BOS)** is a competitive, hour-long alliance event that matches alliances based on their League Grade (determined by past win percentages). It demands not just strength, but superior coordination and endurance.</p>
-                        
+                        <p>The **Battle of Saurnesia (BOS)** is a competitive, hour-long alliance event that matches
+                            alliances based on their League Grade (determined by past win percentages). It demands not
+                            just strength, but superior coordination and endurance.</p>
+
                         <h3>Matchup Scenarios</h3>
-                        <p>The event structure is flexible, involving either two or three alliances. This significantly affects the battlefield dynamics:</p>
+                        <p>The event structure is flexible, involving either two or three alliances. This significantly
+                            affects the battlefield dynamics:</p>
                         <ul class="list-disc pl-6 space-y-2">
-                            <li>**Three-Alliance Scenario:** Each alliance claims three of the ten Towers and one Dragon Lair as a **Safe Zone**. This results in **nine protected Towers**, leaving the alliances to fight intensely over the **single contested Tower**.</li>
-                            <li>**Two-Alliance Scenario:** Fewer objectives are claimed as Safe Zones, leading to a much larger, sprawling battle over multiple contested Towers.</li>
+                            <li>**Three-Alliance Scenario:** Each alliance claims three of the ten Towers and one Dragon
+                                Lair as a **Safe Zone**. This results in **nine protected Towers**, leaving the
+                                alliances to fight intensely over the **single contested Tower**.</li>
+                            <li>**Two-Alliance Scenario:** Fewer objectives are claimed as Safe Zones, leading to a much
+                                larger, sprawling battle over multiple contested Towers.</li>
                         </ul>
-                        
-                        <p>**Preparation Phase (First 5 Minutes):** This critical initial phase is used to coordinate Safe Zone declarations and discuss engagement terms with opponents. Utilize this time to scout your primary objective and prepare your first wave of marches.</p>
+
+                        <p>**Preparation Phase (First 5 Minutes):** This critical initial phase is used to coordinate
+                            Safe Zone declarations and discuss engagement terms with opponents. Utilize this time to
+                            scout your primary objective and prepare your first wave of marches.</p>
                     </div>
                 </section>
 
                 <section id="wonders" class="guide-section">
                     <h2 class="section-title">Wonders: Scoring and Tactical Buffs</h2>
                     <div class="guide-content">
-                        <p>Wonders are the primary source of Alliance Points in BOS. Capturing them provides an immediate point burst, followed by a sustained flow of points per minute for maintaining control. Strategic prioritization of these objectives is essential.</p>
-                        
+                        <p>Wonders are the primary source of Alliance Points in BOS. Capturing them provides an
+                            immediate point burst, followed by a sustained flow of points per minute for maintaining
+                            control. Strategic prioritization of these objectives is essential.</p>
+
                         <ul class="list-disc pl-6 space-y-2">
-                            <li><strong>Dragon Lair:</strong> Highest strategic value. **First Capture:** 6,000 Alliance Points, 1,800 Personal Points. **Holding:** 1,200 Alliance Points/min.</li>
-                            <li><strong>Dragon Ruin (Attack Buff):</strong> Provides a tactical buff of **+50% Troop Attack** to all occupying allies. **First Capture:** 3,000 Alliance Points. Holding provides 600 Alliance Points/min. Always prioritize capturing this early for maximum combat advantage.</li>
-                            <li><strong>Divine Fountain (Healing Buff):</strong> Provides a tactical buff of **+50% Heal Speed** to all occupying allies. Useful for rapid troop recovery mid-event. **First Capture:** 3,000 Alliance Points. Holding provides 600 Alliance Points/min.</li>
-                            <li><strong>Ancient Tower / Arcane Portal:</strong> Standard objectives. Provide 1,200 Alliance Points/min and 240 Alliance Points/min for holding.</li>
-                            <li>**Saurnesia:** The starting point for the Dragon Cub Escorts; this cannot be occupied.</li>
+                            <li><strong>Dragon Lair:</strong> Highest strategic value. **First Capture:** 6,000 Alliance
+                                Points, 1,800 Personal Points. **Holding:** 1,200 Alliance Points/min.</li>
+                            <li><strong>Dragon Ruin (Attack Buff):</strong> Provides a tactical buff of **+50% Troop
+                                Attack** to all occupying allies. **First Capture:** 3,000 Alliance Points. Holding
+                                provides 600 Alliance Points/min. Always prioritize capturing this early for maximum
+                                combat advantage.</li>
+                            <li><strong>Divine Fountain (Healing Buff):</strong> Provides a tactical buff of **+50% Heal
+                                Speed** to all occupying allies. Useful for rapid troop recovery mid-event. **First
+                                Capture:** 3,000 Alliance Points. Holding provides 600 Alliance Points/min.</li>
+                            <li><strong>Ancient Tower / Arcane Portal:</strong> Standard objectives. Provide 1,200
+                                Alliance Points/min and 240 Alliance Points/min for holding.</li>
+                            <li>**Saurnesia:** The starting point for the Dragon Cub Escorts; this cannot be occupied.
+                            </li>
                         </ul>
                         <p class="text-white font-bold my-4 text-center border-y border-brand-border py-2">
-                            
+
                         </p>
                     </div>
                 </section>
-                
+
                 <!-- AD SLOT 2: IN-ARTICLE AD -->
-                <div class="w-full h-auto min-h-[100px] rounded bg-brand-panel border border-dashed border-gray-700 p-4">
-                    <ins class="adsbygoogle"
-                         style="display:block; width: 100%; min-height: 100px;"
-                         data-ad-client="ca-pub-1115056295957658"
-                         data-ad-slot="10000002"
-                         data-ad-format="auto"></ins>
+                <div
+                    class="w-full h-auto min-h-[100px] rounded bg-brand-panel border border-dashed border-gray-700 p-4">
+                    <ins class="adsbygoogle" style="display:block; width: 100%; min-height: 100px;"
+                        data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000002" data-ad-format="auto"></ins>
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 </div>
 
@@ -292,30 +333,43 @@
                 <section id="dragon-cub-escort" class="guide-section">
                     <h2 class="section-title">Dragon Cub Escort: Timing is Everything</h2>
                     <div class="guide-content">
-                        <p>The Dragon Cub Escort offers the highest one-time point injections during the event, making its route a flashpoint for conflict. These escorts travel from Saurnesia to the Dragon Lair along a randomized path.</p>
-                        
+                        <p>The Dragon Cub Escort offers the highest one-time point injections during the event, making
+                            its route a flashpoint for conflict. These escorts travel from Saurnesia to the Dragon Lair
+                            along a randomized path.</p>
+
                         <h3>Escort Point Multipliers</h3>
                         <p>Points are awarded when the escort passes through a Wonder controlled by your alliance:</p>
                         <ul class="list-disc pl-6 space-y-2">
-                            <li>**Dragon Lair:** Reaching the Dragon Lair awards a massive **15,000 Alliance Points** and 4,000 Personal Points.</li>
-                            <li>**Other Wonders:** Reaching other Wonders provides **9,000 Alliance Points** and 3,000 Personal Points.</li>
+                            <li>**Dragon Lair:** Reaching the Dragon Lair awards a massive **15,000 Alliance Points**
+                                and 4,000 Personal Points.</li>
+                            <li>**Other Wonders:** Reaching other Wonders provides **9,000 Alliance Points** and 3,000
+                                Personal Points.</li>
                         </ul>
-                        
-                        <p>**Tactical Imperative:** Instead of attacking objectives aimlessly, **time your assaults to capture a Wonder just before the Dragon Cub Escort arrives.** Securing the objective in the final moments ensures your alliance, rather than the opponent, receives the massive point bonus when the cub passes through.</p>
+
+                        <p>**Tactical Imperative:** Instead of attacking objectives aimlessly, **time your assaults to
+                            capture a Wonder just before the Dragon Cub Escort arrives.** Securing the objective in the
+                            final moments ensures your alliance, rather than the opponent, receives the massive point
+                            bonus when the cub passes through.</p>
                     </div>
                 </section>
 
                 <section id="combat" class="guide-section">
                     <h2 class="section-title">Combat Point Allocation (Personal vs. Alliance)</h2>
                     <div class="guide-content">
-                        <p>It is vital to understand that personal points and alliance points are calculated using different rulesets in BOS:</p>
-                        
+                        <p>It is vital to understand that personal points and alliance points are calculated using
+                            different rulesets in BOS:</p>
+
                         <ul class="list-disc pl-6 space-y-2">
-                            <li>**Strongholds and Mines:** Both killing enemy units and losing your own units contribute to your **personal point total**.</li>
-                            <li>**Castle Battles:** Only **losing your own units** (casualties) increases your **personal points**. Killing enemy units in a Castle battle does not award points.</li>
+                            <li>**Strongholds and Mines:** Both killing enemy units and losing your own units contribute
+                                to your **personal point total**.</li>
+                            <li>**Castle Battles:** Only **losing your own units** (casualties) increases your
+                                **personal points**. Killing enemy units in a Castle battle does not award points.</li>
                         </ul>
-                        
-                        <p>**Alliance Score Warning:** Alliance points are **never awarded** for killing or losing units in any type of battle. Alliance points are derived purely from **Occupation** and **Dragon Cub Escort success**. Focus combat on weakening the enemy's ability to occupy objectives, not on earning team score.</p>
+
+                        <p>**Alliance Score Warning:** Alliance points are **never awarded** for killing or losing units
+                            in any type of battle. Alliance points are derived purely from **Occupation** and **Dragon
+                            Cub Escort success**. Focus combat on weakening the enemy's ability to occupy objectives,
+                            not on earning team score.</p>
                     </div>
                 </section>
 
@@ -325,9 +379,12 @@
                         <p>Understanding the fixed timeline is necessary for resource deployment and attack timing:</p>
                         <ul class="list-disc pl-6 space-y-2">
                             <li>**Preparation (0:00 - 0:05):** Safe Zone negotiation and first march setup.</li>
-                            <li>**Stage 1 (Start):** The Ancient Tower and Arcane Portal become occupy-able (lowest point values).</li>
-                            <li>**Stage 2 (Mid-Event):** The Divine Fountain, Dragon Ruins, and Dragon Lair become occupy-able (highest point values and buffs).</li>
-                            <li>**Stage 3 (Escort Launch):** The Dragon Cub Escort departs from Saurnesia towards the Dragon Lair.</li>
+                            <li>**Stage 1 (Start):** The Ancient Tower and Arcane Portal become occupy-able (lowest
+                                point values).</li>
+                            <li>**Stage 2 (Mid-Event):** The Divine Fountain, Dragon Ruins, and Dragon Lair become
+                                occupy-able (highest point values and buffs).</li>
+                            <li>**Stage 3 (Escort Launch):** The Dragon Cub Escort departs from Saurnesia towards the
+                                Dragon Lair.</li>
                         </ul>
                     </div>
                 </section>
@@ -335,47 +392,76 @@
                 <section id="troop-importance" class="guide-section">
                     <h2 class="section-title">Troop Doctrine: Quantity vs. Quality</h2>
                     <div class="guide-content">
-                        <p>A fatal flaw observed in many mid-level players is prioritizing Castle upgrades over troop production. While strong heroes are essential, relying on **one or two powerful troop sets is a crippling vulnerability in BOS.**</p>
-                        <p>**The Endurance Test:** In BOS, your troops can be quickly wounded or killed after only one or two full attacks or defenses, leaving you sidelined for the remainder of the hour. Players focused solely on Castle upgrades often lose their primary march strength and become ineffective.</p>
-                        <p>**The Strategic Solution:** Focus on building a large army composed of **many troop sets** (aiming for six full sets of your main type) *before* heavily investing in late-game Castle levels. A larger army ensures you have backup marches to maintain occupation and participate in rallies for the full duration of the event.</p>
+                        <p>A fatal flaw observed in many mid-level players is prioritizing Castle upgrades over troop
+                            production. While strong heroes are essential, relying on **one or two powerful troop sets
+                            is a crippling vulnerability in BOS.**</p>
+                        <p>**The Endurance Test:** In BOS, your troops can be quickly wounded or killed after only one
+                            or two full attacks or defenses, leaving you sidelined for the remainder of the hour.
+                            Players focused solely on Castle upgrades often lose their primary march strength and become
+                            ineffective.</p>
+                        <p>**The Strategic Solution:** Focus on building a large army composed of **many troop sets**
+                            (aiming for six full sets of your main type) *before* heavily investing in late-game Castle
+                            levels. A larger army ensures you have backup marches to maintain occupation and participate
+                            in rallies for the full duration of the event.</p>
                     </div>
                 </section>
 
                 <section id="healing-cost" class="guide-section">
                     <h2 class="section-title">Healing Cost & Resource Conservation</h2>
                     <div class="guide-content">
-                       <p>Do **NOT** use diamonds or healing speedups to heal troops during BOS. This is a crucial resource conservation measure.</p>
-                       <ul class="list-disc pl-6 space-y-2">
-                           <li>**Auto-Healing:** All troops wounded during BOS are **automatically healed** once the 60-minute event concludes. Spending resources here is wasteful.</li>
-                           <li>**ME Prioritization:** Healing speedups are best saved for events like Military Expedition (ME), where healing is essential and troops are **not** automatically recovered. Using your calculator (Troop Calculator) can help you determine resource needs for ME training.</li>
-                       </ul>
-                       <p>Focus resources on producing new troops (using training speedups) before BOS, and let the automatic event healing handle recovery after the timer ends.</p>
+                        <p>Do **NOT** use diamonds or healing speedups to heal troops during BOS. This is a crucial
+                            resource conservation measure.</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>**Auto-Healing:** All troops wounded during BOS are **automatically healed** once the
+                                60-minute event concludes. Spending resources here is wasteful.</li>
+                            <li>**ME Prioritization:** Healing speedups are best saved for events like Military
+                                Expedition (ME), where healing is essential and troops are **not** automatically
+                                recovered. Using your calculator (Troop Calculator) can help you determine resource
+                                needs for ME training.</li>
+                        </ul>
+                        <p>Focus resources on producing new troops (using training speedups) before BOS, and let the
+                            automatic event healing handle recovery after the timer ends.</p>
                     </div>
                 </section>
 
                 <section id="scouting" class="guide-section">
                     <h2 class="section-title">Super Rallies and Buff Application Failure</h2>
                     <div class="guide-content">
-                        <p>Scouting is mandatory. You must know the enemy's troop composition and, more importantly, the primary troop type of your own rally leader. Super Rallies (costing 2,000 diamonds to initiate) grant the rally leader's buffs to joining players, but this transfer is **strictly conditional**:</p>
-                        
+                        <p>Scouting is mandatory. You must know the enemy's troop composition and, more importantly, the
+                            primary troop type of your own rally leader. Super Rallies (costing 2,000 diamonds to
+                            initiate) grant the rally leader's buffs to joining players, but this transfer is **strictly
+                            conditional**:</p>
+
                         <p class="warning">
-                            **Rule of Non-Application:** The rally leader's troop attack/health/defense buffs **only apply to joining troops of the same type.**
+                            **Rule of Non-Application:** The rally leader's troop attack/health/defense buffs **only
+                            apply to joining troops of the same type.**
                         </p>
 
-                        <p>For example, if the rally leader is an **Infantry** player with 1,000% Infantry Attack buff, and you join with **Ranged** troops, the leader's Infantry buffs **will not apply to your Ranged troops.** This results in significantly diluted damage, higher casualties, and a failed attack due to an ineffective mix.</p>
-                        
-                        <p>**Tactical Imperative:** If your strongest Ranged player initiates a rally against a Cavalry enemy, **only send Ranged troops to join.** Sending Infantry or Siege units in this counter-scenario guarantees loss due to the buff failure and the initial troop counter disadvantage.</p>
+                        <p>For example, if the rally leader is an **Infantry** player with 1,000% Infantry Attack buff,
+                            and you join with **Ranged** troops, the leader's Infantry buffs **will not apply to your
+                            Ranged troops.** This results in significantly diluted damage, higher casualties, and a
+                            failed attack due to an ineffective mix.</p>
+
+                        <p>**Tactical Imperative:** If your strongest Ranged player initiates a rally against a Cavalry
+                            enemy, **only send Ranged troops to join.** Sending Infantry or Siege units in this
+                            counter-scenario guarantees loss due to the buff failure and the initial troop counter
+                            disadvantage.</p>
                     </div>
                 </section>
 
                 <section id="attacking-strategy" class="guide-section">
                     <h2 class="section-title">Offensive Tactics: Target Selection</h2>
                     <div class="guide-content">
-                        <p>Never attack aimlessly for alliance points. Successful attacks must be driven by the need to intercept the Dragon Cub Escort or neutralize a critical enemy buff:</p>
+                        <p>Never attack aimlessly for alliance points. Successful attacks must be driven by the need to
+                            intercept the Dragon Cub Escort or neutralize a critical enemy buff:</p>
                         <ul class="list-disc pl-6 space-y-2">
-                            <li>**Escort Interception:** As detailed in the Dragon Cub section, time your captures to align with the escort's path.</li>
-                            <li>**Buff Removal:** Prioritize capturing the enemy's Dragon Ruin (Attack Buff) or Divine Fountain (Heal Buff). Removing the Attack buff is often the most critical objective for weakening enemy defenses.</li>
-                            <li>**Safe Zones:** Avoid attacking objectives that are within the opponent's safe zones, as these are unassailable. Focus only on **undefended Towers and contested Wonders**.</li>
+                            <li>**Escort Interception:** As detailed in the Dragon Cub section, time your captures to
+                                align with the escort's path.</li>
+                            <li>**Buff Removal:** Prioritize capturing the enemy's Dragon Ruin (Attack Buff) or Divine
+                                Fountain (Heal Buff). Removing the Attack buff is often the most critical objective for
+                                weakening enemy defenses.</li>
+                            <li>**Safe Zones:** Avoid attacking objectives that are within the opponent's safe zones, as
+                                these are unassailable. Focus only on **undefended Towers and contested Wonders**.</li>
                         </ul>
                     </div>
                 </section>
@@ -383,10 +469,14 @@
                 <section id="safe-zone-strategy" class="guide-section">
                     <h2 class="section-title">Efficient Safe Zone Occupation</h2>
                     <div class="guide-content">
-                        <p>Once your alliance claims a safe zone (Tower or Dragon Lair), it cannot be attacked. Therefore, do not waste combat-ready forces on defending these positions:</p>
+                        <p>Once your alliance claims a safe zone (Tower or Dragon Lair), it cannot be attacked.
+                            Therefore, do not waste combat-ready forces on defending these positions:</p>
                         <ul class="list-disc pl-6 space-y-2">
-                            <li>**Single-Troop Occupation:** Send only a **single troop unit** to occupy these safe zones. This satisfies the occupation requirement while freeing up full, powerful marches for offensive or contested defense duties.</li>
-                            <li>**Farm Castles:** Alternatively, use low-level **farm castles** or secondary accounts to hold safe zones, preserving your main account's troop capacity entirely.</li>
+                            <li>**Single-Troop Occupation:** Send only a **single troop unit** to occupy these safe
+                                zones. This satisfies the occupation requirement while freeing up full, powerful marches
+                                for offensive or contested defense duties.</li>
+                            <li>**Farm Castles:** Alternatively, use low-level **farm castles** or secondary accounts to
+                                hold safe zones, preserving your main account's troop capacity entirely.</li>
                         </ul>
                     </div>
                 </section>
@@ -394,28 +484,32 @@
                 <section id="personal-points-strategy" class="guide-section">
                     <h2 class="section-title">Personal Points Strategy (Green Attacks)</h2>
                     <div class="guide-content">
-                        <p>For players focused primarily on hitting personal reward tiers, "Green Attacks" provide a high-yield opportunity near the end of the event:</p>
+                        <p>For players focused primarily on hitting personal reward tiers, "Green Attacks" provide a
+                            high-yield opportunity near the end of the event:</p>
                         <ul class="list-disc pl-6 space-y-2">
-                            <li>**Green Attack Definition:** Attacking enemy castles in the last **10-15 minutes** of BOS, often coordinated between alliances or executed without prior warning in non-safe zones.</li>
-                            <li>**Avoidance:** If you wish to avoid becoming a target, ensure your castle is ported back to your alliance's Safe Zone immediately before the 45-minute mark, or simply keep your main combat troops deployed in occupied Wonders.</li>
+                            <li>**Green Attack Definition:** Attacking enemy castles in the last **10-15 minutes** of
+                                BOS, often coordinated between alliances or executed without prior warning in non-safe
+                                zones.</li>
+                            <li>**Avoidance:** If you wish to avoid becoming a target, ensure your castle is ported back
+                                to your alliance's Safe Zone immediately before the 45-minute mark, or simply keep your
+                                main combat troops deployed in occupied Wonders.</li>
                         </ul>
-                        <p>Always communicate with your alliance leadership regarding sanctioned green attacks before engaging enemy castles.</p>
+                        <p>Always communicate with your alliance leadership regarding sanctioned green attacks before
+                            engaging enemy castles.</p>
                     </div>
                 </section>
-                
+
             </div>
 
             <!-- RIGHT COLUMN: SIDEBAR (25%) -->
             <aside class="w-full lg:w-1/4 space-y-8">
-                
+
                 <!-- SIDEBAR AD (300x250) -->
                 <div class="bg-brand-panel border border-brand-border p-2 rounded w-full flex flex-col items-center">
                     <div class="w-full h-[250px] bg-black/50 border border-dashed border-gray-700 relative">
-                         <ins class="adsbygoogle"
-                             style="display:block; width: 100%; height: 100%;"
-                             data-ad-client="ca-pub-1115056295957658"
-                             data-ad-slot="10000004"
-                             data-ad-format="auto"></ins>
+                        <ins class="adsbygoogle" style="display:block; width: 100%; height: 100%;"
+                            data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000004"
+                            data-ad-format="auto"></ins>
                         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                     </div>
                 </div>
@@ -426,16 +520,21 @@
                     <h3 class="text-lg font-bold font-tech text-white mb-4">COMMANDER PROFILE</h3>
                     <div class="flex items-center gap-4 mb-4">
                         <div class="w-14 h-14 rounded bg-black border border-brand-gold/30 p-1">
-                            <img src="../assets/images/Noyzzing.png" onerror="this.src='https://via.placeholder.com/60?text=CMDR'" class="w-full h-full object-cover" alt="Noyzzing">
+                            <img src="../assets/images/Noyzzing.png"
+                                onerror="this.src='https://via.placeholder.com/60?text=CMDR'"
+                                class="w-full h-full object-cover" alt="Noyzzing">
                         </div>
                         <div>
                             <p class="font-bold text-white text-sm">NOYZZING</p>
-                            <span class="text-[10px] text-brand-gold uppercase tracking-wider bg-brand-gold/10 px-1 rounded">Admin</span>
+                            <span
+                                class="text-[10px] text-brand-gold uppercase tracking-wider bg-brand-gold/10 px-1 rounded">Admin</span>
                         </div>
                     </div>
-                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">Delivering top-tier strategy and operational guides for the alliance community.</p>
+                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">Delivering top-tier strategy and operational
+                        guides for the alliance community.</p>
                     <div class="grid grid-cols-1 gap-2">
-                        <a href="#" class="bg-brand-dark hover:bg-brand-gold hover:text-black text-gray-300 text-center py-1.5 text-xs rounded transition-colors border border-brand-border">
+                        <a href="#"
+                            class="bg-brand-dark hover:bg-brand-gold hover:text-black text-gray-300 text-center py-1.5 text-xs rounded transition-colors border border-brand-border">
                             <i class="fa-brands fa-discord"></i> DISCORD
                         </a>
                     </div>
@@ -447,17 +546,38 @@
                         <i class="fa-solid fa-map-pin text-brand-gold mr-2"></i> JUMP TO SECTION
                     </h3>
                     <ul class="text-xs space-y-2">
-                        <li><a href="#introduction" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">1. Introduction & Safe Zones</a></li>
-                        <li><a href="#wonders" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">2. Wonders and Scoring</a></li>
-                        <li><a href="#dragon-cub-escort" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">3. Dragon Cub Escort</a></li>
-                        <li><a href="#combat" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">4. Combat Point Allocation</a></li>
-                        <li><a href="#event-phases" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">5. Event Phases</a></li>
-                        <li><a href="#troop-importance" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">6. Troop Doctrine (Quantity)</a></li>
-                        <li><a href="#healing-cost" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">7. Healing Cost & Recovery</a></li>
-                        <li><a href="#scouting" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">8. Super Rally Buff Failure</a></li>
-                        <li><a href="#attacking-strategy" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">9. Offensive Tactics</a></li>
-                        <li><a href="#safe-zone-strategy" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">10. Efficient Safe Zone Use</a></li>
-                        <li><a href="#personal-points-strategy" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">11. Personal Points (Green Attacks)</a></li>
+                        <li><a href="#introduction"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">1. Introduction
+                                & Safe Zones</a></li>
+                        <li><a href="#wonders"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">2. Wonders and
+                                Scoring</a></li>
+                        <li><a href="#dragon-cub-escort"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">3. Dragon Cub
+                                Escort</a></li>
+                        <li><a href="#combat" class="text-gray-400 hover:text-brand-gold transition-colors font-mono">4.
+                                Combat Point Allocation</a></li>
+                        <li><a href="#event-phases"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">5. Event
+                                Phases</a></li>
+                        <li><a href="#troop-importance"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">6. Troop
+                                Doctrine (Quantity)</a></li>
+                        <li><a href="#healing-cost"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">7. Healing Cost
+                                & Recovery</a></li>
+                        <li><a href="#scouting"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">8. Super Rally
+                                Buff Failure</a></li>
+                        <li><a href="#attacking-strategy"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">9. Offensive
+                                Tactics</a></li>
+                        <li><a href="#safe-zone-strategy"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">10. Efficient
+                                Safe Zone Use</a></li>
+                        <li><a href="#personal-points-strategy"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">11. Personal
+                                Points (Green Attacks)</a></li>
                     </ul>
                 </div>
 
@@ -470,11 +590,8 @@
         <!-- FOOTER AD -->
         <div class="container mx-auto px-4 mb-8">
             <div class="w-full flex justify-center bg-black border border-gray-800 p-2 rounded">
-                 <ins class="adsbygoogle"
-                     style="display:block; width: 100%; min-height: 90px;"
-                     data-ad-client="ca-pub-1115056295957658"
-                     data-ad-slot="10000003"
-                     data-ad-format="auto"></ins>
+                <ins class="adsbygoogle" style="display:block; width: 100%; min-height: 90px;"
+                    data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000003" data-ad-format="auto"></ins>
                 <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
         </div>
@@ -490,23 +607,27 @@
     </footer>
 
     <!-- CHATBOT FLOATING UI and SCRIPTS (Copied from Canvas) -->
-    <button id="open-chat-btn" class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
+    <button id="open-chat-btn"
+        class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
         <i class="fa-solid fa-robot"></i> <span class="hidden md:inline font-tech tracking-wide">NOYZBOT v3.0</span>
     </button>
 
     <!-- CHATBOX INTERFACE -->
-    <div id="chatbox" class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
+    <div id="chatbox"
+        class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
         <!-- Header -->
         <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
             <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
                 <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GEMINI ENHANCED)
             </div>
-            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i
+                    class="fa-solid fa-xmark"></i></button>
         </div>
-        
+
         <!-- Messages Area -->
         <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
-            <div class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
+            <div
+                class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
                 <span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>
                 Greetings Commander. NoyzBot v3.0 Online. Ready for strategy queries.
             </div>
@@ -515,15 +636,15 @@
         <!-- Input Area -->
         <div class="p-3 bg-black/50 border-t border-brand-border">
             <div class="flex gap-2">
-                <input type="text" id="user-input" placeholder="ASK ABOUT BOS SCORING OR TACTICS..." 
-                       class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
+                <input type="text" id="user-input" placeholder="ASK ABOUT BOS SCORING OR TACTICS..."
+                    class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
                 <button class="chat-send bg-brand-gold text-black px-3 font-bold hover:bg-yellow-400 transition-colors">
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
             </div>
         </div>
     </div>
-    
+
     <!-- JAVASCRIPT LOGIC (The complete, merged script) -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -531,7 +652,7 @@
             const apiKey = ""; // Runtime provided
 
             // === COST CONTROL SWITCH (SET TO TRUE FOR FREE, DUMBER BOT) ===
-            const USE_LOCAL_FALLBACK = false; 
+            const USE_LOCAL_FALLBACK = false;
 
             // UI Elements
             const elements = {
@@ -554,7 +675,7 @@
                 }
 
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-                
+
                 const payload = {
                     contents: [{ parts: [{ text: prompt }] }],
                     systemInstruction: { parts: [{ text: systemInstruction }] }
@@ -572,7 +693,7 @@
                         });
 
                         if (!response.ok) {
-                            if (response.status === 429) { 
+                            if (response.status === 429) {
                                 await new Promise(r => setTimeout(r, delay));
                                 delay *= 2;
                                 continue;
@@ -602,8 +723,8 @@
 
             // --- Chat System ---
             function initChat() {
-                if (!elements.chatbox) return; 
-                
+                if (!elements.chatbox) return;
+
                 elements.openBtn.addEventListener('click', toggleChat);
                 elements.closeBtn.addEventListener('click', toggleChat);
                 elements.sendBtn.addEventListener('click', sendMessage);
@@ -636,7 +757,7 @@
                     } else {
                         reply = await callGeminiAPI(text, systemPrompt);
                     }
-                    
+
                     document.getElementById(loadingId)?.remove();
                     addMessage(reply, 'bot');
                 } catch (error) {
@@ -647,16 +768,16 @@
 
             function addMessage(html, type, id = '') {
                 const div = document.createElement('div');
-                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user' 
-                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500' 
+                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user'
+                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500'
                     : 'bg-brand-panel text-gray-300 self-start rounded-tr-lg rounded-br-lg rounded-bl-lg border-brand-border'}`;
-                
+
                 if (id) div.id = id;
                 div.innerHTML = type === 'bot' ? `<span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>${html}` : html;
                 elements.messages.appendChild(div);
                 elements.messages.scrollTop = elements.messages.scrollHeight;
             }
-            
+
             // --- Helper: Smooth Scrolling ---
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -670,8 +791,8 @@
         });
     </script>
     <!-- Monetag Ads -->
-    <script src="https://quge5.com/88/tag.min.js" data-zone="191338" async data-cfasync="false"></script>
+    <script>(function (s) { s.dataset.zone = '10303259', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
 </body>
-</html>
 
+</html>

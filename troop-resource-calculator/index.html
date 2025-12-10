@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Advanced troop and resource calculator for Puzzles and Conquest. Calculate troops trained, resources needed, and required speed-ups precisely.">
-    <meta name="keywords" content="Puzzles and Conquest calculator, troop calculator, resource calculator, training speedup, might calculation">
-    
+    <meta name="description"
+        content="Advanced troop and resource calculator for Puzzles and Conquest. Calculate troops trained, resources needed, and required speed-ups precisely.">
+    <meta name="keywords"
+        content="Puzzles and Conquest calculator, troop calculator, resource calculator, training speedup, might calculation">
+
     <title>Troop & Resource Calculator - Tactical Command</title>
-    
+
     <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
     <!-- Google Analytics & AdSense -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658" crossorigin="anonymous"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
+        crossorigin="anonymous"></script>
 
     <!-- Tailwind Configuration (Consistent with Homepage) -->
     <script>
@@ -53,21 +59,23 @@
             background-color: #020617;
             color: #e2e8f0;
             font-family: 'Inter', sans-serif;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
                 linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
                 linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
             background-size: 100% 100%, 40px 40px, 40px 40px;
         }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
+
         .glow-text {
             text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
         }
-        
+
         /* Guide Hero */
         .guide-hero {
             padding: 60px 0;
@@ -75,11 +83,13 @@
             background: #0f172a;
             border-bottom: 1px solid #1e293b;
         }
+
         .guide-hero h2 {
             font-size: 3em;
             font-weight: 700;
             color: #fbbf24;
         }
+
         .guide-hero p {
             font-size: 1.1em;
             color: #94a3b8;
@@ -96,7 +106,8 @@
         }
 
         .calculator-tab {
-            background-color: rgba(72, 191, 227, 0.08); /* Light Blue Neon Accent */
+            background-color: rgba(72, 191, 227, 0.08);
+            /* Light Blue Neon Accent */
             color: #48bfe3;
             padding: 12px 20px;
             border: 1px solid #1e293b;
@@ -116,6 +127,7 @@
             border-color: #48bfe3;
             box-shadow: 0 0 15px rgba(72, 191, 227, 0.8);
         }
+
         .calculator-tab.active {
             background-color: #48bfe3;
             color: #020617;
@@ -132,7 +144,8 @@
         }
 
         .calculator h2 {
-            color: #fbbf24; /* Use Gold for Section Titles */
+            color: #fbbf24;
+            /* Use Gold for Section Titles */
             font-family: 'Rajdhani', sans-serif;
             font-size: 2rem;
             margin-bottom: 20px;
@@ -143,7 +156,7 @@
         .form-group {
             margin-bottom: 20px;
         }
-        
+
         label {
             display: block;
             margin-bottom: 5px;
@@ -162,7 +175,7 @@
             color: #e2e8f0;
             transition: border-color 0.2s;
         }
-        
+
         input[type="number"]:focus {
             outline: none;
             border-color: #fbbf24;
@@ -175,13 +188,14 @@
             padding: 15px;
             margin-bottom: 20px;
         }
+
         legend {
             color: #48bfe3;
             font-weight: 600;
             padding: 0 10px;
             font-family: 'Rajdhani', sans-serif;
         }
-        
+
         button#calculate-troops,
         button#calculate-resources,
         button#calculate-troops-from-resources,
@@ -199,7 +213,7 @@
             box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
             font-family: 'Rajdhani', sans-serif;
         }
-        
+
         button:hover {
             background-color: #fcd34d;
             box-shadow: 0 0 25px rgba(251, 191, 36, 0.8);
@@ -227,6 +241,7 @@
             font-weight: bold;
             font-family: 'Rajdhani', sans-serif;
         }
+
         .slider-info {
             color: #94a3b8;
             font-size: 0.8rem;
@@ -235,18 +250,19 @@
             border-left: 2px solid #48bfe3;
             padding-left: 8px;
         }
-        
+
         /* Mobile adjustments */
         @media (max-width: 768px) {
             .calculator-tabs {
                 flex-direction: column;
                 gap: 10px;
             }
+
             .calculator-tab {
                 width: 100%;
             }
         }
-        
+
         /* Footer Links (standard site style) */
         footer {
             background-color: #0f172a;
@@ -254,27 +270,32 @@
             margin-top: 60px;
             border-top: 1px solid #1e293b;
         }
+
         footer .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
         }
+
         footer p {
             color: #94a3b8;
             margin: 0;
             font-size: 0.9em;
         }
+
         .footer-links {
             display: flex;
             gap: 24px;
         }
+
         .footer-links a {
             color: #94a3b8;
             text-decoration: none;
             transition: color 0.2s ease;
             font-size: 0.9em;
         }
+
         .footer-links a:hover {
             color: #fbbf24;
         }
@@ -290,11 +311,17 @@
             animation: spin 1s linear infinite;
             display: inline-block;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        
+
         .chatbox {
             position: fixed;
             bottom: 80px;
@@ -312,9 +339,11 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             transition: all 0.3s ease;
         }
+
         .chatbox.hidden {
             display: none !important;
         }
+
         @media (max-width: 768px) {
             .chatbox {
                 bottom: 0;
@@ -324,38 +353,60 @@
                 border-radius: 0;
             }
         }
-        .message-anim { animation: fadeIn 0.3s ease forwards; }
+
+        .message-anim {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body class="flex flex-col min-h-screen">
 
     <!-- NAVIGATION BAR -->
     <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
         <div class="container mx-auto px-4 py-3">
             <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                
+
                 <!-- Brand Logo -->
                 <a href="../index.html" class="flex items-center gap-3 group">
-                    <div class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
-                        <img src="../assets/images/noyzzing-logo.png" onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity"></div>
+                    <div
+                        class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
+                        <img src="../assets/images/noyzzing-logo.png"
+                            onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity">
+                        </div>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span class="text-brand-gold glow-text">ZZING</span></h1>
+                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span
+                                class="text-brand-gold glow-text">ZZING</span></h1>
                     </div>
                 </a>
 
                 <!-- Nav Menu -->
                 <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
-                    <ul class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
+                    <ul
+                        class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
                         <li><a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
-                        <li><a href="../military-expedition-guide/index.html" class="hover:text-brand-gold transition-colors">MILITARY</a></li>
-                        <li><a href="#" class="text-brand-gold hover:text-brand-gold transition-colors">CALCULATOR</a></li>
-                        <li><a href="../battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a></li>
+                        <li><a href="../military-expedition-guide/index.html"
+                                class="hover:text-brand-gold transition-colors">MILITARY</a></li>
+                        <li><a href="#" class="text-brand-gold hover:text-brand-gold transition-colors">CALCULATOR</a>
+                        </li>
+                        <li><a href="../battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a>
+                        </li>
                     </ul>
                 </nav>
 
@@ -403,7 +454,8 @@
                         <input type="range" id="buff-slider" min="0" max="1000" step="1" value="0">
                         <span id="buff-value">0%</span>
                         <p class="slider-info">
-                            During the Military Expedition event, buffs can be high. For example, if you have a 300% buff from the event and an additional 30% buff, set the slider to <strong>330%</strong>.
+                            During the Military Expedition event, buffs can be high. For example, if you have a 300%
+                            buff from the event and an additional 30% buff, set the slider to <strong>330%</strong>.
                         </p>
                     </div>
                     <div class="form-group">
@@ -413,7 +465,7 @@
                     <fieldset>
                         <legend>Speed-Ups Available</legend>
                         <div class="grid grid-cols-2 gap-4">
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="1hr-speedups">1-Hour:</label>
                                 <input type="number" id="1hr-speedups" value="10">
                             </div>
@@ -468,7 +520,8 @@
                         <input type="range" id="resource-buff" min="0" max="50" step="1" value="0">
                         <span id="resource-buff-value">0%</span>
                     </div>
-                    <button type="button" onclick="calculateResourcesNeeded()" id="calculate-resources">Calculate Resources</button>
+                    <button type="button" onclick="calculateResourcesNeeded()" id="calculate-resources">Calculate
+                        Resources</button>
                 </form>
                 <div id="resource-needed-result" class="result"></div>
             </section>
@@ -513,7 +566,8 @@
                         <input type="range" id="produce-resource-buff" min="0" max="50" step="1" value="0">
                         <span id="produce-resource-buff-value">0%</span>
                     </div>
-                    <button type="button" onclick="calculateTroopsFromResources()" id="calculate-troops-from-resources">Calculate Troops</button>
+                    <button type="button" onclick="calculateTroopsFromResources()"
+                        id="calculate-troops-from-resources">Calculate Troops</button>
                 </form>
                 <div id="resource-produce-result" class="result"></div>
             </section>
@@ -537,7 +591,8 @@
                         <label for="batch-time-minutes">Batch Time (Minutes):</label>
                         <input type="number" id="batch-time-minutes" required value="0">
                     </div>
-                    <button type="button" onclick="calculateSpeedUps()" id="calculate-speedups">Calculate Speed-Ups</button>
+                    <button type="button" onclick="calculateSpeedUps()" id="calculate-speedups">Calculate
+                        Speed-Ups</button>
                 </form>
                 <div id="speedup-result" class="result"></div>
             </section>
@@ -555,25 +610,29 @@
             </nav>
         </div>
     </footer>
-    
+
     <!-- CHATBOT FLOATING UI and SCRIPTS (Consistent across all pages) -->
-    <button id="open-chat-btn" class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
+    <button id="open-chat-btn"
+        class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
         <i class="fa-solid fa-robot"></i> <span class="hidden md:inline font-tech tracking-wide">NOYZBOT v3.0</span>
     </button>
 
     <!-- CHATBOX INTERFACE -->
-    <div id="chatbox" class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
+    <div id="chatbox"
+        class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
         <!-- Header -->
         <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
             <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
                 <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GEMINI ENHANCED)
             </div>
-            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i
+                    class="fa-solid fa-xmark"></i></button>
         </div>
-        
+
         <!-- Messages Area -->
         <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
-            <div class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
+            <div
+                class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
                 <span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>
                 Greetings Commander. NoyzBot v3.0 Online. Ready for strategy queries.
             </div>
@@ -582,8 +641,8 @@
         <!-- Input Area -->
         <div class="p-3 bg-black/50 border-t border-brand-border">
             <div class="flex gap-2">
-                <input type="text" id="user-input" placeholder="ASK ABOUT CALCULATOR DATA OR TIPS..." 
-                       class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
+                <input type="text" id="user-input" placeholder="ASK ABOUT CALCULATOR DATA OR TIPS..."
+                    class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
                 <button class="chat-send bg-brand-gold text-black px-3 font-bold hover:bg-yellow-400 transition-colors">
                     <i class="fa-solid fa-chevron-right"></i>
                 </button>
@@ -768,7 +827,7 @@
         }
 
         // === DOM AND CHAT LOGIC ===
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Get all calculator sections
             const calculators = {
                 troop: document.getElementById('troop-calculator'),
@@ -782,7 +841,7 @@
 
             // Add click event listeners to all tab buttons
             tabButtons.forEach(button => {
-                button.addEventListener('click', function() {
+                button.addEventListener('click', function () {
                     // Remove active class from all buttons
                     tabButtons.forEach(btn => btn.classList.remove('active'));
                     // Add active class to clicked button
@@ -829,7 +888,7 @@
             const apiKey = ""; // Runtime provided
 
             // === COST CONTROL SWITCH (SET TO TRUE FOR FREE, DUMBER BOT) ===
-            const USE_LOCAL_FALLBACK = false; 
+            const USE_LOCAL_FALLBACK = false;
 
             // UI Elements
             const elements = {
@@ -852,7 +911,7 @@
                 }
 
                 const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-                
+
                 const payload = {
                     contents: [{ parts: [{ text: prompt }] }],
                     systemInstruction: { parts: [{ text: systemInstruction }] }
@@ -870,7 +929,7 @@
                         });
 
                         if (!response.ok) {
-                            if (response.status === 429) { 
+                            if (response.status === 429) {
                                 await new Promise(r => setTimeout(r, delay));
                                 delay *= 2;
                                 continue;
@@ -899,8 +958,8 @@
 
             // --- Chat System ---
             function initChat() {
-                if (!elements.chatbox) return; 
-                
+                if (!elements.chatbox) return;
+
                 elements.openBtn.addEventListener('click', toggleChat);
                 elements.closeBtn.addEventListener('click', toggleChat);
                 elements.sendBtn.addEventListener('click', sendMessage);
@@ -934,7 +993,7 @@
                     } else {
                         reply = await callGeminiAPI(text, systemPrompt);
                     }
-                    
+
                     document.getElementById(loadingId)?.remove();
                     addMessage(reply, 'bot');
                 } catch (error) {
@@ -945,16 +1004,16 @@
 
             function addMessage(html, type, id = '') {
                 const div = document.createElement('div');
-                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user' 
-                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500' 
+                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user'
+                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500'
                     : 'bg-brand-panel text-gray-300 self-start rounded-tr-lg rounded-br-lg rounded-bl-lg border-brand-border'}`;
-                
+
                 if (id) div.id = id;
                 div.innerHTML = type === 'bot' ? `<span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>${html}` : html;
                 elements.messages.appendChild(div);
                 elements.messages.scrollTop = elements.messages.scrollHeight;
             }
-            
+
             // --- Helper: Smooth Scrolling ---
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -968,8 +1027,8 @@
         });
     </script>
     <!-- Monetag Ads -->
-    <script src="https://quge5.com/88/tag.min.js" data-zone="191338" async data-cfasync="false"></script>
+    <script>(function (s) { s.dataset.zone = '10303259', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 
 </body>
-</html>
 
+</html>
