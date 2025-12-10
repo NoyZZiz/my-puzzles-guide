@@ -1779,7 +1779,7 @@
             <div class="menu-item heroes" onclick="showScreen('heroesScreen')">
                 <div class="menu-icon-text">H</div>
                 <div class="menu-label">My Heroes</div>
-                <div class="menu-status">0 Heroes</div>
+                <div class="menu-status" id="homeHeroCount">0 Heroes</div>
             </div>
 
             <div class="menu-item gym" onclick="goToGym()">
@@ -2296,6 +2296,10 @@
             document.getElementById('homeGymBadges').textContent = gameState.badges;
             document.getElementById('homeTRCoins').textContent = gameState.trCoins;
             document.getElementById('homeAlliance').textContent = gameState.alliance || 'ROL';
+
+            // Update hero count
+            const heroCount = gameState.heroes.length;
+            document.getElementById('homeHeroCount').textContent = heroCount + ' Hero' + (heroCount !== 1 ? 'es' : '');
 
             // Update avatar to selected trainer image
             if (gameState.trainer) {
