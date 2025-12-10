@@ -3034,27 +3034,40 @@
             }
 
             function showSummonResult(hero) {
-                // Populate modal
-                document.getElementById('summonHeroImg').src = hero.image;
-                document.getElementById('summonHeroName').textContent = hero.name;
-                document.getElementById('summonRarity').textContent = hero.rarity.toUpperCase();
-                document.getElementById('summonHeroType').textContent = hero.type + ' Type';
-                document.getElementById('summonHP').textContent = hero.hp;
-                document.getElementById('summonATK').textContent = hero.attack;
-                document.getElementById('summonDEF').textContent = hero.defense;
+                try {
+                    console.log('showSummonResult called with:', hero);
+                    // Populate modal
+                    document.getElementById('summonHeroImg').src = hero.image;
+                    document.getElementById('summonHeroName').textContent = hero.name;
+                    document.getElementById('summonRarity').textContent = hero.rarity.toUpperCase();
+                    document.getElementById('summonHeroType').textContent = hero.type + ' Type';
+                    document.getElementById('summonHP').textContent = hero.hp;
+                    document.getElementById('summonATK').textContent = hero.attack;
+                    document.getElementById('summonDEF').textContent = hero.defense;
 
-                // Reset animation by forcing reflow
-                const heroImg = document.getElementById('summonHeroImg');
-                const modal = document.getElementById('summonModal');
-                heroImg.style.animation = 'none';
-                heroImg.offsetHeight; // Trigger reflow
-                heroImg.style.animation = null;
+                    // Reset animation by forcing reflow
+                    const heroImg = document.getElementById('summonHeroImg');
+                    const modal = document.getElementById('summonModal');
+                    if (heroImg) {
+                        heroImg.style.animation = 'none';
+                        heroImg.offsetHeight; // Trigger reflow
+                        heroImg.style.animation = null;
+                    }
 
-                // Show modal
-                modal.style.display = 'flex';
+                    // Show modal
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        console.log('Summon modal shown');
+                    } else {
+                        console.error('summonModal not found!');
+                    }
 
-                // Update home screen in background
-                updateHomeScreen();
+                    // Update home screen in background
+                    updateHomeScreen();
+                } catch (e) {
+                    console.error('Error in showSummonResult:', e);
+                    alert('Error showing summon result: ' + e.message);
+                }
             }
 
             function closeSummonModal() {
@@ -3122,24 +3135,40 @@
             };
 
             function openBattleSelect() {
-                const grid = document.getElementById('battleHeroGrid');
-                const noHeroes = document.getElementById('noHeroesForBattle');
+                try {
+                    console.log('openBattleSelect called');
+                    const grid = document.getElementById('battleHeroGrid');
+                    const noHeroes = document.getElementById('noHeroesForBattle');
+                    const modal = document.getElementById('battleSelectModal');
 
-                if (gameState.heroes.length === 0) {
-                    grid.style.display = 'none';
-                    noHeroes.style.display = 'block';
-                } else {
-                    noHeroes.style.display = 'none';
-                    grid.style.display = 'grid';
-                    grid.innerHTML = gameState.heroes.map((hero, i) => `
-                    <div class="battle-hero-option" onclick="selectHeroForBattle(${i})">
-                        <img src="${hero.image}" alt="${hero.name}">
-                        <div class="hero-name">${hero.name}</div>
-                        <div class="hero-lvl">Lv.${hero.level}</div>
-                    </div>
-                `).join('');
+                    console.log('Elements:', { grid: !!grid, noHeroes: !!noHeroes, modal: !!modal });
+
+                    if (gameState.heroes.length === 0) {
+                        if (grid) grid.style.display = 'none';
+                        if (noHeroes) noHeroes.style.display = 'block';
+                    } else {
+                        if (noHeroes) noHeroes.style.display = 'none';
+                        if (grid) {
+                            grid.style.display = 'grid';
+                            grid.innerHTML = gameState.heroes.map((hero, i) => `
+                            <div class="battle-hero-option" onclick="selectHeroForBattle(${i})">
+                                <img src="${hero.image}" alt="${hero.name}">
+                                <div class="hero-name">${hero.name}</div>
+                                <div class="hero-lvl">Lv.${hero.level}</div>
+                            </div>
+                        `).join('');
+                        }
+                    }
+                    if (modal) {
+                        modal.style.display = 'flex';
+                        console.log('Battle select modal shown');
+                    } else {
+                        console.error('battleSelectModal not found!');
+                    }
+                } catch (e) {
+                    console.error('Error in openBattleSelect:', e);
+                    alert('Error opening battle: ' + e.message);
                 }
-                document.getElementById('battleSelectModal').style.display = 'flex';
             }
 
             function closeBattleSelect() {
