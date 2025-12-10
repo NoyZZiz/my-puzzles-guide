@@ -3054,12 +3054,19 @@
                         heroImg.style.animation = null;
                     }
 
-                    // Show modal
+                    // Show modal with forced visibility
                     if (modal) {
                         modal.style.display = 'flex';
-                        console.log('Summon modal shown');
+                        modal.style.visibility = 'visible';
+                        modal.style.opacity = '1';
+                        modal.style.zIndex = '9999';
+                        modal.classList.remove('hidden');
+                        console.log('Summon modal shown - style.display is now:', modal.style.display);
+                        // Force alert to confirm this code runs
+                        alert('Hero summoned: ' + hero.name + '! (Tap OK to continue)');
                     } else {
                         console.error('summonModal not found!');
+                        alert('ERROR: Modal not found!');
                     }
 
                     // Update home screen in background
