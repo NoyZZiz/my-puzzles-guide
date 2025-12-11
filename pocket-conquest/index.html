@@ -2900,13 +2900,7 @@
             gameState.username = username;
             gameState.trainerName = username.toUpperCase();
             gameState.alliance = alliance;
-            // Special Tester Access
-            if (username.toLowerCase() === 'noyzzing' && alliance === 'ROL') {
-                gameState.trCoins = 100; // Tester bonus
-                showMessage('Tester Access Granted! +100 TR Coins');
-            } else {
-                gameState.trCoins = 1; // Standard starter bonus
-            }
+            gameState.trCoins = 1; // Standard starter bonus
 
             // No fake heroes - wait for user to provide real hero images
             // Heroes will be added via Time Recruit when we have the assets
@@ -4804,7 +4798,7 @@
 
         // DEV MODE - Give Noyzzing all Chapter 1 heroes at high levels
         function devModeForNoyzzing() {
-            if (gameState.trainerName !== 'Noyzzing') {
+            if (gameState.trainerName.toUpperCase() !== 'NOYZZING') {
                 console.log('Dev mode only for Noyzzing!');
                 return;
             }
