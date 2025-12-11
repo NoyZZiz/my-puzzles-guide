@@ -901,6 +901,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
+            z-index: 10;
         }
 
         .back-btn:hover {
@@ -3099,24 +3100,36 @@
                         name: 'Harald',
                         type: 'Fire',
                         image: 'assets/heroes/harald.png',
-                        level: 130,
+                        level: 20,
                         baseHp: 130,
-                        baseAtk: 48,
-                        baseDef: 35,
+                        baseAtk: 42,
+                        baseDef: 28,
                         attacks: [
-                            { name: 'Lava Axe', damage: 35, type: 'Fire' },
+                            { name: 'Lava Axe', damage: 30, type: 'Fire' },
                             { name: 'Molten Shield', damage: 0, type: 'Buff', effect: 'DEF +30%' },
-                            { name: 'Magma Slam', damage: 40, type: 'Fire', effect: 'Burn' },
-                            { name: 'Volcanic Eruption', damage: 55, type: 'Fire', effect: 'Ultimate' }
+                            { name: 'Magma Slam', damage: 35, type: 'Fire', effect: 'Burn' },
+                            { name: 'Volcanic Eruption', damage: 45, type: 'Fire', effect: 'Ultimate' }
                         ]
                     },
                     {
-                        ...wildHeroes.find(h => h.id === 'malice'),
-                        level: 130
+                        id: 'malice',
+                        name: 'Malice',
+                        type: 'Fire',
+                        image: 'assets/heroes/malice.png',
+                        level: 25,
+                        baseHp: 160,
+                        baseAtk: 55,
+                        baseDef: 40,
+                        attacks: [
+                            { name: 'Lava Fist', damage: 35, type: 'Fire', effect: 'Burn' },
+                            { name: 'Demon Crush', damage: 40, type: 'Physical', effect: 'Stun' },
+                            { name: 'Hellforge', damage: 0, type: 'Buff', effect: 'ATK +50%' },
+                            { name: 'Infernal Wrath', damage: 60, type: 'Fire', effect: 'Ultimate' }
+                        ]
                     }
                 ],
                 badge: 'Flame Badge',
-                reward: { trCoins: 5, xp: 100 }
+                reward: { trCoins: 10, xp: 200 }
             }
         ];
 
@@ -3263,9 +3276,24 @@
 
             const gym = gymState.currentGym;
 
-            // Build player team
+            // Build player team with properly computed stats
             gymState.playerTeam = gymState.selectedHeroIndices.map(i => {
-                const hero = { ...gameState.heroes[i] };
+                const savedHero = gameState.heroes[i];
+                const hero = { ...savedHero };
+
+                // Ensure stats are properly set (fallback for old saves)
+                if (!hero.attack || !hero.defense) {
+                    // Find base stats from hero database
+                    const baseData = [...starterHeroes, ...wildHeroes].find(h => h.id === hero.id);
+                    if (baseData) {
+                        const levelBonus = (hero.level || 1) - 1;
+                        hero.hp = baseData.baseHp + (levelBonus * 3);
+                        hero.maxHp = hero.hp;
+                        hero.attack = baseData.baseAtk + (levelBonus * 2);
+                        hero.defense = baseData.baseDef + (levelBonus * 1);
+                    }
+                }
+
                 hero.maxHp = hero.hp;
                 return hero;
             });
@@ -3346,6 +3374,35 @@
             });
         }
 
+        // Type Effectiveness Chart - returns multiplier (1.5 = super effective, 0.75 = not effective, 1 = neutral)
+        function getTypeEffectiveness(attackType, defenderType) {
+            const typeChart = {
+                'Fire': { 'Nature': 1.5, 'Ice': 1.5, 'Wind': 0.75, 'Fire': 0.75 },
+                'Ice': { 'Nature': 1.5, 'Wind': 1.5, 'Fire': 0.75, 'Steel': 0.75 },
+                'Wind': { 'Fire': 1.5, 'Arcane': 1.25, 'Nature': 0.75, 'Ice': 0.5 },
+                'Nature': { 'Wind': 1.5, 'Steel': 1.25, 'Fire': 0.5, 'Ice': 0.5 },
+                'Light': { 'Dark': 1.75, 'Arcane': 0.75 },
+                'Dark': { 'Light': 1.75, 'Arcane': 1.25, 'Steel': 0.75 },
+                'Arcane': { 'Steel': 1.5, 'Nature': 1.25 },
+                'Physical': { 'Arcane': 1.25, 'Light': 0.75 },
+                'Steel': { 'Ice': 1.5, 'Nature': 1.25, 'Fire': 0.5 }
+            };
+
+            if (typeChart[attackType] && typeChart[attackType][defenderType]) {
+                return typeChart[attackType][defenderType];
+            }
+            return 1.0; // Neutral
+        }
+
+        // Get message for type effectiveness
+        function getTypeMessage(multiplier) {
+            if (multiplier >= 1.5) return "It's super effective! 💥";
+            if (multiplier >= 1.25) return "It's effective!";
+            if (multiplier <= 0.5) return "It's not very effective... 🛡️";
+            if (multiplier <= 0.75) return "It's resisted.";
+            return null;
+        }
+
         function addGymBattleLog(message) {
             const log = document.getElementById('gymBattleLog');
             log.innerHTML += '<p>' + message + '</p>';
@@ -3359,15 +3416,50 @@
             const currentPlayer = gymState.playerTeam[gymState.playerIndex];
             const currentEnemy = gymState.enemyTeam[gymState.enemyIndex];
             const attack = currentPlayer.attacks[index];
+            const attackType = attack.type;
 
-            // Apply damage with balanced formula
-            // Base damage = attack damage + attacker's attack stat
-            // Defense reduces damage by percentage (capped at 80% reduction)
-            const baseDamage = attack.damage + currentPlayer.attack;
-            const defenseReduction = Math.min(0.8, currentEnemy.defense / (currentEnemy.defense + 100));
-            const damage = Math.max(1, Math.floor(baseDamage * (1 - defenseReduction)));
-            gymState.enemyCurrentHp[gymState.enemyIndex] -= damage;
-            addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! -' + damage + ' HP');
+            // Handle different attack types
+            if (attackType === 'Heal') {
+                const healAmount = parseInt(attack.effect?.match(/\d+/)?.[0]) || 30;
+                const oldHp = gymState.playerCurrentHp[gymState.playerIndex];
+                gymState.playerCurrentHp[gymState.playerIndex] = Math.min(currentPlayer.maxHp, oldHp + healAmount);
+                const actualHeal = gymState.playerCurrentHp[gymState.playerIndex] - oldHp;
+                addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
+            } else if (attackType === 'Buff') {
+                const boost = Math.ceil(currentPlayer.attack * 0.15);
+                currentPlayer.attack += boost;
+                addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! ATK +' + boost + '!');
+            } else if (attackType === 'Debuff') {
+                const reduction = Math.ceil(currentEnemy.attack * 0.10);
+                currentEnemy.attack = Math.max(1, currentEnemy.attack - reduction);
+                addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! Enemy ATK -' + reduction + '!');
+            } else {
+                // Normal damage attack - apply type effectiveness
+                const typeMultiplier = getTypeEffectiveness(attackType, currentEnemy.type);
+                const baseDamage = attack.damage + currentPlayer.attack;
+                const defenseReduction = Math.min(0.8, currentEnemy.defense / (currentEnemy.defense + 100));
+                const rawDamage = baseDamage * (1 - defenseReduction);
+                const damage = Math.max(1, Math.floor(rawDamage * typeMultiplier));
+                gymState.enemyCurrentHp[gymState.enemyIndex] -= damage;
+                addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! -' + damage + ' HP');
+
+                // Show type effectiveness message
+                const typeMsg = getTypeMessage(typeMultiplier);
+                if (typeMsg) addGymBattleLog(typeMsg);
+
+                // Check for status effects
+                if (attack.effect) {
+                    if (attack.effect.includes('Burn')) {
+                        addGymBattleLog('🔥 ' + currentEnemy.name + ' is burning!');
+                    } else if (attack.effect.includes('Stun')) {
+                        addGymBattleLog('⚡ ' + currentEnemy.name + ' is stunned!');
+                    } else if (attack.effect.includes('Poison')) {
+                        addGymBattleLog('☠️ ' + currentEnemy.name + ' is poisoned!');
+                    } else if (attack.effect.includes('Slow')) {
+                        addGymBattleLog('🐢 ' + currentEnemy.name + ' is slowed!');
+                    }
+                }
+            }
 
             updateGymBattleUI();
             updateGymRosters();
@@ -3400,12 +3492,50 @@
             // Pick random attack
             const attack = currentEnemy.attacks[Math.floor(Math.random() * currentEnemy.attacks.length)];
 
-            // Apply damage with balanced formula
-            const baseDamage = attack.damage + currentEnemy.attack;
-            const defenseReduction = Math.min(0.8, currentPlayer.defense / (currentPlayer.defense + 100));
-            const damage = Math.max(1, Math.floor(baseDamage * (1 - defenseReduction)));
-            gymState.playerCurrentHp[gymState.playerIndex] -= damage;
-            addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
+            // Handle different attack types
+            if (attack.type === 'Heal') {
+                // Enemy heals themselves
+                const healAmount = attack.damage || 20;
+                gymState.enemyCurrentHp[gymState.enemyIndex] = Math.min(
+                    currentEnemy.maxHp,
+                    gymState.enemyCurrentHp[gymState.enemyIndex] + healAmount
+                );
+                addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! Healed +' + healAmount + ' HP');
+            } else if (attack.type === 'Buff') {
+                // Enemy buffs their attack
+                const buffAmount = Math.floor(currentEnemy.attack * 0.15);
+                currentEnemy.attack += buffAmount;
+                addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! ATK increased!');
+            } else if (attack.type === 'Debuff') {
+                // Enemy debuffs player
+                const debuffAmount = Math.floor(currentPlayer.attack * 0.10);
+                currentPlayer.attack = Math.max(1, currentPlayer.attack - debuffAmount);
+                addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! Your ATK decreased!');
+            } else {
+                // Regular damage attack with type effectiveness
+                const typeMultiplier = getTypeEffectiveness(attack.type, currentPlayer.type);
+                const baseDamage = attack.damage + currentEnemy.attack;
+                const defenseReduction = Math.min(0.8, currentPlayer.defense / (currentPlayer.defense + 100));
+                const rawDamage = baseDamage * (1 - defenseReduction);
+                const damage = Math.max(1, Math.floor(rawDamage * typeMultiplier));
+                gymState.playerCurrentHp[gymState.playerIndex] -= damage;
+                addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
+
+                // Show type effectiveness message
+                const typeMsg = getTypeMessage(typeMultiplier);
+                if (typeMsg) addGymBattleLog(typeMsg);
+
+                // Handle status effects from enemy attacks
+                if (attack.effect) {
+                    if (attack.effect.includes('Burn')) {
+                        addGymBattleLog('🔥 You are burning!');
+                    } else if (attack.effect.includes('Stun')) {
+                        addGymBattleLog('⚡ You are stunned!');
+                    } else if (attack.effect.includes('Poison')) {
+                        addGymBattleLog('☠️ You are poisoned!');
+                    }
+                }
+            }
 
             updateGymBattleUI();
             updateGymRosters();
@@ -3584,8 +3714,8 @@
             const existingHero = gameState.heroes.find(h => h.id === heroData.id);
 
             if (existingHero) {
-                // DUPLICATE: Convert to XP
-                const xpAmount = 80;
+                // DUPLICATE: Convert to XP (generous amount for progression)
+                const xpAmount = 150;
                 existingHero.xp = (existingHero.xp || 0) + xpAmount;
 
                 // Check for level up immediately
