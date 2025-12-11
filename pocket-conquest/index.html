@@ -3181,11 +3181,98 @@
                     { name: 'Wild Fury', damage: 58, type: 'Nature', effect: 'Ultimate' }
                 ]
             },
+            // ===== CHAPTER 2 HEROES (Rare - 4★) =====
+            {
+                id: 'deedoe',
+                name: 'Deedoe',
+                type: 'Nature',
+                rarity: 'Rare',
+                chapter: 2,
+                image: 'assets/heroes/deedoe.png',
+                baseHp: 180,
+                baseAtk: 58,
+                baseDef: 40,
+                attacks: [
+                    { name: 'Antler Charge', damage: 40, type: 'Nature', effect: 'Knockback' },
+                    { name: 'Forest Blessing', damage: 0, type: 'Heal', effect: 'Heal 50 HP' },
+                    { name: 'Verdant Aura', damage: 0, type: 'Buff', effect: 'DEF +50%' },
+                    { name: 'Spirit of the Grove', damage: 68, type: 'Nature', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'toke',
+                name: 'Toke',
+                type: 'Light',
+                rarity: 'Rare',
+                chapter: 2,
+                image: 'assets/heroes/toke.png',
+                baseHp: 200,
+                baseAtk: 55,
+                baseDef: 48,
+                attacks: [
+                    { name: 'Golden Axe', damage: 42, type: 'Physical', effect: 'Armor Break' },
+                    { name: 'Shield Bash', damage: 35, type: 'Physical', effect: 'Stun' },
+                    { name: 'Lion\'s Guard', damage: 0, type: 'Buff', effect: 'DEF +60%' },
+                    { name: 'Lion\'s Roar', damage: 65, type: 'Light', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'apollo',
+                name: 'Apollo',
+                type: 'Light',
+                rarity: 'Rare',
+                chapter: 2,
+                image: 'assets/heroes/apollo.png',
+                baseHp: 155,
+                baseAtk: 65,
+                baseDef: 32,
+                attacks: [
+                    { name: 'Sun Bolt', damage: 45, type: 'Light' },
+                    { name: 'Radiant Heal', damage: 0, type: 'Heal', effect: 'Heal 40 HP' },
+                    { name: 'Solar Blessing', damage: 0, type: 'Buff', effect: 'ATK +50%' },
+                    { name: 'Solar Flare', damage: 72, type: 'Light', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'fuga',
+                name: 'Fuga',
+                type: 'Wind',
+                rarity: 'Rare',
+                chapter: 2,
+                image: 'assets/heroes/fuga.png',
+                baseHp: 145,
+                baseAtk: 62,
+                baseDef: 28,
+                attacks: [
+                    { name: 'Talon Slash', damage: 38, type: 'Wind' },
+                    { name: 'Feather Storm', damage: 42, type: 'Wind', effect: 'Blind 2 turns' },
+                    { name: 'Wind Rush', damage: 0, type: 'Buff', effect: 'ATK +50%' },
+                    { name: 'Tempest Dive', damage: 70, type: 'Wind', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'regina',
+                name: 'Regina',
+                type: 'Ice',
+                rarity: 'Rare',
+                chapter: 2,
+                image: 'assets/heroes/regina.png',
+                baseHp: 165,
+                baseAtk: 56,
+                baseDef: 38,
+                attacks: [
+                    { name: 'Tidal Wave', damage: 40, type: 'Ice' },
+                    { name: 'Siren\'s Song', damage: 0, type: 'Debuff', effect: 'Confuse 2 turns' },
+                    { name: 'Ocean\'s Embrace', damage: 0, type: 'Heal', effect: 'Heal 45 HP' },
+                    { name: 'Frozen Depths', damage: 68, type: 'Ice', effect: 'Ultimate' }
+                ]
+            },
+            // ===== BOSS HEROES =====
             {
                 id: 'malice',
                 name: 'Malice',
                 type: 'Fire',
-                rarity: 'Uncommon',
+                rarity: 'Rare',
                 image: 'assets/heroes/malice.png',
                 baseHp: 150,
                 baseAtk: 60,
@@ -3195,6 +3282,42 @@
                     { name: 'Demon Crush', damage: 42, type: 'Physical', effect: 'Stun' },
                     { name: 'Hellforge', damage: 0, type: 'Buff', effect: 'ATK +50%' },
                     { name: 'Infernal Wrath', damage: 70, type: 'Fire', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'yune',
+                name: 'Yune',
+                type: 'Arcane',
+                rarity: 'Rare',
+                chapter: 2,
+                boss: true,
+                image: 'assets/heroes/yune.png',
+                baseHp: 180,
+                baseAtk: 68,
+                baseDef: 42,
+                attacks: [
+                    { name: 'Fox Fire', damage: 45, type: 'Arcane', effect: 'Burn 3 turns' },
+                    { name: 'Spirit Drain', damage: 38, type: 'Dark', effect: 'Lifesteal 50%' },
+                    { name: 'Nine Tails', damage: 0, type: 'Buff', effect: 'ATK +60%' },
+                    { name: 'Celestial Storm', damage: 95, type: 'Arcane', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'yune-fox-spirit',
+                name: 'Yune (Fox Spirit)',
+                type: 'Arcane',
+                rarity: 'Rare',
+                chapter: 2,
+                boss: true,
+                image: 'assets/heroes/yune-fox-spirit.png',
+                baseHp: 195,
+                baseAtk: 75,
+                baseDef: 45,
+                attacks: [
+                    { name: 'Spirit Flame', damage: 52, type: 'Arcane', effect: 'Burn 3 turns' },
+                    { name: 'Soul Siphon', damage: 45, type: 'Dark', effect: 'Lifesteal 60%' },
+                    { name: 'Divine Nine Tails', damage: 0, type: 'Buff', effect: 'ATK +70%' },
+                    { name: 'Ascended Storm', damage: 110, type: 'Arcane', effect: 'Ultimate' }
                 ]
             }
         ];
@@ -3242,7 +3365,50 @@
                     }
                 ],
                 badge: 'Flame Badge',
-                reward: { trCoins: 10, xp: 200 }
+                reward: { trCoins: 10, xp: 2000 }
+            },
+            {
+                id: 2,
+                name: 'Arionna',
+                title: 'The Fox Spirit Summoner',
+                image: 'assets/gym_leaders/arionna.png',
+                introVideo: 'assets/cutscenes/gym2_intro.mp4',
+                heroes: [
+                    {
+                        id: 'yune',
+                        name: 'Yune',
+                        type: 'Arcane',
+                        image: 'assets/heroes/yune.png',
+                        level: 210,
+                        baseHp: 180,
+                        baseAtk: 68,
+                        baseDef: 42,
+                        attacks: [
+                            { name: 'Fox Fire', damage: 45, type: 'Arcane', effect: 'Burn 3 turns' },
+                            { name: 'Spirit Drain', damage: 38, type: 'Dark', effect: 'Lifesteal 50%' },
+                            { name: 'Nine Tails', damage: 0, type: 'Buff', effect: 'ATK +60%' },
+                            { name: 'Celestial Storm', damage: 95, type: 'Arcane', effect: 'Ultimate' }
+                        ]
+                    },
+                    {
+                        id: 'yune-fox-spirit',
+                        name: 'Yune (Fox Spirit)',
+                        type: 'Arcane',
+                        image: 'assets/heroes/yune-fox-spirit.png',
+                        level: 210,
+                        baseHp: 195,
+                        baseAtk: 75,
+                        baseDef: 45,
+                        attacks: [
+                            { name: 'Spirit Flame', damage: 52, type: 'Arcane', effect: 'Burn 3 turns' },
+                            { name: 'Soul Siphon', damage: 45, type: 'Dark', effect: 'Lifesteal 60%' },
+                            { name: 'Divine Nine Tails', damage: 0, type: 'Buff', effect: 'ATK +70%' },
+                            { name: 'Ascended Storm', damage: 110, type: 'Arcane', effect: 'Ultimate' }
+                        ]
+                    }
+                ],
+                badge: 'Spirit Badge',
+                reward: { trCoins: 15, xp: 6000 }
             }
         ];
 
@@ -3461,6 +3627,15 @@
                     { speaker: 'Shelak', text: 'My legendary MALICE will crush your pathetic heroes!' },
                     { speaker: playerName, text: 'Less talking, more burning... or should I say, LOSING! 😏' },
                     { speaker: 'Shelak', text: 'ENOUGH! Let\'s see if you can handle the HEAT! 🔥🔥🔥' }
+                ],
+                2: [
+                    { speaker: 'Arionna', text: '*giggles* Oh my... another challenger? How... amusing. 🦊' },
+                    { speaker: 'Arionna', text: 'I am Arionna, the Fox Spirit Summoner. You\'ve done well to reach me.' },
+                    { speaker: playerName, text: 'I beat the Flame Warden. Your fox spirits don\'t scare me!' },
+                    { speaker: 'Arionna', text: 'Shelak? That hot-headed fool? My Yune would devour him in seconds!' },
+                    { speaker: playerName, text: 'Then I\'ll just have to devour YOUR Yune! 😤' },
+                    { speaker: 'Arionna', text: '*laughs* Such confidence! My spirits love the taste of overconfident souls...' },
+                    { speaker: 'Arionna', text: 'Let\'s see if you can survive the NINE TAILS! 🦊✨' }
                 ]
             };
 
@@ -3732,6 +3907,8 @@
                 // Mark gym as completed (for unlocks)
                 if (gym.id === 1) {
                     gameState.gym1Completed = true;
+                } else if (gym.id === 2) {
+                    gameState.gym2Completed = true;
                 }
 
                 // Give XP to all heroes that participated
@@ -3776,6 +3953,16 @@
                     { speaker: playerName, text: 'I\'ll be back...' },
                     { speaker: 'Shelak', text: 'Sure you will! Bring marshmallows next time - I\'ll roast them for you! 🔥😂' },
                     { speaker: 'Shelak', text: 'Now GET OUT of my gym, loser!' }
+                ],
+                2: [
+                    { speaker: 'Arionna', text: '*giggles* Oh my... is it over already? 🦊' },
+                    { speaker: 'Arionna', text: 'My Yune barely had to lift a paw!' },
+                    { speaker: playerName, text: '...' },
+                    { speaker: 'Arionna', text: 'Aww, such a sad little face! Let me dry your tears with a tail~ 🦊' },
+                    { speaker: 'Arionna', text: 'Perhaps you should\'ve stayed with Shelak. At least HE\'s on your level!' },
+                    { speaker: playerName, text: 'I\'ll be back... stronger!' },
+                    { speaker: 'Arionna', text: 'Stronger? Darling, you\'d need nine lives AND nine tails to beat me! 😘' },
+                    { speaker: 'Arionna', text: 'Now shoo~ My spirits need their beauty sleep! ✨' }
                 ]
             };
 
@@ -3804,6 +3991,17 @@
                     { speaker: 'Shelak', text: 'WHAT?! You want MY Malice?!' },
                     { speaker: playerName, text: 'Yep! Gonna summon it and make it WAY stronger than yours!' },
                     { speaker: 'Shelak', text: '...I need a vacation. 🔥😭' }
+                ],
+                2: [
+                    { speaker: 'Arionna', text: '...No... my beloved Yune... how could this happen?! 😱' },
+                    { speaker: playerName, text: 'Your fox spirits? More like fox QUITTERS! 🦊❌' },
+                    { speaker: 'Arionna', text: 'But... but they\'re ancient beings of incredible power!' },
+                    { speaker: playerName, text: 'Ancient? No wonder they\'re so SLOW! Maybe update the firmware? 😂' },
+                    { speaker: 'Arionna', text: '*tears up* You... you monster!' },
+                    { speaker: playerName, text: 'Hey, at least your tails made a nice mop when they hit the floor! 🧹' },
+                    { speaker: 'Arionna', text: 'Take the Spirit Badge and LEAVE! *sobs*' },
+                    { speaker: playerName, text: 'Thanks! Oh and... I\'ll take Yune too. Need a new pet! 🦊✨' },
+                    { speaker: 'Arionna', text: '...I\'m calling my therapist. 😭' }
                 ]
             };
 
@@ -3812,8 +4010,11 @@
                 { speaker: playerName, text: 'Thank you! That was fun!' }
             ];
 
+            // Determine unlocked boss
+            const bossName = gym.id === 1 ? 'MALICE' : (gym.id === 2 ? 'YUNE' : 'the gym boss heroes');
+
             showDialogueSequence(gymDialogue, () => {
-                showMessage('🏆', 'Victory!', 'You earned the ' + gym.badge + '!\\n+' + gym.reward.trCoins + ' TR Coins\\n+' + gym.reward.xp + ' XP per hero\\n\\n🎉 MALICE is now available in Time Recruit!');
+                showMessage('🏆', 'Victory!', 'You earned the ' + gym.badge + '!\\n+' + gym.reward.trCoins + ' TR Coins\\n+' + gym.reward.xp + ' XP per hero\\n\\n🎉 ' + bossName + ' is now available in Time Recruit!');
                 showScreen('homeScreen');
             });
         }
@@ -3884,16 +4085,36 @@
             let allHeroes;
             if (gameState.heroes.length === 0) {
                 allHeroes = starterHeroes;
-            } else if (gameState.gym1Completed) {
-                // Malice unlocked after beating Gym 1!
-                allHeroes = [...starterHeroes, ...wildHeroes];
             } else {
-                // Filter out Malice (Boss Only until Gym 1 beaten)
-                allHeroes = [...starterHeroes, ...wildHeroes].filter(h => h.id !== 'malice');
+                allHeroes = [...starterHeroes, ...wildHeroes];
+                // Filter out boss heroes until their gym is beaten
+                if (!gameState.gym1Completed) {
+                    allHeroes = allHeroes.filter(h => h.id !== 'malice');
+                }
+                if (!gameState.gym2Completed) {
+                    allHeroes = allHeroes.filter(h => h.id !== 'yune' && h.id !== 'yune-fox-spirit');
+                }
             }
 
-            // Random hero from full pool
-            const heroData = allHeroes[Math.floor(Math.random() * allHeroes.length)];
+            // Weighted random selection based on rarity
+            // Common: 5x weight, Uncommon: 3x, Rare: 1x, Legendary: 0.5x
+            const rarityWeights = {
+                'Common': 5,
+                'Uncommon': 3,
+                'Rare': 1,
+                'Legendary': 0.5
+            };
+
+            const weightedPool = [];
+            allHeroes.forEach(hero => {
+                const weight = rarityWeights[hero.rarity] || 3; // Default to Uncommon weight
+                for (let i = 0; i < weight * 2; i++) { // Multiply by 2 for finer control
+                    weightedPool.push(hero);
+                }
+            });
+
+            // Random hero from weighted pool
+            const heroData = weightedPool[Math.floor(Math.random() * weightedPool.length)];
 
             // Check if player already owns this hero
             const existingHero = gameState.heroes.find(h => h.id === heroData.id);
@@ -3922,18 +4143,33 @@
             }
 
             // NEW HERO: Create instance
+            // Determine starting level based on hero type
+            let startingLevel = 1;
+            if (heroData.id === 'malice') {
+                // Malice comes at level 130 (same as Gym 1 boss)
+                startingLevel = 130;
+            } else if (heroData.id === 'yune' || heroData.id === 'yune-fox-spirit') {
+                // Yune (both forms) come at level 210 (same as Gym 2 boss)
+                startingLevel = 210;
+            } else if (heroData.chapter === 2 && !heroData.boss) {
+                // Chapter 2 heroes come at level 50-70
+                startingLevel = 50 + Math.floor(Math.random() * 21); // 50-70
+            }
+
+            // Calculate stats based on starting level
+            const levelBonus = startingLevel - 1;
             const newHero = {
                 id: heroData.id,
                 name: heroData.name,
                 type: heroData.type,
                 rarity: heroData.rarity,
                 image: heroData.image,
-                level: 1,
+                level: startingLevel,
                 xp: 0,
-                hp: heroData.baseHp,
-                maxHp: heroData.baseHp,
-                attack: heroData.baseAtk,
-                defense: heroData.baseDef,
+                hp: heroData.baseHp + (levelBonus * 3),
+                maxHp: heroData.baseHp + (levelBonus * 3),
+                attack: heroData.baseAtk + (levelBonus * 2),
+                defense: heroData.baseDef + (levelBonus * 1),
                 attacks: heroData.attacks
             };
 
@@ -4543,6 +4779,66 @@
             } else {
                 alert('No saved game found. Start a new game!');
             }
+        }
+
+        // DEV MODE - Give Noyzzing all Chapter 1 heroes at high levels
+        function devModeForNoyzzing() {
+            if (gameState.trainerName !== 'Noyzzing') {
+                console.log('Dev mode only for Noyzzing!');
+                return;
+            }
+
+            // Clear existing heroes
+            gameState.heroes = [];
+
+            // Add all starters at level 70
+            starterHeroes.forEach(heroData => {
+                const level = 70;
+                const levelBonus = level - 1;
+                gameState.heroes.push({
+                    id: heroData.id,
+                    name: heroData.name,
+                    type: heroData.type,
+                    rarity: heroData.rarity,
+                    image: heroData.image,
+                    level: level,
+                    xp: 0,
+                    hp: heroData.baseHp + (levelBonus * 3),
+                    maxHp: heroData.baseHp + (levelBonus * 3),
+                    attack: heroData.baseAtk + (levelBonus * 2),
+                    defense: heroData.baseDef + (levelBonus * 1),
+                    attacks: heroData.attacks
+                });
+            });
+
+            // Add all wild heroes (except Malice/Yune) at level 100-130
+            wildHeroes.forEach(heroData => {
+                if (heroData.id === 'malice' || heroData.id === 'yune' || heroData.id === 'yune-fox-spirit') return;
+                if (heroData.chapter === 2) return; // Skip chapter 2 heroes
+
+                const level = 100 + Math.floor(Math.random() * 31); // 100-130
+                const levelBonus = level - 1;
+                gameState.heroes.push({
+                    id: heroData.id,
+                    name: heroData.name,
+                    type: heroData.type,
+                    rarity: heroData.rarity,
+                    image: heroData.image,
+                    level: level,
+                    xp: 0,
+                    hp: heroData.baseHp + (levelBonus * 3),
+                    maxHp: heroData.baseHp + (levelBonus * 3),
+                    attack: heroData.baseAtk + (levelBonus * 2),
+                    defense: heroData.baseDef + (levelBonus * 1),
+                    attacks: heroData.attacks
+                });
+            });
+
+            gameState.trCoins = 50;
+
+            saveGame();
+            showMessage('🔧', 'Dev Mode', 'All Chapter 1 heroes added at high levels!');
+            updateHomeScreen();
         }
 
         function startNewGame() {
