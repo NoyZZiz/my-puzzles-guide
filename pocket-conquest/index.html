@@ -2642,8 +2642,121 @@
             gems: 100,
             badges: 0,
             heroes: [],
-            gym1Completed: false  // Unlocks Malice in Time Recruit
+            gym1Completed: false,  // Unlocks Malice in Time Recruit
+            soundEnabled: true     // Sound toggle
         };
+
+        // ========== SOUND EFFECTS SYSTEM (Web Audio API) ==========
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            return audioCtx;
+        }
+
+        // Play a tone with envelope
+        function playTone(frequency, duration, type = 'sine', volume = 0.3) {
+            if (!gameState.soundEnabled) return;
+            try {
+                const ctx = initAudio();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(frequency, ctx.currentTime);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                // Envelope
+                gain.gain.setValueAtTime(volume, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
+
+                osc.start(ctx.currentTime);
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) { /* Audio not supported */ }
+        }
+
+        // Sound Effects Library
+        const SFX = {
+            // Attack hit - punchy impact
+            attack: () => {
+                playTone(150, 0.1, 'square', 0.4);
+                setTimeout(() => playTone(100, 0.15, 'sawtooth', 0.3), 50);
+            },
+
+            // Heal - gentle ascending chime
+            heal: () => {
+                playTone(523, 0.15, 'sine', 0.25);
+                setTimeout(() => playTone(659, 0.15, 'sine', 0.25), 100);
+                setTimeout(() => playTone(784, 0.2, 'sine', 0.3), 200);
+            },
+
+            // Buff - power up sound
+            buff: () => {
+                playTone(262, 0.1, 'square', 0.2);
+                setTimeout(() => playTone(330, 0.1, 'square', 0.2), 80);
+                setTimeout(() => playTone(392, 0.15, 'square', 0.25), 160);
+            },
+
+            // Debuff - descending tone
+            debuff: () => {
+                playTone(392, 0.1, 'sawtooth', 0.2);
+                setTimeout(() => playTone(330, 0.1, 'sawtooth', 0.2), 80);
+                setTimeout(() => playTone(262, 0.15, 'sawtooth', 0.25), 160);
+            },
+
+            // Victory fanfare
+            victory: () => {
+                const notes = [523, 659, 784, 1047];
+                notes.forEach((freq, i) => {
+                    setTimeout(() => playTone(freq, 0.2, 'square', 0.25), i * 150);
+                });
+                setTimeout(() => playTone(1047, 0.4, 'sine', 0.3), 600);
+            },
+
+            // Defeat - sad descending
+            defeat: () => {
+                playTone(392, 0.3, 'sine', 0.2);
+                setTimeout(() => playTone(330, 0.3, 'sine', 0.2), 300);
+                setTimeout(() => playTone(262, 0.5, 'sine', 0.2), 600);
+            },
+
+            // Summon - magical whoosh
+            summon: () => {
+                for (let i = 0; i < 10; i++) {
+                    setTimeout(() => {
+                        playTone(200 + i * 80, 0.1, 'sine', 0.15);
+                    }, i * 40);
+                }
+                setTimeout(() => playTone(800, 0.3, 'sine', 0.3), 400);
+            },
+
+            // UI click
+            click: () => {
+                playTone(800, 0.05, 'square', 0.15);
+            },
+
+            // Super effective hit
+            superEffective: () => {
+                playTone(200, 0.08, 'square', 0.4);
+                setTimeout(() => playTone(400, 0.1, 'sawtooth', 0.35), 60);
+                setTimeout(() => playTone(600, 0.12, 'square', 0.3), 120);
+            },
+
+            // Not effective hit
+            notEffective: () => {
+                playTone(200, 0.15, 'triangle', 0.2);
+            }
+        };
+
+        // Resume audio context on user interaction (browser requirement)
+        document.addEventListener('click', () => {
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+        }, { once: true });
 
         // ========== SCREEN MANAGEMENT ==========
         function showScreen(screenId) {
@@ -3420,16 +3533,19 @@
 
             // Handle different attack types
             if (attackType === 'Heal') {
+                SFX.heal();
                 const healAmount = parseInt(attack.effect?.match(/\d+/)?.[0]) || 30;
                 const oldHp = gymState.playerCurrentHp[gymState.playerIndex];
                 gymState.playerCurrentHp[gymState.playerIndex] = Math.min(currentPlayer.maxHp, oldHp + healAmount);
                 const actualHeal = gymState.playerCurrentHp[gymState.playerIndex] - oldHp;
                 addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
             } else if (attackType === 'Buff') {
+                SFX.buff();
                 const boost = Math.ceil(currentPlayer.attack * 0.15);
                 currentPlayer.attack += boost;
                 addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! ATK +' + boost + '!');
             } else if (attackType === 'Debuff') {
+                SFX.debuff();
                 const reduction = Math.ceil(currentEnemy.attack * 0.10);
                 currentEnemy.attack = Math.max(1, currentEnemy.attack - reduction);
                 addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! Enemy ATK -' + reduction + '!');
@@ -3442,6 +3558,11 @@
                 const damage = Math.max(1, Math.floor(rawDamage * typeMultiplier));
                 gymState.enemyCurrentHp[gymState.enemyIndex] -= damage;
                 addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! -' + damage + ' HP');
+
+                // Play appropriate sound based on effectiveness
+                if (typeMultiplier >= 1.5) SFX.superEffective();
+                else if (typeMultiplier <= 0.75) SFX.notEffective();
+                else SFX.attack();
 
                 // Show type effectiveness message
                 const typeMsg = getTypeMessage(typeMultiplier);
@@ -3495,6 +3616,7 @@
             // Handle different attack types
             if (attack.type === 'Heal') {
                 // Enemy heals themselves
+                SFX.heal();
                 const healAmount = attack.damage || 20;
                 gymState.enemyCurrentHp[gymState.enemyIndex] = Math.min(
                     currentEnemy.maxHp,
@@ -3503,11 +3625,13 @@
                 addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! Healed +' + healAmount + ' HP');
             } else if (attack.type === 'Buff') {
                 // Enemy buffs their attack
+                SFX.buff();
                 const buffAmount = Math.floor(currentEnemy.attack * 0.15);
                 currentEnemy.attack += buffAmount;
                 addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! ATK increased!');
             } else if (attack.type === 'Debuff') {
                 // Enemy debuffs player
+                SFX.debuff();
                 const debuffAmount = Math.floor(currentPlayer.attack * 0.10);
                 currentPlayer.attack = Math.max(1, currentPlayer.attack - debuffAmount);
                 addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! Your ATK decreased!');
@@ -3520,6 +3644,11 @@
                 const damage = Math.max(1, Math.floor(rawDamage * typeMultiplier));
                 gymState.playerCurrentHp[gymState.playerIndex] -= damage;
                 addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
+
+                // Play sound based on effectiveness
+                if (typeMultiplier >= 1.5) SFX.superEffective();
+                else if (typeMultiplier <= 0.75) SFX.notEffective();
+                else SFX.attack();
 
                 // Show type effectiveness message
                 const typeMsg = getTypeMessage(typeMultiplier);
@@ -3568,6 +3697,7 @@
 
         function endGymBattle(victory) {
             if (victory) {
+                SFX.victory();
                 const gym = gymState.currentGym;
                 gameState.badges++;
                 gameState.trCoins += gym.reward.trCoins;
@@ -3600,6 +3730,7 @@
                 // Webhook
                 sendVictoryWebhook(gym.name);
             } else {
+                SFX.defeat();
                 showMessage('😢 Defeated! Train your heroes and try again!');
                 showScreen('homeScreen');
             }
@@ -3693,6 +3824,7 @@
             // Deduct cost
             gameState.trCoins -= cost;
             updateTimeRecruitScreen(); // Update coin display immediately
+            SFX.summon(); // Play portal whoosh!
 
             // Combine pools (allow duplicates for challenge)
             // Rule: First summon IS ALWAYS a Starter Hero
@@ -4104,16 +4236,19 @@
 
             // Handle different attack types
             if (attackType === 'Heal') {
+                SFX.heal();
                 const healAmount = parseInt(attack.effect.match(/\d+/)[0]) || 30;
                 const oldHp = battleState.playerCurrentHp;
                 battleState.playerCurrentHp = Math.min(battleState.playerHero.maxHp, battleState.playerCurrentHp + healAmount);
                 const actualHeal = battleState.playerCurrentHp - oldHp;
                 addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
             } else if (attackType === 'Buff') {
+                SFX.buff();
                 const boost = Math.ceil(battleState.playerHero.attack * 0.05);
                 battleState.playerHero.attack += boost;
                 addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! ATK +' + boost + '!');
             } else if (attackType === 'Debuff') {
+                SFX.debuff();
                 const reduction = Math.ceil(battleState.enemy.attack * 0.05);
                 battleState.enemy.attack = Math.max(1, battleState.enemy.attack - reduction);
                 addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! Enemy ATK -' + reduction + '!');
@@ -4130,6 +4265,7 @@
                     battleState.playerCurrentHp -= damage;
                     addBattleLog('😵 ' + battleState.playerHero.name + ' hurt itself in confusion! -' + damage + ' HP');
                 } else {
+                    SFX.attack();
                     const baseDamage = attack.damage + battleState.playerHero.attack;
                     const defenseReduction = Math.min(0.8, battleState.enemy.defense / (battleState.enemy.defense + 100));
                     const damage = Math.max(1, Math.floor(baseDamage * (1 - defenseReduction)));
@@ -4243,6 +4379,10 @@
 
         function endBattle(victory) {
             battleState.battleCount++;
+
+            // Play appropriate sound
+            if (victory) SFX.victory();
+            else SFX.defeat();
 
             // Calculate XP based on enemy level (higher level = more XP)
             // WIN: much more rewarding, LOSS: minimal consolation
