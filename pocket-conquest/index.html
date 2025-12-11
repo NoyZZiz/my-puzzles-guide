@@ -4371,9 +4371,20 @@
         }
 
         function startBattle() {
+            // Filter wild heroes based on progress
+            let availableWilds = wildHeroes.filter(h => !h.boss); // Exclude boss heroes
+
+            // Block Chapter 2 heroes until Gym 1 is beaten
+            if (!gameState.gym1Completed) {
+                availableWilds = availableWilds.filter(h => h.chapter !== 2);
+            }
+
             // Pick random wild enemy
-            const enemyData = wildHeroes[Math.floor(Math.random() * wildHeroes.length)];
+            const enemyData = availableWilds[Math.floor(Math.random() * availableWilds.length)];
+
+            // Level scales based on player's progress (same for all chapters)
             const levelRange = getEnemyLevelRange();
+
             const enemyLevel = Math.floor(Math.random() * (levelRange.max - levelRange.min + 1)) + levelRange.min;
 
             // Scale enemy stats by level
@@ -4717,7 +4728,13 @@
         }
 
         function getMaxLevel(hero) {
-            if (hero.id === 'malice') return 210;
+            // Boss heroes (Malice, Yune) - max 210
+            if (hero.id === 'malice' || hero.id === 'yune' || hero.id === 'yune-fox-spirit') return 210;
+
+            // Check rarity - Rare (4★) heroes can reach 210
+            if (hero.rarity === 'Rare' || hero.rarity === 'Legendary') return 210;
+
+            // Starters max at 70, Uncommon at 130
             const isStarter = starterHeroes.some(h => h.id === hero.id);
             return isStarter ? 70 : 130;
         }
