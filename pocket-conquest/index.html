@@ -3643,7 +3643,7 @@
                     ...h,
                     hp: h.baseHp + (levelBonus * hpPerLevel),
                     maxHp: h.baseHp + (levelBonus * hpPerLevel),
-                    attack: h.baseAtk + (levelBonus * 2),
+                    attack: h.baseAtk + (levelBonus * ((h.rarity === 'Rare' || h.rarity === 'Legendary') ? 4 : 2)),
                     defense: h.baseDef + (levelBonus * 1)
                 };
             });
@@ -4241,7 +4241,7 @@
                 xp: 0,
                 hp: heroData.baseHp + (levelBonus * ((heroData.rarity === 'Rare' || heroData.rarity === 'Legendary') ? 5 : 3)),
                 maxHp: heroData.baseHp + (levelBonus * ((heroData.rarity === 'Rare' || heroData.rarity === 'Legendary') ? 5 : 3)),
-                attack: heroData.baseAtk + (levelBonus * 2),
+                attack: heroData.baseAtk + (levelBonus * ((heroData.rarity === 'Rare' || heroData.rarity === 'Legendary') ? 4 : 2)),
                 defense: heroData.baseDef + (levelBonus * 1),
                 attacks: heroData.attacks
             };
@@ -4443,7 +4443,7 @@
                 level: enemyLevel,
                 hp: enemyData.baseHp + (levelBonus * hpPerLevel),
                 maxHp: enemyData.baseHp + (levelBonus * hpPerLevel),
-                attack: enemyData.baseAtk + (levelBonus * 2),
+                attack: enemyData.baseAtk + (levelBonus * ((enemyData.rarity === 'Rare' || enemyData.rarity === 'Legendary') ? 4 : 2)),
                 defense: enemyData.baseDef + (levelBonus * 1)
             };
 
