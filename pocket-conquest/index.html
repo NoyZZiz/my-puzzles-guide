@@ -3978,8 +3978,48 @@
                 // Mark gym as completed (for unlocks)
                 if (gym.id === 1) {
                     gameState.gym1Completed = true;
+                    // Give Malice as reward!
+                    const maliceData = wildHeroes.find(h => h.id === 'malice');
+                    if (maliceData && !gameState.heroes.some(h => h.id === 'malice')) {
+                        const level = 130;
+                        const levelBonus = level - 1;
+                        gameState.heroes.push({
+                            id: maliceData.id,
+                            name: maliceData.name,
+                            type: maliceData.type,
+                            rarity: maliceData.rarity,
+                            image: maliceData.image,
+                            level: level,
+                            xp: 0,
+                            hp: maliceData.baseHp + (levelBonus * 5),
+                            maxHp: maliceData.baseHp + (levelBonus * 5),
+                            attack: maliceData.baseAtk + (levelBonus * 4),
+                            defense: maliceData.baseDef + (levelBonus * 1),
+                            attacks: maliceData.attacks
+                        });
+                    }
                 } else if (gym.id === 2) {
                     gameState.gym2Completed = true;
+                    // Give Yune (base form) as reward!
+                    const yuneData = wildHeroes.find(h => h.id === 'yune');
+                    if (yuneData && !gameState.heroes.some(h => h.id === 'yune')) {
+                        const level = 210;
+                        const levelBonus = level - 1;
+                        gameState.heroes.push({
+                            id: yuneData.id,
+                            name: yuneData.name,
+                            type: yuneData.type,
+                            rarity: yuneData.rarity,
+                            image: yuneData.image,
+                            level: level,
+                            xp: 0,
+                            hp: yuneData.baseHp + (levelBonus * 5),
+                            maxHp: yuneData.baseHp + (levelBonus * 5),
+                            attack: yuneData.baseAtk + (levelBonus * 4),
+                            defense: yuneData.baseDef + (levelBonus * 1),
+                            attacks: yuneData.attacks
+                        });
+                    }
                 }
 
                 // Give XP to all heroes that participated
