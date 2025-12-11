@@ -4318,12 +4318,24 @@
                     battleState.playerCurrentHp -= damage;
                     addBattleLog('😵 ' + battleState.playerHero.name + ' hurt itself in confusion! -' + damage + ' HP');
                 } else {
-                    SFX.attack();
+                    // Normal damage attack with type effectiveness
+                    const typeMultiplier = getTypeEffectiveness(attackType, battleState.enemy.type);
                     const baseDamage = attack.damage + battleState.playerHero.attack;
                     const defenseReduction = Math.min(0.8, battleState.enemy.defense / (battleState.enemy.defense + 100));
-                    const damage = Math.max(1, Math.floor(baseDamage * (1 - defenseReduction)));
+                    const rawDamage = baseDamage * (1 - defenseReduction);
+                    const damage = Math.max(1, Math.floor(rawDamage * typeMultiplier));
                     battleState.enemyCurrentHp -= damage;
                     addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! -' + damage + ' HP');
+
+                    // Play sound based on effectiveness
+                    if (typeMultiplier >= 1.5) SFX.superEffective();
+                    else if (typeMultiplier <= 0.75) SFX.notEffective();
+                    else SFX.attack();
+
+                    // Show type effectiveness message
+                    const typeMsg = getTypeMessage(typeMultiplier);
+                    if (typeMsg) addBattleLog(typeMsg);
+
                     applyAttackEffect(attack, true); // Apply status effects from attack
                 }
             }
@@ -4396,11 +4408,24 @@
                     battleState.enemyCurrentHp -= damage;
                     addBattleLog('😵 ' + battleState.enemy.name + ' hurt itself in confusion! -' + damage + ' HP');
                 } else {
+                    // Normal damage attack with type effectiveness
+                    const typeMultiplier = getTypeEffectiveness(attackType, battleState.playerHero.type);
                     const baseDamage = attack.damage + battleState.enemy.attack;
                     const defenseReduction = Math.min(0.8, battleState.playerHero.defense / (battleState.playerHero.defense + 100));
-                    const damage = Math.max(1, Math.floor(baseDamage * (1 - defenseReduction)));
+                    const rawDamage = baseDamage * (1 - defenseReduction);
+                    const damage = Math.max(1, Math.floor(rawDamage * typeMultiplier));
                     battleState.playerCurrentHp -= damage;
                     addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
+
+                    // Play sound based on effectiveness
+                    if (typeMultiplier >= 1.5) SFX.superEffective();
+                    else if (typeMultiplier <= 0.75) SFX.notEffective();
+                    else SFX.attack();
+
+                    // Show type effectiveness message
+                    const typeMsg = getTypeMessage(typeMultiplier);
+                    if (typeMsg) addBattleLog(typeMsg);
+
                     applyAttackEffect(attack, false); // Apply status effects from attack
                 }
             }
