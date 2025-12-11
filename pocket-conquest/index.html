@@ -2311,6 +2311,27 @@
                     <div class="preview-card">⭐</div>
                     <div class="preview-card">🔥</div>
                 </div>
+
+                <!-- Spirit Stone Shop -->
+                <div class="spirit-stone-shop"
+                    style="margin-top: 20px; padding: 15px; background: rgba(147, 51, 234, 0.2); border-radius: 12px; border: 1px solid #9333ea;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 2rem;">🦊</span>
+                            <div>
+                                <div style="color: #c084fc; font-weight: bold;">Spirit Stone</div>
+                                <div style="color: #94a3b8; font-size: 0.8rem;">Evolve Yune at MAX level</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span id="spiritStoneCount" style="color: #fbbf24; font-weight: bold;">0</span>
+                            <button onclick="buySpiritStone()"
+                                style="background: linear-gradient(135deg, #9333ea, #7c3aed); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                                Buy (30 💎)
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2647,6 +2668,8 @@
             badges: 0,
             heroes: [],
             gym1Completed: false,  // Unlocks Malice in Time Recruit
+            gym2Completed: false,  // Unlocks Yune in Time Recruit
+            spiritStone: 0,        // Evolution item for Yune
             soundEnabled: true     // Sound toggle
         };
 
@@ -2774,6 +2797,20 @@
 
         function updateTimeRecruitScreen() {
             document.getElementById('trScreenCoins').textContent = gameState.trCoins;
+            document.getElementById('spiritStoneCount').textContent = gameState.spiritStone || 0;
+        }
+
+        function buySpiritStone() {
+            if (gameState.trCoins < 30) {
+                showMessage('Not enough TR Coins! You need 30.');
+                return;
+            }
+            gameState.trCoins -= 30;
+            gameState.spiritStone = (gameState.spiritStone || 0) + 1;
+            saveGame();
+            updateTimeRecruitScreen();
+            SFX.summon();
+            showMessage('🦊 You got a Spirit Stone! Use it on MAX level Yune to evolve!');
         }
 
         function updateHeroesScreen() {
@@ -2851,12 +2888,66 @@
             `).join('');
             document.getElementById('heroDetailAttacksList').innerHTML = attacksHtml;
 
+            // Show evolve button for Yune at MAX level with Spirit Stone
+            let evolveHtml = '';
+            if (hero.id === 'yune' && isMaxLevel && (gameState.spiritStone || 0) > 0) {
+                evolveHtml = `
+                    <button onclick="evolveYune(${index})" style="width: 100%; margin-top: 15px; padding: 15px; background: linear-gradient(135deg, #9333ea, #ec4899); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        🦊 EVOLVE TO FOX SPIRIT ✨
+                    </button>
+                `;
+            }
+            document.getElementById('heroDetailAttacksList').insertAdjacentHTML('afterend', evolveHtml);
+
             // Show modal
             document.getElementById('heroDetailModal').style.display = 'flex';
         }
 
+        function evolveYune(heroIndex) {
+            const hero = gameState.heroes[heroIndex];
+            if (!hero || hero.id !== 'yune') return;
+            if ((gameState.spiritStone || 0) < 1) {
+                showMessage('You need a Spirit Stone to evolve Yune!');
+                return;
+            }
+
+            // Use the spirit stone
+            gameState.spiritStone--;
+
+            // Find Fox Spirit data
+            const foxSpiritData = wildHeroes.find(h => h.id === 'yune-fox-spirit');
+            if (!foxSpiritData) return;
+
+            // Transform Yune into Fox Spirit (keep level, recalculate stats)
+            const level = hero.level;
+            const levelBonus = level - 1;
+            gameState.heroes[heroIndex] = {
+                id: foxSpiritData.id,
+                name: foxSpiritData.name,
+                type: foxSpiritData.type,
+                rarity: foxSpiritData.rarity,
+                image: foxSpiritData.image,
+                level: level,
+                xp: 0,
+                hp: foxSpiritData.baseHp + (levelBonus * 5),
+                maxHp: foxSpiritData.baseHp + (levelBonus * 5),
+                attack: foxSpiritData.baseAtk + (levelBonus * 4),
+                defense: foxSpiritData.baseDef + (levelBonus * 1),
+                attacks: foxSpiritData.attacks
+            };
+
+            saveGame();
+            SFX.victory();
+            closeHeroDetailModal();
+            updateHeroesScreen();
+            showMessage('🦊✨ Yune evolved into Yune (Fox Spirit)! Much stronger now!');
+        }
+
         function closeHeroDetailModal() {
             document.getElementById('heroDetailModal').style.display = 'none';
+            // Clean up any evolve buttons
+            const oldBtn = document.querySelector('#heroDetailAttacksList + button');
+            if (oldBtn) oldBtn.remove();
         }
 
         // ========== CHARACTER SELECTION ==========
