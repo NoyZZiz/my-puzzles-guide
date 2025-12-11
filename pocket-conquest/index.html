@@ -431,33 +431,65 @@
         /* ========== TIME RECRUIT SCREEN ========== */
         #timeRecruitScreen {
             background:
-                radial-gradient(ellipse at 50% 40%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 30%, rgba(168, 85, 247, 0.4) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 80%, rgba(245, 158, 11, 0.15) 0%, transparent 50%),
                 var(--dark);
             text-align: center;
         }
 
-        /* ========== TIME RECRUIT SCREEN ========== */
         .time-recruit-content {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             flex: 1;
-            padding-top: 40px;
+            padding: 60px 20px 40px;
+            max-width: 500px;
+            margin: 0 auto;
+            min-height: calc(100vh - 40px);
         }
 
-        .portal-wrapper {
-            width: 300px;
-            height: 200px;
-            margin: 30px auto;
+        .tr-header {
+            margin-bottom: 20px;
+        }
+
+        .tr-coin-balance {
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid var(--purple);
+            border-radius: 30px;
+            padding: 10px 25px;
+            margin-top: 15px;
+        }
+
+        .tr-coin-balance img {
+            width: 32px;
+            height: 32px;
+        }
+
+        .tr-coin-balance span {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .portal-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-height: 300px;
+            margin: 20px 0;
         }
 
         .portal-image {
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            max-width: 280px;
+            height: auto;
             object-fit: contain;
             animation: portalPulse 3s ease-in-out infinite;
         }
@@ -467,42 +499,87 @@
             0%,
             100% {
                 transform: scale(1);
-                filter: brightness(1) drop-shadow(0 0 20px rgba(168, 85, 247, 0.5));
+                filter: brightness(1) drop-shadow(0 0 30px rgba(168, 85, 247, 0.6));
             }
 
             50% {
-                transform: scale(1.05);
-                filter: brightness(1.2) drop-shadow(0 0 40px rgba(168, 85, 247, 0.8));
+                transform: scale(1.08);
+                filter: brightness(1.2) drop-shadow(0 0 50px rgba(168, 85, 247, 0.9));
             }
+        }
+
+        .summon-area {
+            width: 100%;
         }
 
         .summon-btn-large {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 20px 50px;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            max-width: 280px;
+            padding: 18px 30px;
             background: linear-gradient(135deg, var(--purple), var(--purple-dark));
             border: 3px solid var(--purple);
             border-radius: 50px;
             color: white;
             font-family: 'Cinzel', serif;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 30px;
+            margin: 0 auto;
         }
 
         .summon-btn-large:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 50px rgba(168, 85, 247, 0.6);
+            box-shadow: 0 0 40px rgba(168, 85, 247, 0.6);
         }
 
-        .summon-coin-large {
-            width: 150px;
-            height: 150px;
+        .summon-btn-large:active {
+            transform: scale(0.98);
+        }
+
+        .summon-coin-icon {
+            width: 36px;
+            height: 36px;
             object-fit: contain;
+        }
+
+        .summon-cost {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 15px;
+        }
+
+        .summon-hint {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 480px) {
+            .time-recruit-content {
+                padding: 50px 15px 30px;
+            }
+
+            .portal-image {
+                max-width: 220px;
+            }
+
+            .summon-btn-large {
+                font-size: 1.1rem;
+                padding: 15px 25px;
+            }
+
+            .summon-coin-icon {
+                width: 28px;
+                height: 28px;
+            }
         }
 
         .back-btn {
@@ -1875,16 +1952,26 @@
         <button class="back-btn" onclick="showScreen('homeScreen')">← Back</button>
 
         <div class="time-recruit-content">
-            <h2 class="screen-title">TIME RECRUIT</h2>
+            <div class="tr-header">
+                <h2 class="screen-title">TIME RECRUIT</h2>
+                <div class="tr-coin-balance">
+                    <img src="assets/tr_coin.png" alt="TR Coin">
+                    <span id="trScreenCoins">0</span>
+                </div>
+            </div>
 
             <div class="portal-wrapper">
                 <img src="assets/time_recruit_portal.png" alt="Time Recruit Portal" class="portal-image">
             </div>
 
-            <button class="summon-btn-large" onclick="summonHero()">
-                <img src="assets/tr_coin.png" alt="TR" class="summon-coin-large">
-                <span>SUMMON</span>
-            </button>
+            <div class="summon-area">
+                <button class="summon-btn-large" onclick="summonHero()">
+                    <img src="assets/tr_coin.png" alt="TR" class="summon-coin-icon">
+                    <span>SUMMON</span>
+                </button>
+                <p class="summon-cost">Cost: 1 TR Coin</p>
+                <p class="summon-hint">Summon heroes from across time!<br>Duplicates are converted to XP.</p>
+            </div>
         </div>
     </div>
 
@@ -2225,6 +2312,11 @@
 
             if (screenId === 'homeScreen') updateHomeScreen();
             if (screenId === 'heroesScreen') updateHeroesScreen();
+            if (screenId === 'timeRecruitScreen') updateTimeRecruitScreen();
+        }
+
+        function updateTimeRecruitScreen() {
+            document.getElementById('trScreenCoins').textContent = gameState.trCoins;
         }
 
         function updateHeroesScreen() {
