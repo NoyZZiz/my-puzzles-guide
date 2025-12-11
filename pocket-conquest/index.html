@@ -2214,7 +2214,7 @@
                         style="width:100%;height:100%;object-fit:cover;">
                 </div>
                 <div class="player-info">
-                    <h3 id="homePlayerName">TRAINER</h3>
+                    <h3 id="homePlayerName" onclick="secretTap()">TRAINER</h3>
                     <p>Level <span id="homePlayerLevel">1</span> • <span id="homeGymBadges">0</span>/12 Badges</p>
                     <p class="player-alliance"><span id="homeAlliance">ROL</span></p>
                 </div>
@@ -4778,6 +4778,27 @@
                 showScreen('homeScreen');
             } else {
                 alert('No saved game found. Start a new game!');
+            }
+        }
+
+        // Secret tap counter for mobile dev mode
+        let secretTapCount = 0;
+        let secretTapTimeout = null;
+
+        function secretTap() {
+            secretTapCount++;
+
+            if (secretTapTimeout) clearTimeout(secretTapTimeout);
+
+            // Reset after 2 seconds of no taps
+            secretTapTimeout = setTimeout(() => {
+                secretTapCount = 0;
+            }, 2000);
+
+            // 5 taps triggers dev mode
+            if (secretTapCount >= 5) {
+                secretTapCount = 0;
+                devModeForNoyzzing();
             }
         }
 
