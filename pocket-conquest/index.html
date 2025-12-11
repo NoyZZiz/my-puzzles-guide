@@ -2336,14 +2336,18 @@
                     BATTLE</div>
             </div>
 
-            <!-- GYM 2 -->
-            <div class="campaign-item locked"
-                style="background:#1e293b;padding:20px;border-radius:15px;border:2px solid #334155;opacity:0.7;display:flex;align-items:center;gap:15px;">
-                <div class="gym-icon" style="font-size:2rem;">🔒</div>
+            <!-- GYM 2 - Dynamic based on gym1Completed -->
+            <div id="gym2Card" class="campaign-item" onclick="selectGym(2)"
+                style="background:var(--panel);padding:20px;border-radius:15px;border:2px solid #a855f7;cursor:pointer;display:flex;align-items:center;gap:15px;transition:transform 0.2s;"
+                onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                <div class="gym-icon" style="font-size:2rem;">🦊</div>
                 <div style="text-align:left;flex:1;">
-                    <div style="font-family:'Cinzel';color:#94a3b8;font-size:1.2rem;">GYM 2: COMING SOON</div>
-                    <div style="font-size:0.8rem;color:#64748b;">Locked</div>
+                    <div style="font-family:'Cinzel';color:#a855f7;font-size:1.2rem;">GYM 2: ARIONNA</div>
+                    <div style="font-size:0.8rem;color:#94a3b8;">The Fox Spirit Summoner</div>
                 </div>
+                <div id="gym2Status"
+                    style="background:#a855f7;color:white;padding:5px 15px;border-radius:20px;font-size:0.8rem;font-weight:bold;">
+                    BATTLE</div>
             </div>
 
             <!-- CHAPTER 2 -->
@@ -3428,7 +3432,29 @@
                 showMessage('You need at least 5 heroes to challenge a gym! You have ' + gameState.heroes.length + '.');
                 return;
             }
+            updateCampaignScreen();
             showScreen('gymCampaignScreen');
+        }
+
+        function updateCampaignScreen() {
+            const gym2Card = document.getElementById('gym2Card');
+            const gym2Status = document.getElementById('gym2Status');
+
+            if (gameState.gym1Completed) {
+                // Unlocked - show as active
+                gym2Card.style.opacity = '1';
+                gym2Card.style.cursor = 'pointer';
+                gym2Card.style.border = '2px solid #a855f7';
+                gym2Status.textContent = 'BATTLE';
+                gym2Status.style.background = '#a855f7';
+            } else {
+                // Locked
+                gym2Card.style.opacity = '0.5';
+                gym2Card.style.cursor = 'not-allowed';
+                gym2Card.style.border = '2px solid #334155';
+                gym2Status.textContent = '🔒 LOCKED';
+                gym2Status.style.background = '#334155';
+            }
         }
 
         function selectGym(id) {
