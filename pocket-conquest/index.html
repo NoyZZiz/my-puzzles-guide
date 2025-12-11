@@ -3442,7 +3442,34 @@
 
             document.getElementById('gymBattleLog').innerHTML = '<p>' + gym.name + ' challenges you!</p>';
 
-            showScreen('gymBattleScreen');
+            // Show pre-battle trash talk, then start battle
+            showPreBattleDialogue(gym, () => {
+                showScreen('gymBattleScreen');
+            });
+        }
+
+        function showPreBattleDialogue(gym, onComplete) {
+            const playerName = gameState.trainerName || 'Trainer';
+
+            // Funny pre-battle trash talk for each gym
+            const dialogues = {
+                1: [
+                    { speaker: 'Shelak', text: 'Well, well, well... Look who stumbled into MY domain! 🔥' },
+                    { speaker: 'Shelak', text: 'You think you can challenge the FLAME WARDEN?!' },
+                    { speaker: playerName, text: 'Your fire is about to get extinguished, old man!' },
+                    { speaker: 'Shelak', text: 'Old man?! I\'ll burn that smirk off your face!' },
+                    { speaker: 'Shelak', text: 'My legendary MALICE will crush your pathetic heroes!' },
+                    { speaker: playerName, text: 'Less talking, more burning... or should I say, LOSING! 😏' },
+                    { speaker: 'Shelak', text: 'ENOUGH! Let\'s see if you can handle the HEAT! 🔥🔥🔥' }
+                ]
+            };
+
+            const gymDialogue = dialogues[gym.id] || [
+                { speaker: gym.name, text: 'A challenger approaches...' },
+                { speaker: gym.name, text: 'Let us battle!' }
+            ];
+
+            showDialogueSequence(gymDialogue, onComplete);
         }
 
         function updateGymRosters() {
@@ -3731,9 +3758,35 @@
                 sendVictoryWebhook(gym.name);
             } else {
                 SFX.defeat();
-                showMessage('😢 Defeated! Train your heroes and try again!');
-                showScreen('homeScreen');
+                showGymDefeatDialogue(gymState.currentGym);
             }
+        }
+
+        function showGymDefeatDialogue(gym) {
+            const playerName = gameState.trainerName || 'Trainer';
+
+            // Funny defeat dialogues for each gym
+            const dialogues = {
+                1: [
+                    { speaker: 'Shelak', text: 'HAHAHA! Is that all you got, ' + playerName + '?! 🔥' },
+                    { speaker: 'Shelak', text: 'Your heroes are weaker than a wet matchstick!' },
+                    { speaker: playerName, text: '...' },
+                    { speaker: 'Shelak', text: 'Aww, nothing to say? Cat got your tongue?' },
+                    { speaker: 'Shelak', text: 'My MALICE didn\'t even break a sweat! 💪' },
+                    { speaker: playerName, text: 'I\'ll be back...' },
+                    { speaker: 'Shelak', text: 'Sure you will! Bring marshmallows next time - I\'ll roast them for you! 🔥😂' },
+                    { speaker: 'Shelak', text: 'Now GET OUT of my gym, loser!' }
+                ]
+            };
+
+            const gymDialogue = dialogues[gym.id] || [
+                { speaker: gym.name, text: 'You fought well, but not well enough.' },
+                { speaker: gym.name, text: 'Train harder and return when you\'re ready!' }
+            ];
+
+            showDialogueSequence(gymDialogue, () => {
+                showScreen('homeScreen');
+            });
         }
 
         function showGymVictoryDialogue(gym) {
