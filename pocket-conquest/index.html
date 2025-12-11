@@ -1606,6 +1606,86 @@
         .mt-20 {
             margin-top: 20px;
         }
+
+        /* ========== DIALOGUE BOX ========== */
+        .dialogue-modal {
+            z-index: 2000;
+        }
+
+        .dialogue-box {
+            background: var(--panel);
+            border: 3px solid var(--gold);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 400px;
+            text-align: center;
+            animation: dialoguePopIn 0.3s ease-out;
+        }
+
+        .player-dialogue {
+            border-color: var(--purple);
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), var(--panel));
+        }
+
+        .enemy-dialogue {
+            border-color: var(--red);
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), var(--panel));
+        }
+
+        @keyframes dialoguePopIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .dialogue-speaker {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .player-dialogue .dialogue-speaker {
+            color: var(--purple);
+        }
+
+        .enemy-dialogue .dialogue-speaker {
+            color: var(--red);
+        }
+
+        .dialogue-text {
+            font-size: 1.1rem;
+            color: white;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .dialogue-next-btn {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            color: black;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dialogue-next-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
     </style>
     <style>
         /* ========== MOBILE RESPONSIVENESS ========== */
@@ -2134,7 +2214,8 @@
             trCoins: 0,
             gems: 100,
             badges: 0,
-            heroes: []
+            heroes: [],
+            gym1Completed: false  // Unlocks Malice in Time Recruit
         };
 
         // ========== SCREEN MANAGEMENT ==========
@@ -2930,6 +3011,11 @@
                 gameState.badges++;
                 gameState.trCoins += gym.reward.trCoins;
 
+                // Mark gym as completed (for unlocks)
+                if (gym.id === 1) {
+                    gameState.gym1Completed = true;
+                }
+
                 // Give XP to all heroes that participated
                 gymState.selectedHeroIndices.forEach(i => {
                     gameState.heroes[i].xp = (gameState.heroes[i].xp || 0) + gym.reward.xp;
@@ -2946,15 +3032,80 @@
                 });
 
                 saveGame();
-                showMessage('🏆 Victory! You earned the ' + gym.badge + '! +' + gym.reward.trCoins + ' TR Coins!');
+
+                // Show funny victory dialogue
+                showGymVictoryDialogue(gym);
 
                 // Webhook
                 sendVictoryWebhook(gym.name);
             } else {
                 showMessage('😢 Defeated! Train your heroes and try again!');
+                showScreen('homeScreen');
+            }
+        }
+
+        function showGymVictoryDialogue(gym) {
+            const playerName = gameState.trainerName || 'Trainer';
+
+            // Funny mocking dialogues for each gym
+            const dialogues = {
+                1: [
+                    { speaker: 'Shelak', text: '...How? My flames... my legendary Malice... defeated?!' },
+                    { speaker: playerName, text: 'Legendary? More like legendary at LOSING! 😂' },
+                    { speaker: 'Shelak', text: 'You dare mock me?! I am the FLAME WARDEN!' },
+                    { speaker: playerName, text: 'More like the Flame LOSER! Your fire went out faster than my phone battery!' },
+                    { speaker: 'Shelak', text: '*grumbles* Take your stupid badge and get out...' },
+                    { speaker: playerName, text: 'Thanks! By the way, is Malice available for Time Recruit now? 😏' },
+                    { speaker: 'Shelak', text: 'WHAT?! You want MY Malice?!' },
+                    { speaker: playerName, text: 'Yep! Gonna summon it and make it WAY stronger than yours!' },
+                    { speaker: 'Shelak', text: '...I need a vacation. 🔥😭' }
+                ]
+            };
+
+            const gymDialogue = dialogues[gym.id] || [
+                { speaker: gym.name, text: 'You have defeated me... Take the badge.' },
+                { speaker: playerName, text: 'Thank you! That was fun!' }
+            ];
+
+            showDialogueSequence(gymDialogue, () => {
+                showMessage('🏆', 'Victory!', 'You earned the ' + gym.badge + '!\\n+' + gym.reward.trCoins + ' TR Coins\\n+' + gym.reward.xp + ' XP per hero\\n\\n🎉 MALICE is now available in Time Recruit!');
+                showScreen('homeScreen');
+            });
+        }
+
+        function showDialogueSequence(dialogues, onComplete) {
+            let index = 0;
+
+            function showNext() {
+                if (index >= dialogues.length) {
+                    onComplete();
+                    return;
+                }
+
+                const d = dialogues[index];
+                const isPlayer = d.speaker === (gameState.trainerName || 'Trainer');
+
+                // Create dialogue modal
+                const modal = document.createElement('div');
+                modal.className = 'modal-overlay dialogue-modal';
+                modal.innerHTML = `
+                    <div class="dialogue-box ${isPlayer ? 'player-dialogue' : 'enemy-dialogue'}">
+                        <div class="dialogue-speaker">${d.speaker}</div>
+                        <div class="dialogue-text">${d.text}</div>
+                        <button class="dialogue-next-btn" onclick="this.parentElement.parentElement.remove()">▶ Next</button>
+                    </div>
+                `;
+                modal.onclick = (e) => {
+                    if (e.target === modal || e.target.classList.contains('dialogue-next-btn')) {
+                        modal.remove();
+                        index++;
+                        showNext();
+                    }
+                };
+                document.body.appendChild(modal);
             }
 
-            showScreen('homeScreen');
+            showNext();
         }
 
         function fleeGymBattle() {
@@ -2986,8 +3137,11 @@
             let allHeroes;
             if (gameState.heroes.length === 0) {
                 allHeroes = starterHeroes;
+            } else if (gameState.gym1Completed) {
+                // Malice unlocked after beating Gym 1!
+                allHeroes = [...starterHeroes, ...wildHeroes];
             } else {
-                // Filter out Malice (Boss Only for now)
+                // Filter out Malice (Boss Only until Gym 1 beaten)
                 allHeroes = [...starterHeroes, ...wildHeroes].filter(h => h.id !== 'malice');
             }
 
