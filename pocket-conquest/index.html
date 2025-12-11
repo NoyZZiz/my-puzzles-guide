@@ -3432,11 +3432,46 @@
         }
 
         function selectGym(id) {
+            const playerName = gameState.trainerName || 'Trainer';
+
+            // Check if gym is already completed
+            if (id === 1 && gameState.gym1Completed) {
+                // Shelak's funny "why are you back" dialogue
+                const revisitDialogue = [
+                    { speaker: 'Shelak', text: 'Oh great, it\'s YOU again... 🙄' },
+                    { speaker: 'Shelak', text: 'What do you want? You already stole my Malice!' },
+                    { speaker: playerName, text: 'Just wanted to see your face again!' },
+                    { speaker: 'Shelak', text: 'GET OUT! Go bother Arionna or something!' },
+                    { speaker: 'Shelak', text: '*slams door* 🔥' }
+                ];
+                showDialogueSequence(revisitDialogue, () => { });
+                return;
+            }
+
+            if (id === 2 && gameState.gym2Completed) {
+                // Arionna's funny "why are you back" dialogue
+                const revisitDialogue = [
+                    { speaker: 'Arionna', text: '*sighs* You again? 🦊' },
+                    { speaker: 'Arionna', text: 'Haven\'t you taken enough from me?' },
+                    { speaker: playerName, text: 'Just checking on my favorite fox lady!' },
+                    { speaker: 'Arionna', text: 'My therapist warned me about you...' },
+                    { speaker: 'Arionna', text: 'Please leave. I\'m still recovering. 😭' }
+                ];
+                showDialogueSequence(revisitDialogue, () => { });
+                return;
+            }
+
+            // Gym access logic
             if (id === 1) {
                 gymState.currentGym = gyms[0];
                 showGymSelectScreen();
+            } else if (id === 2 && gameState.gym1Completed) {
+                gymState.currentGym = gyms[1];
+                showGymSelectScreen();
+            } else if (id === 2 && !gameState.gym1Completed) {
+                showMessage('🔒', 'Locked', 'Defeat Shelak first to unlock Arionna!');
             } else {
-                showMessage('Locked', 'Coming Soon', 'This challenge is not available yet!');
+                showMessage('🔒', 'Coming Soon', 'This challenge is not available yet!');
             }
         }
 
