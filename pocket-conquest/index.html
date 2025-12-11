@@ -4798,8 +4798,8 @@
 
         // DEV MODE - Give Noyzzing all Chapter 1 heroes at high levels
         function devModeForNoyzzing() {
-            if (gameState.trainerName.toUpperCase() !== 'NOYZZING') {
-                console.log('Dev mode only for Noyzzing!');
+            if (gameState.trainerName.toUpperCase() !== 'NOYZZING' || gameState.alliance !== 'ROL') {
+                console.log('Dev mode only for Noyzzing [ROL]!');
                 return;
             }
 
