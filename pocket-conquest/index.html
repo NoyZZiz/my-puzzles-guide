@@ -3562,6 +3562,7 @@
 
             // Deduct cost
             gameState.trCoins -= cost;
+            updateTimeRecruitScreen(); // Update coin display immediately
 
             // Combine pools (allow duplicates for challenge)
             // Rule: First summon IS ALWAYS a Starter Hero
