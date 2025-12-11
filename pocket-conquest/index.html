@@ -4084,6 +4084,8 @@
                 // Filter out boss heroes until their gym is beaten
                 if (!gameState.gym1Completed) {
                     allHeroes = allHeroes.filter(h => h.id !== 'malice');
+                    // Block all Chapter 2 heroes until Gym 1 is beaten
+                    allHeroes = allHeroes.filter(h => h.chapter !== 2);
                 }
                 if (!gameState.gym2Completed) {
                     allHeroes = allHeroes.filter(h => h.id !== 'yune' && h.id !== 'yune-fox-spirit');
