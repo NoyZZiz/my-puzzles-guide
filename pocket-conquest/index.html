@@ -2824,13 +2824,22 @@
             document.getElementById('heroDetailATK').textContent = hero.attack;
             document.getElementById('heroDetailDEF').textContent = hero.defense;
 
-            // Calculate XP progress
-            const xpNeeded = hero.level * 20;
-            const currentXp = hero.xp || 0;
-            const xpPct = Math.min(100, (currentXp / xpNeeded) * 100);
-            document.getElementById('heroDetailXP').textContent = currentXp + ' / ' + xpNeeded;
-            document.getElementById('heroDetailXPBar').style.width = xpPct + '%';
-            document.getElementById('heroDetailXPNeeded').textContent = (xpNeeded - currentXp) + ' XP';
+            // Calculate XP progress - hide if at MAX level
+            const isMaxLevel = hero.level >= getMaxLevel(hero);
+            if (isMaxLevel) {
+                document.getElementById('heroDetailXP').textContent = 'MAX LEVEL';
+                document.getElementById('heroDetailXPBar').style.width = '100%';
+                document.getElementById('heroDetailXPBar').style.background = 'linear-gradient(90deg, #fbbf24, #f59e0b)';
+                document.getElementById('heroDetailXPNeeded').textContent = '🏆';
+            } else {
+                const xpNeeded = hero.level * 20;
+                const currentXp = hero.xp || 0;
+                const xpPct = Math.min(100, (currentXp / xpNeeded) * 100);
+                document.getElementById('heroDetailXP').textContent = currentXp + ' / ' + xpNeeded;
+                document.getElementById('heroDetailXPBar').style.width = xpPct + '%';
+                document.getElementById('heroDetailXPBar').style.background = '';
+                document.getElementById('heroDetailXPNeeded').textContent = (xpNeeded - currentXp) + ' XP';
+            }
 
             // Build attacks list
             let attacksHtml = hero.attacks.map(a => `
