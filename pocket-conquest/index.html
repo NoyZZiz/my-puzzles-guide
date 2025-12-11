@@ -4665,7 +4665,13 @@
                 addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
             } else if (attackType === 'Buff') {
                 SFX.buff();
-                const boost = Math.ceil(battleState.playerHero.attack * 0.05);
+                // Parse actual percentage from effect (e.g. "ATK +50%")
+                let buffPercent = 0.15; // Default 15%
+                if (attack.effect && attack.effect.includes('%')) {
+                    const match = attack.effect.match(/(\d+)%/);
+                    if (match) buffPercent = parseInt(match[1]) / 100;
+                }
+                const boost = Math.ceil(battleState.playerHero.attack * buffPercent);
                 battleState.playerHero.attack += boost;
                 addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! ATK +' + boost + '!');
             } else if (attackType === 'Debuff') {
@@ -4758,8 +4764,15 @@
                 const actualHeal = battleState.enemyCurrentHp - oldHp;
                 addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
             } else if (attackType === 'Buff') {
-                battleState.enemy.attack += 5;
-                addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ' + (attack.effect || 'Stats boosted!'));
+                // Parse actual percentage from effect (e.g. "ATK +50%")
+                let buffPercent = 0.15; // Default 15%
+                if (attack.effect && attack.effect.includes('%')) {
+                    const match = attack.effect.match(/(\d+)%/);
+                    if (match) buffPercent = parseInt(match[1]) / 100;
+                }
+                const buffAmount = Math.floor(battleState.enemy.attack * buffPercent);
+                battleState.enemy.attack += buffAmount;
+                addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ATK +' + buffAmount + '!');
             } else if (attackType === 'Debuff') {
                 battleState.playerHero.attack = Math.max(1, battleState.playerHero.attack - 5);
                 addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ' + (attack.effect || 'Your hero weakened!'));
