@@ -2848,8 +2848,12 @@
             const currentEnemy = gymState.enemyTeam[gymState.enemyIndex];
             const attack = currentPlayer.attacks[index];
 
-            // Apply damage
-            const damage = Math.max(1, attack.damage + currentPlayer.attack - currentEnemy.defense);
+            // Apply damage with balanced formula
+            // Base damage = attack damage + attacker's attack stat
+            // Defense reduces damage by percentage (capped at 80% reduction)
+            const baseDamage = attack.damage + currentPlayer.attack;
+            const defenseReduction = Math.min(0.8, currentEnemy.defense / (currentEnemy.defense + 100));
+            const damage = Math.max(1, Math.floor(baseDamage * (1 - defenseReduction)));
             gymState.enemyCurrentHp[gymState.enemyIndex] -= damage;
             addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! -' + damage + ' HP');
 
@@ -2884,8 +2888,10 @@
             // Pick random attack
             const attack = currentEnemy.attacks[Math.floor(Math.random() * currentEnemy.attacks.length)];
 
-            // Apply damage
-            const damage = Math.max(1, attack.damage + currentEnemy.attack - currentPlayer.defense);
+            // Apply damage with balanced formula
+            const baseDamage = attack.damage + currentEnemy.attack;
+            const defenseReduction = Math.min(0.8, currentPlayer.defense / (currentPlayer.defense + 100));
+            const damage = Math.max(1, Math.floor(baseDamage * (1 - defenseReduction)));
             gymState.playerCurrentHp[gymState.playerIndex] -= damage;
             addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
 
@@ -3408,7 +3414,9 @@
                     battleState.playerCurrentHp -= damage;
                     addBattleLog('😵 ' + battleState.playerHero.name + ' hurt itself in confusion! -' + damage + ' HP');
                 } else {
-                    const damage = Math.max(1, attack.damage + battleState.playerHero.attack - battleState.enemy.defense);
+                    const baseDamage = attack.damage + battleState.playerHero.attack;
+                    const defenseReduction = Math.min(0.8, battleState.enemy.defense / (battleState.enemy.defense + 100));
+                    const damage = Math.max(1, Math.floor(baseDamage * (1 - defenseReduction)));
                     battleState.enemyCurrentHp -= damage;
                     addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! -' + damage + ' HP');
                     applyAttackEffect(attack, true); // Apply status effects from attack
@@ -3483,7 +3491,9 @@
                     battleState.enemyCurrentHp -= damage;
                     addBattleLog('😵 ' + battleState.enemy.name + ' hurt itself in confusion! -' + damage + ' HP');
                 } else {
-                    const damage = Math.max(1, attack.damage + battleState.enemy.attack - battleState.playerHero.defense);
+                    const baseDamage = attack.damage + battleState.enemy.attack;
+                    const defenseReduction = Math.min(0.8, battleState.playerHero.defense / (battleState.playerHero.defense + 100));
+                    const damage = Math.max(1, Math.floor(baseDamage * (1 - defenseReduction)));
                     battleState.playerCurrentHp -= damage;
                     addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! -' + damage + ' HP');
                     applyAttackEffect(attack, false); // Apply status effects from attack
