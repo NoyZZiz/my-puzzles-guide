@@ -4912,6 +4912,53 @@
             const saved = localStorage.getItem('pocketConquest');
             if (saved) {
                 gameState = JSON.parse(saved);
+
+                // Retroactive fix: Give boss heroes to players who already beat gyms
+                if (gameState.gym1Completed && !gameState.heroes.some(h => h.id === 'malice')) {
+                    const maliceData = wildHeroes.find(h => h.id === 'malice');
+                    if (maliceData) {
+                        const level = 130;
+                        const levelBonus = level - 1;
+                        gameState.heroes.push({
+                            id: maliceData.id,
+                            name: maliceData.name,
+                            type: maliceData.type,
+                            rarity: maliceData.rarity,
+                            image: maliceData.image,
+                            level: level,
+                            xp: 0,
+                            hp: maliceData.baseHp + (levelBonus * 5),
+                            maxHp: maliceData.baseHp + (levelBonus * 5),
+                            attack: maliceData.baseAtk + (levelBonus * 4),
+                            defense: maliceData.baseDef + (levelBonus * 1),
+                            attacks: maliceData.attacks
+                        });
+                        saveGame();
+                    }
+                }
+                if (gameState.gym2Completed && !gameState.heroes.some(h => h.id === 'yune')) {
+                    const yuneData = wildHeroes.find(h => h.id === 'yune');
+                    if (yuneData) {
+                        const level = 210;
+                        const levelBonus = level - 1;
+                        gameState.heroes.push({
+                            id: yuneData.id,
+                            name: yuneData.name,
+                            type: yuneData.type,
+                            rarity: yuneData.rarity,
+                            image: yuneData.image,
+                            level: level,
+                            xp: 0,
+                            hp: yuneData.baseHp + (levelBonus * 5),
+                            maxHp: yuneData.baseHp + (levelBonus * 5),
+                            attack: yuneData.baseAtk + (levelBonus * 4),
+                            defense: yuneData.baseDef + (levelBonus * 1),
+                            attacks: yuneData.attacks
+                        });
+                        saveGame();
+                    }
+                }
+
                 showScreen('homeScreen');
             } else {
                 alert('No saved game found. Start a new game!');
