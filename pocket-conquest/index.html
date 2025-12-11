@@ -3376,6 +3376,7 @@
                         id: 'yune',
                         name: 'Yune',
                         type: 'Arcane',
+                        rarity: 'Rare',
                         image: 'assets/heroes/yune.png',
                         level: 210,
                         baseHp: 220,
@@ -3392,6 +3393,7 @@
                         id: 'yune-fox-spirit',
                         name: 'Yune (Fox Spirit)',
                         type: 'Arcane',
+                        rarity: 'Rare',
                         image: 'assets/heroes/yune-fox-spirit.png',
                         level: 210,
                         baseHp: 290,
@@ -3635,10 +3637,12 @@
             // Build enemy team with scaled stats
             gymState.enemyTeam = gym.heroes.map(h => {
                 const levelBonus = h.level - 1;
+                // 4★ (Rare) heroes get 5 HP per level, others get 3
+                const hpPerLevel = (h.rarity === 'Rare' || h.rarity === 'Legendary') ? 5 : 3;
                 return {
                     ...h,
-                    hp: h.baseHp + (levelBonus * 3),
-                    maxHp: h.baseHp + (levelBonus * 3),
+                    hp: h.baseHp + (levelBonus * hpPerLevel),
+                    maxHp: h.baseHp + (levelBonus * hpPerLevel),
                     attack: h.baseAtk + (levelBonus * 2),
                     defense: h.baseDef + (levelBonus * 1)
                 };
@@ -3798,7 +3802,13 @@
                 addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! +' + actualHeal + ' HP restored!');
             } else if (attackType === 'Buff') {
                 SFX.buff();
-                const boost = Math.ceil(currentPlayer.attack * 0.15);
+                // Parse actual percentage from effect (e.g. "ATK +60%")
+                let buffPercent = 0.15; // Default 15%
+                if (attack.effect && attack.effect.includes('%')) {
+                    const match = attack.effect.match(/(\d+)%/);
+                    if (match) buffPercent = parseInt(match[1]) / 100;
+                }
+                const boost = Math.ceil(currentPlayer.attack * buffPercent);
                 currentPlayer.attack += boost;
                 addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! ATK +' + boost + '!');
             } else if (attackType === 'Debuff') {
@@ -3883,9 +3893,15 @@
             } else if (attack.type === 'Buff') {
                 // Enemy buffs their attack
                 SFX.buff();
-                const buffAmount = Math.floor(currentEnemy.attack * 0.15);
+                // Parse actual percentage from effect (e.g. "ATK +60%")
+                let buffPercent = 0.15; // Default 15%
+                if (attack.effect && attack.effect.includes('%')) {
+                    const match = attack.effect.match(/(\d+)%/);
+                    if (match) buffPercent = parseInt(match[1]) / 100;
+                }
+                const buffAmount = Math.floor(currentEnemy.attack * buffPercent);
                 currentEnemy.attack += buffAmount;
-                addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! ATK increased!');
+                addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! ATK +' + buffAmount + '!');
             } else if (attack.type === 'Debuff') {
                 // Enemy debuffs player
                 SFX.debuff();
@@ -4223,8 +4239,8 @@
                 image: heroData.image,
                 level: startingLevel,
                 xp: 0,
-                hp: heroData.baseHp + (levelBonus * 3),
-                maxHp: heroData.baseHp + (levelBonus * 3),
+                hp: heroData.baseHp + (levelBonus * ((heroData.rarity === 'Rare' || heroData.rarity === 'Legendary') ? 5 : 3)),
+                maxHp: heroData.baseHp + (levelBonus * ((heroData.rarity === 'Rare' || heroData.rarity === 'Legendary') ? 5 : 3)),
                 attack: heroData.baseAtk + (levelBonus * 2),
                 defense: heroData.baseDef + (levelBonus * 1),
                 attacks: heroData.attacks
@@ -4420,11 +4436,13 @@
 
             // Scale enemy stats by level
             const levelBonus = enemyLevel - 1;
+            // 4★ (Rare) heroes get 5 HP per level, others get 3
+            const hpPerLevel = (enemyData.rarity === 'Rare' || enemyData.rarity === 'Legendary') ? 5 : 3;
             battleState.enemy = {
                 ...enemyData,
                 level: enemyLevel,
-                hp: enemyData.baseHp + (levelBonus * 3),
-                maxHp: enemyData.baseHp + (levelBonus * 3),
+                hp: enemyData.baseHp + (levelBonus * hpPerLevel),
+                maxHp: enemyData.baseHp + (levelBonus * hpPerLevel),
                 attack: enemyData.baseAtk + (levelBonus * 2),
                 defense: enemyData.baseDef + (levelBonus * 1)
             };
