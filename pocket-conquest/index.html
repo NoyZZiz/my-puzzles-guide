@@ -2803,7 +2803,7 @@
                         <div class="hero-card-info">
                             <div class="hero-card-name">${hero.name}</div>
                             <div class="hero-card-type">${hero.type}</div>
-                            <div class="hero-card-level">Lv.${hero.level}</div>
+                            <div class="hero-card-level">Lv.${getLevelDisplay(hero)}</div>
                         </div>
                     </div>
                 `).join('') +
@@ -2819,7 +2819,7 @@
             document.getElementById('heroDetailRarity').textContent = hero.rarity.toUpperCase();
             document.getElementById('heroDetailName').textContent = hero.name;
             document.getElementById('heroDetailType').textContent = hero.type + ' Type';
-            document.getElementById('heroDetailLevel').textContent = 'Level ' + hero.level;
+            document.getElementById('heroDetailLevel').textContent = 'Level ' + getLevelDisplay(hero);
             document.getElementById('heroDetailHP').textContent = hero.hp + '/' + hero.maxHp;
             document.getElementById('heroDetailATK').textContent = hero.attack;
             document.getElementById('heroDetailDEF').textContent = hero.defense;
@@ -3584,7 +3584,7 @@
                      onclick="toggleGymHero(${i})">
                     <img src="${hero.image}" alt="${hero.name}">
                     <div class="hero-name">${hero.name}</div>
-                    <div style="font-size:0.7rem;color:#94a3b8;">Lv.${hero.level}</div>
+                    <div style="font-size:0.7rem;color:#94a3b8;">Lv.${getLevelDisplay(hero)}</div>
                 </div>
             `).join('');
 
@@ -4417,7 +4417,7 @@
                             <div class="battle-hero-option" onclick="selectHeroForBattle(${i})">
                                 <img src="${hero.image}" alt="${hero.name}">
                                 <div class="hero-name">${hero.name}</div>
-                                <div class="hero-lvl">Lv.${hero.level}</div>
+                                <div class="hero-lvl">Lv.${getLevelDisplay(hero)}</div>
                             </div>
                         `).join('');
                     }
@@ -4840,6 +4840,12 @@
             // Starters max at 70, Uncommon at 130
             const isStarter = starterHeroes.some(h => h.id === hero.id);
             return isStarter ? 70 : 130;
+        }
+
+        function getLevelDisplay(hero) {
+            // Show 'MAX' when hero is at level cap
+            const maxLevel = getMaxLevel(hero);
+            return hero.level >= maxLevel ? 'MAX' : hero.level;
         }
 
         function endBattle(victory) {
