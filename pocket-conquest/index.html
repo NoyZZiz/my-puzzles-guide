@@ -2312,9 +2312,9 @@
                     <div class="preview-card">🔥</div>
                 </div>
 
-                <!-- Spirit Stone Shop -->
-                <div class="spirit-stone-shop"
-                    style="margin-top: 20px; padding: 15px; background: rgba(147, 51, 234, 0.2); border-radius: 12px; border: 1px solid #9333ea;">
+                <!-- Spirit Stone Shop (only shows after Gym 2) -->
+                <div id="spiritStoneShop" class="spirit-stone-shop"
+                    style="margin-top: 20px; padding: 15px; background: rgba(147, 51, 234, 0.2); border-radius: 12px; border: 1px solid #9333ea; display: none;">
                     <div style="display: flex; align-items: center; justify-content: space-between;">
                         <div style="display: flex; align-items: center; gap: 10px;">
                             <span style="font-size: 2rem;">🦊</span>
@@ -2327,7 +2327,7 @@
                             <span id="spiritStoneCount" style="color: #fbbf24; font-weight: bold;">0</span>
                             <button onclick="buySpiritStone()"
                                 style="background: linear-gradient(135deg, #9333ea, #7c3aed); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold;">
-                                Buy (30 💎)
+                                Buy (30 🪙)
                             </button>
                         </div>
                     </div>
@@ -2798,6 +2798,11 @@
         function updateTimeRecruitScreen() {
             document.getElementById('trScreenCoins').textContent = gameState.trCoins;
             document.getElementById('spiritStoneCount').textContent = gameState.spiritStone || 0;
+            // Only show Spirit Stone shop after Gym 2 (when player has Yune)
+            const spiritShop = document.getElementById('spiritStoneShop');
+            if (spiritShop) {
+                spiritShop.style.display = gameState.gym2Completed ? 'block' : 'none';
+            }
         }
 
         function buySpiritStone() {
