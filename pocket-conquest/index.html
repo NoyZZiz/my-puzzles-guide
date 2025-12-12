@@ -2869,7 +2869,7 @@
                 document.getElementById('heroDetailXPBar').style.background = 'linear-gradient(90deg, #fbbf24, #f59e0b)';
                 document.getElementById('heroDetailXPNeeded').textContent = '🏆';
             } else {
-                const xpNeeded = hero.level * 20;
+                const xpNeeded = hero.level * 15;
                 const currentXp = hero.xp || 0;
                 const xpPct = Math.min(100, (currentXp / xpNeeded) * 100);
                 document.getElementById('heroDetailXP').textContent = currentXp + ' / ' + xpNeeded;
@@ -4127,7 +4127,7 @@
                 gymState.selectedHeroIndices.forEach(i => {
                     gameState.heroes[i].xp = (gameState.heroes[i].xp || 0) + gym.reward.xp;
                     // Check for level up
-                    const xpNeeded = gameState.heroes[i].level * 20;
+                    const xpNeeded = gameState.heroes[i].level * 15;
                     while (gameState.heroes[i].xp >= xpNeeded && gameState.heroes[i].level < getMaxLevel(gameState.heroes[i])) {
                         gameState.heroes[i].xp -= xpNeeded;
                         gameState.heroes[i].level++;
@@ -4339,7 +4339,7 @@
                 existingHero.xp = (existingHero.xp || 0) + xpAmount;
 
                 // Check for level up immediately
-                const xpNeeded = existingHero.level * 20;
+                const xpNeeded = existingHero.level * 15;
                 if (existingHero.xp >= xpNeeded && existingHero.level < getMaxLevel(existingHero)) {
                     existingHero.xp -= xpNeeded;
                     existingHero.level++;
@@ -4962,24 +4962,28 @@
 
             let xpGained;
             if (victory) {
-                // Win: base 20 + 2 XP per enemy level + bonus for higher level enemies
-                const levelBonus = Math.max(0, enemyLevel - playerLevel) * 5;
-                xpGained = 20 + (enemyLevel * 2) + levelBonus;
+                // Win: base XP = enemy level × 3
+                // Bonus for fighting enemies higher level than you
+                const levelDiff = enemyLevel - playerLevel;
+                let bonus = 1.0;
+                if (levelDiff >= 20) bonus = 1.5;       // +50% for 20+ levels higher
+                else if (levelDiff >= 10) bonus = 1.25; // +25% for 10+ levels higher
+
+                xpGained = Math.floor(enemyLevel * 3 * bonus);
             } else {
-                // Loss: still decent consolation - base 8 + 1 XP per enemy level
+                // Loss: still decent consolation - enemy level × 1
                 // Players shouldn't feel TOO punished for losing
-                xpGained = 8 + enemyLevel;
+                xpGained = enemyLevel;
             }
 
-            // Cap at reasonable amounts
-            xpGained = Math.min(xpGained, 100);
+            // No cap - high level enemies give lots of XP!
 
             // Award XP to player hero
             gameState.heroes[battleState.playerHeroIndex].xp += xpGained;
 
-            // Check for level up
+            // Check for level up (reduced from ×20 to ×15 for faster leveling)
             const hero = gameState.heroes[battleState.playerHeroIndex];
-            const xpNeeded = hero.level * 20;
+            const xpNeeded = hero.level * 15;
             if (hero.xp >= xpNeeded && hero.level < getMaxLevel(hero)) {
                 hero.level++;
                 hero.xp -= xpNeeded;
