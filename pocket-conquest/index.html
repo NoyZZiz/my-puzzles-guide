@@ -2869,7 +2869,7 @@
                 document.getElementById('heroDetailXPBar').style.background = 'linear-gradient(90deg, #fbbf24, #f59e0b)';
                 document.getElementById('heroDetailXPNeeded').textContent = '🏆';
             } else {
-                const xpNeeded = hero.level * 15;
+                const xpNeeded = 50 + (hero.level * 3);
                 const currentXp = hero.xp || 0;
                 const xpPct = Math.min(100, (currentXp / xpNeeded) * 100);
                 document.getElementById('heroDetailXP').textContent = currentXp + ' / ' + xpNeeded;
@@ -4127,7 +4127,7 @@
                 gymState.selectedHeroIndices.forEach(i => {
                     gameState.heroes[i].xp = (gameState.heroes[i].xp || 0) + gym.reward.xp;
                     // Check for level up
-                    const xpNeeded = gameState.heroes[i].level * 15;
+                    const xpNeeded = 50 + (gameState.heroes[i].level * 3);
                     while (gameState.heroes[i].xp >= xpNeeded && gameState.heroes[i].level < getMaxLevel(gameState.heroes[i])) {
                         gameState.heroes[i].xp -= xpNeeded;
                         gameState.heroes[i].level++;
@@ -4339,7 +4339,7 @@
                 existingHero.xp = (existingHero.xp || 0) + xpAmount;
 
                 // Check for level up immediately
-                const xpNeeded = existingHero.level * 15;
+                const xpNeeded = 50 + (existingHero.level * 3);
                 if (existingHero.xp >= xpNeeded && existingHero.level < getMaxLevel(existingHero)) {
                     existingHero.xp -= xpNeeded;
                     existingHero.level++;
@@ -4955,43 +4955,44 @@
             if (victory) SFX.victory();
             else SFX.defeat();
 
-            // Calculate XP based on enemy level (higher level = more XP)
-            // WIN: much more rewarding, LOSS: minimal consolation
+            // Calculate XP based on level difference (Pokemon Vortex style!)
+            // Beating higher level enemies gives MASSIVE XP rewards
             const playerLevel = battleState.playerHero.level;
             const enemyLevel = battleState.enemy.level;
+            const levelDiff = Math.max(0, enemyLevel - playerLevel);
 
             let xpGained;
             if (victory) {
-                // Win: base XP = enemy level × 3
-                // Bonus for fighting enemies higher level than you
-                const levelDiff = enemyLevel - playerLevel;
-                let bonus = 1.0;
-                if (levelDiff >= 20) bonus = 1.5;       // +50% for 20+ levels higher
-                else if (levelDiff >= 10) bonus = 1.25; // +25% for 10+ levels higher
-
-                xpGained = Math.floor(enemyLevel * 3 * bonus);
+                // Win: Level difference × 20 (minimum: enemy level × 3)
+                // Beating higher level enemies = huge XP!
+                const diffBonus = levelDiff * 20;
+                const baseXP = enemyLevel * 3;
+                xpGained = Math.max(diffBonus, baseXP);
             } else {
                 // Loss: still decent consolation - enemy level × 1
-                // Players shouldn't feel TOO punished for losing
                 xpGained = enemyLevel;
             }
-
-            // No cap - high level enemies give lots of XP!
 
             // Award XP to player hero
             gameState.heroes[battleState.playerHeroIndex].xp += xpGained;
 
-            // Check for level up (reduced from ×20 to ×15 for faster leveling)
+            // Check for level up - WHILE LOOP for multiple level ups!
+            // XP needed = 50 + (level × 3) - very flat, fast progression
             const hero = gameState.heroes[battleState.playerHeroIndex];
-            const xpNeeded = hero.level * 15;
-            if (hero.xp >= xpNeeded && hero.level < getMaxLevel(hero)) {
+            let xpNeeded = 50 + (hero.level * 3);
+            let levelsGained = 0;
+            while (hero.xp >= xpNeeded && hero.level < getMaxLevel(hero)) {
                 hero.level++;
                 hero.xp -= xpNeeded;
                 hero.maxHp += 3;
                 hero.hp = hero.maxHp;
                 hero.attack += 2;
                 hero.defense += 1;
-                addBattleLog('🎉 ' + hero.name + ' leveled up to Lv.' + hero.level + '!');
+                levelsGained++;
+                xpNeeded = 50 + (hero.level * 3); // Recalculate for next level
+            }
+            if (levelsGained > 0) {
+                addBattleLog('🎉 ' + hero.name + ' leveled up ' + levelsGained + ' time(s) to Lv.' + hero.level + '!');
             }
 
             // TR Coin drop (33% random chance on WIN)
