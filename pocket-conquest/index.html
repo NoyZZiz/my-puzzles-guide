@@ -4984,9 +4984,11 @@
             while (hero.xp >= xpNeeded && hero.level < getMaxLevel(hero)) {
                 hero.level++;
                 hero.xp -= xpNeeded;
-                hero.maxHp += 3;
+                // 4★ (Rare) heroes get more stats per level
+                const isRare = hero.rarity === 'Rare' || hero.rarity === 'Legendary';
+                hero.maxHp += isRare ? 5 : 3;
                 hero.hp = hero.maxHp;
-                hero.attack += 2;
+                hero.attack += isRare ? 4 : 2;
                 hero.defense += 1;
                 levelsGained++;
                 xpNeeded = 50 + (hero.level * 3); // Recalculate for next level
@@ -5083,6 +5085,21 @@
                         saveGame();
                     }
                 }
+
+                // Retroactive fix: Recalculate all hero stats based on level
+                // This fixes heroes with incorrect stats from previous level-up bugs
+                gameState.heroes.forEach(hero => {
+                    const heroData = wildHeroes.find(h => h.id === hero.id) || starterHeroes.find(h => h.id === hero.id);
+                    if (heroData) {
+                        const levelBonus = hero.level - 1;
+                        const isRare = hero.rarity === 'Rare' || hero.rarity === 'Legendary';
+                        hero.maxHp = heroData.baseHp + (levelBonus * (isRare ? 5 : 3));
+                        hero.hp = hero.maxHp;
+                        hero.attack = heroData.baseAtk + (levelBonus * (isRare ? 4 : 2));
+                        hero.defense = heroData.baseDef + (levelBonus * 1);
+                    }
+                });
+                saveGame();
 
                 showScreen('homeScreen');
             } else {
