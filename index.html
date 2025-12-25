@@ -32,24 +32,25 @@
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
         crossorigin="anonymous"></script>
 
-    <!-- Tailwind Configuration -->
+    <!-- Reality Shifter Configuration -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
                         brand: {
-                            dark: '#020617',    // Darker Navy/Black
-                            panel: '#0f172a',   // Panel Background
-                            gold: '#fbbf24',    // Main Accent
-                            goldDim: '#b45309', // Darker Gold
-                            text: '#e2e8f0',
-                            border: '#1e2933' // Slightly darker border for contrast
+                            dark: 'var(--brand-dark, #020617)',
+                            panel: 'var(--brand-panel, #0f172a)',
+                            gold: 'var(--brand-gold, #fbbf24)',
+                            goldDim: 'var(--brand-gold-dim, #b45309)',
+                            text: 'var(--brand-text, #e2e8f0)',
+                            border: 'var(--brand-border, #1e2933)'
                         }
                     },
                     fontFamily: {
                         tech: ['Rajdhani', 'sans-serif'],
-                        body: ['Inter', 'sans-serif']
+                        body: ['Inter', 'sans-serif'],
+                        royal: ['Cinzel', 'serif']
                     }
                 }
             }
@@ -57,16 +58,43 @@
     </script>
 
     <style>
+        :root {
+            --brand-dark: #020617;
+            --brand-panel: #0f172a;
+            --brand-gold: #fbbf24;
+            --brand-gold-dim: #b45309;
+            --brand-text: #e2e8f0;
+            --brand-border: #1e2933;
+            --bg-image: linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
+                        linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
+                        linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
+        }
+
+        body[data-theme="yule-ball"] {
+            --brand-dark: #020617;
+            --brand-panel: #0f172a;
+            --brand-gold: #a5f3fc;
+            --brand-gold-dim: #334155;
+            --brand-text: #f8fafc;
+            --brand-border: #1e293b;
+            --bg-image: linear-gradient(rgba(2, 6, 23, 0.8), rgba(2, 6, 23, 0.8)),
+                        url('assets/images/yule-ball-bg.png');
+            font-family: 'Cinzel', serif;
+        }
         body {
-            background-color: #020617;
-            color: #e2e8f0;
+            background-color: var(--brand-dark);
+            color: var(--brand-text);
             font-family: 'Inter', sans-serif;
-            /* Tactical Grid Background */
-            background-image:
-                linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
-                linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
+            background-image: var(--bg-image);
             background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: all 0.5s ease-in-out;
+        }
+
+        body[data-theme="yule-ball"] {
+            background-size: cover;
         }
 
         /* Tech Borders (Corner Accent) */
@@ -208,7 +236,7 @@
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span
-                                class="text-brand-gold glow-text">ZZING</span></h1>
+                                class="text-brand-gold glow-text">ZZING // OPS</span></h1>
                     </div>
                 </a>
 
@@ -217,21 +245,33 @@
                     <ul
                         class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
                         <li><a href="index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
-                        <li><a href="military-expedition-guide/"
+                        <li><a href="military-expedition-guide/index.html"
                                 class="hover:text-brand-gold transition-colors">MILITARY</a></li>
-                        <li><a href="troop-resource-calculator/"
+                        <li><a href="troop-resource-calculator/index.html"
                                 class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
                         <li><a href="event-calendar/" class="hover:text-brand-gold transition-colors">EVENTS</a></li>
-                        <li><a href="battle-of/" class="hover:text-brand-gold transition-colors">BOS</a></li>
+                        <li><a href="battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a></li>
                     </ul>
                 </nav>
 
-                <!-- Search Input -->
-                <div class="relative w-full md:w-56 group">
-                    <i
-                        class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-brand-gold transition-colors"></i>
-                    <input type="text" id="search-input" placeholder="SEARCH DATABASE..."
-                        class="w-full bg-brand-dark border border-brand-border text-gray-200 text-xs font-mono rounded px-10 py-2.5 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all placeholder-gray-600">
+                <!-- Reality Switcher Button -->
+                <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-2">
+                        <button id="theme-toggle" class="relative inline-flex items-center h-8 rounded-full w-14 transition-colors focus:outline-none bg-brand-panel border border-brand-border group overflow-hidden">
+                            <span id="toggle-circle" class="absolute left-1 inline-block w-6 h-6 transform bg-brand-gold rounded-full transition-all duration-500 z-10"></span>
+                            <i class="fa-solid fa-ghost absolute left-2 text-[12px] text-brand-dark transition-opacity duration-300 z-20" id="ghost-icon"></i>
+                            <i class="fa-solid fa-gift absolute right-2 text-[12px] text-brand-dark opacity-0 transition-opacity duration-300 z-20" id="gift-icon"></i>
+                        </button>
+                        <span class="text-[10px] font-bold text-brand-gold uppercase tracking-tighter hidden md:block" id="theme-status">MODERN</span>
+                    </div>
+
+                    <!-- Search Input -->
+                    <div class="relative w-full md:w-56 group">
+                        <i
+                            class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-brand-gold transition-colors"></i>
+                        <input type="text" id="search-input" placeholder="SEARCH DATABASE..."
+                            class="w-full bg-brand-dark border border-brand-border text-gray-200 text-xs font-mono rounded px-10 py-2.5 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all placeholder-gray-600">
+                    </div>
                 </div>
             </div>
         </div>
@@ -349,7 +389,7 @@
                                     MILITARY EXPEDITION</h3>
                                 <p class="text-xs text-gray-400 mb-4 leading-relaxed">Advanced warfare tactics for
                                     kingdom conquest events.</p>
-                                <a href="military-expedition-guide/"
+                                <a href="military-expedition-guide/index.html"
                                     class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
                                     FILE ></a>
                             </div>
@@ -371,7 +411,7 @@
                                     TROOP STRENGTH</h3>
                                 <p class="text-xs text-gray-400 mb-4 leading-relaxed">Optimization protocols for maximum
                                     army output.</p>
-                                <a href="troop-strength-guide/"
+                                <a href="troop-strength-guide/index.html"
                                     class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
                                     FILE ></a>
                             </div>
@@ -393,7 +433,7 @@
                                     TALENT MEMORY</h3>
                                 <p class="text-xs text-gray-400 mb-4 leading-relaxed">Unlock hero potential with optimal
                                     skill trees.</p>
-                                <a href="talent-memory-guide/"
+                                <a href="talent-memory-guide/index.html"
                                     class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
                                     FILE ></a>
                             </div>
@@ -418,7 +458,7 @@
                             <h3 class="text-xl font-bold font-tech text-white mb-2">TROOP CALCULATOR</h3>
                             <p class="text-xs text-gray-400 mb-6 font-mono">Real-time battle simulation and resource
                                 analysis.</p>
-                            <a href="troop-resource-calculator/"
+                            <a href="troop-resource-calculator/index.html"
                                 class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
                                 LAUNCH APP
                             </a>
@@ -466,7 +506,7 @@
                             <h3 class="text-xl font-bold font-tech text-white mb-2">CODE NAME: HAWKINS</h3>
                             <p class="text-xs text-gray-400 mb-6 font-mono">Find your unique Stranger Things Season 5
                                 alliance character.</p>
-                            <a href="stranger_things_game/"
+                            <a href="stranger_things_game/index.html"
                                 class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
                                 ASSIGN CODE
                             </a>
@@ -482,9 +522,24 @@
                             <h3 class="text-xl font-bold font-tech text-white mb-2">POCKET CONQUEST</h3>
                             <p class="text-xs text-gray-400 mb-6 font-mono">Collect heroes, summon 5-stars, and battle
                                 in this RPG sim!</p>
-                            <a href="pocket-conquest/"
+                            <a href="pocket-conquest/index.html"
                                 class="inline-block px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
                                 START ADVENTURE
+                            </a>
+                        </div>
+
+                        <!-- Tool 6: HOGWARTS REGISTRY -->
+                        <div
+                            class="tool-card p-6 bg-gradient-to-br from-cyan-900/40 to-brand-dark border border-cyan-500/50 hover:border-brand-gold transition-all rounded relative group">
+                            <div
+                                class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
+                                <i class="fa-solid fa-wand-sparkles text-5xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold font-tech text-white mb-2 uppercase">Hogwarts Registry</h3>
+                            <p class="text-xs text-gray-400 mb-6 font-mono">Inscribe your signature in the official book of fates. An authentic ROL alliance experience.</p>
+                            <a href="harry-potter.html"
+                                class="inline-block px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
+                                UNROLL PARCHMENT
                             </a>
                         </div>
 
@@ -699,6 +754,51 @@
             initTypingEffect();
             initNewsletterSubscription();
             initSearch();
+            initThemeSwitcher();
+
+            // --- Theme Switcher Logic ---
+            function initThemeSwitcher() {
+                const toggleBtn = document.getElementById('theme-toggle');
+                const circle = document.getElementById('toggle-circle');
+                const ghostIcon = document.getElementById('ghost-icon');
+                const giftIcon = document.getElementById('gift-icon');
+                const status = document.getElementById('theme-status');
+                const body = document.body;
+
+                // Load saved theme
+                const savedTheme = localStorage.getItem('site-theme') || 'modern';
+                if (savedTheme === 'yule-ball') {
+                    setTheme('yule-ball');
+                } else {
+                    setTheme('modern');
+                }
+
+                toggleBtn.addEventListener('click', () => {
+                    const currentTheme = body.getAttribute('data-theme') || 'modern';
+                    const newTheme = currentTheme === 'modern' ? 'yule-ball' : 'modern';
+                    setTheme(newTheme);
+                    localStorage.setItem('site-theme', newTheme);
+                });
+
+                function setTheme(theme) {
+                    if (theme === 'yule-ball') {
+                        body.setAttribute('data-theme', 'yule-ball');
+                        circle.style.transform = 'translateX(24px)';
+                        ghostIcon.style.opacity = '0';
+                        giftIcon.style.opacity = '1';
+                        status.textContent = 'REGISTRY';
+                        status.classList.replace('text-brand-gold', 'text-white');
+                    } else {
+                        body.removeAttribute('data-theme');
+                        circle.style.transform = 'translateX(0)';
+                        ghostIcon.style.opacity = '1';
+                        giftIcon.style.opacity = '0';
+                        status.textContent = 'MODERN';
+                        status.classList.replace('text-white', 'text-brand-gold');
+                    }
+                    console.log(`Reality shifted to: ${theme}`);
+                }
+            }
 
 
             // --- Gemini/Groq API Handler ---
@@ -941,7 +1041,7 @@
 
     <!-- Infolinks Ads -->
     <script type="text/javascript"> var infolinks_pid = 3442090; var infolinks_wsid = 0; </script>
-    <script type="text/javascript" src="//resources.infolinks.com/js/infolinks_main.js"></script>
+    <script type="text/javascript" src="https://resources.infolinks.com/js/infolinks_main.js"></script>
 
 
 </body>

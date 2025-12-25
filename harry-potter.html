@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="doc_title">The Hogwarts Registry - A Magical Sorting Ceremony</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Cinzel+Decorative:wght@700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,400;0,700;1,400&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VYP41CV8E4');
+    </script>
+
+    <style>
+        :root {
+            --hp-gold: #d4af37;
+            --hp-parchment: #f4e4bc;
+            --hp-ink: #1a1a1a;
+            --hp-burgundy: #4a0404;
+            --hp-border: #8d6e3f;
+            --hp-shadow: rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            background: #0d0d0d;
+            color: var(--hp-ink);
+            font-family: 'Lora', serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('https://www.transparenttextures.com/patterns/dark-leather.png');
+            background-attachment: fixed;
+        }
+
+        .hp-font { font-family: 'Cinzel', serif; }
+        .wizard-script { font-family: 'Dancing Script', cursive; }
+
+        .hp-title {
+            font-family: 'Cinzel Decorative', cursive;
+            color: var(--hp-gold);
+            text-shadow: 
+                0 0 10px rgba(212, 175, 55, 0.4),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            letter-spacing: 0.1em;
+            font-weight: 700;
+        }
+
+        .hp-ancient { font-family: 'Uncial Antiqua', serif; }
+
+        /* The Registry / Parchment Panel */
+        .game-panel {
+            background-color: var(--hp-parchment);
+            background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
+            border: 8px double var(--hp-border);
+            box-shadow: 
+                0 0 50px rgba(0, 0, 0, 0.8),
+                inset 0 0 100px rgba(139, 69, 19, 0.1);
+            border-radius: 4px;
+            position: relative;
+            transform: rotate(-0.5deg);
+            z-index: 10;
+        }
+
+        .game-panel::after {
+            content: '';
+            position: absolute;
+            bottom: 20px; right: 20px;
+            width: 150px; height: 150px;
+            background: url('https://www.transparenttextures.com/patterns/ink-quill.png');
+            opacity: 0.1;
+            pointer-events: none;
+            filter: sepia(1) saturate(5) hue-rotate(-50deg);
+        }
+
+        .game-panel::before {
+            content: '';
+            position: absolute;
+            top: -15px; left: -15px; right: -15px; bottom: -15px;
+            border: 1px solid var(--hp-gold);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /* Magical Inputs */
+        input[type="text"], select {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--hp-border);
+            color: var(--hp-ink);
+            padding: 10px 5px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-bottom-color: var(--hp-gold);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        /* --- CUSTOM MAGICAL DROPDOWN --- */
+        .custom-select-container { position: relative; width: 100%; cursor: pointer; }
+        .custom-select-trigger {
+            background: transparent;
+            border-bottom: 2px solid var(--hp-border);
+            color: var(--hp-ink);
+            padding: 10px 5px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .custom-options {
+            position: absolute;
+            top: 100%; left: 0; right: 0;
+            background: var(--hp-parchment);
+            background-image: url('https://www.transparenttextures.com/patterns/parchment.png');
+            border: 4px double var(--hp-border);
+            z-index: 100;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        .custom-option {
+            padding: 10px 15px;
+            font-family: 'Lora', serif;
+            font-size: 1.1rem;
+            color: var(--hp-ink);
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(141, 110, 63, 0.1);
+        }
+        .custom-option:hover {
+            background: rgba(141, 110, 63, 0.15);
+            color: var(--hp-burgundy);
+            padding-left: 20px;
+        }
+        .custom-option.selected {
+            background: rgba(74, 4, 4, 0.05);
+            font-weight: bold;
+            color: var(--hp-burgundy);
+        }
+        .custom-select-container.open .custom-options { display: block; }
+        .custom-select-container.open .fa-chevron-down { transform: rotate(180deg); }
+
+        /* Header Fixes */
+        #lang-selector {
+            appearance: none;
+            background: transparent;
+            border: 1px solid var(--hp-gold);
+            color: var(--hp-gold);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-family: 'Cinzel', serif;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+        }
+
+        /* Wax Seal Style Button */
+        .magical-button {
+            background: var(--hp-burgundy);
+            background-image: radial-gradient(circle at center, #800000 0%, #4a0404 100%);
+            border: 2px solid var(--hp-gold);
+            color: var(--hp-gold);
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .magical-button:hover:not(:disabled) {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+            filter: brightness(1.2);
+        }
+
+        .magical-button:active { transform: scale(0.98); }
+        .magical-button:disabled { opacity: 0.6; filter: grayscale(0.5); cursor: not-allowed; }
+
+        .magical-button-compact {
+            padding: 10px 15px !important;
+            font-size: 0.75rem !important;
+        }
+
+        #result-name {
+            font-size: 3rem;
+            color: var(--hp-burgundy);
+            font-family: 'Dancing Script', cursive;
+            text-decoration: underline;
+        }
+
+        /* Status & Log Styles */
+        .status-parchment {
+            border: 2px dashed var(--hp-border);
+            background: rgba(139, 69, 19, 0.05);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Lora', serif;
+            font-style: italic;
+            margin-bottom: 2rem;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+        .status-error { color: #8b0000; border-color: rgba(139, 0, 0, 0.3); }
+        .status-success { color: #1b5e20; border-color: rgba(27, 94, 32, 0.3); }
+        .status-info { color: #5d4037; }
+        .status-warning { color: #f57f17; }
+
+        /* Ink Splotch Utility */
+        .ink-splotch {
+            position: relative;
+        }
+        .ink-splotch::before {
+            content: '';
+            position: absolute;
+            width: 40px; height: 40px;
+            background: rgba(26, 26, 26, 0.15);
+            filter: blur(8px);
+            border-radius: 50%;
+            z-index: -1;
+            transform: scale(1.5, 0.8) rotate(15deg);
+        }
+
+        /* Floating Animation */
+        .floating { animation: float-anim 3s ease-in-out infinite; }
+        @keyframes float-anim {
+            0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+            50% { transform: translateY(-10px) rotate(0.5deg); }
+        }
+
+        /* Floating Candles (Warm) */
+        .candle {
+            position: absolute; width: 6px; height: 25px; background: #fffde7; border-radius: 3px;
+            box-shadow: 0 0 15px #fff176; animation: candle-float 5s ease-in-out infinite;
+            z-index: 1; opacity: 0.8;
+        }
+        .flame {
+            position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
+            width: 5px; height: 8px; background: #ff9800; border-radius: 50%; 
+            animation: flicker-warm 0.15s infinite alternate;
+            box-shadow: 0 0 10px #ff5722;
+        }
+        @keyframes candle-float { 
+            0%, 100% { transform: translateY(0); } 
+            50% { transform: translateY(-40px); } 
+        }
+        @keyframes flicker-warm { 
+            from { opacity: 0.8; transform: translateX(-50%) scale(1); } 
+            to { opacity: 1; transform: translateX(-50%) scale(1.3); } 
+        }
+
+        /* Custom Quill Cursor */
+        body { cursor: url('https://cdn-icons-png.flaticon.com/32/3067/3067451.png'), auto; }
+        a, button, .custom-select-trigger, .custom-option, .cursor-pointer { 
+            cursor: pointer !important; 
+        }
+    </style>
+</head>
+<body class="antialiased">
+    
+    <header class="w-full bg-hp-ink/90 border-b-4 border-double border-hp-border z-50">
+        <div class="container mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex flex-col">
+                <a href="index.html" class="hp-title text-2xl flex items-center tracking-widest no-underline" style="color: #ffd700;">
+                    <i class="fa-solid fa-quill mr-3" style="color: #ffd700;"></i>
+                    NOYZZING <span class="mx-2" style="color: #ffd700;">|</span> <span style="color: #ffd700;">REGISTRY</span>
+                </a>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="relative flex items-center space-x-2">
+                    <i class="fa-solid fa-earth-americas text-hp-gold text-xs"></i>
+                    <select id="lang-selector" class="text-xs h-8 cursor-pointer"></select>
+                </div>
+                <div class="wizard-script text-2xl flex items-center" style="color: #ffd700;">
+                    House of <span class="hp-font font-bold text-white ml-2">ROL</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12 flex-grow flex items-center justify-center">
+        <div class="game-panel w-full max-w-2xl p-8 md:p-12 floating">
+            <h1 class="text-5xl md:text-6xl text-center mb-4 hp-title" data-i18n="doc_title">
+                THE HOGWARTS REGISTRY
+            </h1>
+
+            <p class="text-center text-hp-gold mb-10 text-xl wizard-script uppercase tracking-widest" data-i18n="castle_title">
+                The Sorting of Magical Fates
+            </p>
+
+            <div id="status-message" class="status-parchment p-4 rounded-sm mb-8 text-center text-lg wizard-script ink-splotch">
+                <i class="fa-solid fa-feather-pointed mr-2"></i> Declare your wizarding signature to begin the ceremony.
+            </div>
+
+            <!-- CASTLE SELECTION (IDENTIFIER) -->
+            <div id="castle-selection" class="space-y-6">
+                <p class="text-lg text-hp-ink mb-2 wizard-script" data-i18n="select_castle_prompt">Inscribe your magical signature (e.g., Main Wand, Alt Scroll)</p>
+                <div class="space-y-6">
+                    <div>
+                        <label for="castle-input" class="block text-xs font-bold text-hp-burgundy/80 mb-1 uppercase tracking-tighter" data-i18n="castle_label">Signature:</label>
+                        <input type="text" id="castle-input" placeholder="ROL | Potion Master" maxlength="30" required>
+                    </div>
+                    <button id="select-castle-btn" class="magical-button w-full text-xl" data-i18n="access_file">
+                        <i class="fa-solid fa-scroll mr-2"></i> UNROLL PARCHMENT
+                    </button>
+                </div>
+                <div class="mt-8 p-6 border-2 border-hp-border/30 bg-white/5 rounded-sm">
+                    <h3 class="text-hp-burgundy font-bold mb-3 text-sm hp-font" data-i18n="info_important">OFFICIAL DECREE:</h3>
+                    <p class="text-sm text-hp-ink/70 leading-relaxed" data-i18n="info_resets">Each magical signature is permitted **10 Sorting Ceremonies**. This identity shall be bound to your future visits.</p>
+                </div>
+            </div>
+
+            <!-- ASSIGNMENT FORM -->
+            <div id="assignment-form" class="space-y-6 hidden">
+                <div id="castle-info" class="border-y border-hp-border/20 py-4 text-center">
+                    <p class="text-2xl hp-font text-hp-burgundy mb-2" data-i18n="active_alias">Identity: <span id="current-castle" class="wizard-script text-3xl">None</span></p>
+                    <p class="text-sm italic"><span data-i18n="resets_left">Magic Remaining:</span> <span id="reset-count-display" class="font-bold">10</span>/10 Scrolls</p>
+                </div>
+                <p class="text-center text-xl wizard-script mt-6"><span data-i18n="pool_prompt">Declare your magical lineage,</span> <span id="castle-name" class="text-hp-burgundy"></span></p>
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="space-y-2">
+                        <label class="block text-center text-xs font-bold text-hp-burgundy/80 uppercase tracking-widest" data-i18n="char_pool_select">Magical Lineage:</label>
+                        <div id="gender-select-wrapper" class="custom-select-container">
+                            <div class="custom-select-trigger" id="gender-trigger">
+                                <span id="gender-selected-text" data-i18n="select_default">-- Make Your Choice --</span>
+                                <i class="fa-solid fa-chevron-down text-sm transition-transform"></i>
+                            </div>
+                            <div class="custom-options" id="gender-options">
+                                <!-- Options will be injected by JS -->
+                            </div>
+                        </div>
+                        <input type="hidden" id="player-gender" value="">
+                    </div>
+                </div>
+                <div class="pt-6">
+                    <button id="assign-btn" class="magical-button w-full text-2xl" data-i18n="assign_code">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> CONSULT THE GOBLET
+                    </button>
+                </div>
+            </div>
+
+            <!-- SPINNER SCREEN -->
+            <div id="spinner-container" class="mt-10 flex flex-col items-center justify-center p-8 hidden">
+                <span id="spinner-text" class="hp-title text-4xl mb-4" data-i18n-spinner="ENCHANTING REALITY...">ENCHANTING REALITY...</span>
+                <p class="text-lg wizard-script text-hp-burgundy">The Goblet is selecting your fate...</p>
+            </div>
+
+            <!-- RESULT DISPLAY -->
+            <div id="result-display" class="mt-10 text-center animate-fade-in hidden">
+                <div class="mb-8">
+                    <span class="text-xs font-bold text-hp-border uppercase tracking-widest" data-i18n="assignment_secured">IDENTITY REVEALED:</span>
+                    <h2 id="result-name" class="mt-2 mb-4" style="font-size: 3.5rem; color: #4a0404; font-family: 'Dancing Script', cursive; border-bottom: 2px double rgba(74, 4, 4, 0.2); display: inline-block;"></h2>
+                    
+                    <div id="house-badge-container" class="my-4"></div>
+                    
+                    <p id="pool-display" class="text-sm wizard-script text-hp-gold font-bold uppercase tracking-widest opacity-80"></p>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button id="share-btn" class="magical-button magical-button-compact flex-1">
+                        <i class="fa-solid fa-feather mr-2"></i> <span data-i18n="copy_details">COPY MAGICAL DETAILS</span>
+                    </button>
+                    <button id="reset-btn" class="magical-button magical-button-compact flex-1">
+                        <i class="fa-solid fa-rotate-left mr-2"></i> <span data-i18n="reset_reroll">CAST RE-SORTING SPELL</span>
+                    </button>
+                    <button id="new-castle-btn" class="magical-button magical-button-compact flex-1">
+                        <i class="fa-solid fa-user-plus mr-2"></i> <span data-i18n="change_new_castle">NEW WIZARD SIGNATURE</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- MARAUDER'S LOG -->
+            <div class="mt-12 border-t-2 border-hp-border/20 pt-8">
+                <h2 class="text-3xl wizard-script text-hp-burgundy mb-4 flex items-center" data-i18n="log_title">
+                    <i class="fa-solid fa-feather-pointed text-hp-gold mr-3"></i> The Marauder's Log
+                </h2>
+                <div id="castle-assignments" class="text-sm space-y-3 max-h-60 overflow-y-auto p-4 wizard-script text-xl">
+                    <!-- Log entries injected by JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="w-full bg-hp-ink/95 border-t-4 border-double border-hp-border mt-auto py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="hp-title text-2xl mb-2 tracking-widest" style="color: #ffd700;">NOYZZING // OPERATIONAL COMMAND</div>
+            <p class="text-xs uppercase tracking-widest mb-4 font-bold" style="color: #ffd700; opacity: 0.9;">Official Sorting Registry | Alliance Strategic Sector</p>
+            <div class="flex justify-center items-center space-x-6 text-sm wizard-script">
+                <a href="index.html" class="hover:underline transition-all font-bold" style="color: #ffd700;">Return to Headquarters</a>
+                <span style="color: #8d6e3f;">|</span>
+                <span class="italic" style="color: #ffd700; opacity: 0.9;">In Alliance with House of ROL</span>
+            </div>
+            <div class="mt-8 pt-6 border-t border-hp-border/30 text-[11px] hp-font tracking-widest" style="color: #ffd700; opacity: 0.6;">
+                EST. 1991 | NOYZZING // OPS | OFFICIAL REGISTRY
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL -->
+    <div id="theme-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden opacity-0 transition-opacity bg-black/60 backdrop-blur-sm">
+        <div class="modal-content w-full max-w-md p-10 relative rounded-sm shadow-2xl border-4 border-double border-hp-border bg-hp-parchment" style="background-image: url('https://www.transparenttextures.com/patterns/parchment.png');">
+            <h3 id="modal-title" class="hp-title text-2xl mb-5 uppercase" data-i18n="modal_override_title">The Goblet's Warning</h3>
+            <p id="modal-message" class="text-hp-ink text-lg mb-10 wizard-script leading-relaxed"></p>
+            <div class="flex justify-end space-x-6">
+                <button id="modal-cancel" class="text-hp-border hover:text-hp-burgundy text-sm font-bold transition-colors uppercase hp-font" data-i18n="cancel_btn">HALT</button>
+                <button id="modal-confirm" class="magical-button text-xs py-2 px-6" data-i18n="confirm_reroll_btn">CAST SPELL</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- TRANSLATION DATA ---
+        const TRANSLATIONS = {
+            'en': {
+                'lang_name': 'English',
+                'doc_title': 'The Hogwarts Registry',
+                'castle_title': 'The Sorting of Magical Fates',
+                'select_castle_prompt': 'Inscribe your magical signature...',
+                'castle_label': 'Magical Signature:',
+                'access_file': '<i class="fa-solid fa-scroll mr-2"></i> UNROLL PARCHMENT',
+                'info_important': 'OFFICIAL DECREE:',
+                'info_resets': 'Each magical signature is permitted **10 Sorting Ceremonies**. Use this name for all future checks.',
+                'active_alias': 'ACTIVE SIGNATURE:', 'resets_left': 'Magic Remaining:',
+                'pool_prompt': 'Declare your magical lineage,', 'char_pool_select': 'Magical Lineage Selection:',
+                'select_default': '-- Make Your Choice --', 'male_chars': 'Wizard', 'female_chars': 'Witch',
+                'assign_code': '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> CONSULT THE GOBLET',
+                'assignment_secured': 'IDENTITY REVEALED:',
+                'copy_details': '<i class="fa-solid fa-feather mr-1"></i> COPY MAGICAL DETAILS',
+                'reset_reroll': '<i class="fa-solid fa-rotate-left mr-1"></i> CAST RE-SORTING SPELL',
+                'change_new_castle': '<i class="fa-solid fa-user-plus mr-1"></i> NEW WIZARD SIGNATURE',
+                'log_title': 'The Marauder\'s Log',
+                'modal_override_title': 'The Goblet\'s Warning',
+                'modal_override_msg': 'You have already been sorted as **$1**. Casting a re-sorting spell will consume one of your limited magical scrolls ($2 left). Proceed?',
+                'cancel_btn': 'HALT', 'confirm_reroll_btn': 'CAST SPELL',
+                'status_default': 'Declare your wizarding signature to begin the ceremony.',
+                'status_enter_name': 'Please inscribe your magical signature.',
+                'status_select_pool': 'Please declare your magical lineage.',
+                'status_assignment_exists': 'Sorting already completed. Cast a Re-Sorting Spell to try again.',
+                'status_ready': 'Signature "$1" recognized. The ceremony is prepared.',
+                'status_no_resets': '❌ No magical scrolls remaining for this signature.',
+                'status_reset_confirm_msg': 'This will consume **1 of your $1 Sorting Ceremonies** for **$2**. Your current identity will be lost.',
+                'status_reset_cancel': 'Ceremony cancelled. Current assignment remains active.',
+                'status_reset_complete': 'Magic restored. "$2" has $1 scrolls remaining.',
+                'status_new_castle': 'Inscribe a new magical signature to proceed.',
+                'status_copy_success': 'Magical details copied! Share this fate in Discord.',
+                'status_duplicate_warning': 'The Great Hall has been exhausted! Allowing duplicates.',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> MAGICAL INITIATION...',
+                'result_welcome': 'Welcome **$1**! Your residence is $2',
+                'result_secured': 'Sorting complete! You are **$1**.',
+                'result_failed': 'Sorting failed. Dark magic detected. Try again.',
+                'roster_empty': 'The Great Hall Log is empty.',
+                'house_label': 'HOUSE:',
+                'house_gryffindor': 'Gryffindor', 'house_slytherin': 'Slytherin', 
+                'house_ravenclaw': 'Ravenclaw', 'house_hufflepuff': 'Hufflepuff',
+                'house_durmstrang': 'Durmstrang', 'house_beauxbatons': 'Beauxbatons',
+                'house_neutral': 'Wizarding World'
+            },
+            'ru': {
+                'lang_name': 'Русский',
+                'doc_title': 'Реестр Хогвартса',
+                'castle_title': 'Распределение магических судеб',
+                'select_castle_prompt': 'Впишите вашу магическую подпись...',
+                'castle_label': 'Магическая подпись:',
+                'access_file': '<i class="fa-solid fa-scroll mr-2"></i> РАЗВЕРНУТЬ ПЕРГАМЕНТ',
+                'info_important': 'ОФИЦИАЛЬНЫЙ ДЕКРЕТ:',
+                'info_resets': 'Каждой магической подписи разрешено **10 Церемоний Распределения**.',
+                'active_alias': 'АКТИВНАЯ ПОДПИСЬ:', 'resets_left': 'Осталось магии:',
+                'pool_prompt': 'Объявите о своем происхождении,', 'char_pool_select': 'Выбор магического происхождения:',
+                'select_default': '-- Сделайте свой выбор --', 'male_chars': 'Волшебник', 'female_chars': 'Ведьма',
+                'assign_code': '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> КОНСУЛЬТАЦИЯ КУБКА',
+                'assignment_secured': 'ЛИЧНОСТЬ РАСКРЫТА:',
+                'copy_details': '<i class="fa-solid fa-feather mr-1"></i> КОПИРОВАТЬ МАГИЧЕСКИЕ ДАННЫЕ',
+                'reset_reroll': '<i class="fa-solid fa-rotate-left mr-1"></i> ЗАКЛИНАНИЕ ПЕРЕРАСПРЕДЕЛЕНИЯ',
+                'change_new_castle': '<i class="fa-solid fa-user-plus mr-1"></i> НОВАЯ МАГИЧЕСКАЯ ПОДПИСЬ',
+                'log_title': 'Карта Мародеров (Журнал)',
+                'modal_override_title': 'Предупреждение Кубка',
+                'modal_override_msg': 'Вы уже были распределены как **$1**. Заклинание перераспределения поглотит один из ваших ограниченных магических свитков (осталось: $2). Продолжить?',
+                'cancel_btn': 'СТОЙ', 'confirm_reroll_btn': 'ПРОИЗНЕСТИ ЗАКЛИНАНИЕ',
+                'status_default': 'Declare your wizarding signature to begin the ceremony.',
+                'status_enter_name': 'Please inscribe your magical signature.',
+                'status_select_pool': 'Please declare your magical lineage.',
+                'status_assignment_exists': 'Sorting already completed. Cast a Re-Sorting Spell to try again.',
+                'status_ready': 'Подпись "$1" признана. Церемония готова.',
+                'status_no_resets': '❌ No magical scrolls remaining for this signature.',
+                'status_reset_confirm_msg': 'This will consume **1 of your $1 Sorting Ceremonies** for **$2**. Your current identity will be lost.',
+                'status_reset_cancel': 'Ceremony cancelled. Current assignment remains active.',
+                'status_reset_complete': 'Магия восстановлена. У "$2" осталось $1 свитков.',
+                'status_new_castle': 'Inscribe a new magical signature to proceed.',
+                'status_copy_success': 'Magical details copied! Share this fate in Discord.',
+                'status_duplicate_warning': 'Большой зал истощен! Разрешены дубликаты.',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> ПРИЗЫВ ДРЕВНЕЙ МАГИИ...',
+                'result_welcome': 'Добро пожаловать, **$1**! Ваша обитель — $2',
+                'result_secured': 'Распределение завершено! Вы — **$1**.',
+                'result_failed': 'Распределение не удалось. Обнаружена темная магия.',
+                'roster_empty': 'Журнал Мародеров пуст.'
+            },
+            'fr': {
+                'lang_name': 'Français',
+                'doc_title': 'Le Registre de Poudlard',
+                'castle_title': 'La Répartition des Destins Magiques',
+                'select_castle_prompt': 'Inscrivez votre signature magique...',
+                'castle_label': 'Signature Magique :',
+                'access_file': '<i class="fa-solid fa-scroll mr-2"></i> DÉROULER LE PARCHEMIN',
+                'info_important': 'DÉCRET OFFICIEL :',
+                'info_resets': 'Chaque signature magique est autorisée à **10 Cérémonies de Répartition**.',
+                'active_alias': 'SIGNATURE ACTIVE :', 'resets_left': 'Magie Restante :',
+                'pool_prompt': 'Déclarez votre lignée magique,', 'char_pool_select': 'Sélection de la Lignée :',
+                'select_default': '-- Faites Votre Choix --', 'male_chars': 'Sorcier', 'female_chars': 'Sorcière',
+                'assign_code': '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> CONSULTER LA COUPE',
+                'assignment_secured': 'IDENTITÉ RÉVÉLÉE :',
+                'copy_details': '<i class="fa-solid fa-feather mr-1"></i> COPIER LES DÉTAILS MAGIQUES',
+                'reset_reroll': '<i class="fa-solid fa-rotate-left mr-1"></i> SORT DE RE-RÉPARTITION',
+                'change_new_castle': '<i class="fa-solid fa-user-plus mr-1"></i> NOUVELLE SIGNATURE',
+                'log_title': 'Le Journal du Maraudeur',
+                'modal_override_title': 'L\'Avertissement de la Coupe',
+                'modal_override_msg': 'Vous avez déjà été réparti comme **$1**. Lancer un sort de re-répartition consommera l\'un de vos parchemins magiques limités ($2 restants). Procéder ?',
+                'cancel_btn': 'HALTE', 'confirm_reroll_btn': 'LANCER LE SORT',
+                'status_default': 'Sélectionnez votre alias pour commencer.',
+                'status_enter_name': 'Veuillez entrer un alias.',
+                'status_select_pool': 'Sélectionnez un pool.',
+                'status_assignment_exists': 'Répartition déjà terminée. Utilisez Réinitialiser pour relancer.',
+                'status_ready': 'Signature "$1" reconnue. La cérémonie est prête.',
+                'status_no_resets': '❌ Aucune tentative de réinitialisation restante.',
+                'status_reset_confirm_msg': 'Ceci consommera **1 de vos $1 tentatives** pour **$2**. L\'identité actuelle sera perdue.',
+                'status_reset_cancel': 'Annulé. L\'identité reste active.',
+                'status_reset_complete': 'Magie restaurée. "$2" a $1 parchemins restants.',
+                'status_new_castle': 'Entrez un nouvel alias.',
+                'status_copy_success': 'Identité copiée !',
+                'status_duplicate_warning': 'Le Grand Salon est épuisé ! Doublons autorisés.',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> INVOCATION DE LA MAGIE...',
+                'result_welcome': 'Bienvenue **$1** ! Votre demeure est $2',
+                'result_secured': 'Répartition terminée ! Vous êtes **$1**.',
+                'result_failed': 'Échec de la répartition. Magie noire détectée.',
+                'roster_empty': 'Le journal est vide.'
+            },
+            'es': {
+                'lang_name': 'Español',
+                'doc_title': 'El Registro de Hogwarts',
+                'castle_title': 'La Selección de los Destinos Mágicos',
+                'select_castle_prompt': 'Inscribe tu firma mágica...',
+                'castle_label': 'Firma Mágica:',
+                'access_file': '<i class="fa-solid fa-scroll mr-2"></i> DESENRROLLAR PERGAMINO',
+                'info_important': 'DECRETO OFICIAL:',
+                'info_resets': 'Cada firma mágica tiene permitidas **10 Ceremonias de Selección**.',
+                'active_alias': 'FIRMA ACTIVA:', 'resets_left': 'Magia Restante:',
+                'pool_prompt': 'Declara tu linaje mágico,', 'char_pool_select': 'Selección de Linaje:',
+                'select_default': '-- Haz tu Elección --', 'male_chars': 'Mago', 'female_chars': 'Bruja',
+                'assign_code': '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> CONSULTAR EL CÁLIZ',
+                'assignment_secured': 'IDENTIDAD REVELADA:',
+                'copy_details': '<i class="fa-solid fa-feather mr-1"></i> COPIAR DETALLES MÁGICOS',
+                'reset_reroll': '<i class="fa-solid fa-rotate-left mr-1"></i> HECHIZO DE RE-SELECCIÓN',
+                'change_new_castle': '<i class="fa-solid fa-user-plus mr-1"></i> NUEVA FIRMA MÁGICA',
+                'log_title': 'El Diario del Merodeador',
+                'modal_override_title': 'Advertencia del Cáliz',
+                'modal_override_msg': 'Ya has sido seleccionado como **$1**. Lanzar un hechizo de re-selección consumirá uno de tus pergaminos mágicos limitados ($2 restantes). ¿Proceder?',
+                'cancel_btn': 'ALTO', 'confirm_reroll_btn': 'LANZAR HECHIZO',
+                'status_default': 'Selecciona tu alias para comenzar.',
+                'status_enter_name': 'Ingresa un alias.',
+                'status_select_pool': 'Selecciona un pool.',
+                'status_assignment_exists': 'Selección ya completada.',
+                'status_ready': 'Firma "$1" reconocida. La ceremonia está lista.',
+                'status_no_resets': '❌ Sin intentos restantes.',
+                'status_reset_confirm_msg': 'Se consumirá **1 de tus $1 intentos** para **$2**.',
+                'status_reset_cancel': 'Ceremonia cancelada.',
+                'status_reset_complete': 'Magia restaurada. "$2" tiene $1 pergaminos restantes.',
+                'status_new_castle': 'Ingresa un nuevo alias.',
+                'status_copy_success': '¡Identidad copiada!',
+                'status_duplicate_warning': '¡Gran Comedor agotado! Duplicados permitidos.',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> INVOCANDO MAGIA...',
+                'result_welcome': '¡Bienvenido **$1**! Tu residencia es $2',
+                'result_secured': '¡Selección completa! Eres **$1**.',
+                'result_failed': 'Selección fallida. Magia oscura detectada.',
+                'roster_empty': 'El registro está vacío.'
+            },
+            'ja': {
+                'lang_name': '日本語',
+                'doc_title': 'ホグワーツ登録簿',
+                'castle_title': '魔法の運命の組み分け',
+                'select_castle_prompt': '魔法の署名を記入してください...',
+                'castle_label': '魔法の署名:',
+                'access_file': '<i class="fa-solid fa-scroll mr-2"></i> 羊皮紙を広げる',
+                'info_important': '公式布告:',
+                'info_resets': '各魔法の署名につき、**10回の組み分けの儀式**が許可されています。',
+                'active_alias': '有効な署名:', 'resets_left': '残りの魔力:',
+                'pool_prompt': '魔法の血統を宣言してください、', 'char_pool_select': '魔法の血統の選択:',
+                'select_default': '-- 選択してください --', 'male_chars': '魔法使い', 'female_chars': '魔女',
+                'assign_code': '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> 炎のゴブレットに相談する',
+                'assignment_secured': '正体が判明しました:',
+                'copy_details': '<i class="fa-solid fa-feather mr-1"></i> 魔法の詳細をコピー',
+                'reset_reroll': '<i class="fa-solid fa-rotate-left mr-1"></i> 再組み分けの呪文を唱える',
+                'change_new_castle': '<i class="fa-solid fa-user-plus mr-1"></i> 新しい魔法の署名',
+                'log_title': '忍びの地図（記録）',
+                'modal_override_title': 'ゴブレットの警告',
+                'modal_override_msg': 'あなたはすでに **$1** として組み分けられています。再組み分けの呪文を唱えるには、限られた魔法の羊皮紙を1枚消費します（残り $2枚）。よろしいですか？',
+                'cancel_btn': '止まれ', 'confirm_reroll_btn': '呪文を唱える',
+                'status_default': 'エイリアスを選択して組み分けを開始してください。',
+                'status_enter_name': 'エイリアスを入力してください。',
+                'status_select_pool': '魔法のプールを選択してください。',
+                'status_assignment_exists': 'Selección ya completada.',
+                'status_ready': '署名 "$1" を確認。儀式の準備が整いました。',
+                'status_no_resets': '❌ Sin intentos restantes.',
+                'status_reset_confirm_msg': 'Se consumirá **1 de tus $1 intentos** para **$2**.',
+                'status_reset_cancel': 'Ceremonia cancelada.',
+                'status_reset_complete': '魔力が回復しました。 "$2" の残り羊皮紙は $1枚です。',
+                'status_new_castle': 'Ingresa un nuevo alias.',
+                'status_copy_success': '¡Identidad copiada!',
+                'status_duplicate_warning': '大広間が満員です！重複を許可します。',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 古代の魔法を召喚中...',
+                'result_welcome': '**$1** おかえりなさい！ あなたの居場所は $2 です',
+                'result_secured': '組み分け完了！ あなたは **$1** です。',
+                'result_failed': 'Selección fallida. Magia oscura detectada.',
+                'roster_empty': '記録は空です。'
+            },
+            'ko': {
+                'lang_name': '한국어',
+                'doc_title': '호그와트 등록부',
+                'castle_title': '마법의 운명 배정',
+                'select_castle_prompt': '마법의 서명을 남겨주세요...',
+                'castle_label': '마법의 서명:',
+                'access_file': '<i class="fa-solid fa-scroll mr-2"></i> 양피지 펼치기',
+                'info_important': '공식 포고령:',
+                'info_resets': '각 마법의 서명당 **10회의 배정 의식**이 허용됩니다.',
+                'active_alias': '활성 서명:', 'resets_left': '남은 마력:',
+                'pool_prompt': '마법의 혈통을 선언하십시오,', 'char_pool_select': '마법 혈통 선택:',
+                'select_default': '-- 선택해 주십시오 --', 'male_chars': '마법사', 'female_chars': '마녀',
+                'assign_code': '<i class="fa-solid fa-wand-magic-sparkles mr-2"></i> 불의 잔에게 묻기',
+                'assignment_secured': '정체가 밝혀졌습니다:',
+                'copy_details': '<i class="fa-solid fa-feather mr-1"></i> 마법 정보 복사',
+                'reset_reroll': '<i class="fa-solid fa-rotate-left mr-1"></i> 재배정 주문 시전',
+                'change_new_castle': '<i class="fa-solid fa-user-plus mr-1"></i> 새로운 마법의 서명',
+                'log_title': '도둑지도 (기록)',
+                'modal_override_title': '불의 잔의 경고',
+                'modal_override_msg': '당신은 이미 **$1**(으)로 배정되었습니다. 재배정 주문을 시전하면 제한된 마법 양피지 1장을 소비합니다 (남은 횟수: $2회). 계속하시겠습니까?',
+                'cancel_btn': '멈춤', 'confirm_reroll_btn': '주문 시전',
+                'status_default': 'Select your alias to begin.',
+                'status_enter_name': 'Please enter an alias.',
+                'status_select_pool': 'Please select a pool.',
+                'status_assignment_exists': 'Selección ya completada.',
+                'status_ready': '서명 "$1" 확인됨. 의식이 준비되었습니다.',
+                'status_no_resets': '❌ Sin intentos restantes.',
+                'status_reset_confirm_msg': 'Se consumirá **1 de tus $1 intentos** para **$2**.',
+                'status_reset_cancel': 'Ceremonia cancelada.',
+                'status_reset_complete': '마력이 회복되었습니다. "$2"님의 남은 양피지는 $1장입니다.',
+                'status_new_castle': 'Ingresa un nuevo alias.',
+                'status_copy_success': '¡Identidad copiada!',
+                'status_duplicate_warning': '대연회장이 가득 찼습니다! 중복 배정을 허용합니다.',
+                'spinner_initiating': '<i class="fa-solid fa-spinner fa-spin mr-2"></i> 고대 마법 소환 중...',
+                'result_welcome': '환영합니다, **$1**! 당신의 거처는 $2입니다',
+                'result_secured': '배정 완료! 당신은 **$1**입니다.',
+                'result_failed': 'Selección fallida. Magia oscura detectada.',
+                'roster_empty': '기록이 비어 있습니다.'
+            }
+            // Additional languages (es, pt, de, ja, ko) will follow the same pattern in the final implementation
+        };
+
+        // Configuration
+        const STORAGE_KEY = 'hp_wizard_assignments';
+        const MAX_RESETS = 10;
+        const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1444330680858447903/dvcgQu42zAycH3rsEx8GADtmKoIGl3mY0PaznYMHhuOdtTlUHcliQJAk_No0NEtQ3Bg0';
+        const DISCORD_WEBHOOK_PROXY = '/api/discord-webhook';
+
+        // COMPREHENSIVE CHARACTER ROSTER (100+ CHARACTERS)
+        const CHARACTERS = {
+            Male: [
+                "Harry Potter", "Ron Weasley", "Albus Dumbledore", "Severus Snape", "Draco Malfoy", "Sirius Black", "Remus Lupin", "Neville Longbottom", "Cedric Diggory", "Viktor Krum", 
+                "Voldemort", "Rubeus Hagrid", "Fred Weasley", "George Weasley", "Lucius Malfoy", "James Potter", "Arthur Weasley", "Percy Weasley", "Bill Weasley", "Charlie Weasley",
+                "Newt Scamander", "Gellert Grindelwald", "Garrick Ollivander", "Kingsley Shacklebolt", "Alastor Moody", "Gilderoy Lockhart", "Horace Slughorn", "Xenophilius Lovegood", 
+                "Cormac McLaggen", "Seamus Finnigan", "Dean Thomas", "Blaise Zabini", "Gregory Goyle", "Vincent Crabbe", "Dudley Dursley", "Vernon Dursley", "Regulus Black", "Phineas Nigellus Black",
+                "Aberforth Dumbledore", "Barty Crouch Sr", "Barty Crouch Jr", "Igor Karkaroff", "Ludo Bagman", "Oliver Wood", "Lee Jordan", "Colin Creevey", "Dennis Creevey", "Justin Finch-Fletchley", 
+                "Ernie Macmillan", "The Fat Friar", "Nearly Headless Nick", "Dobby", "Kreacher", "Griphook", "Grawp", "Aragog", "Fenrir Greyback", "Buckbeak", "Fawkes", "Professor Binns"
+            ],
+            Female: [
+                "Hermione Granger", "Ginny Weasley", "Luna Lovegood", "Minerva McGonagall", "Bellatrix Lestrange", "Lily Potter", "Cho Chang", "Fleur Delacour", "Nymphadora Tonks", "Molly Weasley", 
+                "Narcissa Malfoy", "Dolores Umbridge", "Sybil Trelawney", "Rita Skeeter", "Hestia Jones", "Pomona Sprout", "Madam Pomfrey", "Madam Rosmerta", "Lavender Brown", "Parvati Patil", 
+                "Padma Patil", "Pansy Parkinson", "Astoria Greengrass", "Helena Ravenclaw", "Moaning Myrtle", "Madame Maxime", "Petunia Dursley", "Charity Burbage", "Mafalda Hopkirk", "Merope Gaunt",
+                "Andromeda Tonks", "Alecto Carrow", "Millicent Bulstrode", "Susan Bones", "Hannah Abbott", "Madam Hooch", "Madam Pince", "Professor Sinistra", "Septima Vector", "Bathsheda Babbling",
+                "Alicia Spinnet", "Angelina Johnson", "Katie Bell", "Demelza Robins", "Romilda Vane", "The Fat Lady", "Nagini", "Hedwig"
+            ]
+        };
+
+        const HOUSE_MAP = {
+            "Harry Potter": "gryffindor", "Ron Weasley": "gryffindor", "Hermione Granger": "gryffindor", "Albus Dumbledore": "gryffindor", "Sirius Black": "gryffindor",
+            "Remus Lupin": "gryffindor", "Neville Longbottom": "gryffindor", "Fred Weasley": "gryffindor", "George Weasley": "gryffindor", "James Potter": "gryffindor",
+            "Lily Potter": "gryffindor", "Minerva McGonagall": "gryffindor", "Ginny Weasley": "gryffindor", "Arthur Weasley": "gryffindor", "Percy Weasley": "gryffindor",
+            "Bill Weasley": "gryffindor", "Charlie Weasley": "gryffindor", "Rubeus Hagrid": "gryffindor", "Alastor Moody": "gryffindor", "Molly Weasley": "gryffindor",
+            "Seamus Finnigan": "gryffindor", "Dean Thomas": "gryffindor", "Oliver Wood": "gryffindor", "Lee Jordan": "gryffindor", "Colin Creevey": "gryffindor",
+            "Dennis Creevey": "gryffindor", "Nearly Headless Nick": "gryffindor", "Alicia Spinnet": "gryffindor", "Angelina Johnson": "gryffindor", "Katie Bell": "gryffindor",
+            "Demelza Robins": "gryffindor", "Romilda Vane": "gryffindor", "The Fat Lady": "gryffindor", "Peter Pettigrew": "gryffindor",
+            "Severus Snape": "slytherin", "Draco Malfoy": "slytherin", "Voldemort": "slytherin", "Bellatrix Lestrange": "slytherin", "Lucius Malfoy": "slytherin",
+            "Narcissa Malfoy": "slytherin", "Dolores Umbridge": "slytherin", "Regulus Black": "slytherin", "Phineas Nigellus Black": "slytherin", "Pansy Parkinson": "slytherin",
+            "Blaise Zabini": "slytherin", "Gregory Goyle": "slytherin", "Vincent Crabbe": "slytherin", "Millicent Bulstrode": "slytherin", "Astoria Greengrass": "slytherin",
+            "Barty Crouch Jr": "slytherin", "Alecto Carrow": "slytherin", "Nagini": "slytherin", "Horace Slughorn": "slytherin",
+            "Luna Lovegood": "ravenclaw", "Cho Chang": "ravenclaw", "Gilderoy Lockhart": "ravenclaw", "Sybil Trelawney": "ravenclaw", "Helena Ravenclaw": "ravenclaw",
+            "Garrick Ollivander": "ravenclaw", "Xenophilius Lovegood": "ravenclaw", "Padma Patil": "ravenclaw", "Professor Flitwick": "ravenclaw", "The Grey Lady": "ravenclaw",
+            "Cedric Diggory": "hufflepuff", "Newt Scamander": "hufflepuff", "Nymphadora Tonks": "hufflepuff", "Pomona Sprout": "hufflepuff", "Justin Finch-Fletchley": "hufflepuff",
+            "Ernie Macmillan": "hufflepuff", "The Fat Friar": "hufflepuff", "Susan Bones": "hufflepuff", "Hannah Abbott": "hufflepuff", "Madam Hooch": "hufflepuff",
+            "Madam Pomfrey": "hufflepuff",
+            "Viktor Krum": "durmstrang", "Igor Karkaroff": "durmstrang",
+            "Fleur Delacour": "beauxbatons", "Madame Maxime": "beauxbatons"
+        };
+
+        let currentLang = localStorage.getItem('hp_language') || 'en';
+        let currentCastle = null;
+        let currentAssignment = null;
+
+        const ELEMENTS = {
+            castleSelection: document.getElementById('castle-selection'),
+            assignmentForm: document.getElementById('assignment-form'),
+            resultDisplay: document.getElementById('result-display'),
+            resultName: document.getElementById('result-name'),
+            houseBadge: document.getElementById('house-badge-container'),
+            poolDisplay: document.getElementById('pool-display'),
+            assignBtn: document.getElementById('assign-btn'),
+            resetBtn: document.getElementById('reset-btn'),
+            newCastleBtn: document.getElementById('new-castle-btn'),
+            selectCastleBtn: document.getElementById('select-castle-btn'),
+            castleInput: document.getElementById('castle-input'),
+            playerGender: document.getElementById('player-gender'),
+            statusMessage: document.getElementById('status-message'),
+            currentCastle: document.getElementById('current-castle'),
+            castleNameDisplay: document.getElementById('castle-name'),
+            resetCount: document.getElementById('reset-count'),
+            resetCountDisplay: document.getElementById('reset-count-display'),
+            castleAssignments: document.getElementById('castle-assignments'),
+            spinnerContainer: document.getElementById('spinner-container'),
+            spinnerText: document.getElementById('spinner-text'),
+            themeModal: document.getElementById('theme-modal'),
+            modalTitle: document.getElementById('modal-title'),
+            modalMessage: document.getElementById('modal-message'),
+            modalConfirm: document.getElementById('modal-confirm'),
+            modalCancel: document.getElementById('modal-cancel'),
+            langSelector: document.getElementById('lang-selector')
+        };
+
+        // --- CORE FUNCTIONS ---
+        function setLanguage(langCode) {
+            const translations = TRANSLATIONS[langCode] || TRANSLATIONS['en'];
+            currentLang = langCode;
+            localStorage.setItem('hp_language', langCode);
+            document.title = translations['doc_title'];
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[key]) el.innerHTML = translations[key];
+            });
+            displayStatus('info', 'status_default');
+            if (currentAssignment) displayFinalResult(currentAssignment.characterName, currentAssignment.gender, true);
+        }
+
+        function setupLanguageSelector() {
+            Object.keys(TRANSLATIONS).forEach(code => {
+                const opt = document.createElement('option');
+                opt.value = code;
+                opt.textContent = TRANSLATIONS[code]['lang_name'];
+                opt.style.backgroundColor = '#1a1a1a'; // Match dark header
+                ELEMENTS.langSelector.appendChild(opt);
+            });
+            ELEMENTS.langSelector.value = currentLang;
+            setLanguage(currentLang);
+            ELEMENTS.langSelector.addEventListener('change', (e) => setLanguage(e.target.value));
+        }
+
+        // --- CUSTOM DROPDOWN LOGIC ---
+        function initCustomSelects() {
+            const genderTrigger = document.getElementById('gender-trigger');
+            const genderContainer = document.getElementById('gender-select-wrapper');
+            const genderOptions = document.getElementById('gender-options');
+            const genderInput = document.getElementById('player-gender');
+
+            const options = [
+                { value: 'Male', labelKey: 'male_chars' },
+                { value: 'Female', labelKey: 'female_chars' }
+            ];
+
+            function renderOptions() {
+                genderOptions.innerHTML = '';
+                options.forEach(opt => {
+                    const div = document.createElement('div');
+                    div.className = 'custom-option';
+                    div.innerHTML = TRANSLATIONS[currentLang][opt.labelKey];
+                    div.onclick = (e) => {
+                        e.stopPropagation();
+                        genderInput.value = opt.value;
+                        document.getElementById('gender-selected-text').innerHTML = div.innerHTML;
+                        genderContainer.classList.remove('open');
+                        // Update visual selection
+                        document.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+                        div.classList.add('selected');
+                    };
+                    genderOptions.appendChild(div);
+                });
+            }
+
+            genderTrigger.onclick = (e) => {
+                e.stopPropagation();
+                genderContainer.classList.toggle('open');
+                renderOptions();
+            };
+
+            window.addEventListener('click', () => genderContainer.classList.remove('open'));
+        }
+
+        function getCastleData(id) {
+            const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            if (!all[id]) {
+                all[id] = { resetsLeft: MAX_RESETS, assignment: null, usedCharacters: [] };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+            }
+            return all[id];
+        }
+
+        function saveCastleData(id, data) {
+            const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            all[id] = data;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+        }
+
+        function displayStatus(type, key, p1, p2) {
+            const translations = TRANSLATIONS[currentLang] || TRANSLATIONS['en'];
+            let msg = translations[key] || key;
+            if (p1) msg = msg.replace('$1', p1);
+            if (p2) msg = msg.replace('$2', p2);
+            
+            ELEMENTS.statusMessage.innerHTML = `<i class="fa-solid fa-scroll mr-2"></i> ${msg}`;
+            ELEMENTS.statusMessage.className = `status-parchment status-${type} text-lg wizard-script ink-splotch`;
+        }
+
+        function selectCastle() {
+            const id = ELEMENTS.castleInput.value.trim();
+            if (!id) return displayStatus('error', 'status_enter_name');
+            currentCastle = id;
+            const data = getCastleData(id);
+            ELEMENTS.currentCastle.textContent = id;
+            ELEMENTS.castleNameDisplay.textContent = id;
+            ELEMENTS.resetCountDisplay.textContent = data.resetsLeft;
+            ELEMENTS.castleSelection.classList.add('hidden');
+            ELEMENTS.assignmentForm.classList.remove('hidden');
+            if (data.assignment) {
+                currentAssignment = data.assignment;
+                displayFinalResult(data.assignment.characterName, data.assignment.gender, true);
+            } else {
+                currentAssignment = null;
+                ELEMENTS.resultDisplay.classList.add('hidden');
+                displayStatus('info', 'status_ready', id);
+            }
+        }
+
+        async function startAssignment() {
+            const pool = ELEMENTS.playerGender.value;
+            if (!pool) return displayStatus('error', 'status_select_pool');
+            const data = getCastleData(currentCastle);
+            ELEMENTS.assignBtn.disabled = true;
+            ELEMENTS.assignmentForm.classList.add('hidden');
+            ELEMENTS.spinnerContainer.classList.remove('hidden');
+            ELEMENTS.spinnerText.classList.add('glitch-anim');
+            setTimeout(() => {
+                const charPool = CHARACTERS[pool];
+                const available = charPool.filter(c => !data.usedCharacters.includes(c));
+                let finalPool = available.length > 0 ? available : charPool;
+                
+                const assigned = finalPool[Math.floor(Math.random() * finalPool.length)];
+                const house = HOUSE_MAP[assigned] || "neutral";
+                
+                data.assignment = { characterName: assigned, gender: pool, house: house, timestamp: new Date().toISOString() };
+                data.usedCharacters.push(assigned);
+                saveCastleData(currentCastle, data);
+                currentAssignment = data.assignment;
+                sendToDiscord(currentCastle, assigned, pool, house);
+                ELEMENTS.spinnerContainer.classList.add('hidden');
+                displayFinalResult(assigned, pool, false, house);
+                loadLog();
+            }, 3000);
+        }
+
+        function displayFinalResult(name, pool, isExisting, houseCode) {
+            const hCode = houseCode || (currentAssignment ? currentAssignment.house : 'neutral');
+            const translations = TRANSLATIONS[currentLang] || TRANSLATIONS['en'];
+            const houseName = translations[`house_${hCode}`] || translations['house_neutral'];
+            
+            ELEMENTS.resultName.textContent = name.toUpperCase();
+            ELEMENTS.houseBadge.innerHTML = `
+                <div class="inline-block px-8 py-2 border-2 border-hp-border text-hp-burgundy hp-font text-xl rounded-full bg-white/40 shadow-lg transform rotate-[-1deg] hover:rotate-0 transition-transform cursor-default">
+                    ${translations['house_label']} ${houseName.toUpperCase()}
+                </div>
+            `;
+            ELEMENTS.poolDisplay.textContent = `${pool} POOL`;
+            
+            ELEMENTS.assignmentForm.classList.add('hidden');
+            ELEMENTS.resultDisplay.classList.remove('hidden');
+            const data = getCastleData(currentCastle);
+            ELEMENTS.resetCount.textContent = data.resetsLeft;
+            ELEMENTS.resetBtn.disabled = data.resetsLeft <= 0;
+            displayStatus(isExisting ? 'info' : 'success', isExisting ? 'result_welcome' : 'result_secured', name.toUpperCase(), currentCastle);
+        }
+
+        function performReset() {
+            const data = getCastleData(currentCastle);
+            data.resetsLeft--;
+            data.assignment = null;
+            saveCastleData(currentCastle, data);
+            currentAssignment = null;
+            ELEMENTS.resultDisplay.classList.add('hidden');
+            ELEMENTS.assignmentForm.classList.remove('hidden');
+            ELEMENTS.assignBtn.disabled = false;
+            displayStatus('warning', 'status_reset_complete', data.resetsLeft, currentCastle);
+            loadLog();
+        }
+
+        function shareIdentity() {
+            const translations = TRANSLATIONS[currentLang] || TRANSLATIONS['en'];
+            const houseName = translations[`house_${currentAssignment.house}`] || translations['house_neutral'];
+            const text = `🏰 HOGWARTS SECURED 🏰\nWIZARD: ${currentCastle}\nIDENTITY: ${currentAssignment.characterName}\nHOUSE: ${houseName}\nPOOL: ${currentAssignment.gender}\nSorting via Noyzzing HQ`;
+            navigator.clipboard.writeText(text).then(() => displayStatus('success', 'status_copy_success'));
+        }
+
+        async function sendToDiscord(alias, id, pool, house) {
+            const translations = TRANSLATIONS[currentLang] || TRANSLATIONS['en'];
+            const houseName = translations[`house_${house}`] || translations['house_neutral'];
+            
+            try {
+                const payload = {
+                    embeds: [{
+                        title: `🏰 NEW REGISTRY: ${id.toUpperCase()}`,
+                        description: `The Goblet of Fire has assigned a fate for **${alias}**.`,
+                        color: 13933367, // #d4af37 Gold
+                        fields: [
+                            { name: 'REGISTERED NAME', value: alias, inline: true },
+                            { name: 'MAGICAL IDENTITY', value: id, inline: true },
+                            { name: 'ASSIGNED HOUSE', value: houseName, inline: true },
+                            { name: 'POOL', value: pool, inline: true }
+                        ],
+                        footer: { text: 'NOYZZING // REGISTRY | ROL Alliance' },
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+
+                // Try direct fetch first (like Stranger Things)
+                try {
+                    const respDirect = await fetch(DISCORD_WEBHOOK, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (respDirect && respDirect.ok) return true;
+                } catch (err) {
+                    console.warn('Direct magic failed, trying proxy...');
+                }
+
+                // Fallback to proxy
+                try {
+                    const respProxy = await fetch(DISCORD_WEBHOOK_PROXY, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (respProxy && respProxy.ok) return true;
+                } catch (err) {
+                    console.error('All magical transmissions failed');
+                }
+
+                return true;
+            } catch (error) {
+                console.error('Discord logic failure', error);
+                return false;
+            }
+        }
+
+        function loadLog() {
+            const all = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+            let html = '';
+            
+            Object.entries(all).forEach(([id, data]) => {
+                if (data.assignment) {
+                    const hClass = `house-${data.assignment.house || 'neutral'}`;
+                    html += `<div class="p-3 border border-hp-border/30 rounded mb-2 hover:bg-hp-burgundy/5 cursor-pointer transition-all ${hClass}" onclick="ELEMENTS.castleInput.value='${id}'; selectCastle();">
+                        <div class="font-bold text-hp-burgundy">${id}</div>
+                        <div class="text-[10px] text-hp-border uppercase tracking-widest">${data.assignment.characterName}</div>
+                    </div>`;
+                }
+            });
+            ELEMENTS.castleAssignments.innerHTML = html || `<p class="text-gray-600 text-center italic">The log is empty.</p>`;
+        }
+
+        function showModal() {
+            ELEMENTS.themeModal.classList.remove('hidden');
+            ELEMENTS.modalMessage.textContent = TRANSLATIONS[currentLang]['status_reset_confirm_msg'].replace('$1', getCastleData(currentCastle).resetsLeft).replace('$2', currentCastle);
+            setTimeout(() => ELEMENTS.themeModal.style.opacity = '1', 10);
+        }
+
+        function hideModal() {
+            ELEMENTS.themeModal.style.opacity = '0';
+            setTimeout(() => ELEMENTS.themeModal.classList.add('hidden'), 300);
+        }
+
+        // --- INIT ---
+        setupLanguageSelector();
+        initCustomSelects();
+        ELEMENTS.selectCastleBtn.onclick = selectCastle;
+        ELEMENTS.assignBtn.onclick = startAssignment;
+        ELEMENTS.newCastleBtn.onclick = () => { ELEMENTS.castleSelection.classList.remove('hidden'); ELEMENTS.resultDisplay.classList.add('hidden'); ELEMENTS.assignmentForm.classList.add('hidden'); };
+        ELEMENTS.resetBtn.onclick = showModal;
+        ELEMENTS.modalConfirm.onclick = () => { hideModal(); performReset(); };
+        ELEMENTS.modalCancel.onclick = hideModal;
+        document.getElementById('share-btn').onclick = shareIdentity;
+        loadLog();
+
+        // Create Background Candles
+        for(let i=0; i<15; i++) {
+            const c = document.createElement('div');
+            c.className = 'candle';
+            c.style.left = Math.random() * 100 + 'vw';
+            c.style.top = Math.random() * 80 + 'vh';
+            c.style.animationDelay = Math.random() * 5 + 's';
+            c.innerHTML = '<div class="flame"></div>';
+            document.body.appendChild(c);
+        }
+    </script>
+</body>
+</html>

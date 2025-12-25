@@ -2332,6 +2332,27 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Demon Core Shop (only shows when player has Lucifer) -->
+                <div id="demonCoreShop" class="demon-core-shop"
+                    style="margin-top: 15px; padding: 15px; background: rgba(239, 68, 68, 0.2); border-radius: 12px; border: 1px solid #dc2626; display: none;">
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span style="font-size: 2rem;">😈</span>
+                            <div>
+                                <div style="color: #ef4444; font-weight: bold;">Demon Core</div>
+                                <div style="color: #94a3b8; font-size: 0.8rem;">Evolve Lucifer at MAX level</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span id="demonCoreCount" style="color: #fbbf24; font-weight: bold;">0</span>
+                            <button onclick="buyDemonCore()"
+                                style="background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold;">
+                                Buy (40 🪙)
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2371,14 +2392,18 @@
                     BATTLE</div>
             </div>
 
-            <!-- CHAPTER 2 -->
-            <div class="campaign-item locked"
-                style="background:#1e293b;padding:20px;border-radius:15px;border:2px solid #334155;opacity:0.7;display:flex;align-items:center;gap:15px;">
-                <div class="gym-icon" style="font-size:2rem;">🔒</div>
+            <!-- GYM 3 -->
+            <div id="gym3Card" class="campaign-item" onclick="selectGym(3)"
+                style="background:var(--panel);padding:20px;border-radius:15px;border:2px solid #1e1b4b;cursor:pointer;display:flex;align-items:center;gap:15px;transition:transform 0.2s;"
+                onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                <div class="gym-icon" style="font-size:2rem;">🐍</div>
                 <div style="text-align:left;flex:1;">
-                    <div style="font-family:'Cinzel';color:#94a3b8;font-size:1.2rem;">CHAPTER 2</div>
-                    <div style="font-size:0.8rem;color:#64748b;">Coming Soon</div>
+                    <div style="font-family:'Cinzel';color:#6366f1;font-size:1.2rem;">GYM 3: NILOCK</div>
+                    <div style="font-size:0.8rem;color:#94a3b8;">The Serpent Master</div>
                 </div>
+                <div id="gym3Status"
+                    style="background:#6366f1;color:white;padding:5px 15px;border-radius:20px;font-size:0.8rem;font-weight:bold;">
+                    BATTLE</div>
             </div>
         </div>
     </div>
@@ -2669,7 +2694,9 @@
             heroes: [],
             gym1Completed: false,  // Unlocks Malice in Time Recruit
             gym2Completed: false,  // Unlocks Yune in Time Recruit
+            gym3Completed: false,  // Unlocks Gym 4 (Orochi NOT obtainable)
             spiritStone: 0,        // Evolution item for Yune
+            demonCore: 0,          // Evolution item for Lucifer
             soundEnabled: true     // Sound toggle
         };
 
@@ -2798,10 +2825,17 @@
         function updateTimeRecruitScreen() {
             document.getElementById('trScreenCoins').textContent = gameState.trCoins;
             document.getElementById('spiritStoneCount').textContent = gameState.spiritStone || 0;
+            document.getElementById('demonCoreCount').textContent = gameState.demonCore || 0;
             // Only show Spirit Stone shop after Gym 2 (when player has Yune)
             const spiritShop = document.getElementById('spiritStoneShop');
             if (spiritShop) {
                 spiritShop.style.display = gameState.gym2Completed ? 'block' : 'none';
+            }
+            // Only show Demon Core shop when player has Lucifer
+            const demonShop = document.getElementById('demonCoreShop');
+            if (demonShop) {
+                const hasLucifer = gameState.heroes.some(h => h.id === 'lucifer');
+                demonShop.style.display = hasLucifer ? 'block' : 'none';
             }
         }
 
@@ -2816,6 +2850,19 @@
             updateTimeRecruitScreen();
             SFX.summon();
             showMessage('🦊 You got a Spirit Stone! Use it on MAX level Yune to evolve!');
+        }
+
+        function buyDemonCore() {
+            if (gameState.trCoins < 40) {
+                showMessage('Not enough TR Coins! You need 40.');
+                return;
+            }
+            gameState.trCoins -= 40;
+            gameState.demonCore = (gameState.demonCore || 0) + 1;
+            saveGame();
+            updateTimeRecruitScreen();
+            SFX.summon();
+            showMessage('😈 You got a Demon Core! Use it on MAX level Lucifer to evolve!');
         }
 
         function updateHeroesScreen() {
@@ -2902,6 +2949,14 @@
                     </button>
                 `;
             }
+            // Show evolve button for Lucifer at MAX level with Demon Core
+            if (hero.id === 'lucifer' && isMaxLevel && (gameState.demonCore || 0) > 0) {
+                evolveHtml = `
+                    <button onclick="evolveLucifer(${index})" style="width: 100%; margin-top: 15px; padding: 15px; background: linear-gradient(135deg, #dc2626, #b91c1c); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;">
+                        😈 EVOLVE TO LORD OF PRIDE 👑
+                    </button>
+                `;
+            }
             document.getElementById('heroDetailAttacksList').insertAdjacentHTML('afterend', evolveHtml);
 
             // Show modal
@@ -2946,6 +3001,46 @@
             closeHeroDetailModal();
             updateHeroesScreen();
             showMessage('🦊✨ Yune evolved into Yune (Fox Spirit)! Much stronger now!');
+        }
+
+        function evolveLucifer(heroIndex) {
+            const hero = gameState.heroes[heroIndex];
+            if (!hero || hero.id !== 'lucifer') return;
+            if ((gameState.demonCore || 0) < 1) {
+                showMessage('You need a Demon Core to evolve Lucifer!');
+                return;
+            }
+
+            // Use the demon core
+            gameState.demonCore--;
+
+            // Find Lord of Pride data
+            const lordData = wildHeroes.find(h => h.id === 'lucifer-lord-of-pride');
+            if (!lordData) return;
+
+            // Transform Lucifer into Lord of Pride (keep level, recalculate stats with Epic scaling)
+            const level = hero.level;
+            const levelBonus = level - 1;
+            gameState.heroes[heroIndex] = {
+                id: lordData.id,
+                name: lordData.name,
+                type: lordData.type,
+                rarity: lordData.rarity,
+                image: lordData.image,
+                level: level,
+                xp: 0,
+                hp: lordData.baseHp + (levelBonus * 6),  // Epic scaling
+                maxHp: lordData.baseHp + (levelBonus * 6),
+                attack: lordData.baseAtk + (levelBonus * 5),
+                defense: lordData.baseDef + (levelBonus * 2),
+                attacks: lordData.attacks
+            };
+
+            saveGame();
+            SFX.victory();
+            closeHeroDetailModal();
+            updateHeroesScreen();
+            showMessage('😈👑 Lucifer evolved into Lord of Pride! Ultimate power unleashed!');
         }
 
         function closeHeroDetailModal() {
@@ -3422,6 +3517,130 @@
                     { name: 'Divine Nine Tails', damage: 0, type: 'Buff', effect: 'ATK +70%' },
                     { name: 'Ascended Storm', damage: 110, type: 'Arcane', effect: 'Ultimate' }
                 ]
+            },
+            // ========== CHAPTER 3 HEROES (4★ Rare) ==========
+            {
+                id: 'hart',
+                name: 'Hart',
+                type: 'Dark',
+                rarity: 'Rare',
+                chapter: 3,
+                image: 'assets/heroes/hart.png',
+                baseHp: 140,
+                baseAtk: 65,
+                baseDef: 100,
+                attacks: [
+                    { name: 'Shadow Blade', damage: 36, type: 'Dark' },
+                    { name: 'Knight\'s Vow', damage: 0, type: 'Buff', effect: 'DEF +45%' },
+                    { name: 'Dark Slash', damage: 42, type: 'Dark', effect: 'Bleed 3 turns' },
+                    { name: 'Dread Execution', damage: 68, type: 'Dark', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'ammon',
+                name: 'Ammon',
+                type: 'Dark',
+                rarity: 'Rare',
+                chapter: 3,
+                image: 'assets/heroes/ammon.png',
+                baseHp: 220,
+                baseAtk: 120,
+                baseDef: 180,
+                attacks: [
+                    { name: 'Forbidden Tome', damage: 48, type: 'Dark', effect: 'Curse 2 turns' },
+                    { name: 'Necro Bolt', damage: 55, type: 'Dark', effect: 'Lifesteal 40%' },
+                    { name: 'Dark Ritual', damage: 0, type: 'Buff', effect: 'ATK +60%' },
+                    { name: 'Apocalypse', damage: 95, type: 'Dark', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'nilesh',
+                name: 'Nilesh',
+                type: 'Ice',
+                rarity: 'Rare',
+                chapter: 3,
+                image: 'assets/heroes/nilesh.png',
+                baseHp: 260,
+                baseAtk: 140,
+                baseDef: 200,
+                attacks: [
+                    { name: 'Frost Blade', damage: 52, type: 'Ice' },
+                    { name: 'Glacial Fury', damage: 62, type: 'Ice', effect: 'Freeze 2 turns' },
+                    { name: 'Beast Rage', damage: 0, type: 'Buff', effect: 'ATK +65%' },
+                    { name: 'Absolute Zero', damage: 115, type: 'Ice', effect: 'Ultimate' }
+                ]
+            },
+            // ========== 5★ HEROES (Epic) ==========
+            {
+                id: 'savannah',
+                name: 'Savannah',
+                type: 'Light',
+                rarity: 'Legendary',
+                chapter: 3,
+                image: 'assets/heroes/savannah.png',
+                baseHp: 300,
+                baseAtk: 160,
+                baseDef: 220,
+                attacks: [
+                    { name: 'Divine Arrow', damage: 58, type: 'Light', effect: 'Pierce' },
+                    { name: 'Golden Wings', damage: 0, type: 'Buff', effect: 'ATK +75%' },
+                    { name: 'Celestial Rain', damage: 72, type: 'Light', effect: 'Hits all' },
+                    { name: 'Judgment\'s End', damage: 130, type: 'Light', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'lucifer',
+                name: 'Lucifer',
+                type: 'Dark',
+                rarity: 'Legendary',
+                chapter: 3,
+                image: 'assets/heroes/lucifer.png',
+                baseHp: 300,
+                baseAtk: 160,
+                baseDef: 220,
+                attacks: [
+                    { name: 'Hellfire Bolt', damage: 55, type: 'Fire', effect: 'Burn 3 turns' },
+                    { name: 'Fallen Grace', damage: 0, type: 'Buff', effect: 'ATK +70%' },
+                    { name: 'Dark Descent', damage: 68, type: 'Dark', effect: 'Fear 2 turns' },
+                    { name: 'Infernal Judgment', damage: 125, type: 'Dark', effect: 'Ultimate' }
+                ]
+            },
+            {
+                id: 'lucifer-lord-of-pride',
+                name: 'Lucifer (Lord of Pride)',
+                type: 'Dark',
+                rarity: 'Legendary',
+                chapter: 3,
+                boss: true,
+                image: 'assets/heroes/lucifer-lord-of-pride.png',
+                baseHp: 350,
+                baseAtk: 180,
+                baseDef: 260,
+                attacks: [
+                    { name: 'Pride\'s Flame', damage: 65, type: 'Fire', effect: 'Burn 3 turns' },
+                    { name: 'Demon\'s Majesty', damage: 0, type: 'Buff', effect: 'ATK +85%' },
+                    { name: 'Sin of Pride', damage: 78, type: 'Dark', effect: 'Curse 3 turns' },
+                    { name: 'Reign of Hell', damage: 145, type: 'Dark', effect: 'Ultimate' }
+                ]
+            },
+            // ========== OROCHI - NILOCK'S ULTIMATE BOSS (5★ Epic) ==========
+            {
+                id: 'orochi',
+                name: 'Orochi',
+                type: 'Dark',
+                rarity: 'Legendary',
+                chapter: 3,
+                boss: true,
+                image: 'assets/heroes/orochi.png',
+                baseHp: 420,
+                baseAtk: 210,
+                baseDef: 300,
+                attacks: [
+                    { name: 'Serpent\'s Fangs', damage: 75, type: 'Dark', effect: 'Poison 4 turns' },
+                    { name: 'Eight Headed Strike', damage: 88, type: 'Physical', effect: 'Hits 3 times' },
+                    { name: 'Dragon\'s Blessing', damage: 0, type: 'Buff', effect: 'ATK +100%' },
+                    { name: 'Yamata no Orochi', damage: 160, type: 'Dark', effect: 'Ultimate, Fear 3 turns' }
+                ]
             }
         ];
 
@@ -3515,6 +3734,35 @@
                 ],
                 badge: 'Spirit Badge',
                 reward: { trCoins: 15, xp: 6000 }
+            },
+            // ========== GYM 3: NILOCK - THE SERPENT MASTER ==========
+            {
+                id: 3,
+                name: 'Nilock',
+                title: 'The Serpent Master',
+                image: 'assets/gym_leaders/nilock.png',
+                introVideo: 'assets/cutscenes/gym3_intro.mp4',
+                heroes: [
+                    {
+                        id: 'orochi',
+                        name: 'Orochi',
+                        type: 'Dark',
+                        rarity: 'Legendary',
+                        image: 'assets/heroes/orochi.png',
+                        level: 280,
+                        baseHp: 420,
+                        baseAtk: 210,
+                        baseDef: 300,
+                        attacks: [
+                            { name: 'Serpent\'s Fangs', damage: 75, type: 'Dark', effect: 'Poison 4 turns' },
+                            { name: 'Eight Headed Strike', damage: 88, type: 'Physical', effect: 'Hits 3 times' },
+                            { name: 'Dragon\'s Blessing', damage: 0, type: 'Buff', effect: 'ATK +100%' },
+                            { name: 'Yamata no Orochi', damage: 160, type: 'Dark', effect: 'Ultimate, Fear 3 turns' }
+                        ]
+                    }
+                ],
+                badge: 'Serpent Badge',
+                reward: { trCoins: 25, xp: 10000 }
             }
         ];
 
@@ -3547,6 +3795,8 @@
         function updateCampaignScreen() {
             const gym2Card = document.getElementById('gym2Card');
             const gym2Status = document.getElementById('gym2Status');
+            const gym3Card = document.getElementById('gym3Card');
+            const gym3Status = document.getElementById('gym3Status');
 
             if (gameState.gym1Completed) {
                 // Unlocked - show as active
@@ -3562,6 +3812,21 @@
                 gym2Card.style.border = '2px solid #334155';
                 gym2Status.textContent = '🔒 LOCKED';
                 gym2Status.style.background = '#334155';
+            }
+
+            // Gym 3 - locked until Gym 2 completed
+            if (gameState.gym2Completed) {
+                gym3Card.style.opacity = '1';
+                gym3Card.style.cursor = 'pointer';
+                gym3Card.style.border = '2px solid #6366f1';
+                gym3Status.textContent = 'BATTLE';
+                gym3Status.style.background = '#6366f1';
+            } else {
+                gym3Card.style.opacity = '0.5';
+                gym3Card.style.cursor = 'not-allowed';
+                gym3Card.style.border = '2px solid #334155';
+                gym3Status.textContent = '🔒 LOCKED';
+                gym3Status.style.background = '#334155';
             }
         }
 
@@ -3604,6 +3869,22 @@
                 showGymSelectScreen();
             } else if (id === 2 && !gameState.gym1Completed) {
                 showMessage('🔒', 'Locked', 'Defeat Shelak first to unlock Arionna!');
+            } else if (id === 3 && gameState.gym3Completed) {
+                // Nilock's telepathic "why are you back" dialogue
+                const revisitDialogue = [
+                    { speaker: 'Nilock (in your head)', text: '"...Why have you returned?"' },
+                    { speaker: playerName, text: 'Missed your creepy voice in my head!' },
+                    { speaker: 'Nilock (in your head)', text: '"...I regret not making your brain explode."' },
+                    { speaker: playerName, text: 'Love you too, soulmate! 💕' },
+                    { speaker: 'Nilock (in your head)', text: '"...Leave. Before I reconsider."' }
+                ];
+                showDialogueSequence(revisitDialogue, () => { });
+                return;
+            } else if (id === 3 && gameState.gym2Completed) {
+                gymState.currentGym = gyms[2];
+                showGymSelectScreen();
+            } else if (id === 3 && !gameState.gym2Completed) {
+                showMessage('🔒', 'Locked', 'Defeat Arionna first to unlock Nilock!');
             } else {
                 showMessage('🔒', 'Coming Soon', 'This challenge is not available yet!');
             }
@@ -3743,14 +4024,16 @@
             // Build enemy team with scaled stats
             gymState.enemyTeam = gym.heroes.map(h => {
                 const levelBonus = h.level - 1;
-                // 4★ (Rare) heroes get 5 HP per level, others get 3
-                const hpPerLevel = (h.rarity === 'Rare' || h.rarity === 'Legendary') ? 5 : 3;
+                // 5★ Legendary: +6 HP, 4★ Rare: +5 HP, others: +3 HP
+                const hpPerLevel = h.rarity === 'Legendary' ? 6 : h.rarity === 'Rare' ? 5 : 3;
+                const atkPerLevel = h.rarity === 'Legendary' ? 5 : h.rarity === 'Rare' ? 4 : 2;
+                const defPerLevel = h.rarity === 'Legendary' ? 2 : 1;
                 return {
                     ...h,
                     hp: h.baseHp + (levelBonus * hpPerLevel),
                     maxHp: h.baseHp + (levelBonus * hpPerLevel),
-                    attack: h.baseAtk + (levelBonus * ((h.rarity === 'Rare' || h.rarity === 'Legendary') ? 4 : 2)),
-                    defense: h.baseDef + (levelBonus * 1)
+                    attack: h.baseAtk + (levelBonus * atkPerLevel),
+                    defense: h.baseDef + (levelBonus * defPerLevel)
                 };
             });
 
@@ -3801,6 +4084,16 @@
                     { speaker: playerName, text: 'Then I\'ll just have to devour YOUR Yune! 😤' },
                     { speaker: 'Arionna', text: '*laughs* Such confidence! My spirits love the taste of overconfident souls...' },
                     { speaker: 'Arionna', text: 'Let\'s see if you can survive the NINE TAILS! 🦊✨' }
+                ],
+                3: [
+                    { speaker: 'Nilock (in your head)', text: '"Another clown barges into my domain. Your thoughts already scream \'loser\'."' },
+                    { speaker: playerName, text: 'Get out of my head, you creepy mask freak!' },
+                    { speaker: 'Nilock (in your head)', text: '"Creepy? At least I don\'t dress like I lost a bet with a trash bag."' },
+                    { speaker: playerName, text: 'This is DESIGNER, you floating Halloween leftover!' },
+                    { speaker: 'Nilock (in your head)', text: '"Designed by a blindfolded Grimer? Pathetic. Time to meet Orochi."' },
+                    { speaker: playerName, text: 'Bring out your overcooked spaghetti monster!' },
+                    { speaker: 'Nilock (in your head)', text: '"Orochi is an eight-headed serpent GOD, you brain-dead pest."' },
+                    { speaker: playerName, text: 'Eight heads means eight times the embarrassment when I win! 🐍❌' }
                 ]
             };
 
@@ -3910,13 +4203,17 @@
                 SFX.buff();
                 // Parse actual percentage from effect (e.g. "ATK +60%")
                 let buffPercent = 0.15; // Default 15%
+                let buffPercentText = '15%';
                 if (attack.effect && attack.effect.includes('%')) {
                     const match = attack.effect.match(/(\d+)%/);
-                    if (match) buffPercent = parseInt(match[1]) / 100;
+                    if (match) {
+                        buffPercent = parseInt(match[1]) / 100;
+                        buffPercentText = match[1] + '%';
+                    }
                 }
                 const boost = Math.ceil(currentPlayer.attack * buffPercent);
                 currentPlayer.attack += boost;
-                addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! ATK +' + boost + '!');
+                addGymBattleLog(currentPlayer.name + ' used ' + attack.name + '! ATK +' + buffPercentText + ' buff applied!');
             } else if (attackType === 'Debuff') {
                 SFX.debuff();
                 const reduction = Math.ceil(currentEnemy.attack * 0.10);
@@ -4001,13 +4298,17 @@
                 SFX.buff();
                 // Parse actual percentage from effect (e.g. "ATK +60%")
                 let buffPercent = 0.15; // Default 15%
+                let buffPercentText = '15%';
                 if (attack.effect && attack.effect.includes('%')) {
                     const match = attack.effect.match(/(\d+)%/);
-                    if (match) buffPercent = parseInt(match[1]) / 100;
+                    if (match) {
+                        buffPercent = parseInt(match[1]) / 100;
+                        buffPercentText = match[1] + '%';
+                    }
                 }
                 const buffAmount = Math.floor(currentEnemy.attack * buffPercent);
                 currentEnemy.attack += buffAmount;
-                addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! ATK +' + buffAmount + '!');
+                addGymBattleLog(currentEnemy.name + ' used ' + attack.name + '! ATK +' + buffPercentText + ' buff applied!');
             } else if (attack.type === 'Debuff') {
                 // Enemy debuffs player
                 SFX.debuff();
@@ -4126,6 +4427,10 @@
                             attacks: yuneData.attacks
                         });
                     }
+                } else if (gym.id === 3) {
+                    // Gym 3 - Nilock defeated, but Orochi is bound to their soul - NO HERO REWARD!
+                    gameState.gym3Completed = true;
+                    // Orochi cannot be obtained - it's part of Nilock
                 }
 
                 // Give XP to all heroes that participated
@@ -4180,6 +4485,15 @@
                     { speaker: playerName, text: 'I\'ll be back... stronger!' },
                     { speaker: 'Arionna', text: 'Stronger? Darling, you\'d need nine lives AND nine tails to beat me! 😘' },
                     { speaker: 'Arionna', text: 'Now shoo~ My spirits need their beauty sleep! ✨' }
+                ],
+                3: [
+                    { speaker: 'Nilock (in your head)', text: '"Weak. Embarrassing. Orochi barely woke up – used two heads and still crushed you."' },
+                    { speaker: playerName, text: 'Don\'t compare me to that fire idiot Shelak!' },
+                    { speaker: 'Nilock (in your head)', text: '"Shelak at least had some fire in them. You? Just hot air and zero skill."' },
+                    { speaker: playerName, text: 'That stings!' },
+                    { speaker: 'Nilock (in your head)', text: '"Good. Now crawl out of my gym before you bore me to death."' },
+                    { speaker: playerName, text: 'I\'ll be back stronger!' },
+                    { speaker: 'Nilock (in your head)', text: '"Stronger? You\'d need a whole new personality first. Bye, loser. 😂"' }
                 ]
             };
 
@@ -4219,6 +4533,21 @@
                     { speaker: 'Arionna', text: 'Take the Spirit Badge and LEAVE! *sobs*' },
                     { speaker: playerName, text: 'Thanks! Oh and... I\'ll take Yune too. Need a new pet! 🦊✨' },
                     { speaker: 'Arionna', text: '...I\'m calling my therapist. 😭' }
+                ],
+                3: [
+                    { speaker: 'Nilock (in your head)', text: '"No… Orochi lost?! My serpent god… defeated?!"' },
+                    { speaker: playerName, text: 'Your fancy noodle got turned into snake soup! Slurped clean! 🍜' },
+                    { speaker: 'Nilock (in your head)', text: '"He\'s an ancient divine terror, not takeout!"' },
+                    { speaker: playerName, text: 'Ancient is just code for outdated! Time to update or retire, grandpa snake! 👴🐍' },
+                    { speaker: 'Nilock (in your head)', text: '"I\'ll erase your mind next time, you little—"' },
+                    { speaker: playerName, text: 'Already tried and flopped! Eight heads, zero wins – math checks out! 😂' },
+                    { speaker: 'Nilock (in your head)', text: '*furiously tosses the badge* "Take this stupid thing and choke on it."' },
+                    { speaker: playerName, text: 'Sweet! Can I recruit Orochi with Time Recruit now?' },
+                    { speaker: 'Nilock (in your head)', text: '"Never. Orochi is bound to my soul. We are one."' },
+                    { speaker: playerName, text: 'Aww, you two are soulmates? That\'s actually kinda cute! 💕' },
+                    { speaker: 'Nilock (in your head)', text: '"I hate every cell in your body."' },
+                    { speaker: playerName, text: 'Love you too! 😘' },
+                    { speaker: 'Nilock (in your head)', text: '"GET OUT OF MY GYM BEFORE I MAKE YOUR BRAIN EXPLODE!"' }
                 ]
             };
 
@@ -4227,11 +4556,18 @@
                 { speaker: playerName, text: 'Thank you! That was fun!' }
             ];
 
-            // Determine unlocked boss
-            const bossName = gym.id === 1 ? 'MALICE' : (gym.id === 2 ? 'YUNE' : 'the gym boss heroes');
+            // Determine unlocked boss (Orochi NOT obtainable - bound to Nilock's soul!)
+            let victoryMessage = 'You earned the ' + gym.badge + '!\n+' + gym.reward.trCoins + ' TR Coins\n+' + gym.reward.xp + ' XP per hero';
+            if (gym.id === 1) {
+                victoryMessage += '\n\n🎉 MALICE is now available in Time Recruit!';
+            } else if (gym.id === 2) {
+                victoryMessage += '\n\n🎉 YUNE is now available in Time Recruit!';
+            } else if (gym.id === 3) {
+                victoryMessage += '\n\n🐍 Orochi remains bound to Nilock\'s soul... but you earned their respect!';
+            }
 
             showDialogueSequence(gymDialogue, () => {
-                showMessage('🏆', 'Victory!', 'You earned the ' + gym.badge + '!\\n+' + gym.reward.trCoins + ' TR Coins\\n+' + gym.reward.xp + ' XP per hero\\n\\n🎉 ' + bossName + ' is now available in Time Recruit!');
+                showMessage('🏆', 'Victory!', victoryMessage);
                 showScreen('homeScreen');
             });
         }
@@ -4312,22 +4648,28 @@
                 }
                 if (!gameState.gym2Completed) {
                     allHeroes = allHeroes.filter(h => h.id !== 'yune' && h.id !== 'yune-fox-spirit');
+                    // Block all Chapter 3 heroes until Gym 2 is beaten
+                    allHeroes = allHeroes.filter(h => h.chapter !== 3);
                 }
+                // ALWAYS exclude Orochi and evolved forms (too powerful, bound to Nilock's soul!)
+                allHeroes = allHeroes.filter(h => h.id !== 'orochi');
+                allHeroes = allHeroes.filter(h => h.id !== 'lucifer-lord-of-pride');  // Evolved form not summonable
+                allHeroes = allHeroes.filter(h => h.id !== 'yune-fox-spirit');  // Evolved form not summonable
             }
 
             // Weighted random selection based on rarity
-            // Common: 5x weight, Uncommon: 3x, Rare: 1x, Legendary: 0.5x
+            // Common: 5x weight, Uncommon: 3x, Rare: 1x, Legendary: 0.5x, Epic: 0.25x (VERY RARE!)
             const rarityWeights = {
                 'Common': 5,
                 'Uncommon': 3,
                 'Rare': 1,
-                'Legendary': 0.5
+                'Legendary': 0.5  // 5★ Legendary heroes are very rare!
             };
 
             const weightedPool = [];
             allHeroes.forEach(hero => {
                 const weight = rarityWeights[hero.rarity] || 3; // Default to Uncommon weight
-                for (let i = 0; i < weight * 2; i++) { // Multiply by 2 for finer control
+                for (let i = 0; i < weight * 4; i++) { // Multiply by 4 for finer control
                     weightedPool.push(hero);
                 }
             });
@@ -4348,10 +4690,12 @@
                 if (existingHero.xp >= xpNeeded && existingHero.level < getMaxLevel(existingHero)) {
                     existingHero.xp -= xpNeeded;
                     existingHero.level++;
-                    existingHero.hp += 3;
-                    existingHero.maxHp += 3;
-                    existingHero.attack += 2;
-                    existingHero.defense += 1;
+                    const isLegendary = existingHero.rarity === 'Legendary';
+                    const isRare = existingHero.rarity === 'Rare';
+                    existingHero.hp += isLegendary ? 6 : isRare ? 5 : 3;
+                    existingHero.maxHp += isLegendary ? 6 : isRare ? 5 : 3;
+                    existingHero.attack += isLegendary ? 5 : isRare ? 4 : 2;
+                    existingHero.defense += isLegendary ? 2 : 1;
                 }
 
                 saveGame();
@@ -4375,8 +4719,13 @@
                 startingLevel = 50 + Math.floor(Math.random() * 21); // 50-70
             }
 
-            // Calculate stats based on starting level
+            // Calculate stats based on starting level with rarity scaling
             const levelBonus = startingLevel - 1;
+            const isLegendary = heroData.rarity === 'Legendary';
+            const isRare = heroData.rarity === 'Rare';
+            const hpPerLevel = isLegendary ? 6 : isRare ? 5 : 3;
+            const atkPerLevel = isLegendary ? 5 : isRare ? 4 : 2;
+            const defPerLevel = isLegendary ? 2 : 1;
             const newHero = {
                 id: heroData.id,
                 name: heroData.name,
@@ -4385,10 +4734,10 @@
                 image: heroData.image,
                 level: startingLevel,
                 xp: 0,
-                hp: heroData.baseHp + (levelBonus * ((heroData.rarity === 'Rare' || heroData.rarity === 'Legendary') ? 5 : 3)),
-                maxHp: heroData.baseHp + (levelBonus * ((heroData.rarity === 'Rare' || heroData.rarity === 'Legendary') ? 5 : 3)),
-                attack: heroData.baseAtk + (levelBonus * ((heroData.rarity === 'Rare' || heroData.rarity === 'Legendary') ? 4 : 2)),
-                defense: heroData.baseDef + (levelBonus * 1),
+                hp: heroData.baseHp + (levelBonus * hpPerLevel),
+                maxHp: heroData.baseHp + (levelBonus * hpPerLevel),
+                attack: heroData.baseAtk + (levelBonus * atkPerLevel),
+                defense: heroData.baseDef + (levelBonus * defPerLevel),
                 attacks: heroData.attacks
             };
 
@@ -4572,6 +4921,14 @@
                 availableWilds = availableWilds.filter(h => h.chapter !== 2);
             }
 
+            // Block Chapter 3 heroes until Gym 2 is beaten
+            if (!gameState.gym2Completed) {
+                availableWilds = availableWilds.filter(h => h.chapter !== 3);
+            }
+
+            // Always exclude Orochi (bound to Nilock's soul)
+            availableWilds = availableWilds.filter(h => h.id !== 'orochi');
+
             // Pick random wild enemy
             const enemyData = availableWilds[Math.floor(Math.random() * availableWilds.length)];
 
@@ -4582,15 +4939,17 @@
 
             // Scale enemy stats by level
             const levelBonus = enemyLevel - 1;
-            // 4★ (Rare) heroes get 5 HP per level, others get 3
-            const hpPerLevel = (enemyData.rarity === 'Rare' || enemyData.rarity === 'Legendary') ? 5 : 3;
+            // 5★ Legendary: +6 HP, 4★ Rare: +5 HP, others: +3 HP
+            const hpPerLevel = enemyData.rarity === 'Legendary' ? 6 : enemyData.rarity === 'Rare' ? 5 : 3;
+            const atkPerLevel = enemyData.rarity === 'Legendary' ? 5 : enemyData.rarity === 'Rare' ? 4 : 2;
+            const defPerLevel = enemyData.rarity === 'Legendary' ? 2 : 1;
             battleState.enemy = {
                 ...enemyData,
                 level: enemyLevel,
                 hp: enemyData.baseHp + (levelBonus * hpPerLevel),
                 maxHp: enemyData.baseHp + (levelBonus * hpPerLevel),
-                attack: enemyData.baseAtk + (levelBonus * ((enemyData.rarity === 'Rare' || enemyData.rarity === 'Legendary') ? 4 : 2)),
-                defense: enemyData.baseDef + (levelBonus * 1)
+                attack: enemyData.baseAtk + (levelBonus * atkPerLevel),
+                defense: enemyData.baseDef + (levelBonus * defPerLevel)
             };
 
             // Set player HP and reset status effects
@@ -4772,13 +5131,17 @@
                 SFX.buff();
                 // Parse actual percentage from effect (e.g. "ATK +50%")
                 let buffPercent = 0.15; // Default 15%
+                let buffPercentText = '15%';
                 if (attack.effect && attack.effect.includes('%')) {
                     const match = attack.effect.match(/(\d+)%/);
-                    if (match) buffPercent = parseInt(match[1]) / 100;
+                    if (match) {
+                        buffPercent = parseInt(match[1]) / 100;
+                        buffPercentText = match[1] + '%';
+                    }
                 }
                 const boost = Math.ceil(battleState.playerHero.attack * buffPercent);
                 battleState.playerHero.attack += boost;
-                addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! ATK +' + boost + '!');
+                addBattleLog(battleState.playerHero.name + ' used ' + attack.name + '! ATK +' + buffPercentText + ' buff applied!');
             } else if (attackType === 'Debuff') {
                 SFX.debuff();
                 const reduction = Math.ceil(battleState.enemy.attack * 0.05);
@@ -4871,13 +5234,17 @@
             } else if (attackType === 'Buff') {
                 // Parse actual percentage from effect (e.g. "ATK +50%")
                 let buffPercent = 0.15; // Default 15%
+                let buffPercentText = '15%';
                 if (attack.effect && attack.effect.includes('%')) {
                     const match = attack.effect.match(/(\d+)%/);
-                    if (match) buffPercent = parseInt(match[1]) / 100;
+                    if (match) {
+                        buffPercent = parseInt(match[1]) / 100;
+                        buffPercentText = match[1] + '%';
+                    }
                 }
                 const buffAmount = Math.floor(battleState.enemy.attack * buffPercent);
                 battleState.enemy.attack += buffAmount;
-                addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ATK +' + buffAmount + '!');
+                addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ATK +' + buffPercentText + ' buff applied!');
             } else if (attackType === 'Debuff') {
                 battleState.playerHero.attack = Math.max(1, battleState.playerHero.attack - 5);
                 addBattleLog(battleState.enemy.name + ' used ' + attack.name + '! ' + (attack.effect || 'Your hero weakened!'));
@@ -4939,8 +5306,9 @@
             // Boss heroes (Malice, Yune) - max 210
             if (hero.id === 'malice' || hero.id === 'yune' || hero.id === 'yune-fox-spirit') return 210;
 
-            // Check rarity - Rare (4★) heroes can reach 210
-            if (hero.rarity === 'Rare' || hero.rarity === 'Legendary') return 210;
+            // Check rarity - Legendary (5★) max 250, Rare (4★) max 210
+            if (hero.rarity === 'Legendary') return 250;
+            if (hero.rarity === 'Rare') return 210;
 
             // Starters max at 70, Uncommon at 130
             const isStarter = starterHeroes.some(h => h.id === hero.id);
@@ -4989,12 +5357,13 @@
             while (hero.xp >= xpNeeded && hero.level < getMaxLevel(hero)) {
                 hero.level++;
                 hero.xp -= xpNeeded;
-                // 4★ (Rare) heroes get more stats per level
-                const isRare = hero.rarity === 'Rare' || hero.rarity === 'Legendary';
-                hero.maxHp += isRare ? 5 : 3;
+                // 5★ Legendary: +6 HP, +5 ATK, +2 DEF; 4★ Rare: +5 HP, +4 ATK, +1 DEF
+                const isLegendary = hero.rarity === 'Legendary';
+                const isRare = hero.rarity === 'Rare';
+                hero.maxHp += isLegendary ? 6 : isRare ? 5 : 3;
                 hero.hp = hero.maxHp;
-                hero.attack += isRare ? 4 : 2;
-                hero.defense += 1;
+                hero.attack += isLegendary ? 5 : isRare ? 4 : 2;
+                hero.defense += isLegendary ? 2 : 1;
                 levelsGained++;
                 xpNeeded = 50 + (hero.level * 3); // Recalculate for next level
             }
@@ -5097,11 +5466,15 @@
                     const heroData = wildHeroes.find(h => h.id === hero.id) || starterHeroes.find(h => h.id === hero.id);
                     if (heroData) {
                         const levelBonus = hero.level - 1;
-                        const isRare = hero.rarity === 'Rare' || hero.rarity === 'Legendary';
-                        hero.maxHp = heroData.baseHp + (levelBonus * (isRare ? 5 : 3));
+                        // Get rarity from hero database, not from saved hero (fixes old saves)
+                        const rarity = heroData.rarity;
+                        hero.rarity = rarity; // Update rarity in saved hero
+                        const isLegendary = rarity === 'Legendary';
+                        const isRare = rarity === 'Rare';
+                        hero.maxHp = heroData.baseHp + (levelBonus * (isLegendary ? 6 : isRare ? 5 : 3));
                         hero.hp = hero.maxHp;
-                        hero.attack = heroData.baseAtk + (levelBonus * (isRare ? 4 : 2));
-                        hero.defense = heroData.baseDef + (levelBonus * 1);
+                        hero.attack = heroData.baseAtk + (levelBonus * (isLegendary ? 5 : isRare ? 4 : 2));
+                        hero.defense = heroData.baseDef + (levelBonus * (isLegendary ? 2 : 1));
                     }
                 });
                 saveGame();
