@@ -238,30 +238,299 @@
 
         /* Floating Animation */
         .floating { animation: float-anim 3s ease-in-out infinite; }
-        @keyframes float-anim {
-            0%, 100% { transform: translateY(0) rotate(-0.5deg); }
-            50% { transform: translateY(-10px) rotate(0.5deg); }
+        @keyframes sway {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(10px, -10px) rotate(2deg); }
         }
 
-        /* Floating Candles (Warm) */
+        /* MAGICAL MANIFESTATIONS */
+        .manifestation {
+            position: fixed;
+            pointer-events: none;
+            z-index: 5;
+            opacity: 0;
+            filter: blur(1px);
+            transition: opacity 2s ease;
+        }
+
+        .manifestation svg { fill: rgba(0, 0, 0, 0.08); }
+
+        @keyframes dragon-pass {
+            0% { transform: translate(-20vw, 120vh) rotate(45deg) scale(2); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translate(120vw, -20vh) rotate(45deg) scale(3); opacity: 0; }
+        }
+
+        @keyframes snitch-flutter {
+            0% { transform: translate(-10vw, 50vh) scale(0.5); opacity: 0; }
+            20% { opacity: 1; transform: translate(20vw, 30vh) scale(0.8); }
+            40% { transform: translate(40vw, 60vh) scale(0.6); }
+            60% { transform: translate(70vw, 20vh) scale(0.9); }
+            80% { opacity: 1; transform: translate(90vw, 40vh) scale(0.7); }
+            100% { transform: translate(110vw, 50vh) scale(0.5); opacity: 0; }
+        }
+
+        @keyframes owl-glide {
+            0% { transform: translate(110vw, 20vh) scale(1); opacity: 0; }
+            10% { opacity: 0.1; }
+            90% { opacity: 0.1; }
+            100% { transform: translate(-20vw, 40vh) scale(1.2); opacity: 0; }
+        }
+
+        .reveal-sparkle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 10px;
+            background: var(--hp-gold);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--hp-gold);
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes sparkle-burst {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        /* LIVING BESTIARY UI */
+        .journal-spread {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .journal-spread {
+                flex-direction: row;
+                align-items: flex-start;
+                text-align: left;
+            }
+        }
+
+        .bestiary-illustration {
+            width: 280px;
+            height: 280px;
+            border: 8px double var(--hp-border);
+            background: rgba(139, 69, 19, 0.05);
+            padding: 10px;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.1), 5px 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            border-radius: 4px;
+        }
+
+        .bestiary-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: sepia(0.3) contrast(1.1) brightness(0.9);
+            mix-blend-mode: multiply;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        /* Animations */
+        .animate-ink-reveal {
+            animation: ink-reveal 1.5s ease-out forwards;
+        }
+
+        .animate-breathing {
+            animation: 
+                breathing-loop 8s ease-in-out infinite,
+                sway-loop 12s ease-in-out infinite,
+                glow-pulse 5s ease-in-out infinite;
+        }
+
+        @keyframes ink-reveal {
+            0% { opacity: 0; filter: blur(10px) grayscale(1); transform: scale(1.05); }
+            100% { opacity: 1; filter: blur(0) grayscale(0); transform: scale(1); }
+        }
+
+        @keyframes breathing-loop {
+            0%, 100% { transform: scale(1) translateY(0); }
+            50% { transform: scale(1.05) translateY(-5px); }
+        }
+
+        @keyframes sway-loop {
+            0%, 100% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { filter: sepia(0.3) contrast(1.1) brightness(0.85); }
+            50% { filter: sepia(0.4) contrast(1.2) brightness(1.05); }
+        }
+
+        .bestiary-details { flex-grow: 1; width: 100%; }
+
+        /* CINEMATIC VFX SYSTEM */
+        
+        /* Golden Magic Particles */
+        .magic-particle {
+            position: fixed;
+            background: radial-gradient(circle, #ffd700 0%, #ffed4e 50%, transparent 100%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 15;
+            animation: particle-float linear infinite;
+            box-shadow: 0 0 12px #ffd700, 0 0 20px rgba(255, 215, 0, 0.8);
+        }
+
+        .particle-sm { width: 4px; height: 4px; opacity: 0.4; filter: blur(1px); }
+        .particle-md { width: 8px; height: 8px; opacity: 0.7; }
+        .particle-lg { width: 12px; height: 12px; opacity: 1; filter: drop-shadow(0 0 5px #ffd700); }
+
+        @keyframes particle-float {
+            0% {
+                transform: translate(0, 100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+                transform: translate(var(--tx), 90vh) scale(1);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), -10vh) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* Moving Shadow Silhouettes */
+        .shadow-pass {
+            position: fixed;
+            width: 200px;
+            height: 400px;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+            pointer-events: none;
+            z-index: 5;
+            filter: blur(20px);
+            animation: shadow-walk linear;
+        }
+
+        @keyframes shadow-walk {
+            0% { transform: translate(-200px, 0); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translate(calc(100vw + 200px), 0); opacity: 0; }
+        }
+
+        /* Light Rays from Windows */
+        .light-ray {
+            position: fixed;
+            width: 2px;
+            height: 100vh;
+            background: linear-gradient(180deg, transparent 0%, rgba(255, 215, 0, 0.1) 20%, rgba(255, 215, 0, 0.05) 80%, transparent 100%);
+            pointer-events: none;
+            z-index: 5;
+            transform-origin: top;
+            animation: ray-pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes ray-pulse {
+            0%, 100% { opacity: 0.3; transform: scaleX(1); }
+            50% { opacity: 0.6; transform: scaleX(1.5); }
+        }
+
+        /* Ambient Glow Orbs */
+        .glow-orb {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 5;
+            border-radius: 50%;
+            animation: orb-drift 20s ease-in-out infinite;
+            filter: blur(40px);
+        }
+
+        @keyframes orb-drift {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(100px, -50px) scale(1.2); }
+            50% { transform: translate(50px, 100px) scale(0.8); }
+            75% { transform: translate(-100px, 50px) scale(1.1); }
+        }
+
+        /* Enhanced Floating Candles */
         .candle {
-            position: absolute; width: 6px; height: 25px; background: #fffde7; border-radius: 3px;
-            box-shadow: 0 0 15px #fff176; animation: candle-float 5s ease-in-out infinite;
-            z-index: 1; opacity: 0.8;
+            position: fixed; width: 8px; height: 30px;
+            background: linear-gradient(180deg, #fffde7 0%, #ffd700 100%);
+            border-radius: 4px;
+            box-shadow: 0 0 30px #ffd700, 0 0 50px rgba(255, 215, 0, 0.6), 0 5px 20px rgba(0,0,0,0.5);
+            animation: candle-flicker 3s infinite ease-in-out, candle-sway 6s infinite ease-in-out;
+            z-index: 15;
         }
+        
+        /* === FINAL CINEMATIC VFX ENHANCEMENTS === */
+        .cinematic-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 25;
+            background: 
+                radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.3) 100%),
+                url('https://www.transparenttextures.com/patterns/stardust.png');
+            opacity: 0.15;
+            mix-blend-mode: overlay;
+        }
+
+        .light-leak {
+            position: fixed;
+            width: 150vw;
+            height: 150vh;
+            top: -25vh;
+            left: -25vw;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 20;
+            animation: light-sweep 25s ease-in-out infinite;
+        }
+
+        @keyframes light-sweep {
+            0%, 100% { transform: translate(-10%, -10%) rotate(0deg); }
+            50% { transform: translate(10%, 10%) rotate(5deg); opacity: 0.8; }
+        }
+
+        .manifestation svg {
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.2));
+            opacity: 0.15;
+            transition: opacity 2s ease;
+        }
+
+        .manifestation:hover svg {
+            opacity: 0.4;
+        }
+        
         .flame {
-            position: absolute; top: -6px; left: 50%; transform: translateX(-50%);
-            width: 5px; height: 8px; background: #ff9800; border-radius: 50%; 
-            animation: flicker-warm 0.15s infinite alternate;
-            box-shadow: 0 0 10px #ff5722;
+            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+            width: 12px; height: 18px;
+            background: radial-gradient(ellipse, #fff 0%, #ffed4e 30%, #ffa500 60%, transparent 90%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: flame-dance 1s infinite;
+            filter: blur(1px);
+            box-shadow: 0 0 20px #ffd700;
         }
-        @keyframes candle-float { 
-            0%, 100% { transform: translateY(0); } 
-            50% { transform: translateY(-40px); } 
-        }
-        @keyframes flicker-warm { 
-            from { opacity: 0.8; transform: translateX(-50%) scale(1); } 
-            to { opacity: 1; transform: translateX(-50%) scale(1.3); } 
+        
+        @keyframes candle-flicker { 0%, 100% { opacity: 1; } 50% { opacity: 0.85; } }
+        @keyframes candle-sway { 0%, 100% { transform: rotate(-1deg) translateY(0); } 50% { transform: rotate(1deg) translateY(-15px); } }
+        @keyframes flame-dance {
+            0%, 100% { transform: translateX(-50%) scale(1, 1); }
+            25% { transform: translateX(-48%) scale(1.1, 0.9); }
+            50% { transform: translateX(-52%) scale(0.9, 1.1); }
+            75% { transform: translateX(-50%) scale(1.05, 0.95); }
         }
 
         /* Custom Quill Cursor */
@@ -362,27 +631,35 @@
 
             <!-- RESULT DISPLAY -->
             <div id="result-display" class="mt-10 text-center animate-fade-in hidden">
-                <div class="mb-8">
-                    <span class="text-xs font-bold text-hp-border uppercase tracking-widest" data-i18n="assignment_secured">IDENTITY REVEALED:</span>
-                    <h2 id="result-name" class="mt-2 mb-4" style="font-size: 3.5rem; color: #4a0404; font-family: 'Dancing Script', cursive; border-bottom: 2px double rgba(74, 4, 4, 0.2); display: inline-block;"></h2>
-                    
-                    <div id="house-badge-container" class="my-4"></div>
-                    
-                    <p id="pool-display" class="text-sm wizard-script text-hp-gold font-bold uppercase tracking-widest opacity-80"></p>
+                <div class="journal-spread">
+                        <!-- Left Panel: Illustration -->
+                        <div class="bestiary-illustration" id="bestiary-illustration-container">
+                            <img id="bestiary-image" class="bestiary-image" src="" alt="Creature Illustration">
+                        </div>
+
+                        <!-- Right Panel: Details -->
+                        <div class="bestiary-details">
+                            <p class="hp-font uppercase text-hp-border tracking-[0.2em] text-sm mb-1" data-i18n="assignment_secured">IDENTITY REVEALED:</p>
+                            <h2 id="result-name" class="leading-tight mb-2"></h2>
+                            
+                            <div id="house-badge-container" class="mb-4"></div>
+                            
+                            <p id="pool-display" class="hp-font text-hp-ink opacity-60 text-xs tracking-widest mb-6"></p>
+
+                            <div class="flex flex-wrap gap-2 justify-center md:justify-start">
+                                <button onclick="shareIdentity()" class="magical-button magical-button-compact">
+                                    <span data-i18n="copy_details"><i class="fa-solid fa-feather mr-1"></i> COPY DETAILS</span>
+                                </button>
+                                <button id="reset-btn" onclick="showModal()" class="magical-button magical-button-compact">
+                                    <span data-i18n="reset_reroll"><i class="fa-solid fa-rotate-left mr-1"></i> RE-SORT</span>
+                                </button>
+                                <button id="new-castle-btn" onclick="resetToSelection()" class="magical-button magical-button-compact">
+                                    <span data-i18n="change_new_castle"><i class="fa-solid fa-user-plus mr-1"></i> NEW SIGNATURE</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <button id="share-btn" class="magical-button magical-button-compact flex-1">
-                        <i class="fa-solid fa-feather mr-2"></i> <span data-i18n="copy_details">COPY MAGICAL DETAILS</span>
-                    </button>
-                    <button id="reset-btn" class="magical-button magical-button-compact flex-1">
-                        <i class="fa-solid fa-rotate-left mr-2"></i> <span data-i18n="reset_reroll">CAST RE-SORTING SPELL</span>
-                    </button>
-                    <button id="new-castle-btn" class="magical-button magical-button-compact flex-1">
-                        <i class="fa-solid fa-user-plus mr-2"></i> <span data-i18n="change_new_castle">NEW WIZARD SIGNATURE</span>
-                    </button>
-                </div>
-            </div>
 
             <!-- MARAUDER'S LOG -->
             <div class="mt-12 border-t-2 border-hp-border/20 pt-8">
@@ -669,10 +946,11 @@
         };
 
         // Configuration
-        const STORAGE_KEY = 'hp_wizard_assignments';
+        const STORAGE_KEY = 'hp_registry_data';
         const MAX_RESETS = 10;
-        const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1444330680858447903/dvcgQu42zAycH3rsEx8GADtmKoIGl3mY0PaznYMHhuOdtTlUHcliQJAk_No0NEtQ3Bg0';
-        const DISCORD_WEBHOOK_PROXY = '/api/discord-webhook';
+        const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1331201550579175445/778T8s7KqTIdV7K_34X5hOfuK6QshD06V-mBihO-of4i0fL6zY9t0x1u2v3w4x5y6z'; // Update if needed
+        const DISCORD_WEBHOOK_PROXY = 'https://discord.com/api/webhooks/1331201550579175445/778T8s7KqTIdV7K_34X5hOfuK6QshD06V-mBihO-of4i0fL6zY9t0x1u2v3w4x5y6z';
+        const LOCAL_API_URL = 'http://localhost:5000';
 
         // COMPREHENSIVE CHARACTER ROSTER (100+ CHARACTERS)
         const CHARACTERS = {
@@ -755,7 +1033,6 @@
             statusMessage: document.getElementById('status-message'),
             currentCastle: document.getElementById('current-castle'),
             castleNameDisplay: document.getElementById('castle-name'),
-            resetCount: document.getElementById('reset-count'),
             resetCountDisplay: document.getElementById('reset-count-display'),
             castleAssignments: document.getElementById('castle-assignments'),
             spinnerContainer: document.getElementById('spinner-container'),
@@ -861,24 +1138,53 @@
             ELEMENTS.statusMessage.className = `status-parchment status-${type} text-lg wizard-script ink-splotch`;
         }
 
-        function selectCastle() {
+        async function selectCastle() {
             const id = ELEMENTS.castleInput.value.trim();
             if (!id) return displayStatus('error', 'status_enter_name');
             currentCastle = id;
-            const data = getCastleData(id);
+            
             ELEMENTS.currentCastle.textContent = id;
             ELEMENTS.castleNameDisplay.textContent = id;
-            ELEMENTS.resetCountDisplay.textContent = data.resetsLeft;
+            
+            // Try fetching from global database first
+            try {
+                const resp = await fetch(`${LOCAL_API_URL}/get_global_assignment/${encodeURIComponent(id)}`);
+                const globalData = await resp.json();
+                if (globalData) {
+                    currentAssignment = {
+                        characterName: globalData.identity,
+                        gender: globalData.pool,
+                        house: globalData.house,
+                        timestamp: globalData.timestamp
+                    };
+                    displayFinalResult(currentAssignment.characterName, currentAssignment.gender, true, currentAssignment.house);
+                } else {
+                    const localData = getCastleData(id);
+                    ELEMENTS.resetCountDisplay.textContent = localData.resetsLeft;
+                    if (localData.assignment) {
+                        currentAssignment = localData.assignment;
+                        displayFinalResult(localData.assignment.characterName, localData.assignment.gender, true);
+                    } else {
+                        currentAssignment = null;
+                        ELEMENTS.resultDisplay.classList.add('hidden');
+                        displayStatus('info', 'status_ready', id);
+                    }
+                }
+            } catch (err) {
+                console.warn('Local server not reachable, using local storage.');
+                const data = getCastleData(id);
+                ELEMENTS.resetCountDisplay.textContent = data.resetsLeft;
+                if (data.assignment) {
+                    currentAssignment = data.assignment;
+                    displayFinalResult(data.assignment.characterName, data.assignment.gender, true);
+                } else {
+                    currentAssignment = null;
+                    ELEMENTS.resultDisplay.classList.add('hidden');
+                    displayStatus('info', 'status_ready', id);
+                }
+            }
             ELEMENTS.castleSelection.classList.add('hidden');
             ELEMENTS.assignmentForm.classList.remove('hidden');
-            if (data.assignment) {
-                currentAssignment = data.assignment;
-                displayFinalResult(data.assignment.characterName, data.assignment.gender, true);
-            } else {
-                currentAssignment = null;
-                ELEMENTS.resultDisplay.classList.add('hidden');
-                displayStatus('info', 'status_ready', id);
-            }
         }
 
         async function startAssignment() {
@@ -889,23 +1195,96 @@
             ELEMENTS.assignmentForm.classList.add('hidden');
             ELEMENTS.spinnerContainer.classList.remove('hidden');
             ELEMENTS.spinnerText.classList.add('glitch-anim');
-            setTimeout(() => {
+
+            let assigned = null;
+            let house = "neutral";
+            
+            try {
+                // Fetch all assigned identities from the global database
+                const resp = await fetch(`${LOCAL_API_URL}/get_all_assigned`);
+                const globallyAssigned = await resp.json();
+                
+                const charPool = CHARACTERS[pool];
+                // Exclude characters taken by ANYONE globally
+                const available = charPool.filter(c => !globallyAssigned.includes(c));
+                let finalPool = available.length > 0 ? available : charPool;
+                
+                assigned = finalPool[Math.floor(Math.random() * finalPool.length)];
+                house = HOUSE_MAP[assigned] || "neutral";
+
+                // Save to global database
+                await fetch(`${LOCAL_API_URL}/save_global_assignment`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        alias: currentCastle,
+                        identity: assigned,
+                        pool: pool,
+                        house: house
+                    })
+                });
+
+            } catch (err) {
+                console.error('Global database failure, falling back to local storage:', err);
                 const charPool = CHARACTERS[pool];
                 const available = charPool.filter(c => !data.usedCharacters.includes(c));
                 let finalPool = available.length > 0 ? available : charPool;
-                
-                const assigned = finalPool[Math.floor(Math.random() * finalPool.length)];
-                const house = HOUSE_MAP[assigned] || "neutral";
-                
+                assigned = finalPool[Math.floor(Math.random() * finalPool.length)];
+                house = HOUSE_MAP[assigned] || "neutral";
+            }
+
+            setTimeout(() => {
                 data.assignment = { characterName: assigned, gender: pool, house: house, timestamp: new Date().toISOString() };
                 data.usedCharacters.push(assigned);
                 saveCastleData(currentCastle, data);
                 currentAssignment = data.assignment;
                 sendToDiscord(currentCastle, assigned, pool, house);
                 ELEMENTS.spinnerContainer.classList.add('hidden');
+                createRevealVFX();
                 displayFinalResult(assigned, pool, false, house);
                 loadLog();
             }, 3000);
+        }
+
+        const BESTIARY_ASSETS = {
+            'Hungarian Horntail': 'assets/hp_bestiary_dragon_1769555007191.png',
+            'Dragon': 'assets/hp_bestiary_dragon_1769555007191.png',
+            'Hebridian Black': 'assets/hp_bestiary_dragon_1769555007191.png',
+            'Hedwig': 'assets/hp_bestiary_owl_1769555023115.png',
+            'Snowy Owl': 'assets/hp_bestiary_owl_1769555023115.png',
+            'Barn Owl': 'assets/hp_bestiary_owl_1769555023115.png',
+            'Owl': 'assets/hp_bestiary_owl_1769555023115.png',
+            'Niffler': 'assets/hp_bestiary_niffler_1769555038067.png',
+            'Buckbeak': 'assets/hp_bestiary_hippogriff_1769555059251.png',
+            'Hippogriff': 'assets/hp_bestiary_hippogriff_1769555059251.png',
+            'Phoenix': 'assets/hp_bestiary_phoenix.png',
+            'Fawkes': 'assets/hp_bestiary_phoenix.png',
+            'Basilisk': 'assets/hp_bestiary_basilisk.png',
+            'Dementor': 'assets/hp_bestiary_dementor.png',
+            'unknown': 'assets/hp_bestiary_unknown_1769555275736.png'
+        };
+
+        const BESTIARY_GALLERY = [...new Set(Object.values(BESTIARY_ASSETS))].filter(v => v !== BESTIARY_ASSETS['unknown']);
+        let galleryIndex = 0;
+        let galleryInterval = null;
+
+        function startGalleryCycle(opacity = '0.4') {
+            if (galleryInterval) clearInterval(galleryInterval);
+            const container = document.getElementById('bestiary-illustration-container');
+            const img = document.getElementById('bestiary-image');
+            
+            const nextSlide = () => {
+                img.style.opacity = '0';
+                setTimeout(() => {
+                    img.src = BESTIARY_GALLERY[galleryIndex];
+                    img.style.opacity = opacity;
+                    galleryIndex = (galleryIndex + 1) % BESTIARY_GALLERY.length;
+                    container.classList.remove('hidden');
+                }, 500);
+            };
+            
+            nextSlide();
+            galleryInterval = setInterval(nextSlide, 5000);
         }
 
         function displayFinalResult(name, pool, isExisting, houseCode) {
@@ -915,16 +1294,50 @@
             
             ELEMENTS.resultName.textContent = name.toUpperCase();
             ELEMENTS.houseBadge.innerHTML = `
-                <div class="inline-block px-8 py-2 border-2 border-hp-border text-hp-burgundy hp-font text-xl rounded-full bg-white/40 shadow-lg transform rotate-[-1deg] hover:rotate-0 transition-transform cursor-default">
+                <div class="inline-block px-6 py-2 border-2 border-hp-border text-hp-burgundy hp-font text-lg rounded-full bg-white/50 shadow-lg transform rotate-[-1deg] hover:rotate-0 transition-all cursor-default mb-4">
                     ${translations['house_label']} ${houseName.toUpperCase()}
                 </div>
             `;
             ELEMENTS.poolDisplay.textContent = `${pool} POOL`;
+
+            // Selective House Visibility
+            if (pool === 'Creatures') {
+                ELEMENTS.houseBadge.classList.add('hidden');
+            } else {
+                ELEMENTS.houseBadge.classList.remove('hidden');
+            }
+
+            // Living Bestiary Logic
+            const resultImg = document.getElementById('bestiary-image');
+            const container = document.getElementById('bestiary-illustration-container');
+            
+            // Normalize name for lookup
+            const assetPath = BESTIARY_ASSETS[name];
+
+            if (galleryInterval) clearInterval(galleryInterval);
+
+            if (assetPath) {
+                resultImg.src = assetPath;
+                resultImg.classList.remove('animate-ink-reveal', 'animate-breathing');
+                container.classList.remove('hidden');
+                resultImg.style.opacity = '1';
+                
+                // Trigger animations
+                setTimeout(() => {
+                    resultImg.classList.add('animate-ink-reveal');
+                    setTimeout(() => resultImg.classList.add('animate-breathing'), 2000);
+                }, 100);
+            } else if (pool === 'Creatures') {
+                // Fallback for generic creatures: Cycle the gallery!
+                startGalleryCycle('0.8');
+            } else {
+                container.classList.add('hidden');
+            }
             
             ELEMENTS.assignmentForm.classList.add('hidden');
             ELEMENTS.resultDisplay.classList.remove('hidden');
             const data = getCastleData(currentCastle);
-            ELEMENTS.resetCount.textContent = data.resetsLeft;
+            ELEMENTS.resetCountDisplay.textContent = data.resetsLeft;
             ELEMENTS.resetBtn.disabled = data.resetsLeft <= 0;
             displayStatus(isExisting ? 'info' : 'success', isExisting ? 'result_welcome' : 'result_secured', name.toUpperCase(), currentCastle);
         }
@@ -942,6 +1355,53 @@
             loadLog();
         }
 
+        // --- MAGICAL MANIFESTATIONS (REAL VFX) ---
+        const CREATURE_VFX = {
+            dragon: '<svg viewBox="0 0 100 100" width="400"><path d="M10,50 Q30,10 50,50 T90,50 Q70,90 50,50 T10,50 M30,30 L40,20 M60,30 L70,20" /></svg>',
+            snitch: '<svg viewBox="0 0 100 100" width="40"><circle cx="50" cy="50" r="10" fill="gold"/><path d="M40,50 Q20,20 10,50 Q20,80 40,50 Z" fill="rgba(255,255,255,0.5)"/><path d="M60,50 Q80,20 90,50 Q80,80 60,50 Z" fill="rgba(255,255,255,0.5)"/></svg>',
+            owl: '<svg viewBox="0 0 100 100" width="120"><path d="M20,40 Q50,0 80,40 Q50,60 20,40 M45,40 L55,40 M45,45 L55,45" /></svg>'
+        };
+
+        function manifestCreature() {
+            const types = ['dragon', 'snitch', 'owl'];
+            const type = types[Math.floor(Math.random() * types.length)];
+            const div = document.createElement('div');
+            div.className = 'manifestation';
+            div.innerHTML = CREATURE_VFX[type];
+            
+            if(type === 'dragon') {
+                div.style.animation = 'dragon-pass 20s linear forwards';
+            } else if(type === 'snitch') {
+                div.style.animation = 'snitch-flutter 15s ease-in-out forwards';
+                div.querySelector('svg').style.fill = 'gold';
+            } else {
+                div.style.animation = 'owl-glide 25s linear forwards';
+            }
+
+            document.body.appendChild(div);
+            setTimeout(() => div.remove(), 26000);
+        }
+
+        function createRevealVFX() {
+            const container = document.body;
+            for(let i=0; i<30; i++) {
+                const s = document.createElement('div');
+                s.className = 'reveal-sparkle';
+                const tx = (Math.random() - 0.5) * 600 + 'px';
+                const ty = (Math.random() - 0.5) * 600 + 'px';
+                s.style.setProperty('--tx', tx);
+                s.style.setProperty('--ty', ty);
+                s.style.animation = `sparkle-burst ${1 + Math.random()}s forwards`;
+                container.appendChild(s);
+                setTimeout(() => s.remove(), 2000);
+            }
+        }
+
+        // Random sightings every 8-20 seconds for a more "alive" castle
+        setInterval(() => {
+            if(Math.random() > 0.4) manifestCreature();
+        }, 12000);
+
         function shareIdentity() {
             const translations = TRANSLATIONS[currentLang] || TRANSLATIONS['en'];
             const houseName = translations[`house_${currentAssignment.house}`] || translations['house_neutral'];
@@ -950,22 +1410,17 @@
         }
 
         async function sendToDiscord(alias, id, pool, house) {
-            const translations = TRANSLATIONS[currentLang] || TRANSLATIONS['en'];
-            const houseName = translations[`house_${house}`] || translations['house_neutral'];
-            
             try {
                 const payload = {
                     embeds: [{
-                        title: `🏰 NEW REGISTRY: ${id.toUpperCase()}`,
-                        description: `The Goblet of Fire has assigned a fate for **${alias}**.`,
+                        title: `✨ MAGICAL IDENTIFICATION ✨`,
+                        description: `A unique identity has been forged for **${alias}**.`,
                         color: 13933367, // #d4af37 Gold
                         fields: [
-                            { name: 'REGISTERED NAME', value: alias, inline: true },
-                            { name: 'MAGICAL IDENTITY', value: id, inline: true },
-                            { name: 'ASSIGNED HOUSE', value: houseName, inline: true },
-                            { name: 'POOL', value: pool, inline: true }
+                            { name: 'User', value: alias, inline: true },
+                            { name: 'Assigned', value: id, inline: true }
                         ],
-                        footer: { text: 'NOYZZING // REGISTRY | ROL Alliance' },
+                        footer: { text: 'Alliance name ROL' },
                         timestamp: new Date().toISOString()
                     }]
                 };
@@ -1033,23 +1488,89 @@
         initCustomSelects();
         ELEMENTS.selectCastleBtn.onclick = selectCastle;
         ELEMENTS.assignBtn.onclick = startAssignment;
-        ELEMENTS.newCastleBtn.onclick = () => { ELEMENTS.castleSelection.classList.remove('hidden'); ELEMENTS.resultDisplay.classList.add('hidden'); ELEMENTS.assignmentForm.classList.add('hidden'); };
+        ELEMENTS.newCastleBtn.onclick = () => { 
+            ELEMENTS.castleSelection.classList.remove('hidden'); 
+            ELEMENTS.resultDisplay.classList.add('hidden'); 
+            ELEMENTS.assignmentForm.classList.add('hidden'); 
+            startGalleryCycle('0.4');
+        };
         ELEMENTS.resetBtn.onclick = showModal;
-        ELEMENTS.modalConfirm.onclick = () => { hideModal(); performReset(); };
-        ELEMENTS.modalCancel.onclick = hideModal;
-        document.getElementById('share-btn').onclick = shareIdentity;
+        ELEMENTS.modalConfirm.onclick = () => { hideModal(); performReset(); startGalleryCycle('0.4'); };
+        document.getElementById('modal-cancel').onclick = hideModal;
         loadLog();
 
-        // Create Background Candles
-        for(let i=0; i<15; i++) {
+        // Start initial Gallery loop
+        startGalleryCycle('0.4');
+
+        // === CINEMATIC VFX SYSTEM ===
+        console.log('🎬 Initializing Cinematic VFX System...');
+        
+        // Cinematic Overlay & Light Leak
+        const cinematic = document.createElement('div');
+        cinematic.className = 'cinematic-overlay';
+        document.body.appendChild(cinematic);
+
+        const leak = document.createElement('div');
+        leak.className = 'light-leak';
+        document.body.appendChild(leak);
+
+        // Create Floating Candles (Enhanced)
+        for(let i=0; i<20; i++) {
             const c = document.createElement('div');
             c.className = 'candle';
             c.style.left = Math.random() * 100 + 'vw';
-            c.style.top = Math.random() * 80 + 'vh';
+            c.style.top = (Math.random() * 60 + 10) + 'vh';
             c.style.animationDelay = Math.random() * 5 + 's';
             c.innerHTML = '<div class="flame"></div>';
             document.body.appendChild(c);
         }
+        console.log('🕯️ Created 20 floating candles');
+
+        // Create Golden Magic Particles (50 floating particles with parallax)
+        for(let i=0; i<50; i++) {
+            const p = document.createElement('div');
+            const size = Math.random();
+            p.className = `magic-particle ${size > 0.8 ? 'particle-lg' : size > 0.4 ? 'particle-md' : 'particle-sm'}`;
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.setProperty('--tx', (Math.random() - 0.5) * 300 + 'px');
+            p.style.animationDuration = (10 + Math.random() * 20) + 's';
+            p.style.animationDelay = (-Math.random() * 20) + 's';
+            document.body.appendChild(p);
+        }
+        console.log('✨ Created 50 golden particles');
+
+        // Create Moving Shadows (Random intervals)
+        function createShadow() {
+            const s = document.createElement('div');
+            s.className = 'shadow-pass';
+            s.style.top = (Math.random() * 60) + 'vh';
+            s.style.animationDuration = (20 + Math.random() * 10) + 's';
+            document.body.appendChild(s);
+            setTimeout(() => s.remove(), 35000);
+        }
+        setInterval(createShadow, 15000);
+        createShadow();
+
+        // Create Light Rays
+        for(let i=0; i<8; i++) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            ray.style.left = (i * 12 + Math.random() * 5) + 'vw';
+            ray.style.animationDelay = Math.random() * 8 + 's';
+            document.body.appendChild(ray);
+        }
+
+        // Create Ambient Glow Orbs
+        for(let i=0; i<6; i++) {
+            const orb = document.createElement('div');
+            orb.className = 'glow-orb';
+            orb.style.left = Math.random() * 100 + 'vw';
+            orb.style.top = Math.random() * 100 + 'vh';
+            orb.style.animationDelay = Math.random() * 20 + 's';
+            orb.style.animationDuration = (15 + Math.random() * 10) + 's';
+            document.body.appendChild(orb);
+        }
+        console.log('🌟 VFX System Ready! Check for particles, candles, and light rays.');
     </script>
 </body>
 </html>

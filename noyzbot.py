@@ -3,12 +3,25 @@ from flask_cors import CORS
 import random
 import time
 import os
+import sqlite3
 
 # Initialize the Flask application
 app = Flask(__name__, static_folder=os.path.dirname(os.path.abspath(__file__)))
 
 # Enable CORS for all routes
 CORS(app)
+
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'registry.db')
+
+def init_db():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS global_registry
+                 (alias TEXT PRIMARY KEY, identity TEXT, pool TEXT, house TEXT, timestamp TEXT)''')
+    conn.commit()
+    conn.close()
+
+init_db()
 
 def get_bot_response(user_input):
     """
@@ -135,6 +148,52 @@ def chat():
 
     # Return the bot's response as a JSON object
     return jsonify(bot_response)
+
+@app.route('/get_global_assignment/<alias>')
+def get_global_assignment(alias):
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT * FROM global_registry WHERE alias=?", (alias,))
+    row = c.fetchone()
+    conn.close()
+    if row:
+        return jsonify({
+            "alias": row[0],
+            "identity": row[1],
+            "pool": row[2],
+            "house": row[3],
+            "timestamp": row[4]
+        })
+    return jsonify(None)
+
+@app.route('/get_all_assigned')
+def get_all_assigned():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT identity FROM global_registry")
+    rows = c.fetchall()
+    conn.close()
+    return jsonify([r[0] for r in rows])
+
+@app.route('/save_global_assignment', methods=['POST'])
+def save_global_assignment():
+    data = request.get_json()
+    alias = data.get('alias')
+    identity = data.get('identity')
+    pool = data.get('pool')
+    house = data.get('house')
+    
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    try:
+        c.execute("INSERT OR REPLACE INTO global_registry VALUES (?, ?, ?, ?, ?)",
+                  (alias, identity, pool, house, time.strftime('%Y-%m-%d %H:%M:%S')))
+        conn.commit()
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+    finally:
+        conn.close()
 
 # --- Run the Flask Development Server ---
 if __name__ == '__main__':
