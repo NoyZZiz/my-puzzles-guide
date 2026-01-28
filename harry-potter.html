@@ -945,12 +945,20 @@
             // Additional languages (es, pt, de, ja, ko) will follow the same pattern in the final implementation
         };
 
-        // Configuration
+        // ==========================================
+        // 🏰 MAGICAL CONFIGURATION 🏰
+        // ==========================================
+        // If you are using ngrok for international alliance access, 
+        // paste your public link (https://...) here:
+        const GLOBAL_REGISTRY_URL = 'http://localhost:5000'; 
+        
+        // ==========================================
+
         const STORAGE_KEY = 'hp_registry_data';
         const MAX_RESETS = 10;
         const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1444330680858447903/dvcgQu42zAycH3rsEx8GADtmKoIGl3mY0PaznYMHhuOdtTlUHcliQJAk_No0NEtQ3Bg0';
         const DISCORD_WEBHOOK_PROXY = '/api/discord-webhook';
-        const LOCAL_API_URL = 'http://localhost:5000';
+        const LOCAL_API_URL = GLOBAL_REGISTRY_URL;
 
         // COMPREHENSIVE CHARACTER ROSTER (100+ CHARACTERS)
         const CHARACTERS = {
