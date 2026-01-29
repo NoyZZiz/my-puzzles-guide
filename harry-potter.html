@@ -237,7 +237,11 @@
         }
 
         /* Floating Animation */
-        .floating { animation: float-anim 3s ease-in-out infinite; }
+        .floating { animation: float-anim 4s ease-in-out infinite; }
+        @keyframes float-anim {
+            0%, 100% { transform: translateY(0) rotate(-0.5deg); }
+            50% { transform: translateY(-15px) rotate(0.5deg); }
+        }
         @keyframes sway {
             0%, 100% { transform: translate(0, 0) rotate(0deg); }
             50% { transform: translate(10px, -10px) rotate(2deg); }
@@ -378,7 +382,7 @@
             background: radial-gradient(circle, #ffd700 0%, #ffed4e 50%, transparent 100%);
             border-radius: 50%;
             pointer-events: none;
-            z-index: 15;
+            z-index: 5;
             animation: particle-float linear infinite;
             box-shadow: 0 0 12px #ffd700, 0 0 20px rgba(255, 215, 0, 0.8);
         }
@@ -461,14 +465,54 @@
             75% { transform: translate(-100px, 50px) scale(1.1); }
         }
 
-        /* Enhanced Floating Candles */
         .candle {
             position: fixed; width: 8px; height: 30px;
             background: linear-gradient(180deg, #fffde7 0%, #ffd700 100%);
             border-radius: 4px;
             box-shadow: 0 0 30px #ffd700, 0 0 50px rgba(255, 215, 0, 0.6), 0 5px 20px rgba(0,0,0,0.5);
             animation: candle-flicker 3s infinite ease-in-out, candle-sway 6s infinite ease-in-out;
-            z-index: 15;
+            z-index: 5;
+        }
+
+        /* Alliance Logo Styles */
+        .alliance-header-logo {
+            height: 50px;
+            width: auto;
+            border-radius: 50%;
+            border: 2px solid var(--hp-gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.4);
+            margin-right: 12px;
+            object-fit: cover;
+        }
+
+        .alliance-result-seal {
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px double var(--hp-border);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 20;
+            background: var(--hp-parchment);
+            overflow: hidden;
+            opacity: 0;
+            transform: scale(0.5) rotate(-20deg);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .result-display-visible .alliance-result-seal {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+
+        @media screen and (max-width: 768px) {
+            .candle { width: 6px; height: 22px; }
+            .flame { width: 8px; height: 12px; top: -7px; }
+            .magic-particle { filter: blur(2px); }
+            .hp-title { font-size: 2.5rem !important; }
+            .alliance-header-logo { height: 40px; }
         }
         
         /* === FINAL CINEMATIC VFX ENHANCEMENTS === */
@@ -546,7 +590,7 @@
         <div class="container mx-auto px-4 py-4 flex items-center justify-between">
             <div class="flex flex-col">
                 <a href="index.html" class="hp-title text-2xl flex items-center tracking-widest no-underline" style="color: #ffd700;">
-                    <i class="fa-solid fa-quill mr-3" style="color: #ffd700;"></i>
+                    <img src="assets/alliance_logo_2.jpg" alt="ROL Alliance" class="alliance-header-logo">
                     NOYZZING <span class="mx-2" style="color: #ffd700;">|</span> <span style="color: #ffd700;">REGISTRY</span>
                 </a>
             </div>
@@ -635,6 +679,9 @@
                         <!-- Left Panel: Illustration -->
                         <div class="bestiary-illustration" id="bestiary-illustration-container">
                             <img id="bestiary-image" class="bestiary-image" src="" alt="Creature Illustration">
+                            <div class="alliance-result-seal">
+                                <img src="assets/alliance_logo_1.jpg" alt="ROL Seal" class="w-full h-full object-cover">
+                            </div>
                         </div>
 
                         <!-- Right Panel: Details -->
@@ -1344,6 +1391,7 @@
             
             ELEMENTS.assignmentForm.classList.add('hidden');
             ELEMENTS.resultDisplay.classList.remove('hidden');
+            setTimeout(() => ELEMENTS.resultDisplay.classList.add('result-display-visible'), 100);
             const data = getCastleData(currentCastle);
             ELEMENTS.resetCountDisplay.textContent = data.resetsLeft;
             ELEMENTS.resetBtn.disabled = data.resetsLeft <= 0;
@@ -1523,19 +1571,22 @@
         document.body.appendChild(leak);
 
         // Create Floating Candles (Enhanced)
-        for(let i=0; i<20; i++) {
+        const isMobile = window.innerWidth < 768;
+        const candleCount = isMobile ? 8 : 20;
+        for(let i=0; i<candleCount; i++) {
             const c = document.createElement('div');
             c.className = 'candle';
             c.style.left = Math.random() * 100 + 'vw';
-            c.style.top = (Math.random() * 60 + 10) + 'vh';
+            c.style.top = (Math.random() * 80 + 10) + 'vh';
             c.style.animationDelay = Math.random() * 5 + 's';
             c.innerHTML = '<div class="flame"></div>';
             document.body.appendChild(c);
         }
-        console.log('🕯️ Created 20 floating candles');
+        console.log(`🕯️ Created ${candleCount} floating candles`);
 
         // Create Golden Magic Particles (50 floating particles with parallax)
-        for(let i=0; i<50; i++) {
+        const particleCount = isMobile ? 15 : 50;
+        for(let i=0; i<particleCount; i++) {
             const p = document.createElement('div');
             const size = Math.random();
             p.className = `magic-particle ${size > 0.8 ? 'particle-lg' : size > 0.4 ? 'particle-md' : 'particle-sm'}`;
@@ -1545,7 +1596,7 @@
             p.style.animationDelay = (-Math.random() * 20) + 's';
             document.body.appendChild(p);
         }
-        console.log('✨ Created 50 golden particles');
+        console.log(`✨ Created ${particleCount} golden particles`);
 
         // Create Moving Shadows (Random intervals)
         function createShadow() {
