@@ -67,6 +67,171 @@ const ELEMENTS = {
     profilePicThumb: document.getElementById('profile-pic-thumb')
 };
 
+// --- TRANSLATION DATA (i18n) ---
+const TRANSLATIONS = {
+    'en': {
+        'lang_name': 'English',
+        'how_to_play': 'How to Play',
+        'instr_aspirant_title': 'Aspirants (Anyone)',
+        'instr_aspirant_1': 'Select "Aspirant" and enter any name',
+        'instr_aspirant_2': 'Spin to discover random Pokémon',
+        'instr_aspirant_3': 'Spin unlimited times to explore',
+        'instr_aspirant_4': 'View the Hall of Leaders to see the elite',
+        'instr_member_title': 'Alliance Members (ROL)',
+        'instr_member_1': 'Select "Alliance Member" and enter your secret key',
+        'instr_member_2': 'Draft a squad of 6 from 10 random Pokémon',
+        'instr_member_3': '1 guaranteed Legendary in every draft',
+        'instr_member_4': 'Upload a profile pic and register as a Gym Boss',
+        'instr_member_5': 'Your squad appears forever in the Hall of Leaders',
+        'legal_disclaimer': 'This is an unofficial fan project. Pokémon and all related names, images, and trademarks are © Nintendo, Game Freak, and The Pokémon Company. This site is not affiliated with, endorsed, or sponsored by any of these companies. All Pokémon data is sourced from the open-source PokéAPI project. No copyright infringement is intended.'
+    },
+    'es': {
+        'lang_name': 'Español',
+        'how_to_play': 'Cómo Jugar',
+        'instr_aspirant_title': 'Aspirantes (Cualquiera)',
+        'instr_aspirant_1': 'Selecciona "Aspirante" e ingresa un nombre',
+        'instr_aspirant_2': 'Gira para descubrir Pokémon aleatorios',
+        'instr_aspirant_3': 'Gira las veces que quieras para explorar',
+        'instr_aspirant_4': 'Visita el Salón de Líderes para ver a la élite',
+        'instr_member_title': 'Miembros de la Alianza (ROL)',
+        'instr_member_1': 'Selecciona "Miembro de Alianza" e ingresa tu clave secreta',
+        'instr_member_2': 'Recluta un equipo de 6 entre 10 Pokémon aleatorios',
+        'instr_member_3': '1 Legendario garantizado en cada reclutamiento',
+        'instr_member_4': 'Sube una foto de perfil y regístrate como Jefe de Gimnasio',
+        'instr_member_5': 'Tu equipo aparecerá para siempre en el Salón de Líderes',
+        'legal_disclaimer': 'Este es un proyecto no oficial de fans. Pokémon y todos los nombres, imágenes y marcas relacionadas son © Nintendo, Game Freak y The Pokémon Company. Este sitio no está afiliado, respaldado ni patrocinado por ninguna de estas empresas. Todos los datos de Pokémon provienen del proyecto de código abierto PokéAPI. No se pretende infringir derechos de autor.'
+    },
+    'pt': {
+        'lang_name': 'Português',
+        'how_to_play': 'Como Jogar',
+        'instr_aspirant_title': 'Aspirantes (Qualquer Pessoa)',
+        'instr_aspirant_1': 'Selecione "Aspirante" e insira qualquer nome',
+        'instr_aspirant_2': 'Gire para descobrir Pokémon aleatórios',
+        'instr_aspirant_3': 'Gire quantas vezes quiser para explorar',
+        'instr_aspirant_4': 'Veja o Salão dos Líderes para ver a elite',
+        'instr_member_title': 'Membros da Aliança (ROL)',
+        'instr_member_1': 'Selecione "Membro da Aliança" e insira sua chave secreta',
+        'instr_member_2': 'Monte um time de 6 entre 10 Pokémon aleatórios',
+        'instr_member_3': '1 Lendário garantido em cada recrutamento',
+        'instr_member_4': 'Envie uma foto de perfil e registre-se como Chefe de Ginásio',
+        'instr_member_5': 'Seu time aparecerá para sempre no Salão dos Líderes',
+        'legal_disclaimer': 'Este é um projeto não oficial de fãs. Pokémon e todos os nomes, imagens e marcas relacionadas são © Nintendo, Game Freak e The Pokémon Company. Este site não é afiliado, endossado ou patrocinado por nenhuma dessas empresas. Todos os dados de Pokémon são provenientes do projeto de código aberto PokéAPI. Nenhuma violação de direitos autorais é pretendida.'
+    },
+    'fr': {
+        'lang_name': 'Français',
+        'how_to_play': 'Comment Jouer',
+        'instr_aspirant_title': 'Aspirants (Tout le monde)',
+        'instr_aspirant_1': 'Sélectionnez "Aspirant" et entrez un nom',
+        'instr_aspirant_2': 'Tournez pour découvrir des Pokémon aléatoires',
+        'instr_aspirant_3': 'Tournez autant de fois que vous voulez',
+        'instr_aspirant_4': 'Consultez le Hall des Champions pour voir l\'élite',
+        'instr_member_title': 'Membres de l\'Alliance (ROL)',
+        'instr_member_1': 'Sélectionnez "Membre de l\'Alliance" et entrez votre clé secrète',
+        'instr_member_2': 'Recrutez une équipe de 6 parmi 10 Pokémon aléatoires',
+        'instr_member_3': '1 Légendaire garanti à chaque recrutement',
+        'instr_member_4': 'Téléchargez une photo de profil et inscrivez-vous comme Chef de Gymnase',
+        'instr_member_5': 'Votre équipe apparaîtra pour toujours dans le Hall des Champions',
+        'legal_disclaimer': 'Ceci est un projet de fan non officiel. Pokémon et tous les noms, images et marques associés sont © Nintendo, Game Freak et The Pokémon Company. Ce site n\'est pas affilié à, approuvé par, ni sponsorisé par ces entreprises. Toutes les données Pokémon proviennent du projet open source PokéAPI. Aucune violation de droits d\'auteur n\'est intentée.'
+    },
+    'ru': {
+        'lang_name': 'Русский',
+        'how_to_play': 'Как играть',
+        'instr_aspirant_title': 'Аспиранты (Все)',
+        'instr_aspirant_1': 'Выберите «Аспирант» и введите любое имя',
+        'instr_aspirant_2': 'Вращайте, чтобы открыть случайного Покемона',
+        'instr_aspirant_3': 'Вращайте неограниченное количество раз',
+        'instr_aspirant_4': 'Посетите Зал Лидеров, чтобы увидеть элиту',
+        'instr_member_title': 'Члены Альянса (ROL)',
+        'instr_member_1': 'Выберите «Член Альянса» и введите секретный ключ',
+        'instr_member_2': 'Соберите команду из 6 среди 10 случайных Покемонов',
+        'instr_member_3': '1 Легендарный Покемон гарантирован при каждом наборе',
+        'instr_member_4': 'Загрузите фото профиля и зарегистрируйтесь как Босс Гимна',
+        'instr_member_5': 'Ваша команда останется навсегда в Зале Лидеров',
+        'legal_disclaimer': 'Это неофициальный фанатский проект. Покемон и все связанные имена, изображения и товарные знаки принадлежат © Nintendo, Game Freak и The Pokémon Company. Этот сайт не связан с этими компаниями и не одобрен ими. Все данные о покемонах получены из проекта с открытым исходным кодом PokéAPI. Нарушение авторских прав не предполагается.'
+    },
+    'de': {
+        'lang_name': 'Deutsch',
+        'how_to_play': 'Spielanleitung',
+        'instr_aspirant_title': 'Aspiranten (Jeder)',
+        'instr_aspirant_1': 'Wähle "Aspirant" und gib einen Namen ein',
+        'instr_aspirant_2': 'Drehe, um zufällige Pokémon zu entdecken',
+        'instr_aspirant_3': 'Drehe unbegrenzt oft zum Erkunden',
+        'instr_aspirant_4': 'Besuche die Halle der Anführer, um die Elite zu sehen',
+        'instr_member_title': 'Allianzmitglieder (ROL)',
+        'instr_member_1': 'Wähle "Allianzmitglied" und gib deinen geheimen Schlüssel ein',
+        'instr_member_2': 'Stelle ein Team von 6 aus 10 zufälligen Pokémon zusammen',
+        'instr_member_3': '1 garantiertes Legendäres bei jedem Entwurf',
+        'instr_member_4': 'Lade ein Profilbild hoch und registriere dich als Arenaleiter',
+        'instr_member_5': 'Dein Team erscheint für immer in der Halle der Anführer',
+        'legal_disclaimer': 'Dies ist ein inoffizielles Fan-Projekt. Pokémon und alle zugehörigen Namen, Bilder und Marken sind © Nintendo, Game Freak und The Pokémon Company. Diese Website ist nicht mit diesen Unternehmen verbunden, von ihnen unterstützt oder gesponsert. Alle Pokémon-Daten stammen aus dem Open-Source-Projekt PokéAPI. Keine Urheberrechtsverletzung beabsichtigt.'
+    },
+    'ja': {
+        'lang_name': '日本語',
+        'how_to_play': '遊び方',
+        'instr_aspirant_title': 'アスピラント（誰でも）',
+        'instr_aspirant_1': '「アスピラント」を選び、名前を入力してください',
+        'instr_aspirant_2': 'スピンしてランダムなポケモンを発見しよう',
+        'instr_aspirant_3': '何度でもスピンして探索できます',
+        'instr_aspirant_4': 'リーダーの殿堂でエリートを見よう',
+        'instr_member_title': 'アライアンスメンバー（ROL）',
+        'instr_member_1': '「アライアンスメンバー」を選び、秘密の鍵を入力',
+        'instr_member_2': '10体のランダムポケモンから6体のチームを編成',
+        'instr_member_3': '毎回1体の伝説ポケモンが保証されます',
+        'instr_member_4': 'プロフィール写真をアップロードしてジムボスとして登録',
+        'instr_member_5': 'あなたのチームはリーダーの殿堂に永遠に残ります',
+        'legal_disclaimer': 'これは非公式のファンプロジェクトです。ポケモンおよび関連するすべての名前、画像、商標は © Nintendo, Game Freak, The Pokémon Company に帰属します。このサイトはこれらの企業と提携、承認、後援されていません。すべてのポケモンデータはオープンソースプロジェクト PokéAPI から取得しています。著作権侵害の意図はありません。'
+    },
+    'ko': {
+        'lang_name': '한국어',
+        'how_to_play': '플레이 방법',
+        'instr_aspirant_title': '지망생 (누구나)',
+        'instr_aspirant_1': '"지망생"을 선택하고 이름을 입력하세요',
+        'instr_aspirant_2': '스핀하여 랜덤 포켓몬을 발견하세요',
+        'instr_aspirant_3': '무제한 스핀으로 탐험하세요',
+        'instr_aspirant_4': '리더 전당에서 엘리트를 확인하세요',
+        'instr_member_title': '얼라이언스 멤버 (ROL)',
+        'instr_member_1': '"얼라이언스 멤버"를 선택하고 비밀 키를 입력하세요',
+        'instr_member_2': '10개의 랜덤 포켓몬 중 6개로 스쿼드를 구성하세요',
+        'instr_member_3': '매 드래프트마다 전설 포켓몬 1마리 보장',
+        'instr_member_4': '프로필 사진을 업로드하고 체육관 보스로 등록하세요',
+        'instr_member_5': '당신의 스쿼드는 리더 전당에 영원히 남습니다',
+        'legal_disclaimer': '이것은 비공식 팬 프로젝트입니다. 포켓몬 및 모든 관련 이름, 이미지, 상표는 © Nintendo, Game Freak, The Pokémon Company에 귀속됩니다. 이 사이트는 이러한 회사와 제휴, 보증 또는 후원을 받지 않습니다. 모든 포켓몬 데이터는 오픈소스 프로젝트 PokéAPI에서 가져옵니다. 저작권 침해 의도는 없습니다.'
+    }
+};
+
+// --- i18n Core Functions ---
+let currentLang = localStorage.getItem('pkm_registry_lang') || 'en';
+
+function setLanguage(langCode) {
+    const translations = TRANSLATIONS[langCode];
+    if (!translations) return;
+    currentLang = langCode;
+    localStorage.setItem('pkm_registry_lang', langCode);
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[key]) {
+            el.innerHTML = translations[key];
+        }
+    });
+}
+
+function setupLanguageSelector() {
+    const selector = document.getElementById('lang-selector');
+    if (!selector) return;
+    selector.innerHTML = '';
+    Object.keys(TRANSLATIONS).forEach(langCode => {
+        const option = document.createElement('option');
+        option.value = langCode;
+        option.textContent = TRANSLATIONS[langCode]['lang_name'];
+        selector.appendChild(option);
+    });
+    selector.value = currentLang;
+    setLanguage(currentLang);
+    selector.addEventListener('change', (e) => setLanguage(e.target.value));
+}
+
+setupLanguageSelector();
+
 // --- View Control ---
 ELEMENTS.summonBtn.addEventListener('click', startSummon);
 ELEMENTS.newSignatureBtn.addEventListener('click', resetRegistry);
