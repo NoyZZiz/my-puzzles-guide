@@ -33,7 +33,8 @@ const CONFIG = {
         {name: 'Blue', sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/2.png'},
         {name: 'Misty', sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/3.png'},
         {name: 'Brock', sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/4.png'}
-    ]
+    ],
+    DISCORD_WEBHOOK: 'https://discord.com/api/webhooks/1470559801758060759/KzPjlskRg7VONS8QMvCuDoHxKjdlNQgMKUJa7G3An950JcNGNRCg6Id4dBMC38zN7BQQ'
 };
 
 let STATE = {
@@ -441,7 +442,40 @@ async function finalizeSquad() {
                 profile_pic: profilePicUrl
             })
         });
-        if (res.ok) { alert("CONGRATULATIONS GYM BOSS!"); toggleView('hall-of-leaders'); }
+        if (res.ok) {
+            // Announce on Discord
+            try {
+                const pkmNames = await Promise.all(STATE.selectedDraftIds.map(async id => {
+                    const r = await fetch(`${CONFIG.API_BASE}${id}`);
+                    const d = await r.json();
+                    return d.name.charAt(0).toUpperCase() + d.name.slice(1);
+                }));
+                const squadStr = pkmNames.join(', ');
+                const firstPkmArt = `${CONFIG.SPRITE_BASE}${STATE.selectedDraftIds[0]}.png`;
+                await fetch(CONFIG.DISCORD_WEBHOOK, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        username: 'Pokémon Registry',
+                        avatar_url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png',
+                        embeds: [{
+                            title: '🏆 NEW GYM BOSS REGISTERED!',
+                            description: `**${castleName}** has joined the Hall of Leaders!`,
+                            color: 0xff1f1f,
+                            fields: [
+                                { name: '🏰 Castle Level', value: castleLevel || 'N/A', inline: true },
+                                { name: '🐉 Squad', value: squadStr, inline: false }
+                            ],
+                            thumbnail: { url: firstPkmArt },
+                            footer: { text: 'ROL Alliance • Pokémon Registry' },
+                            timestamp: new Date().toISOString()
+                        }]
+                    })
+                });
+            } catch (e) { console.error('Discord webhook failed:', e); }
+
+            alert("CONGRATULATIONS GYM BOSS!"); toggleView('hall-of-leaders');
+        }
     } catch (e) { alert("SQUAD SYNC FAILURE."); }
 }
 
