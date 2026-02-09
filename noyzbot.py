@@ -17,7 +17,9 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS global_registry
-                 (alias TEXT PRIMARY KEY, identity TEXT, pool TEXT, house TEXT, timestamp TEXT)''')
+                 (alias TEXT PRIMARY KEY, identity TEXT, pool TEXT, house TEXT, timestamp TEXT, squad TEXT, character TEXT, castle_name TEXT, castle_level INTEGER, lore TEXT, profile_pic TEXT)''')
+    c.execute('''CREATE TABLE IF NOT EXISTS claimed_pokemon
+                 (pokemon_id INTEGER PRIMARY KEY, claimed_by TEXT)''')
     conn.commit()
     conn.close()
 
@@ -182,18 +184,154 @@ def save_global_assignment():
     identity = data.get('identity')
     pool = data.get('pool')
     house = data.get('house')
+    squad = data.get('squad') # Comma separated IDs
+    character = data.get('character')
+    castle_name = data.get('castle_name')
+    castle_level = data.get('castle_level')
+    lore = data.get('lore')
+    profile_pic = data.get('profile_pic')
     
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     try:
-        c.execute("INSERT OR REPLACE INTO global_registry VALUES (?, ?, ?, ?, ?)",
-                  (alias, identity, pool, house, time.strftime('%Y-%m-%d %H:%M:%S')))
+        # Save Registry Data
+        c.execute("INSERT OR REPLACE INTO global_registry VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                  (alias, identity, pool, house, time.strftime('%Y-%m-%d %H:%M:%S'), squad, character, castle_name, castle_level, lore, profile_pic))
+        
+        # Mark IDs as claimed if it's a Gym Leader squad
+        if squad:
+            ids = squad.split(',')
+            for p_id in ids:
+                c.execute("INSERT OR IGNORE INTO claimed_pokemon (pokemon_id, claimed_by) VALUES (?, ?)", (int(p_id), alias))
+        
         conn.commit()
         return jsonify({"success": True})
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
     finally:
         conn.close()
+
+@app.route('/get_gym_leaders')
+def get_gym_leaders():
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT alias, squad, character, castle_name, castle_level, lore, profile_pic FROM global_registry WHERE squad IS NOT NULL")
+    rows = c.fetchall()
+    conn.close()
+    leaders = [{"name": r[0], "squad": r[1].split(','), "character": r[2], "castle_name": r[3], "castle_level": r[4], "lore": r[5], "profile_pic": r[6]} for r in rows]
+    return jsonify(leaders)
+
+@app.route('/get_available_draft', methods=['POST'])
+def get_available_draft():
+    # Provide 10 random legendary/mythical IDs that haven't been claimed
+    data = request.get_json()
+    all_legends = data.get('pool', []) # Client sends the desired ID pool
+    
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT pokemon_id FROM claimed_pokemon")
+    claimed = {row[0] for row in c.fetchall()}
+    conn.close()
+    
+    available = [p_id for p_id in all_legends if p_id not in claimed]
+    
+    # Guaranteed composition: 2 legendary, 4 strong, 4 random
+    legendary_ids = [144,145,146,150,151,243,244,245,249,250,251,377,378,379,380,381,382,383,384,385,386,480,481,482,483,484,485,486,487,488,489,490,491,492,493,658,448]
+    strong_ids = [6,9,3,59,65,68,76,94,121,123,124,125,126,128,130,131,134,135,136,139,141,149,169,196,197,208,212,214,229,230,237,241,242,248,282,289,306,310,319,330,344,346,348,350,362,365,373,376,392,395,398,405,407,409,411,416,423,428,430,435,445,448,452,460,461,462,464,468,471,472,473,474,475,476,477]
+    
+    avail_legends = [p for p in available if p in legendary_ids]
+    avail_strong = [p for p in available if p in strong_ids and p not in legendary_ids]
+    avail_random = [p for p in available if p not in legendary_ids and p not in strong_ids]
+    
+    random.shuffle(avail_legends)
+    random.shuffle(avail_strong)
+    random.shuffle(avail_random)
+    
+    draft = []
+    draft.extend(avail_legends[:2])  # 2 guaranteed legendaries
+    draft.extend(avail_strong[:4])   # 4 guaranteed strong
+    draft.extend(avail_random[:4])   # 4 random
+    
+    # If any tier runs out, fill from others
+    if len(draft) < 10:
+        remaining = [p for p in available if p not in draft]
+        random.shuffle(remaining)
+        draft.extend(remaining[:10 - len(draft)])
+    
+    random.shuffle(draft)  # Shuffle the final 10 so it's not obvious
+    
+    return jsonify(draft[:10])
+
+# --- Profile Pic Upload ---
+UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.route('/upload_profile_pic', methods=['POST'])
+def upload_profile_pic():
+    if 'file' not in request.files:
+        return jsonify({"error": "No file"}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": "Empty filename"}), 400
+    
+    # Save with a unique name
+    ext = file.filename.rsplit('.', 1)[-1].lower() if '.' in file.filename else 'png'
+    alias = request.form.get('alias', 'unknown').replace(' ', '_')
+    filename = f"{alias}_profile.{ext}"
+    filepath = os.path.join(UPLOAD_FOLDER, filename)
+    file.save(filepath)
+    return jsonify({"url": f"/uploads/{filename}"})
+
+@app.route('/uploads/<filename>')
+def serve_upload(filename):
+    return send_from_directory(UPLOAD_FOLDER, filename)
+
+# --- Admin Endpoints (Protected by Secret Key) ---
+ADMIN_KEY = 'ROL-OAK-2026'
+
+@app.route('/admin/leaders', methods=['GET'])
+def admin_list_leaders():
+    key = request.args.get('key')
+    if key != ADMIN_KEY:
+        return jsonify({"error": "Unauthorized"}), 403
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT alias, castle_name, castle_level, character, squad, profile_pic, timestamp FROM global_registry WHERE squad IS NOT NULL")
+    rows = c.fetchall()
+    conn.close()
+    leaders = [{"alias": r[0], "castle_name": r[1], "castle_level": r[2], "character": r[3], "squad": r[4], "profile_pic": r[5], "timestamp": r[6]} for r in rows]
+    return jsonify(leaders)
+
+@app.route('/admin/delete_leader/<alias>', methods=['DELETE'])
+def admin_delete_leader(alias):
+    key = request.args.get('key')
+    if key != ADMIN_KEY:
+        return jsonify({"error": "Unauthorized"}), 403
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    # Release their claimed pokémon back to the pool
+    c.execute("SELECT squad FROM global_registry WHERE alias = ?", (alias,))
+    row = c.fetchone()
+    if row and row[0]:
+        for pid in row[0].split(','):
+            c.execute("DELETE FROM claimed_pokemon WHERE pokemon_id = ?", (int(pid.strip()),))
+    c.execute("DELETE FROM global_registry WHERE alias = ?", (alias,))
+    conn.commit()
+    conn.close()
+    return jsonify({"status": "deleted", "alias": alias})
+
+@app.route('/admin/clear_all', methods=['DELETE'])
+def admin_clear_all():
+    key = request.args.get('key')
+    if key != ADMIN_KEY:
+        return jsonify({"error": "Unauthorized"}), 403
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("DELETE FROM global_registry")
+    c.execute("DELETE FROM claimed_pokemon")
+    conn.commit()
+    conn.close()
+    return jsonify({"status": "cleared"})
 
 # --- Run the Flask Development Server ---
 if __name__ == '__main__':
