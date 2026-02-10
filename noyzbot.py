@@ -17,7 +17,7 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS global_registry
-                 (alias TEXT PRIMARY KEY, identity TEXT, pool TEXT, house TEXT, timestamp TEXT, squad TEXT, character TEXT, castle_name TEXT, castle_level INTEGER, lore TEXT, profile_pic TEXT)''')
+                 (alias TEXT PRIMARY KEY, identity TEXT, pool TEXT, house TEXT, timestamp TEXT, squad TEXT, character TEXT, castle_name TEXT, castle_level INTEGER, lore TEXT, profile_pic TEXT, mascot_id INTEGER)''')
     c.execute('''CREATE TABLE IF NOT EXISTS claimed_pokemon
                  (pokemon_id INTEGER PRIMARY KEY, claimed_by TEXT)''')
     conn.commit()

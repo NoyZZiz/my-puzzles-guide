@@ -1009,3 +1009,73 @@ async function resetRegistry() {
     const memberCode = document.getElementById('member-code');
     if (memberCode) memberCode.value = '';
 }
+
+/* --- ADMIN FUNCTIONS --- */
+
+async function adminLogin() {
+    const key = prompt("ENTER ADMIN ACCESS KEY:");
+    if (!key) return;
+    
+    if (key === CONFIG.ALLIANCE_CODE) {
+        STATE.isAdmin = true;
+        alert("ACCESS GRANTED: ADMIN MODE ACTIVE.");
+        // If we are currently viewing the hall, refresh it
+        if (STATE.currentView === 'hall-of-leaders') {
+            await fetchAndRenderLeaders();
+        } else {
+            toggleView('hall-of-leaders');
+        }
+    } else {
+        alert("ACCESS DENIED: INVALID KEY.");
+    }
+}
+
+async function updateLeaderProfilePic(alias) {
+    if (!STATE.isAdmin) return;
+    
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    
+    input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('alias', alias);
+        
+        try {
+            // 1. Upload the file to the server
+            const uploadRes = await fetch(`${CONFIG.BACKEND_URL}/upload_profile_pic`, {
+                method: 'POST',
+                body: formData
+            });
+            const uploadData = await uploadRes.json();
+            
+            if (uploadData.url) {
+                // 2. Update the registry database with the new URL
+                const updateRes = await fetch(`${CONFIG.BACKEND_URL}/admin/update_profile_pic?key=${CONFIG.ALLIANCE_CODE}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        alias: alias,
+                        profile_pic: uploadData.url
+                    })
+                });
+                
+                if (updateRes.ok) {
+                    alert(`Profile picture for ${alias} updated successfully!`);
+                    await fetchAndRenderLeaders(); // Refresh the list
+                } else {
+                    alert("Database update failed.");
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error updating profile picture.");
+        }
+    };
+    
+    input.click();
+}
