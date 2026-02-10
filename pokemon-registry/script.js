@@ -257,17 +257,24 @@ function setAccess(type) {
     const codeContainer = document.getElementById('member-code-container');
     const btnAspirant = document.getElementById('btn-aspirant');
     const btnMember = document.getElementById('btn-member');
+    const summonBtnSpan = ELEMENTS.summonBtn ? ELEMENTS.summonBtn.querySelector('span') : null;
     
     if (type === 'member') {
-        codeContainer.classList.remove('hidden');
+        if (codeContainer) {
+            codeContainer.classList.remove('hidden');
+            codeContainer.style.display = 'block';
+        }
         btnMember.classList.add('text-pkm-red', 'border-pkm-red');
         btnAspirant.classList.remove('text-pkm-blue', 'border-pkm-blue');
-        ELEMENTS.summonBtn.querySelector('span').textContent = "Join Draft Game";
+        if (summonBtnSpan) summonBtnSpan.textContent = "Join Draft Game";
     } else {
-        codeContainer.classList.add('hidden');
+        if (codeContainer) {
+            codeContainer.classList.add('hidden');
+            codeContainer.style.display = 'none';
+        }
         btnAspirant.classList.add('text-pkm-blue', 'border-pkm-blue');
         btnMember.classList.remove('text-pkm-red', 'border-pkm-red');
-        ELEMENTS.summonBtn.querySelector('span').textContent = "Initialize Capture";
+        if (summonBtnSpan) summonBtnSpan.textContent = "Initialize Capture";
     }
 }
 
