@@ -318,6 +318,14 @@ async function adminLogin() {
     const key = prompt("⚠️ RESTRICTED ACCESS ⚠️\nEnter Admin Authorization Key:");
     if (key === CONFIG.ALLIANCE_CODE) {
         STATE.isAdmin = true;
+        
+        // Update header status for clear feedback
+        const statusEl = document.getElementById('connection-status');
+        if (statusEl) {
+            statusEl.textContent = "🛡️ Administrator Access Active";
+            statusEl.classList.replace('text-pkm-red', 'text-pkm-blue');
+        }
+
         alert("🛡️ ADMIN MODE ACTIVATED. You can now edit profile pictures in the Hall of Leaders.");
         if (STATE.currentView === 'hall-of-leaders') fetchAndRenderLeaders();
     } else if (key) {
@@ -748,43 +756,74 @@ async function finalizeSquad() {
 
 async function fetchAndRenderLeaders() {
     try {
+        console.log("Fetching leaders from:", `${CONFIG.BACKEND_URL}/get_gym_leaders`);
         const res = await fetch(`${CONFIG.BACKEND_URL}/get_gym_leaders`);
+        if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
+        
         const leaders = await res.json();
+        console.log("Leaders received:", leaders);
+
         const grid = document.getElementById('leaders-grid');
+        if (!grid) {
+            console.error("Critical: 'leaders-grid' element not found in DOM!");
+            return;
+        }
+        
         grid.innerHTML = '';
+
+        if (!Array.isArray(leaders) || leaders.length === 0) {
+            grid.innerHTML = '<div class="col-span-full py-20 text-center space-y-4">' +
+                '<i class="fa-solid fa-users-slash text-white/10 text-6xl block mb-4"></i>' +
+                '<p class="text-white/40 font-rajdhani uppercase tracking-[0.2em]">No Gym Leaders have registered yet.</p>' +
+                '</div>';
+            return;
+        }
+
         leaders.forEach((leader, index) => {
             const card = document.createElement('div');
-            card.className = 'leader-card space-y-4 cursor-pointer';
-            let squadHtml = leader.squad.map(id => `<div class="leader-squad-slot"><img src="${CONFIG.SPRITE_BASE}${id}.png" class="w-8 h-8 object-contain"></div>`).join('');
+            card.className = 'leader-card space-y-4 cursor-pointer relative overflow-hidden group';
+            
+            // Safe Name Handling
+            const safeAlias = (leader.name || '').replace(/'/g, "\\'");
+            const displayName = leader.castle_name || leader.name || "Unknown Leader";
+            
+            let squadHtml = (leader.squad || []).map(id => 
+                `<div class="leader-squad-slot"><img src="${CONFIG.SPRITE_BASE}${id}.png" class="w-8 h-8 object-contain"></div>`
+            ).join('');
             
             card.innerHTML = `
-                <div class="flex items-center gap-4 border-b border-white/10 pb-4">
+                <div class="flex items-center gap-4 border-b border-white/10 pb-4 relative z-10">
                     <div class="relative">
                         ${leader.profile_pic ? 
-                            `<img src="${CONFIG.BACKEND_URL}${leader.profile_pic}" class="w-14 h-14 rounded-full border-2 border-pkm-blue/40 object-cover">` : 
-                            `<div class="w-14 h-14 bg-pkm-red/20 rounded-full flex items-center justify-center">
+                            `<img src="${CONFIG.BACKEND_URL}${leader.profile_pic}" class="w-14 h-14 rounded-full border-2 border-pkm-blue/40 object-cover shadow-[0_0_15px_rgba(49,167,215,0.2)]">` : 
+                            `<div class="w-14 h-14 bg-white/5 rounded-full flex items-center justify-center border-2 border-white/10">
                                 <i class="fa-solid fa-crown text-pkm-yellow"></i>
                             </div>`
                         }
                         ${STATE.isAdmin ? 
-                            `<div onclick="event.stopPropagation(); updateLeaderProfilePic('${leader.name}')" class="absolute -bottom-1 -right-1 w-6 h-6 bg-pkm-blue rounded-full flex items-center justify-center border-2 border-pkm-dark hover:scale-110 transition-transform cursor-pointer">
+                            `<div onclick="event.stopPropagation(); updateLeaderProfilePic('${safeAlias}')" class="absolute -bottom-1 -right-1 w-7 h-7 bg-pkm-blue rounded-full flex items-center justify-center border-2 border-pkm-dark hover:scale-110 transition-transform cursor-pointer shadow-lg">
                                 <i class="fa-solid fa-camera text-[10px] text-white"></i>
                             </div>` : ''
                         }
                     </div>
                     <div class="flex-grow">
-                        <h4 class="font-rajdhani font-bold text-xl uppercase tracking-tighter">${leader.castle_name || leader.name}</h4>
-                        <p class="text-[10px] text-white/40 uppercase tracking-widest">Gym Boss // ${leader.character}</p>
-                        <p class="text-[9px] text-pkm-blue uppercase font-bold">Castle Lvl ${leader.castle_level}</p>
+                        <h4 class="font-rajdhani font-bold text-xl uppercase tracking-tighter leading-tight">${displayName}</h4>
+                        <div class="flex items-center gap-2">
+                            <p class="text-[9px] text-white/40 uppercase tracking-widest">Gym Boss // ${leader.character}</p>
+                            <span class="w-1 h-1 bg-white/10 rounded-full"></span>
+                            <p class="text-[9px] text-pkm-blue uppercase font-bold">Lvl ${leader.castle_level}</p>
+                        </div>
                     </div>
                     <i class="fa-solid fa-chevron-down text-white/20 text-xs transition-transform duration-300 expand-icon"></i>
                 </div>
-                <div class="flex gap-2 justify-center">
+                <div class="flex gap-2 justify-center relative z-10">
                     ${squadHtml}
                 </div>
-                <div class="squad-detail hidden mt-2 grid grid-cols-3 gap-3 pt-3 border-t border-white/5" data-squad="${leader.squad.join(',')}">
-                    <p class="col-span-3 text-center text-white/20 text-[10px] uppercase tracking-widest animate-pulse">Loading Squad...</p>
+                <!-- Expansion Detail Area -->
+                <div class="squad-detail hidden mt-2 grid grid-cols-3 gap-2 pt-3 border-t border-white/5 relative z-10" data-squad="${(leader.squad || []).join(',')}">
+                    <p class="col-span-3 text-center text-white/20 text-[8px] uppercase tracking-widest animate-pulse">Initializing Squad View...</p>
                 </div>
+                <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
             `;
             
             card.onclick = async () => {
@@ -793,32 +832,36 @@ async function fetchAndRenderLeaders() {
                 
                 if (!detail.classList.contains('hidden')) {
                     detail.classList.add('hidden');
-                    icon.style.transform = 'rotate(0deg)';
+                    if (icon) icon.style.transform = 'rotate(0deg)';
                     return;
                 }
                 
                 detail.classList.remove('hidden');
-                icon.style.transform = 'rotate(180deg)';
+                if (icon) icon.style.transform = 'rotate(180deg)';
                 
                 if (detail.dataset.loaded) return;
                 detail.dataset.loaded = 'true';
                 
-                const ids = detail.dataset.squad.split(',');
+                const ids = detail.dataset.squad.split(',').filter(id => id.trim() !== '');
                 const pokeData = await Promise.all(
                     ids.map(id => fetch(`${CONFIG.API_BASE}${id}`).then(r => r.json()).catch(() => ({name: `#${id}`, id})))
                 );
                 
                 detail.innerHTML = pokeData.map(p => `
-                    <div class="flex flex-col items-center gap-1 bg-black/30 rounded-xl p-3 border border-white/5 cursor-pointer hover:border-pkm-blue/30 hover:bg-black/50 transition-all" onclick="event.stopPropagation(); showPkmModal(${p.id})">
-                        <img src="${CONFIG.SPRITE_BASE}${p.id}.png" class="w-16 h-16 object-contain">
-                        <span class="font-rajdhani font-bold text-[10px] uppercase tracking-wider text-white/80">${p.name.replace(/-/g, ' ')}</span>
+                    <div class="flex flex-col items-center gap-1 bg-black/40 rounded-xl p-2 border border-white/5 cursor-pointer hover:border-pkm-blue/40 transition-all" onclick="event.stopPropagation(); showPkmModal(${p.id})">
+                        <img src="${CONFIG.SPRITE_BASE}${p.id}.png" class="w-12 h-12 object-contain">
+                        <span class="font-rajdhani font-bold text-[8px] uppercase tracking-wider text-white/60 text-center">${p.name.replace(/-/g, ' ')}</span>
                     </div>
                 `).join('');
             };
             
             grid.appendChild(card);
         });
-    } catch (e) { console.error("Leader Load Fail", e); }
+    } catch (e) { 
+        console.error("Leader Load Fail:", e);
+        const grid = document.getElementById('leaders-grid');
+        if (grid) grid.innerHTML = `<p class="col-span-full text-center text-pkm-red/60 text-xs uppercase tracking-widest py-10">Registry Offline: ${e.message}</p>`;
+    }
 }
 
 // --- Custom Confirmation Modal Logic ---
