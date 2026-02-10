@@ -343,6 +343,27 @@ def admin_delete_leader(alias):
     conn.close()
     return jsonify({"status": "deleted", "alias": alias})
 
+@app.route('/admin/update_profile_pic', methods=['POST'])
+def admin_update_profile_pic():
+    key = request.args.get('key')
+    if key != ADMIN_KEY:
+        return jsonify({"error": "Unauthorized"}), 403
+    
+    data = request.get_json()
+    alias = data.get('alias')
+    new_pic_url = data.get('profile_pic')
+    
+    if not alias or not new_pic_url:
+        return jsonify({"error": "Missing alias or profile_pic"}), 400
+        
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("UPDATE global_registry SET profile_pic = ? WHERE alias = ?", (new_pic_url, alias))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"status": "updated", "alias": alias})
+
 @app.route('/admin/clear_all', methods=['DELETE'])
 def admin_clear_all():
     key = request.args.get('key')

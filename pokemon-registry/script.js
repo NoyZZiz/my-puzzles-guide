@@ -50,7 +50,8 @@ let STATE = {
     currentView: 'main-interface',
     currentLore: '',
     profilePicUrl: '',
-    discoveredCount: 0
+    discoveredCount: 0,
+    isAdmin: false
 };
 
 const ELEMENTS = {
@@ -311,6 +312,56 @@ function setAccess(type) {
         }
     }
     if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.add('hidden');
+}
+
+async function adminLogin() {
+    const key = prompt("⚠️ RESTRICTED ACCESS ⚠️\nEnter Admin Authorization Key:");
+    if (key === CONFIG.ALLIANCE_CODE) {
+        STATE.isAdmin = true;
+        alert("🛡️ ADMIN MODE ACTIVATED. You can now edit profile pictures in the Hall of Leaders.");
+        if (STATE.currentView === 'hall-of-leaders') fetchAndRenderLeaders();
+    } else if (key) {
+        alert("❌ ACCESS DENIED.");
+    }
+}
+
+async function updateLeaderProfilePic(alias) {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('alias', alias);
+
+        try {
+            const uploadRes = await fetch(`${CONFIG.BACKEND_URL}/upload_profile_pic`, {
+                method: 'POST',
+                body: formData
+            });
+            const { url } = await uploadRes.json();
+
+            const updateRes = await fetch(`${CONFIG.BACKEND_URL}/admin/update_profile_pic?key=${CONFIG.ALLIANCE_CODE}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ alias: alias, profile_pic: url })
+            });
+
+            if (updateRes.ok) {
+                alert("✅ Profile picture updated successfully!");
+                fetchAndRenderLeaders();
+            } else {
+                alert("❌ Update failed.");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("❌ Error uploading file.");
+        }
+    };
+    input.click();
 }
 
 function toggleView(viewId) {
@@ -701,20 +752,28 @@ async function fetchAndRenderLeaders() {
         const leaders = await res.json();
         const grid = document.getElementById('leaders-grid');
         grid.innerHTML = '';
-        leaders.forEach(leader => {
+        leaders.forEach((leader, index) => {
             const card = document.createElement('div');
             card.className = 'leader-card space-y-4 cursor-pointer';
             let squadHtml = leader.squad.map(id => `<div class="leader-squad-slot"><img src="${CONFIG.SPRITE_BASE}${id}.png" class="w-8 h-8 object-contain"></div>`).join('');
             
-            const profilePicHtml = leader.profile_pic 
-                ? `<img src="${CONFIG.BACKEND_URL}${leader.profile_pic}" class="w-14 h-14 rounded-full object-cover border-2 border-pkm-blue/40 shadow-lg">`
-                : `<div class="w-14 h-14 bg-pkm-red/20 rounded-full flex items-center justify-center"><i class="fa-solid fa-crown text-pkm-yellow"></i></div>`;
-            
             card.innerHTML = `
                 <div class="flex items-center gap-4 border-b border-white/10 pb-4">
-                    ${profilePicHtml}
+                    <div class="relative">
+                        ${leader.profile_pic ? 
+                            `<img src="${CONFIG.BACKEND_URL}${leader.profile_pic}" class="w-14 h-14 rounded-full border-2 border-pkm-blue/40 object-cover">` : 
+                            `<div class="w-14 h-14 bg-pkm-red/20 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-crown text-pkm-yellow"></i>
+                            </div>`
+                        }
+                        ${STATE.isAdmin ? 
+                            `<div onclick="event.stopPropagation(); updateLeaderProfilePic('${leader.name}')" class="absolute -bottom-1 -right-1 w-6 h-6 bg-pkm-blue rounded-full flex items-center justify-center border-2 border-pkm-dark hover:scale-110 transition-transform cursor-pointer">
+                                <i class="fa-solid fa-camera text-[10px] text-white"></i>
+                            </div>` : ''
+                        }
+                    </div>
                     <div class="flex-grow">
-                        <h4 class="font-rajdhani font-bold text-xl uppercase tracking-tighter">${leader.castle_name}</h4>
+                        <h4 class="font-rajdhani font-bold text-xl uppercase tracking-tighter">${leader.castle_name || leader.name}</h4>
                         <p class="text-[10px] text-white/40 uppercase tracking-widest">Gym Boss // ${leader.character}</p>
                         <p class="text-[9px] text-pkm-blue uppercase font-bold">Castle Lvl ${leader.castle_level}</p>
                     </div>
@@ -741,7 +800,6 @@ async function fetchAndRenderLeaders() {
                 detail.classList.remove('hidden');
                 icon.style.transform = 'rotate(180deg)';
                 
-                // Only fetch if not already loaded
                 if (detail.dataset.loaded) return;
                 detail.dataset.loaded = 'true';
                 
