@@ -350,3 +350,34 @@ body::after {
 .anim-modal-entrance {
     animation: modal-entrance 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
 }
+/* Mobile Result Screen Optimization */
+@media (max-width: 768px) {
+    #result-screen {
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+    #pokemon-name {
+        font-size: 3rem !important;
+        letter-spacing: -2px;
+    }
+    .pkm-panel {
+        padding: 1.5rem !important;
+        background: rgba(10, 10, 10, 0.95); /* Stronger background for mobile */
+        backdrop-filter: blur(20px);
+    }
+    #result-screen button {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+        font-size: 0.75rem !important;
+    }
+}
+
+/* Home indicator/Notch safe area support */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+    #main-ui {
+        padding-bottom: calc(85px + env(safe-area-inset-bottom));
+    }
+    #hall-container {
+        padding-top: env(safe-area-inset-top);
+    }
+}

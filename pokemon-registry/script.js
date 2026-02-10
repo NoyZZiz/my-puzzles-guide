@@ -70,6 +70,7 @@ const ELEMENTS = {
     pkmFlavor: document.getElementById('pokemon-flavor'),
     pkmCP: document.getElementById('pokemon-cp'),
     newSignatureBtn: document.getElementById('new-signature-btn'),
+    draftScreen: document.getElementById('draft-screen'),
     profilePicInput: document.getElementById('profile-pic-input'),
     profilePicPreview: document.getElementById('profile-pic-preview'),
     profilePicThumb: document.getElementById('profile-pic-thumb'),
@@ -843,7 +844,8 @@ async function triggerRevealSequence(pData, sData) {
             ELEMENTS.revealLight.style.opacity = '1';
             setTimeout(() => {
                 populateResult(pData, sData);
-                ELEMENTS.registrationForm.classList.add('hidden');
+                if (ELEMENTS.registrationForm) ELEMENTS.registrationForm.classList.add('hidden');
+                if (ELEMENTS.draftScreen) ELEMENTS.draftScreen.classList.add('hidden');
                 ELEMENTS.resultScreen.classList.remove('hidden');
                 ELEMENTS.cinematicOverlay.style.opacity = '0';
                 ELEMENTS.cinematicOverlay.style.pointerEvents = 'none';
@@ -887,8 +889,9 @@ async function resetRegistry() {
         "START OVER? ALL CURRENT PROGRESS AND DRAFT SELECTIONS WILL BE LOST."
     );
     if (!confirmed) return;
-    ELEMENTS.resultScreen.classList.add('hidden');
-    ELEMENTS.registrationForm.classList.remove('hidden');
+    
+    toggleView('registration-form');
+    
     ELEMENTS.castleName.value = '';
     ELEMENTS.castleLevel.value = '';
     ELEMENTS.profilePicInput.value = '';
@@ -897,4 +900,10 @@ async function resetRegistry() {
     ELEMENTS.summonBtn.disabled = false;
     STATE.currentLore = '';
     STATE.profilePicUrl = '';
+    
+    // Clear code status
+    if (ELEMENTS.mascotKeyStatus) ELEMENTS.mascotKeyStatus.classList.add('hidden');
+    if (ELEMENTS.mascotCodeInput) ELEMENTS.mascotCodeInput.value = '';
+    const memberCode = document.getElementById('member-code');
+    if (memberCode) memberCode.value = '';
 }
