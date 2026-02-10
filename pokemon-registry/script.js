@@ -520,8 +520,8 @@ async function finalizeSquad() {
                             username: 'Mascot Registry',
                             avatar_url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/safari-ball.png',
                             embeds: [{
-                                title: '🏆 NEW MASCOT CLAIMED!',
-                                description: `**${castleName}** has bonded with a **${pData.name.toUpperCase()}**!`,
+                                title: '✨ A POKÉMON HAS BEEN CAUGHT!',
+                                description: `**${castleName}** has captured a **${pData.name.toUpperCase()}**!`,
                                 color: 0xfacc15,
                                 thumbnail: { url: `${CONFIG.SPRITE_BASE}${pkmId}.png` },
                                 fields: [{ name: '🏰 Castle', value: castleName, inline: true }],
