@@ -365,6 +365,13 @@ async function startSummon() {
         await initializeDraft();
         return;
     }
+
+    // Mascot Registration Trigger
+    const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
+    if (STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase()) {
+        await initializeDraft();
+        return;
+    }
     
     try {
         ELEMENTS.summonBtn.disabled = true;
