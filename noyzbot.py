@@ -364,6 +364,19 @@ def admin_update_profile_pic():
     
     return jsonify({"status": "updated", "alias": alias})
 
+@app.route('/admin/fix_kiatura', methods=['GET'])
+def admin_fix_kiatura():
+    key = request.args.get('key')
+    if key != ADMIN_KEY:
+        return jsonify({"error": "Unauthorized"}), 403
+    
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("UPDATE global_registry SET profile_pic = ? WHERE alias = ?", ("/uploads/Kiatura_profile.webp", "Kiatura"))
+    conn.commit()
+    conn.close()
+    return "✅ Kiatura profile picture has been fixed! Refresh the Hall of Leaders."
+
 @app.route('/admin/clear_all', methods=['DELETE'])
 def admin_clear_all():
     key = request.args.get('key')
