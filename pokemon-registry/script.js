@@ -73,7 +73,11 @@ const ELEMENTS = {
     profilePicPreview: document.getElementById('profile-pic-preview'),
     profilePicThumb: document.getElementById('profile-pic-thumb'),
     mascotCodeContainer: document.getElementById('mascot-code-container'),
-    mascotCodeInput: document.getElementById('mascot-code')
+    mascotCodeInput: document.getElementById('mascot-code'),
+    draftSubtitle: document.getElementById('draft-subtitle'),
+    mascotChanceHint: document.getElementById('mascot-chance-hint'),
+    resultHeader: document.getElementById('result-header'),
+    resultBadge: document.getElementById('result-badge')
 };
 
 // --- TRANSLATION DATA (i18n) ---
@@ -375,10 +379,27 @@ async function initializeDraft() {
         STATE.draftPool = await response.json();
         STATE.selectedDraftIds = [];
 
-        // Update selection UI label
+        // Update selection UI label and instructions
         const selLabel = document.getElementById('draft-status');
+        const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
+        const isROLMascot = STATE.access === 'aspirant' && mascotKey === CONFIG.MASCOT_CODE;
+
         if (selLabel) {
             selLabel.innerHTML = `Selected: <span id="selection-count" class="text-pkm-yellow">0</span>/${STATE.access === 'member' ? '6' : '1'}`;
+        }
+
+        if (ELEMENTS.draftSubtitle) {
+            if (STATE.access === 'aspirant') {
+                ELEMENTS.draftSubtitle.textContent = isROLMascot 
+                    ? "Choose 1 Signature Mascot from 14 rare specimens"
+                    : "Spin 14 times and discover your potential";
+            } else {
+                ELEMENTS.draftSubtitle.textContent = "Spin 14 times and choose your Squad of 6";
+            }
+        }
+
+        if (ELEMENTS.mascotChanceHint) {
+            isROLMascot ? ELEMENTS.mascotChanceHint.classList.remove('hidden') : ELEMENTS.mascotChanceHint.classList.add('hidden');
         }
 
         renderDraftPool();
@@ -446,9 +467,12 @@ function toggleDraftSelection(id, card) {
     if (STATE.selectedDraftIds.length === limit) {
         confirmBtn.disabled = false;
         confirmBtn.classList.remove('opacity-50');
+        if (STATE.access === 'aspirant') confirmBtn.textContent = "Claim Mascot";
+        else confirmBtn.textContent = "Finalize Contract";
     } else {
         confirmBtn.disabled = true;
         confirmBtn.classList.add('opacity-50');
+        confirmBtn.textContent = STATE.access === 'aspirant' ? "Select 1" : "Select 6";
     }
 }
 
@@ -459,7 +483,7 @@ async function finalizeSquad() {
 
     const confirmed = await showConfirm(
         "Security Protocol", 
-        isMascotMode ? "ARE YOU READY TO CLAIM THIS POKEMON AS YOUR PERMANENT CASTLE MASCOT?" : "ARE YOU READY TO FINALIZE YOUR CONTRACT? THIS WILL PERMANENTLY LOCK YOUR SQUAD IN THE HALL OF LEADERS."
+        isMascotMode ? `ARE YOU READY TO CLAIM THIS ${isROLMascot ? 'SIGNATURE MASCOT' : 'POKEMON'}?` : "ARE YOU READY TO FINALIZE YOUR CONTRACT? THIS WILL PERMANENTLY LOCK YOUR SQUAD IN THE HALL OF LEADERS."
     );
     if (!confirmed) return;
     
@@ -556,6 +580,12 @@ async function finalizeSquad() {
                     });
                 }
             } catch (e) { console.error('Discord fail', e); }
+
+            if (isMascotMode) {
+                if (ELEMENTS.resultHeader) ELEMENTS.resultHeader.querySelector('span').textContent = isROLMascot ? "Mascot Registered" : "Target Identified";
+                if (ELEMENTS.resultBadge) isROLMascot ? ELEMENTS.resultBadge.classList.remove('hidden') : ELEMENTS.resultBadge.classList.add('hidden');
+                if (isROLMascot) alert("YOUR SIGNATURE MASCOT HAS BEEN REGISTERED!");
+            }
 
             const pkmId = STATE.selectedDraftIds[0];
             const pData = await fetch(`${CONFIG.API_BASE}${pkmId}`).then(r => r.json());
