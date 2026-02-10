@@ -15,13 +15,21 @@ DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'registry.db'
 
 @app.route('/ping')
 def ping():
-    return jsonify({"status": "online", "version": "4.0.5", "timestamp": "2026-02-11 04:37"})
+    return jsonify({"status": "online", "version": "4.0.6", "timestamp": "2026-02-11 05:08"})
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     c.execute('''CREATE TABLE IF NOT EXISTS global_registry
                  (alias TEXT PRIMARY KEY, identity TEXT, pool TEXT, house TEXT, timestamp TEXT, squad TEXT, character TEXT, castle_name TEXT, castle_level INTEGER, lore TEXT, profile_pic TEXT, mascot_id INTEGER)''')
+    
+    # Migration: Check if mascot_id column exists, if not add it
+    c.execute("PRAGMA table_info(global_registry)")
+    columns = [row[1] for row in c.fetchall()]
+    if 'mascot_id' not in columns:
+        print("[MIGRATION] Adding mascot_id column to global_registry")
+        c.execute("ALTER TABLE global_registry ADD COLUMN mascot_id INTEGER")
+        
     c.execute('''CREATE TABLE IF NOT EXISTS claimed_pokemon
                  (pokemon_id INTEGER PRIMARY KEY, claimed_by TEXT)''')
     conn.commit()
