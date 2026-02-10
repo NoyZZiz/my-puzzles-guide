@@ -84,7 +84,11 @@ const ELEMENTS = {
     discoveryCount: document.getElementById('discovery-count'),
     discoveryTotal: document.getElementById('discovery-total'),
     discoveryBtn: document.getElementById('btn-discover'),
-    profileUploadSection: document.getElementById('profile-upload-section')
+    profileUploadSection: document.getElementById('profile-upload-section'),
+    resultHeader: document.getElementById('result-header'),
+    resultBadge: document.getElementById('result-badge'),
+    confirmBtn: document.getElementById('confirm-squad-btn'),
+    selectionCount: document.getElementById('selection-count')
 };
 
 // --- TRANSLATION DATA (i18n) ---
@@ -500,7 +504,11 @@ async function initializeDraft() {
     const fullPool = Array.from({length: CONFIG.MAX_NATIONAL_ID}, (_, i) => i + 1);
     const response = await fetchWithTimeout(`${CONFIG.BACKEND_URL}/get_available_draft`, {
         method: 'POST', headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ pool: fullPool, count: requiredCount }),
+        body: JSON.stringify({ 
+            pool: fullPool, 
+            count: requiredCount, 
+            alias: ELEMENTS.castleName ? ELEMENTS.castleName.value.trim() : '' 
+        }),
         timeout: 15000
     });
     if (!response.ok) throw new Error("Server Error");
@@ -649,18 +657,19 @@ function toggleDraftSelection(id, card) {
         }
     }
     
-    document.getElementById('selection-count').textContent = STATE.selectedDraftIds.length;
-    const confirmBtn = document.getElementById('confirm-squad-btn');
+    if (ELEMENTS.selectionCount) ELEMENTS.selectionCount.textContent = STATE.selectedDraftIds.length;
     
     if (STATE.selectedDraftIds.length === limit) {
-        confirmBtn.disabled = false;
-        confirmBtn.classList.remove('opacity-50');
-        if (STATE.access === 'aspirant') confirmBtn.textContent = "Claim Mascot";
-        else confirmBtn.textContent = "Finalize Contract";
+        ELEMENTS.confirmBtn.disabled = false;
+        ELEMENTS.confirmBtn.classList.remove('opacity-50');
+        ELEMENTS.confirmBtn.onclick = finalizeSquad;
+        if (STATE.access === 'aspirant') ELEMENTS.confirmBtn.textContent = "Claim Mascot";
+        else ELEMENTS.confirmBtn.textContent = "Finalize Contract";
     } else {
-        confirmBtn.disabled = true;
-        confirmBtn.classList.add('opacity-50');
-        confirmBtn.textContent = STATE.access === 'aspirant' ? "Select 1" : "Select 6";
+        ELEMENTS.confirmBtn.disabled = true;
+        ELEMENTS.confirmBtn.classList.add('opacity-50');
+        ELEMENTS.confirmBtn.onclick = null;
+        ELEMENTS.confirmBtn.textContent = STATE.access === 'aspirant' ? "Select 1" : "Select 6";
     }
 }
 
@@ -679,30 +688,43 @@ async function finalizeSquad() {
     const castleLevel = ELEMENTS.castleLevel.value.trim() || 'N/A';
     const char = CONFIG.TRAINER_CHARACTERS[Math.floor(Math.random() * CONFIG.TRAINER_CHARACTERS.length)].name;
     
-    // Upload profile pic if selected
-    let profilePicUrl = '';
-    const picFile = ELEMENTS.profilePicInput.files[0];
-    if (picFile) {
-        try {
-            const formData = new FormData();
-            formData.append('file', picFile);
-            formData.append('alias', castleName);
-            const uploadRes = await fetch(`${CONFIG.BACKEND_URL}/upload_profile_pic`, { method: 'POST', body: formData });
-            const uploadData = await uploadRes.json();
-            profilePicUrl = uploadData.url;
-        } catch (e) { console.error('Pic upload failed', e); }
-    }
-    
-    // If Guest (no code), just show reward, don't save.
-    if (isMascotMode && !isROLMascot) {
-        const pkmId = STATE.selectedDraftIds[0];
-        const pData = await fetch(`${CONFIG.API_BASE}${pkmId}`).then(r => r.json());
-        const sData = await fetch(`${CONFIG.SPECIES_BASE}${pkmId}`).then(r => r.json());
-        triggerRevealSequence(pData, sData);
-        return;
-    }
+    const originalBtnText = ELEMENTS.confirmBtn.textContent;
+    const setBusy = (isBusy) => {
+        ELEMENTS.confirmBtn.disabled = isBusy;
+        ELEMENTS.confirmBtn.textContent = isBusy ? "Syncing..." : originalBtnText;
+        if (isBusy) ELEMENTS.confirmBtn.classList.add('animate-pulse', 'opacity-70');
+        else ELEMENTS.confirmBtn.classList.remove('animate-pulse', 'opacity-70');
+    };
+
+    setBusy(true);
 
     try {
+        // Upload profile pic if selected
+        let profilePicUrl = '';
+        const picFile = ELEMENTS.profilePicInput.files[0];
+        if (picFile) {
+            try {
+                const formData = new FormData();
+                formData.append('file', picFile);
+                formData.append('alias', castleName);
+                const uploadRes = await fetchWithTimeout(`${CONFIG.BACKEND_URL}/upload_profile_pic`, { 
+                    method: 'POST', body: formData, timeout: 10000 
+                });
+                const uploadData = await uploadRes.json();
+                profilePicUrl = uploadData.url;
+            } catch (e) { console.error('Pic upload failed', e); }
+        }
+        
+        // If Guest (no code), just show reward, don't save.
+        if (isMascotMode && !isROLMascot) {
+            const pkmId = STATE.selectedDraftIds[0];
+            const pData = await fetchWithTimeout(`${CONFIG.API_BASE}${pkmId}`).then(r => r.json());
+            const sData = await fetchWithTimeout(`${CONFIG.SPECIES_BASE}${pkmId}`).then(r => r.json());
+            setBusy(false);
+            triggerRevealSequence(pData, sData);
+            return;
+        }
+
         const payload = { 
             alias: castleName, 
             identity: isMascotMode ? 'Aspirant Mascot' : 'ROL Gym Boss', 
@@ -715,18 +737,29 @@ async function finalizeSquad() {
             profile_pic: profilePicUrl
         };
 
-        const res = await fetch(`${CONFIG.BACKEND_URL}/save_global_assignment`, {
+        const res = await fetchWithTimeout(`${CONFIG.BACKEND_URL}/save_global_assignment`, {
             method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(payload)
+            body: JSON.stringify(payload),
+            timeout: 15000
         });
 
-        if (res.ok) {
-            // Announce on Discord
+        if (!res.ok) {
+            const errData = await res.json().catch(() => ({error: "Server connection failed"}));
+            throw new Error(errData.error || "Save Failed");
+        }
+
+        // --- Post-Save Success flow ---
+        const pkmId = STATE.selectedDraftIds[0];
+        const [pData, sData] = await Promise.all([
+            fetchWithTimeout(`${CONFIG.API_BASE}${pkmId}`, { timeout: 10000 }).then(r => r.json()),
+            fetchWithTimeout(`${CONFIG.SPECIES_BASE}${pkmId}`, { timeout: 10000 }).then(r => r.json())
+        ]);
+
+        // Non-blocking Discord notification
+        (async () => {
             try {
                 if (isMascotMode) {
-                    const pkmId = STATE.selectedDraftIds[0];
-                    const pData = await fetch(`${CONFIG.API_BASE}${pkmId}`).then(r => r.json());
-                    await fetch(CONFIG.DISCORD_WEBHOOK, {
+                    await fetchWithTimeout(CONFIG.DISCORD_WEBHOOK, {
                         method: 'POST', headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({
                             username: 'Mascot Registry',
@@ -739,15 +772,11 @@ async function finalizeSquad() {
                                 fields: [{ name: '🏰 Castle', value: castleName, inline: true }],
                                 footer: { text: 'ROL Alliance • Mascot System' }
                             }]
-                        })
+                        }),
+                        timeout: 5000
                     });
                 } else {
-                    const pkmNames = await Promise.all(STATE.selectedDraftIds.map(async id => {
-                        const r = await fetch(`${CONFIG.API_BASE}${id}`);
-                        const d = await r.json();
-                        return d.name.charAt(0).toUpperCase() + d.name.slice(1);
-                    }));
-                    await fetch(CONFIG.DISCORD_WEBHOOK, {
+                    await fetchWithTimeout(CONFIG.DISCORD_WEBHOOK, {
                         method: 'POST', headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({
                             username: 'Pokémon Registry',
@@ -756,35 +785,34 @@ async function finalizeSquad() {
                                 title: '🔥 NEW GYM BOSS REGISTERED!',
                                 description: `**${castleName}** has joined the Hall of Leaders!`,
                                 color: 0xff1f1f,
-                                fields: [
-                                    { name: '🏰 Castle Level', value: castleLevel, inline: true },
-                                    { name: '🐉 Squad', value: pkmNames.join(', '), inline: false }
-                                ],
-                                thumbnail: { url: `${CONFIG.SPRITE_BASE}${STATE.selectedDraftIds[0]}.png` },
-                                footer: { text: 'ROL Alliance • Pokémon Registry' },
-                                timestamp: new Date().toISOString()
+                                fields: [{ name: '🏰 Castle Level', value: castleLevel, inline: true }],
+                                thumbnail: { url: `${CONFIG.SPRITE_BASE}${pkmId}.png` },
+                                footer: { text: 'ROL Alliance • Pokémon Registry' }
                             }]
-                        })
+                        }),
+                        timeout: 5000
                     });
                 }
-            } catch (e) { console.error('Discord fail', e); }
+            } catch (de) { console.warn('Discord notify failed (silent)', de); }
+        })();
 
-            if (isMascotMode) {
-                if (ELEMENTS.resultHeader) ELEMENTS.resultHeader.querySelector('span').textContent = isROLMascot ? "Mascot Registered" : "Target Identified";
-                if (ELEMENTS.resultBadge) isROLMascot ? ELEMENTS.resultBadge.classList.remove('hidden') : ELEMENTS.resultBadge.classList.add('hidden');
-                if (isROLMascot) alert("YOUR SIGNATURE MASCOT HAS BEEN REGISTERED!");
-            }
-
-            const pkmId = STATE.selectedDraftIds[0];
-            const pData = await fetch(`${CONFIG.API_BASE}${pkmId}`).then(r => r.json());
-            const sData = await fetch(`${CONFIG.SPECIES_BASE}${pkmId}`).then(r => r.json());
-            triggerRevealSequence(pData, sData);
-            
-            if (!isMascotMode) {
-                setTimeout(() => toggleView('hall-of-leaders'), 5000);
-            }
+        if (isMascotMode) {
+            if (ELEMENTS.resultHeader) ELEMENTS.resultHeader.querySelector('span').textContent = "Mascot Registered";
+            if (ELEMENTS.resultBadge) ELEMENTS.resultBadge.classList.remove('hidden');
+            alert("YOUR SIGNATURE MASCOT HAS BEEN REGISTERED!");
         }
-    } catch (e) { alert("SQUAD SYNC FAILURE."); }
+
+        setBusy(false);
+        await triggerRevealSequence(pData, sData);
+        
+        if (!isMascotMode) {
+            setTimeout(() => toggleView('hall-of-leaders'), 5000);
+        }
+    } catch (e) {
+        setBusy(false);
+        console.error("Finalize Error:", e);
+        alert(`SQUAD SYNC FAILURE: ${e.message}`);
+    }
 }
 
 async function fetchAndRenderLeaders() {

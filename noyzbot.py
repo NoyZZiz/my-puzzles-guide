@@ -13,6 +13,10 @@ CORS(app)
 
 DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'registry.db')
 
+@app.route('/ping')
+def ping():
+    return jsonify({"status": "online", "version": "4.0.5", "timestamp": "2026-02-11 04:37"})
+
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -236,7 +240,10 @@ def get_available_draft():
     # Provide dynamic number of specimens that haven't been claimed
     data = request.get_json()
     all_legends = data.get('pool', []) 
-    requested_count = data.get('count', 10) # Default to 10 for Leaders
+    requested_count = data.get('count', 10) 
+    alias = data.get('alias', '').strip().lower()
+    
+    print(f"[DRAFT] Request for '{alias}', count: {requested_count}")
     
     conn = sqlite3.connect(DB_PATH)
     try:
@@ -290,6 +297,18 @@ def get_available_draft():
         elif avail_gen1:
             draft.append(avail_gen1.pop(0))
             
+    # Special override for 'mang' (ensures Pachirisu #417 is in the draft)
+    if 'mang' in alias:
+        if 417 not in draft:
+            # Force Pachirisu into the first slot
+            if len(draft) > 0:
+                draft[0] = 417
+            else:
+                draft.append(417)
+            print(f"[DRAFT] Success: Injected Pachirisu for '{alias}'")
+        else:
+            print(f"[DRAFT] Pachirisu was already in the naturally generated draft for '{alias}'")
+    
     random.shuffle(draft)
     return jsonify(draft[:requested_count])
 
