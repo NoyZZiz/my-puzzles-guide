@@ -32,6 +32,7 @@ const CONFIG = {
     MAX_NATIONAL_ID: 1010, // Full National Dex
     HALL_DENSITY: 4,
     ALLIANCE_CODE: 'ROL-OAK-2026',
+    MASCOT_CODE: 'ROL-MASCOT-2026',
     BACKEND_URL: 'https://Noyzzing.pythonanywhere.com',
     TRAINER_CHARACTERS: [
         {name: 'Red', sprite: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/trainers/1.png'},
@@ -70,7 +71,9 @@ const ELEMENTS = {
     newSignatureBtn: document.getElementById('new-signature-btn'),
     profilePicInput: document.getElementById('profile-pic-input'),
     profilePicPreview: document.getElementById('profile-pic-preview'),
-    profilePicThumb: document.getElementById('profile-pic-thumb')
+    profilePicThumb: document.getElementById('profile-pic-thumb'),
+    mascotCodeContainer: document.getElementById('mascot-code-container'),
+    mascotCodeInput: document.getElementById('mascot-code')
 };
 
 // --- TRANSLATION DATA (i18n) ---
@@ -262,23 +265,20 @@ ELEMENTS.profilePicInput.addEventListener('change', (e) => {
 function setAccess(type) {
     STATE.access = type;
     const codeContainer = document.getElementById('member-code-container');
+    const mascotContainer = ELEMENTS.mascotCodeContainer;
     const btnAspirant = document.getElementById('btn-aspirant');
     const btnMember = document.getElementById('btn-member');
     const summonBtnSpan = ELEMENTS.summonBtn ? ELEMENTS.summonBtn.querySelector('span') : null;
     
     if (type === 'member') {
-        if (codeContainer) {
-            codeContainer.classList.remove('hidden');
-            codeContainer.style.display = 'block';
-        }
+        if (codeContainer) { codeContainer.classList.remove('hidden'); codeContainer.style.display = 'block'; }
+        if (mascotContainer) { mascotContainer.classList.add('hidden'); mascotContainer.style.display = 'none'; }
         btnMember.classList.add('text-pkm-red', 'border-pkm-red');
         btnAspirant.classList.remove('text-pkm-blue', 'border-pkm-blue');
         if (summonBtnSpan) summonBtnSpan.textContent = "Join Draft Game";
     } else {
-        if (codeContainer) {
-            codeContainer.classList.add('hidden');
-            codeContainer.style.display = 'none';
-        }
+        if (codeContainer) { codeContainer.classList.add('hidden'); codeContainer.style.display = 'none'; }
+        if (mascotContainer) { mascotContainer.classList.remove('hidden'); mascotContainer.style.display = 'block'; }
         btnAspirant.classList.add('text-pkm-blue', 'border-pkm-blue');
         btnMember.classList.remove('text-pkm-red', 'border-pkm-red');
         if (summonBtnSpan) summonBtnSpan.textContent = "Initialize Capture";
@@ -374,6 +374,13 @@ async function initializeDraft() {
         });
         STATE.draftPool = await response.json();
         STATE.selectedDraftIds = [];
+
+        // Update selection UI label
+        const selLabel = document.getElementById('draft-status');
+        if (selLabel) {
+            selLabel.innerHTML = `Selected: <span id="selection-count" class="text-pkm-yellow">0</span>/${STATE.access === 'member' ? '6' : '1'}`;
+        }
+
         renderDraftPool();
         toggleView('draft-screen');
     } catch (e) { alert("DRAFT SERVER OFFLINE."); }
@@ -410,15 +417,33 @@ async function renderDraftPool() {
 }
 
 function toggleDraftSelection(id, card) {
+    const isMember = STATE.access === 'member';
+    const limit = isMember ? 6 : 1;
     const idx = STATE.selectedDraftIds.indexOf(id);
-    if (idx > -1) { STATE.selectedDraftIds.splice(idx, 1); card.classList.remove('selected'); }
-    else { if (STATE.selectedDraftIds.length >= 6) return; STATE.selectedDraftIds.push(id); card.classList.add('selected'); }
+
+    if (idx > -1) {
+        STATE.selectedDraftIds.splice(idx, 1);
+        card.classList.remove('selected');
+    } else {
+        if (STATE.selectedDraftIds.length >= limit) {
+            if (limit === 1) {
+                // Radio button behavior for pick-1
+                const prevId = STATE.selectedDraftIds[0];
+                const prevCard = document.getElementById(`draft-card-${prevId}`);
+                if (prevCard) prevCard.classList.remove('selected');
+                STATE.selectedDraftIds = [id];
+                card.classList.add('selected');
+            } else return;
+        } else {
+            STATE.selectedDraftIds.push(id);
+            card.classList.add('selected');
+        }
+    }
     
     document.getElementById('selection-count').textContent = STATE.selectedDraftIds.length;
-    
     const confirmBtn = document.getElementById('confirm-squad-btn');
     
-    if (STATE.selectedDraftIds.length === 6) {
+    if (STATE.selectedDraftIds.length === limit) {
         confirmBtn.disabled = false;
         confirmBtn.classList.remove('opacity-50');
     } else {
@@ -428,17 +453,21 @@ function toggleDraftSelection(id, card) {
 }
 
 async function finalizeSquad() {
+    const isMascotMode = STATE.access === 'aspirant';
+    const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
+    const isROLMascot = isMascotMode && mascotKey === CONFIG.MASCOT_CODE;
+
     const confirmed = await showConfirm(
         "Security Protocol", 
-        "ARE YOU READY TO FINALIZE YOUR CONTRACT? THIS WILL PERMANENTLY LOCK YOUR SQUAD IN THE HALL OF LEADERS."
+        isMascotMode ? "ARE YOU READY TO CLAIM THIS POKEMON AS YOUR PERMANENT CASTLE MASCOT?" : "ARE YOU READY TO FINALIZE YOUR CONTRACT? THIS WILL PERMANENTLY LOCK YOUR SQUAD IN THE HALL OF LEADERS."
     );
     if (!confirmed) return;
     
     const castleName = ELEMENTS.castleName.value.trim();
-    const castleLevel = ELEMENTS.castleLevel.value.trim();
+    const castleLevel = ELEMENTS.castleLevel.value.trim() || 'N/A';
     const char = CONFIG.TRAINER_CHARACTERS[Math.floor(Math.random() * CONFIG.TRAINER_CHARACTERS.length)].name;
     
-    // Upload profile pic first if selected
+    // Upload profile pic if selected
     let profilePicUrl = '';
     const picFile = ELEMENTS.profilePicInput.files[0];
     if (picFile) {
@@ -446,63 +475,96 @@ async function finalizeSquad() {
             const formData = new FormData();
             formData.append('file', picFile);
             formData.append('alias', castleName);
-            const uploadRes = await fetch(`${CONFIG.BACKEND_URL}/upload_profile_pic`, {
-                method: 'POST', body: formData
-            });
+            const uploadRes = await fetch(`${CONFIG.BACKEND_URL}/upload_profile_pic`, { method: 'POST', body: formData });
             const uploadData = await uploadRes.json();
             profilePicUrl = uploadData.url;
         } catch (e) { console.error('Pic upload failed', e); }
     }
     
+    // If Guest (no code), just show reward, don't save.
+    if (isMascotMode && !isROLMascot) {
+        const pkmId = STATE.selectedDraftIds[0];
+        const pData = await fetch(`${CONFIG.API_BASE}${pkmId}`).then(r => r.json());
+        const sData = await fetch(`${CONFIG.SPECIES_BASE}${pkmId}`).then(r => r.json());
+        triggerRevealSequence(pData, sData);
+        return;
+    }
+
     try {
+        const payload = { 
+            alias: castleName, 
+            identity: isMascotMode ? 'Aspirant Mascot' : 'ROL Gym Boss', 
+            squad: isMascotMode ? null : STATE.selectedDraftIds.join(','), 
+            mascot_id: isMascotMode ? STATE.selectedDraftIds[0] : null,
+            character: char,
+            castle_name: castleName,
+            castle_level: castleLevel,
+            lore: STATE.currentLore,
+            profile_pic: profilePicUrl
+        };
+
         const res = await fetch(`${CONFIG.BACKEND_URL}/save_global_assignment`, {
             method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ 
-                alias: castleName, 
-                identity: 'ROL Gym Boss', 
-                pool: 'Alliance National Dex', 
-                house: 'ROL Alliance', 
-                squad: STATE.selectedDraftIds.join(','), 
-                character: char,
-                castle_name: castleName,
-                castle_level: castleLevel,
-                lore: '',
-                profile_pic: profilePicUrl
-            })
+            body: JSON.stringify(payload)
         });
+
         if (res.ok) {
             // Announce on Discord
             try {
-                const pkmNames = await Promise.all(STATE.selectedDraftIds.map(async id => {
-                    const r = await fetch(`${CONFIG.API_BASE}${id}`);
-                    const d = await r.json();
-                    return d.name.charAt(0).toUpperCase() + d.name.slice(1);
-                }));
-                const squadStr = pkmNames.join(', ');
-                const firstPkmArt = `${CONFIG.SPRITE_BASE}${STATE.selectedDraftIds[0]}.png`;
-                await fetch(CONFIG.DISCORD_WEBHOOK, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        username: 'Pokémon Registry',
-                        avatar_url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png',
-                        embeds: [{
-                            title: '🏆 NEW GYM BOSS REGISTERED!',
-                            description: `**${castleName}** has joined the Hall of Leaders!`,
-                            color: 0xff1f1f,
-                            fields: [
-                                { name: '🏰 Castle Level', value: castleLevel || 'N/A', inline: true },
-                                { name: '🐉 Squad', value: squadStr, inline: false }
-                            ],
-                            thumbnail: { url: firstPkmArt },
-                            footer: { text: 'ROL Alliance • Pokémon Registry' },
-                            timestamp: new Date().toISOString()
-                        }]
-                    })
-                });
-            } catch (e) { console.error('Discord webhook failed:', e); }
+                if (isMascotMode) {
+                    const pkmId = STATE.selectedDraftIds[0];
+                    const pData = await fetch(`${CONFIG.API_BASE}${pkmId}`).then(r => r.json());
+                    await fetch(CONFIG.DISCORD_WEBHOOK, {
+                        method: 'POST', headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            username: 'Mascot Registry',
+                            avatar_url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/safari-ball.png',
+                            embeds: [{
+                                title: '🏆 NEW MASCOT CLAIMED!',
+                                description: `**${castleName}** has bonded with a **${pData.name.toUpperCase()}**!`,
+                                color: 0xfacc15,
+                                thumbnail: { url: `${CONFIG.SPRITE_BASE}${pkmId}.png` },
+                                fields: [{ name: '🏰 Castle', value: castleName, inline: true }],
+                                footer: { text: 'ROL Alliance • Mascot System' }
+                            }]
+                        })
+                    });
+                } else {
+                    const pkmNames = await Promise.all(STATE.selectedDraftIds.map(async id => {
+                        const r = await fetch(`${CONFIG.API_BASE}${id}`);
+                        const d = await r.json();
+                        return d.name.charAt(0).toUpperCase() + d.name.slice(1);
+                    }));
+                    await fetch(CONFIG.DISCORD_WEBHOOK, {
+                        method: 'POST', headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            username: 'Pokémon Registry',
+                            avatar_url: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/master-ball.png',
+                            embeds: [{
+                                title: '🔥 NEW GYM BOSS REGISTERED!',
+                                description: `**${castleName}** has joined the Hall of Leaders!`,
+                                color: 0xff1f1f,
+                                fields: [
+                                    { name: '🏰 Castle Level', value: castleLevel, inline: true },
+                                    { name: '🐉 Squad', value: pkmNames.join(', '), inline: false }
+                                ],
+                                thumbnail: { url: `${CONFIG.SPRITE_BASE}${STATE.selectedDraftIds[0]}.png` },
+                                footer: { text: 'ROL Alliance • Pokémon Registry' },
+                                timestamp: new Date().toISOString()
+                            }]
+                        })
+                    });
+                }
+            } catch (e) { console.error('Discord fail', e); }
 
-            alert("CONGRATULATIONS GYM BOSS!"); toggleView('hall-of-leaders');
+            const pkmId = STATE.selectedDraftIds[0];
+            const pData = await fetch(`${CONFIG.API_BASE}${pkmId}`).then(r => r.json());
+            const sData = await fetch(`${CONFIG.SPECIES_BASE}${pkmId}`).then(r => r.json());
+            triggerRevealSequence(pData, sData);
+            
+            if (!isMascotMode) {
+                setTimeout(() => toggleView('hall-of-leaders'), 5000);
+            }
         }
     } catch (e) { alert("SQUAD SYNC FAILURE."); }
 }

@@ -190,19 +190,23 @@ def save_global_assignment():
     castle_level = data.get('castle_level')
     lore = data.get('lore')
     profile_pic = data.get('profile_pic')
+    mascot_id = data.get('mascot_id') # New single pick
     
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     try:
         # Save Registry Data
-        c.execute("INSERT OR REPLACE INTO global_registry VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                  (alias, identity, pool, house, time.strftime('%Y-%m-%d %H:%M:%S'), squad, character, castle_name, castle_level, lore, profile_pic))
+        c.execute("INSERT OR REPLACE INTO global_registry VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                  (alias, identity, pool, house, time.strftime('%Y-%m-%d %H:%M:%S'), squad, character, castle_name, castle_level, lore, profile_pic, mascot_id))
         
-        # Mark IDs as claimed if it's a Gym Leader squad
+        # Mark IDs as claimed
         if squad:
             ids = squad.split(',')
             for p_id in ids:
                 c.execute("INSERT OR IGNORE INTO claimed_pokemon (pokemon_id, claimed_by) VALUES (?, ?)", (int(p_id), alias))
+        
+        if mascot_id:
+            c.execute("INSERT OR IGNORE INTO claimed_pokemon (pokemon_id, claimed_by) VALUES (?, ?)", (int(mascot_id), alias))
         
         conn.commit()
         return jsonify({"success": True})
@@ -257,27 +261,34 @@ def get_available_draft():
     ]
     
     avail_legends = [p for p in available if p in legendary_ids]
-    avail_strong = [p for p in available if p in strong_ids and p not in legendary_ids]
-    avail_random = [p for p in available if p not in legendary_ids and p not in strong_ids]
+    avail_gen1 = [p for p in available if p <= 151 and p not in legendary_ids]
+    avail_others = [p for p in available if p not in avail_legends and p not in avail_gen1]
     
     random.shuffle(avail_legends)
-    random.shuffle(avail_strong)
-    random.shuffle(avail_random)
+    random.shuffle(avail_gen1)
+    random.shuffle(avail_others)
     
     draft = []
-    draft.extend(avail_legends[:2])  # 2 guaranteed legendaries
-    draft.extend(avail_strong[:4])   # 4 guaranteed strong
-    draft.extend(avail_random[:4])   # 4 random
     
-    # If any tier runs out, fill from others
-    if len(draft) < 10:
-        remaining = [p for p in available if p not in draft]
-        random.shuffle(remaining)
-        draft.extend(remaining[:10 - len(draft)])
+    # 1. Guarantee at least 1 Gen 1 Pokémon (IDs 1-151)
+    if avail_gen1:
+        draft.append(avail_gen1.pop(0))
     
-    random.shuffle(draft)  # Shuffle the final 10 so it's not obvious
-    
-    return jsonify(draft[:10])
+    # 2. Fill remaining 13 slots with 30% legendary chance
+    for _ in range(13):
+        if random.random() < 0.30 and avail_legends:
+            draft.append(avail_legends.pop(0))
+        elif avail_gen1 and random.random() < 0.5: # Blend more Gen 1
+            draft.append(avail_gen1.pop(0))
+        elif avail_others:
+            draft.append(avail_others.pop(0))
+        elif avail_legends: # Fallback if others empty
+            draft.append(avail_legends.pop(0))
+        elif avail_gen1:
+            draft.append(avail_gen1.pop(0))
+            
+    random.shuffle(draft)
+    return jsonify(draft[:14])
 
 # --- Profile Pic Upload ---
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
