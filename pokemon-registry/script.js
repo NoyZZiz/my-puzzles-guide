@@ -428,7 +428,11 @@ function toggleDraftSelection(id, card) {
 }
 
 async function finalizeSquad() {
-    if (!confirm("ARE YOU READY TO FINALIZE YOUR CONTRACT? THIS WILL PERMANENTLY LOCK YOUR SQUAD IN THE HALL OF LEADERS.")) return;
+    const confirmed = await showConfirm(
+        "Security Protocol", 
+        "ARE YOU READY TO FINALIZE YOUR CONTRACT? THIS WILL PERMANENTLY LOCK YOUR SQUAD IN THE HALL OF LEADERS."
+    );
+    if (!confirmed) return;
     
     const castleName = ELEMENTS.castleName.value.trim();
     const castleLevel = ELEMENTS.castleLevel.value.trim();
@@ -571,6 +575,31 @@ async function fetchAndRenderLeaders() {
     } catch (e) { console.error("Leader Load Fail", e); }
 }
 
+// --- Custom Confirmation Modal Logic ---
+function showConfirm(title, message) {
+    return new Promise((resolve) => {
+        const modal = document.getElementById('confirm-modal');
+        const titleEl = document.getElementById('confirm-modal-title');
+        const msgEl = document.getElementById('confirm-modal-message');
+        const cancelBtn = document.getElementById('confirm-modal-cancel');
+        const proceedBtn = document.getElementById('confirm-modal-proceed');
+
+        titleEl.textContent = title;
+        msgEl.textContent = message;
+        modal.classList.remove('hidden');
+
+        const cleanup = (result) => {
+            modal.classList.add('hidden');
+            cancelBtn.onclick = null;
+            proceedBtn.onclick = null;
+            resolve(result);
+        };
+
+        cancelBtn.onclick = () => cleanup(false);
+        proceedBtn.onclick = () => cleanup(true);
+    });
+}
+
 // --- Pokémon Detail Modal ---
 const TYPE_COLORS = {
     normal: '#A8A878', fire: '#F08030', water: '#6890F0', electric: '#F8D030',
@@ -660,8 +689,12 @@ function populateResult(p, s) {
     ELEMENTS.pkmSprite.src = p.sprites.other['official-artwork'].front_default || p.sprites.other.showdown.front_default;
 }
 
-function resetRegistry() {
-    if (!confirm("START OVER? ALL CURRENT PROGRESS AND DRAFT SELECTIONS WILL BE LOST.")) return;
+async function resetRegistry() {
+    const confirmed = await showConfirm(
+        "Warning Level Alpha",
+        "START OVER? ALL CURRENT PROGRESS AND DRAFT SELECTIONS WILL BE LOST."
+    );
+    if (!confirmed) return;
     ELEMENTS.resultScreen.classList.add('hidden');
     ELEMENTS.registrationForm.classList.remove('hidden');
     ELEMENTS.castleName.value = '';
