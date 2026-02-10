@@ -76,13 +76,11 @@ const ELEMENTS = {
     mascotCodeContainer: document.getElementById('mascot-code-container'),
     mascotCodeInput: document.getElementById('mascot-code'),
     draftSubtitle: document.getElementById('draft-subtitle'),
-    mascotChanceHint: document.getElementById('mascot-chance-hint'),
-    resultHeader: document.getElementById('result-header'),
-    resultBadge: document.getElementById('result-badge'),
     mascotKeyStatus: document.getElementById('mascot-key-status'),
     aspirantCta: document.getElementById('aspirant-cta'),
     discoveryControls: document.getElementById('discovery-controls'),
     discoveryCount: document.getElementById('discovery-count'),
+    discoveryTotal: document.getElementById('discovery-total'),
     discoveryBtn: document.getElementById('btn-discover'),
     profileUploadSection: document.getElementById('profile-upload-section')
 };
@@ -296,14 +294,20 @@ function setAccess(type) {
         btnMember.classList.add('text-pkm-red', 'border-pkm-red');
         btnAspirant.classList.remove('text-pkm-blue', 'border-pkm-blue');
         if (summonBtnSpan) summonBtnSpan.textContent = "Join Draft Game";
-        if (ELEMENTS.profileUploadSection) ELEMENTS.profileUploadSection.classList.remove('hidden');
+        if (ELEMENTS.profileUploadSection) {
+            ELEMENTS.profileUploadSection.classList.remove('hidden');
+            ELEMENTS.profileUploadSection.style.display = 'block';
+        }
     } else {
         if (codeContainer) { codeContainer.classList.add('hidden'); codeContainer.style.display = 'none'; }
         if (mascotContainer) { mascotContainer.classList.remove('hidden'); mascotContainer.style.display = 'block'; }
         btnAspirant.classList.add('text-pkm-blue', 'border-pkm-blue');
         btnMember.classList.remove('text-pkm-red', 'border-pkm-red');
         if (summonBtnSpan) summonBtnSpan.textContent = "Initialize Capture";
-        if (ELEMENTS.profileUploadSection) ELEMENTS.profileUploadSection.classList.add('hidden');
+        if (ELEMENTS.profileUploadSection) {
+            ELEMENTS.profileUploadSection.classList.add('hidden');
+            ELEMENTS.profileUploadSection.style.display = 'none';
+        }
     }
     if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.add('hidden');
 }
@@ -425,17 +429,19 @@ async function initializeDraft() {
             }
         }
 
-        if (ELEMENTS.mascotChanceHint) {
-            isROLMascot ? ELEMENTS.mascotChanceHint.classList.remove('hidden') : ELEMENTS.mascotChanceHint.classList.add('hidden');
-        }
 
         // Mascot specific Discovery Mode
         if (isROLMascot) {
             if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.remove('hidden');
             if (ELEMENTS.discoveryCount) ELEMENTS.discoveryCount.textContent = "0";
+            if (ELEMENTS.discoveryTotal) ELEMENTS.discoveryTotal.textContent = STATE.draftPool.length;
             if (ELEMENTS.discoveryBtn) {
                 ELEMENTS.discoveryBtn.disabled = false;
                 ELEMENTS.discoveryBtn.textContent = "Scan Next Specimen";
+            }
+            if (ELEMENTS.profileUploadSection) {
+                ELEMENTS.profileUploadSection.classList.add('hidden');
+                ELEMENTS.profileUploadSection.style.display = 'none';
             }
             const confirmBtn = document.getElementById('confirm-squad-btn');
             if (confirmBtn) confirmBtn.classList.add('hidden'); // Hide until discovery done

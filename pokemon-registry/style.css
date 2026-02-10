@@ -8,6 +8,10 @@
     --cinema-accent: rgba(49, 167, 215, 0.2);
 }
 
+.hidden {
+    display: none !important;
+}
+
 /* --- THE GRAND SHOWCASE HALL --- */
 body {
     background-color: var(--pkm-dark);

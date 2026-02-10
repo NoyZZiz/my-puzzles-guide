@@ -227,7 +227,7 @@ def get_gym_leaders():
 
 @app.route('/get_available_draft', methods=['POST'])
 def get_available_draft():
-    # Provide 10 random legendary/mythical IDs that haven't been claimed
+    # Provide 14 random specimens that haven't been claimed
     data = request.get_json()
     all_legends = data.get('pool', []) # Client sends the desired ID pool
     
@@ -239,7 +239,7 @@ def get_available_draft():
     
     available = [p_id for p_id in all_legends if p_id not in claimed]
     
-    # Guaranteed composition: 2 legendary, 4 strong, 4 random
+    # Guaranteed composition: 1 Gen1 + 13 random mix (Total 14)
     legendary_ids = [
         144, 145, 146, 150, 151,
         243, 244, 245, 249, 250, 251,
