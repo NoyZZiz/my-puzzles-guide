@@ -428,6 +428,8 @@ function toggleDraftSelection(id, card) {
 }
 
 async function finalizeSquad() {
+    if (!confirm("ARE YOU READY TO FINALIZE YOUR CONTRACT? THIS WILL PERMANENTLY LOCK YOUR SQUAD IN THE HALL OF LEADERS.")) return;
+    
     const castleName = ELEMENTS.castleName.value.trim();
     const castleLevel = ELEMENTS.castleLevel.value.trim();
     const char = CONFIG.TRAINER_CHARACTERS[Math.floor(Math.random() * CONFIG.TRAINER_CHARACTERS.length)].name;
@@ -659,6 +661,7 @@ function populateResult(p, s) {
 }
 
 function resetRegistry() {
+    if (!confirm("START OVER? ALL CURRENT PROGRESS AND DRAFT SELECTIONS WILL BE LOST.")) return;
     ELEMENTS.resultScreen.classList.add('hidden');
     ELEMENTS.registrationForm.classList.remove('hidden');
     ELEMENTS.castleName.value = '';
