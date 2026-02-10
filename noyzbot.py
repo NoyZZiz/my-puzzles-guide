@@ -227,9 +227,10 @@ def get_gym_leaders():
 
 @app.route('/get_available_draft', methods=['POST'])
 def get_available_draft():
-    # Provide 14 random specimens that haven't been claimed
+    # Provide dynamic number of specimens that haven't been claimed
     data = request.get_json()
-    all_legends = data.get('pool', []) # Client sends the desired ID pool
+    all_legends = data.get('pool', []) 
+    requested_count = data.get('count', 10) # Default to 10 for Leaders
     
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
@@ -239,7 +240,7 @@ def get_available_draft():
     
     available = [p_id for p_id in all_legends if p_id not in claimed]
     
-    # Guaranteed composition: 1 Gen1 + 13 random mix (Total 14)
+    # Guaranteed composition: 1 Gen1 + (requested_count - 1) random mix
     legendary_ids = [
         144, 145, 146, 150, 151,
         243, 244, 245, 249, 250, 251,
@@ -252,13 +253,6 @@ def get_available_draft():
         1001, 1002, 1003, 1004, 1007, 1008, 1010,
         658, 448
     ]
-    strong_ids = [
-        6, 9, 3, 59, 65, 68, 76, 94, 121, 123, 124, 125, 126, 128, 130, 131, 134, 135, 136, 139, 141, 149, 169, 196, 197, 208, 212, 214, 229, 230, 237, 241, 242, 248, 282, 289, 306, 310, 319, 330, 344, 346, 348, 350, 362, 365, 373, 376, 392, 395, 398, 405, 407, 409, 411, 416, 423, 428, 430, 435, 445, 448, 452, 460, 461, 462, 464, 468, 471, 472, 473, 474, 475, 476, 477,
-        497, 500, 503, 530, 534, 537, 542, 545, 553, 555, 558, 560, 561, 565, 567, 571, 579, 584, 591, 594, 596, 598, 601, 604, 606, 609, 612, 614, 617, 621, 623, 625, 626, 628, 630, 632, 635, 637,
-        652, 655, 660, 663, 666, 668, 671, 673, 675, 678, 681, 683, 685, 687, 689, 691, 693, 695, 697, 699, 700, 701, 703, 706, 707, 709, 711, 713, 715,
-        724, 727, 730, 733, 735, 738, 740, 741, 743, 745, 746, 748, 750, 752, 754, 756, 758, 760, 763, 764, 766, 768, 770, 771, 774, 775, 776, 777, 778, 779, 780, 781, 784,
-        812, 815, 818, 820, 823, 826, 828, 830, 832, 834, 836, 839, 841, 842, 844, 845, 847, 849, 851, 853, 855, 858, 861, 862, 863, 864, 865, 866, 867, 869, 870, 871, 873, 875, 876, 877, 879, 884, 887
-    ]
     
     avail_legends = [p for p in available if p in legendary_ids]
     avail_gen1 = [p for p in available if p <= 151 and p not in legendary_ids]
@@ -270,25 +264,26 @@ def get_available_draft():
     
     draft = []
     
-    # 1. Guarantee at least 1 Gen 1 Pokémon (IDs 1-151)
+    # 1. Guarantee at least 1 Gen 1 Pokémon
     if avail_gen1:
         draft.append(avail_gen1.pop(0))
     
-    # 2. Fill remaining 13 slots with 30% legendary chance
-    for _ in range(13):
+    # 2. Fill remaining slots with 30% legendary chance
+    fill_count = requested_count - len(draft)
+    for _ in range(fill_count):
         if random.random() < 0.30 and avail_legends:
             draft.append(avail_legends.pop(0))
-        elif avail_gen1 and random.random() < 0.5: # Blend more Gen 1
+        elif avail_gen1 and random.random() < 0.5:
             draft.append(avail_gen1.pop(0))
         elif avail_others:
             draft.append(avail_others.pop(0))
-        elif avail_legends: # Fallback if others empty
+        elif avail_legends:
             draft.append(avail_legends.pop(0))
         elif avail_gen1:
             draft.append(avail_gen1.pop(0))
             
     random.shuffle(draft)
-    return jsonify(draft[:14])
+    return jsonify(draft[:requested_count])
 
 # --- Profile Pic Upload ---
 UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')

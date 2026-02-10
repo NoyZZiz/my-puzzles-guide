@@ -402,17 +402,18 @@ async function startSummon() {
 
 async function initializeDraft() {
     try {
+        const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
+        const isROLMascot = STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
+        const requiredCount = isROLMascot ? 14 : 10;
+
         const fullPool = Array.from({length: CONFIG.MAX_NATIONAL_ID}, (_, i) => i + 1);
         const response = await fetch(`${CONFIG.BACKEND_URL}/get_available_draft`, {
             method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ pool: fullPool })
+            body: JSON.stringify({ pool: fullPool, count: requiredCount })
         });
         STATE.draftPool = await response.json();
         STATE.selectedDraftIds = [];
         STATE.discoveredCount = 0;
-
-        const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
-        const isROLMascot = STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
 
         // Update selection UI label and instructions
         const selLabel = document.getElementById('draft-status');
@@ -423,10 +424,10 @@ async function initializeDraft() {
         if (ELEMENTS.draftSubtitle) {
             if (STATE.access === 'aspirant') {
                 ELEMENTS.draftSubtitle.textContent = isROLMascot 
-                    ? "Identify 14 mystery specimens and claim your mascot"
-                    : "Spin 14 times and discover your potential";
+                    ? `Identify ${STATE.draftPool.length} mystery specimens and claim your mascot`
+                    : `Spin ${STATE.draftPool.length} times and discover your potential`;
             } else {
-                ELEMENTS.draftSubtitle.textContent = "Spin 14 times and choose your Squad of 6";
+                ELEMENTS.draftSubtitle.textContent = `Spin ${STATE.draftPool.length} times and choose your Squad of 6`;
             }
         }
 
