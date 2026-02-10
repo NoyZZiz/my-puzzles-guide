@@ -227,8 +227,18 @@
                         Selected: <span id="selection-count" class="text-pkm-yellow">0</span>/6
                     </div>
 
+                    <!-- Discovery Controls (Mascot Mode Only) -->
+                    <div id="discovery-controls" class="hidden flex flex-col items-center gap-4">
+                        <p id="discovery-progress" class="font-rajdhani text-sm text-pkm-yellow font-bold uppercase tracking-widest">
+                            Specimens Identified: <span id="discovery-count">0</span> / 14
+                        </p>
+                        <button id="btn-discover" class="px-8 py-3 bg-pkm-blue/20 border-2 border-pkm-blue text-pkm-blue rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:bg-pkm-blue hover:text-white transition-all">
+                            Scan Next Specimen
+                        </button>
+                    </div>
+
                     <!-- Profile Pic Upload -->
-                    <div class="w-full max-w-lg space-y-3">
+                    <div id="profile-upload-section" class="w-full max-w-lg space-y-3">
                         <input type="file" id="profile-pic-input" accept="image/*" class="hidden">
                         <div id="profile-pic-dropzone" onclick="document.getElementById('profile-pic-input').click()" class="cursor-pointer group bg-black/40 border-2 border-dashed border-white/10 hover:border-pkm-blue/50 rounded-2xl p-6 flex flex-col items-center gap-3 transition-all duration-300">
                             <div id="profile-pic-preview" class="hidden">

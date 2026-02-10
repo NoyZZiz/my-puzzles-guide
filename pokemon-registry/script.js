@@ -49,7 +49,8 @@ let STATE = {
     draftPool: [],
     currentView: 'main-interface',
     currentLore: '',
-    profilePicUrl: ''
+    profilePicUrl: '',
+    discoveredCount: 0
 };
 
 const ELEMENTS = {
@@ -79,7 +80,11 @@ const ELEMENTS = {
     resultHeader: document.getElementById('result-header'),
     resultBadge: document.getElementById('result-badge'),
     mascotKeyStatus: document.getElementById('mascot-key-status'),
-    aspirantCta: document.getElementById('aspirant-cta')
+    aspirantCta: document.getElementById('aspirant-cta'),
+    discoveryControls: document.getElementById('discovery-controls'),
+    discoveryCount: document.getElementById('discovery-count'),
+    discoveryBtn: document.getElementById('btn-discover'),
+    profileUploadSection: document.getElementById('profile-upload-section')
 };
 
 // --- TRANSLATION DATA (i18n) ---
@@ -253,6 +258,7 @@ setupLanguageSelector();
 ELEMENTS.summonBtn.addEventListener('click', startSummon);
 ELEMENTS.newSignatureBtn.addEventListener('click', resetRegistry);
 document.getElementById('confirm-squad-btn').addEventListener('click', finalizeSquad);
+if (ELEMENTS.discoveryBtn) ELEMENTS.discoveryBtn.addEventListener('click', discoverNextMascot);
 
 ELEMENTS.profilePicInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
@@ -290,13 +296,16 @@ function setAccess(type) {
         btnMember.classList.add('text-pkm-red', 'border-pkm-red');
         btnAspirant.classList.remove('text-pkm-blue', 'border-pkm-blue');
         if (summonBtnSpan) summonBtnSpan.textContent = "Join Draft Game";
+        if (ELEMENTS.profileUploadSection) ELEMENTS.profileUploadSection.classList.remove('hidden');
     } else {
         if (codeContainer) { codeContainer.classList.add('hidden'); codeContainer.style.display = 'none'; }
         if (mascotContainer) { mascotContainer.classList.remove('hidden'); mascotContainer.style.display = 'block'; }
         btnAspirant.classList.add('text-pkm-blue', 'border-pkm-blue');
         btnMember.classList.remove('text-pkm-red', 'border-pkm-red');
         if (summonBtnSpan) summonBtnSpan.textContent = "Initialize Capture";
+        if (ELEMENTS.profileUploadSection) ELEMENTS.profileUploadSection.classList.add('hidden');
     }
+    if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.add('hidden');
 }
 
 function toggleView(viewId) {
@@ -395,12 +404,13 @@ async function initializeDraft() {
         });
         STATE.draftPool = await response.json();
         STATE.selectedDraftIds = [];
+        STATE.discoveredCount = 0;
 
-        // Update selection UI label and instructions
-        const selLabel = document.getElementById('draft-status');
         const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
         const isROLMascot = STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
 
+        // Update selection UI label and instructions
+        const selLabel = document.getElementById('draft-status');
         if (selLabel) {
             selLabel.innerHTML = `Selected: <span id="selection-count" class="text-pkm-yellow">0</span>/${STATE.access === 'member' ? '6' : '1'}`;
         }
@@ -408,7 +418,7 @@ async function initializeDraft() {
         if (ELEMENTS.draftSubtitle) {
             if (STATE.access === 'aspirant') {
                 ELEMENTS.draftSubtitle.textContent = isROLMascot 
-                    ? "Choose 1 Signature Mascot from 14 rare specimens"
+                    ? "Identify 14 mystery specimens and claim your mascot"
                     : "Spin 14 times and discover your potential";
             } else {
                 ELEMENTS.draftSubtitle.textContent = "Spin 14 times and choose your Squad of 6";
@@ -419,38 +429,99 @@ async function initializeDraft() {
             isROLMascot ? ELEMENTS.mascotChanceHint.classList.remove('hidden') : ELEMENTS.mascotChanceHint.classList.add('hidden');
         }
 
+        // Mascot specific Discovery Mode
+        if (isROLMascot) {
+            if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.remove('hidden');
+            if (ELEMENTS.discoveryCount) ELEMENTS.discoveryCount.textContent = "0";
+            if (ELEMENTS.discoveryBtn) {
+                ELEMENTS.discoveryBtn.disabled = false;
+                ELEMENTS.discoveryBtn.textContent = "Scan Next Specimen";
+            }
+            const confirmBtn = document.getElementById('confirm-squad-btn');
+            if (confirmBtn) confirmBtn.classList.add('hidden'); // Hide until discovery done
+        } else {
+            if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.add('hidden');
+            const confirmBtn = document.getElementById('confirm-squad-btn');
+            if (confirmBtn) confirmBtn.classList.remove('hidden');
+        }
+
         renderDraftPool();
         toggleView('draft-screen');
     } catch (e) { alert("DRAFT SERVER OFFLINE."); }
 }
 
+async function discoverNextMascot() {
+    if (STATE.discoveredCount >= STATE.draftPool.length) return;
+    
+    ELEMENTS.discoveryBtn.disabled = true;
+    const nextId = STATE.draftPool[STATE.discoveredCount];
+    
+    try {
+        const [pData, sData] = await Promise.all([
+            fetch(`${CONFIG.API_BASE}${nextId}`).then(res => res.json()),
+            fetch(`${CONFIG.SPECIES_BASE}${nextId}`).then(res => res.json())
+        ]);
+        
+        await triggerRevealSequence(pData, sData);
+        
+        // After cinematic, return to draft but with one more revealed
+        STATE.discoveredCount++;
+        if (ELEMENTS.discoveryCount) ELEMENTS.discoveryCount.textContent = STATE.discoveredCount;
+        
+        renderDraftPool();
+        toggleView('draft-screen');
+        
+        if (STATE.discoveredCount < STATE.draftPool.length) {
+            ELEMENTS.discoveryBtn.disabled = false;
+        } else {
+            ELEMENTS.discoveryBtn.textContent = "Discovery Complete";
+            const confirmBtn = document.getElementById('confirm-squad-btn');
+            if (confirmBtn) confirmBtn.classList.remove('hidden');
+        }
+    } catch (e) {
+        ELEMENTS.discoveryBtn.disabled = false;
+    }
+}
+
 async function renderDraftPool() {
     const container = document.getElementById('draft-pool');
-    container.innerHTML = ''; // Clear immediately
+    container.innerHTML = '';
     
-    // Create all cards immediately with images (no network fetch needed for images)
-    STATE.draftPool.forEach(id => {
+    const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
+    const isROLMascot = STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
+
+    STATE.draftPool.forEach((id, index) => {
         const card = document.createElement('div');
-        card.id = `draft-card-${id}`;
-        card.className = 'draft-card bg-pkm-panel p-4 rounded-3xl flex flex-col items-center gap-2 cursor-pointer hover:border-pkm-yellow border-2 border-transparent transition-all';
-        card.innerHTML = `
-            <img src="${CONFIG.SPRITE_BASE}${id}.png" class="w-24 h-24 object-contain">
-            <span class="pkm-name-label font-rajdhani font-bold text-xs uppercase tracking-widest text-white/70">...</span>
-        `;
-        card.onclick = () => toggleDraftSelection(id, card);
-        container.appendChild(card);
+        const isLocked = isROLMascot && index >= STATE.discoveredCount;
         
-        // Fetch name asynchronously in the background
-        fetch(`${CONFIG.API_BASE}${id}`)
-            .then(res => res.json())
-            .then(poke => {
-                const label = card.querySelector('.pkm-name-label');
-                if (label) label.textContent = poke.name.replace(/-/g, ' ');
-            })
-            .catch(() => {
-                const label = card.querySelector('.pkm-name-label');
-                if (label) label.textContent = `#${id}`;
-            });
+        card.id = `draft-card-${id}`;
+        card.className = `draft-card bg-pkm-panel p-4 rounded-3xl flex flex-col items-center gap-2 transition-all ${isLocked ? 'opacity-40 grayscale pointer-events-none' : 'cursor-pointer hover:border-pkm-yellow border-2 border-transparent'}`;
+        
+        if (isLocked) {
+           card.innerHTML = `
+                <div class="w-24 h-24 flex items-center justify-center">
+                    <i class="fa-solid fa-microscope text-3xl text-white/10 anim-pulse"></i>
+                </div>
+                <span class="font-rajdhani font-bold text-[10px] uppercase tracking-widest text-white/20">?? Locked</span>
+            `;
+        } else {
+            card.innerHTML = `
+                <img src="${CONFIG.SPRITE_BASE}${id}.png" class="w-24 h-24 object-contain">
+                <span class="font-rajdhani font-bold text-[10px] uppercase tracking-widest text-white/50" id="name-${id}">Loading...</span>
+            `;
+            // Async name charging
+            fetch(`${CONFIG.API_BASE}${id}`)
+                .then(r => r.json())
+                .then(d => {
+                    const nameEl = document.getElementById(`name-${id}`);
+                    if (nameEl) nameEl.textContent = d.name.replace(/-/g, ' ');
+                });
+        }
+        
+        if (!isLocked) {
+            card.onclick = () => toggleDraftSelection(id, card);
+        }
+        container.appendChild(card);
     });
 }
 
