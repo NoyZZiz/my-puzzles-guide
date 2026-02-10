@@ -611,6 +611,9 @@ async function triggerRevealSequence(pData, sData) {
                 document.getElementById('main-ui').classList.remove('blur-bg');
                 ELEMENTS.revealLight.style.opacity = '0';
                 ELEMENTS.resultScreen.classList.add('anim-result-entrance');
+                // Show alliance CTA for aspirants
+                const cta = document.getElementById('aspirant-cta');
+                if (cta) { STATE.access === 'member' ? cta.classList.add('hidden') : cta.classList.remove('hidden'); }
                 resolve();
             }, 800);
         }, 3000);
