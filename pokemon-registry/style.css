@@ -316,3 +316,25 @@ body::after {
 .type-steel { background: #B7B7CE; color: #1a1a1a; box-shadow: 0 0 15px rgba(183, 183, 206, 0.4); }
 .type-fairy { background: #D685AD; box-shadow: 0 0 15px rgba(214, 133, 173, 0.4); }
 .type-normal { background: #A8A77A; box-shadow: 0 0 15px rgba(168, 167, 122, 0.4); }
+
+/* Mobile Bottom Nav Fixes */
+@media (max-width: 768px) {
+    #main-ui {
+        padding-bottom: 80px; /* Space for the fixed bottom nav */
+    }
+}
+
+.pkm-name-label {
+    min-height: 1.2em;
+    transition: color 0.3s ease;
+}
+
+#lang-selector-mobile::-ms-expand {
+    display: none;
+}
+#lang-selector-mobile {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+

@@ -325,6 +325,23 @@
             </div>
 
         </main>
+        <!-- MOBILE BOTTOM NAVIGATION -->
+        <nav class="md:hidden fixed bottom-0 left-0 w-full bg-black/60 backdrop-blur-xl border-t border-white/10 px-6 py-3 flex items-center justify-around z-[100]">
+            <a href="../index.html" class="flex flex-col items-center gap-1 text-white/60 hover:text-pkm-yellow transition-colors">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-[10px] font-rajdhani font-bold uppercase tracking-widest">Home</span>
+            </a>
+            <button onclick="toggleView('hall-of-leaders')" class="flex flex-col items-center gap-1 text-white/60 hover:text-pkm-yellow transition-colors">
+                <i class="fa-solid fa-trophy text-lg"></i>
+                <span class="text-[10px] font-rajdhani font-bold uppercase tracking-widest">Hall</span>
+            </button>
+            <button onclick="toggleView('registration-form')" class="flex flex-col items-center gap-1 text-white/60 hover:text-pkm-yellow transition-colors">
+                <i class="fa-solid fa-id-card text-lg"></i>
+                <span class="text-[10px] font-rajdhani font-bold uppercase tracking-widest">Register</span>
+            </button>
+            <div class="w-[1px] h-8 bg-white/10 mx-2"></div>
+            <select id="lang-selector-mobile" onchange="setLanguage(this.value)" class="bg-transparent border-none text-pkm-yellow text-[10px] font-rajdhani font-bold uppercase tracking-widest focus:outline-none"></select>
+        </nav>
     </div>
 
     <script src="script.js"></script>

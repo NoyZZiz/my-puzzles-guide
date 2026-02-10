@@ -217,18 +217,20 @@ function setLanguage(langCode) {
 }
 
 function setupLanguageSelector() {
-    const selector = document.getElementById('lang-selector');
-    if (!selector) return;
-    selector.innerHTML = '';
-    Object.keys(TRANSLATIONS).forEach(langCode => {
-        const option = document.createElement('option');
-        option.value = langCode;
-        option.textContent = TRANSLATIONS[langCode]['lang_name'];
-        selector.appendChild(option);
+    const selectors = [document.getElementById('lang-selector'), document.getElementById('lang-selector-mobile')];
+    selectors.forEach(selector => {
+        if (!selector) return;
+        selector.innerHTML = '';
+        Object.keys(TRANSLATIONS).forEach(langCode => {
+            const option = document.createElement('option');
+            option.value = langCode;
+            option.textContent = TRANSLATIONS[langCode]['lang_name'];
+            selector.appendChild(option);
+        });
+        selector.value = currentLang;
+        selector.addEventListener('change', (e) => setLanguage(e.target.value));
     });
-    selector.value = currentLang;
     setLanguage(currentLang);
-    selector.addEventListener('change', (e) => setLanguage(e.target.value));
 }
 
 setupLanguageSelector();
@@ -374,23 +376,31 @@ async function initializeDraft() {
 
 async function renderDraftPool() {
     const container = document.getElementById('draft-pool');
-    container.innerHTML = '<p class="col-span-full text-center text-white/30 text-sm uppercase tracking-widest animate-pulse">Loading Pokémon Data...</p>';
+    container.innerHTML = ''; // Clear immediately
     
-    // Fetch names for all draft Pokémon
-    const pokeDataPromises = STATE.draftPool.map(id =>
-        fetch(`${CONFIG.API_BASE}${id}`).then(res => res.json()).catch(() => ({name: `#${id}`, id}))
-    );
-    const allPokemon = await Promise.all(pokeDataPromises);
-    
-    container.innerHTML = '';
-    allPokemon.forEach(poke => {
-        const id = poke.id;
-        const name = poke.name ? poke.name.replace(/-/g, ' ') : `#${id}`;
+    // Create all cards immediately with images (no network fetch needed for images)
+    STATE.draftPool.forEach(id => {
         const card = document.createElement('div');
+        card.id = `draft-card-${id}`;
         card.className = 'draft-card bg-pkm-panel p-4 rounded-3xl flex flex-col items-center gap-2 cursor-pointer hover:border-pkm-yellow border-2 border-transparent transition-all';
-        card.innerHTML = `<img src="${CONFIG.SPRITE_BASE}${id}.png" class="w-24 h-24 object-contain"><span class="font-rajdhani font-bold text-xs uppercase tracking-widest text-white/70">${name}</span>`;
+        card.innerHTML = `
+            <img src="${CONFIG.SPRITE_BASE}${id}.png" class="w-24 h-24 object-contain">
+            <span class="pkm-name-label font-rajdhani font-bold text-xs uppercase tracking-widest text-white/70">...</span>
+        `;
         card.onclick = () => toggleDraftSelection(id, card);
         container.appendChild(card);
+        
+        // Fetch name asynchronously in the background
+        fetch(`${CONFIG.API_BASE}${id}`)
+            .then(res => res.json())
+            .then(poke => {
+                const label = card.querySelector('.pkm-name-label');
+                if (label) label.textContent = poke.name.replace(/-/g, ' ');
+            })
+            .catch(() => {
+                const label = card.querySelector('.pkm-name-label');
+                if (label) label.textContent = `#${id}`;
+            });
     });
 }
 
