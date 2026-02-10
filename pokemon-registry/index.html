@@ -153,9 +153,14 @@
                             <label for="castle-name" class="font-rajdhani text-xs font-bold uppercase tracking-widest text-pkm-blue">Castle Name</label>
                             <input type="text" id="castle-name" placeholder="YOUR IN-GAME NAME..." class="w-full bg-black/40 border-2 border-white/5 rounded-xl px-4 py-4 font-rajdhani text-xl tracking-widest text-white placeholder:text-white/10 focus:outline-none focus:border-pkm-blue transition-all">
                         </div>
-                        <div class="space-y-2" id="mascot-code-container">
+                        <div class="space-y-2 relative" id="mascot-code-container">
                             <label for="mascot-code" class="font-rajdhani text-[10px] uppercase font-bold tracking-[0.2em] text-pkm-yellow/50">Mascot Secret Key <span class="text-white/10 font-normal tracking-normal lowercase ml-1">// for ROL mascot registration</span></label>
-                            <input type="password" id="mascot-code" placeholder="ENTER MASCOT KEY..." class="w-full bg-black/40 border-2 border-white/5 rounded-xl px-4 py-3 font-rajdhani text-lg tracking-[0.5em] text-white placeholder:text-white/10 focus:outline-none focus:border-pkm-yellow transition-all">
+                            <div class="relative">
+                                <input type="password" id="mascot-code" placeholder="ENTER MASCOT KEY..." class="w-full bg-black/40 border-2 border-white/5 rounded-xl px-4 py-3 font-rajdhani text-lg tracking-[0.5em] text-white placeholder:text-white/10 focus:outline-none focus:border-pkm-yellow transition-all">
+                                <div id="mascot-key-status" class="absolute right-4 top-1/2 -translate-y-1/2 hidden">
+                                    <span class="bg-pkm-yellow/20 text-pkm-yellow text-[8px] px-2 py-1 rounded-md border border-pkm-yellow/30 font-bold tracking-widest uppercase">Verified</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

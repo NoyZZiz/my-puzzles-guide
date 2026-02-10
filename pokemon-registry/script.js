@@ -77,7 +77,9 @@ const ELEMENTS = {
     draftSubtitle: document.getElementById('draft-subtitle'),
     mascotChanceHint: document.getElementById('mascot-chance-hint'),
     resultHeader: document.getElementById('result-header'),
-    resultBadge: document.getElementById('result-badge')
+    resultBadge: document.getElementById('result-badge'),
+    mascotKeyStatus: document.getElementById('mascot-key-status'),
+    aspirantCta: document.getElementById('aspirant-cta')
 };
 
 // --- TRANSLATION DATA (i18n) ---
@@ -252,7 +254,6 @@ ELEMENTS.summonBtn.addEventListener('click', startSummon);
 ELEMENTS.newSignatureBtn.addEventListener('click', resetRegistry);
 document.getElementById('confirm-squad-btn').addEventListener('click', finalizeSquad);
 
-// Profile pic preview
 ELEMENTS.profilePicInput.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -263,6 +264,15 @@ ELEMENTS.profilePicInput.addEventListener('change', (e) => {
             document.getElementById('profile-pic-placeholder').classList.add('hidden');
         };
         reader.readAsDataURL(file);
+    }
+});
+
+// Real-time Mascot Key Check
+ELEMENTS.mascotCodeInput.addEventListener('input', (e) => {
+    const isCorrect = e.target.value.trim().toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
+    if (ELEMENTS.mascotKeyStatus) {
+        if (isCorrect) ELEMENTS.mascotKeyStatus.classList.remove('hidden');
+        else ELEMENTS.mascotKeyStatus.classList.add('hidden');
     }
 });
 
@@ -382,7 +392,7 @@ async function initializeDraft() {
         // Update selection UI label and instructions
         const selLabel = document.getElementById('draft-status');
         const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
-        const isROLMascot = STATE.access === 'aspirant' && mascotKey === CONFIG.MASCOT_CODE;
+        const isROLMascot = STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
 
         if (selLabel) {
             selLabel.innerHTML = `Selected: <span id="selection-count" class="text-pkm-yellow">0</span>/${STATE.access === 'member' ? '6' : '1'}`;
@@ -450,8 +460,8 @@ function toggleDraftSelection(id, card) {
             if (limit === 1) {
                 // Radio button behavior for pick-1
                 const prevId = STATE.selectedDraftIds[0];
-                const prevCard = document.getElementById(`draft-card-${prevId}`);
-                if (prevCard) prevCard.classList.remove('selected');
+                const prevCards = document.querySelectorAll('.draft-card.selected');
+                prevCards.forEach(c => c.classList.remove('selected'));
                 STATE.selectedDraftIds = [id];
                 card.classList.add('selected');
             } else return;
@@ -479,7 +489,7 @@ function toggleDraftSelection(id, card) {
 async function finalizeSquad() {
     const isMascotMode = STATE.access === 'aspirant';
     const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
-    const isROLMascot = isMascotMode && mascotKey === CONFIG.MASCOT_CODE;
+    const isROLMascot = isMascotMode && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
 
     const confirmed = await showConfirm(
         "Security Protocol", 
@@ -756,9 +766,15 @@ async function triggerRevealSequence(pData, sData) {
                 document.getElementById('main-ui').classList.remove('blur-bg');
                 ELEMENTS.revealLight.style.opacity = '0';
                 ELEMENTS.resultScreen.classList.add('anim-result-entrance');
-                // Show alliance CTA for aspirants
-                const cta = document.getElementById('aspirant-cta');
-                if (cta) { STATE.access === 'member' ? cta.classList.add('hidden') : cta.classList.remove('hidden'); }
+                // Show alliance CTA for aspirants (but hide for registered ROL Mascots)
+                const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
+                const isROLMascot = STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
+                
+                if (ELEMENTS.aspirantCta) { 
+                    (STATE.access === 'member' || isROLMascot) 
+                        ? ELEMENTS.aspirantCta.classList.add('hidden') 
+                        : ELEMENTS.aspirantCta.classList.remove('hidden'); 
+                }
                 resolve();
             }, 800);
         }, 3000);
