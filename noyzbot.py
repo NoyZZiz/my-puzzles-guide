@@ -154,28 +154,32 @@ def chat():
 @app.route('/get_global_assignment/<alias>')
 def get_global_assignment(alias):
     conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("SELECT * FROM global_registry WHERE alias=?", (alias,))
-    row = c.fetchone()
-    conn.close()
-    if row:
-        return jsonify({
-            "alias": row[0],
-            "identity": row[1],
-            "pool": row[2],
-            "house": row[3],
-            "timestamp": row[4]
-        })
-    return jsonify(None)
+    try:
+        c = conn.cursor()
+        c.execute("SELECT * FROM global_registry WHERE alias=?", (alias,))
+        row = c.fetchone()
+        if row:
+            return jsonify({
+                "alias": row[0],
+                "identity": row[1],
+                "pool": row[2],
+                "house": row[3],
+                "timestamp": row[4]
+            })
+        return jsonify(None)
+    finally:
+        conn.close()
 
 @app.route('/get_all_assigned')
 def get_all_assigned():
     conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("SELECT identity FROM global_registry")
-    rows = c.fetchall()
-    conn.close()
-    return jsonify([r[0] for r in rows])
+    try:
+        c = conn.cursor()
+        c.execute("SELECT identity FROM global_registry")
+        rows = c.fetchall()
+        return jsonify([r[0] for r in rows])
+    finally:
+        conn.close()
 
 @app.route('/save_global_assignment', methods=['POST'])
 def save_global_assignment():
@@ -218,12 +222,14 @@ def save_global_assignment():
 @app.route('/get_gym_leaders')
 def get_gym_leaders():
     conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("SELECT alias, squad, character, castle_name, castle_level, lore, profile_pic FROM global_registry WHERE squad IS NOT NULL")
-    rows = c.fetchall()
-    conn.close()
-    leaders = [{"name": r[0], "squad": r[1].split(','), "character": r[2], "castle_name": r[3], "castle_level": r[4], "lore": r[5], "profile_pic": r[6]} for r in rows]
-    return jsonify(leaders)
+    try:
+        c = conn.cursor()
+        c.execute("SELECT alias, squad, character, castle_name, castle_level, lore, profile_pic FROM global_registry WHERE squad IS NOT NULL")
+        rows = c.fetchall()
+        leaders = [{"name": r[0], "squad": r[1].split(','), "character": r[2], "castle_name": r[3], "castle_level": r[4], "lore": r[5], "profile_pic": r[6]} for r in rows]
+        return jsonify(leaders)
+    finally:
+        conn.close()
 
 @app.route('/get_available_draft', methods=['POST'])
 def get_available_draft():
@@ -233,10 +239,12 @@ def get_available_draft():
     requested_count = data.get('count', 10) # Default to 10 for Leaders
     
     conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute("SELECT pokemon_id FROM claimed_pokemon")
-    claimed = {row[0] for row in c.fetchall()}
-    conn.close()
+    try:
+        c = conn.cursor()
+        c.execute("SELECT pokemon_id FROM claimed_pokemon")
+        claimed = {row[0] for row in c.fetchall()}
+    finally:
+        conn.close()
     
     available = [p_id for p_id in all_legends if p_id not in claimed]
     
