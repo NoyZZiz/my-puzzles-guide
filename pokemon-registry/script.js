@@ -383,6 +383,24 @@ function toggleView(viewId) {
     if (viewId === 'hall-of-leaders') fetchAndRenderLeaders();
 }
 
+// --- Utility Functions ---
+async function fetchWithTimeout(resource, options = {}) {
+    const { timeout = 15000 } = options;
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    try {
+        const response = await fetch(resource, {
+            ...options,
+            signal: controller.signal
+        });
+        clearTimeout(id);
+        return response;
+    } catch (error) {
+        clearTimeout(id);
+        throw error;
+    }
+}
+
 // --- Background ---
 function initBackground() {
     const hall = document.getElementById('hall-container');
@@ -429,25 +447,36 @@ async function startSummon() {
         return;
     }
 
-    if (STATE.access === 'member') {
-        const cLevel = ELEMENTS.castleLevel.value.trim();
-        const code = document.getElementById('member-code').value.trim();
-        
-        if (!cLevel) { alert("PLEASE ENTER YOUR CASTLE LEVEL."); return; }
-        if (code !== CONFIG.ALLIANCE_CODE) { alert("INVALID ALLIANCE SECRET KEY."); return; }
-        await initializeDraft();
-        return;
-    }
+    const originalText = ELEMENTS.summonBtn.querySelector('span').textContent;
+    const setBusy = (isBusy) => {
+        ELEMENTS.summonBtn.disabled = isBusy;
+        ELEMENTS.summonBtn.querySelector('span').textContent = isBusy ? "Synchronizing..." : originalText;
+        if (isBusy) ELEMENTS.summonBtn.classList.add('opacity-70', 'animate-pulse');
+        else ELEMENTS.summonBtn.classList.remove('opacity-70', 'animate-pulse');
+    };
 
-    // Mascot Registration Trigger
-    const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
-    if (STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase()) {
-        await initializeDraft();
-        return;
-    }
-    
     try {
-        ELEMENTS.summonBtn.disabled = true;
+        if (STATE.access === 'member') {
+            const cLevel = ELEMENTS.castleLevel.value.trim();
+            const code = document.getElementById('member-code').value.trim();
+            
+            if (!cLevel) { alert("PLEASE ENTER YOUR CASTLE LEVEL."); return; }
+            if (code !== CONFIG.ALLIANCE_CODE) { alert("INVALID ALLIANCE SECRET KEY."); return; }
+            
+            setBusy(true);
+            await initializeDraft();
+            return;
+        }
+
+        // Mascot Registration Trigger
+        const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
+        if (STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase()) {
+            setBusy(true);
+            await initializeDraft();
+            return;
+        }
+        
+        setBusy(true);
         let pokeId = Math.random() < 0.3 ? CONFIG.LEGENDARY_IDS[Math.floor(Math.random() * CONFIG.LEGENDARY_IDS.length)] : Math.floor(Math.random() * CONFIG.MAX_CLASS_ID) + 1;
         const [pData, sData] = await Promise.all([
             fetch(`${CONFIG.API_BASE}${pokeId}`).then(res => res.json()),
@@ -455,66 +484,70 @@ async function startSummon() {
         ]);
         await triggerRevealSequence(pData, sData);
     } catch (e) {
-        ELEMENTS.summonBtn.disabled = false;
+        console.error("Summon Error:", e);
+        if (e.name === 'AbortError') alert("CONNECTION TIMEOUT: REGISTRY SERVER IS SLOW.");
+        else alert("CONNECTION ERROR: UNABLE TO REACH OAK'S LAB.");
+    } finally {
+        setBusy(false);
     }
 }
 
 async function initializeDraft() {
-    try {
-        const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
-        const isROLMascot = STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
-        const requiredCount = isROLMascot ? 14 : 10;
+    const mascotKey = ELEMENTS.mascotCodeInput ? ELEMENTS.mascotCodeInput.value.trim() : '';
+    const isROLMascot = STATE.access === 'aspirant' && mascotKey.toUpperCase() === CONFIG.MASCOT_CODE.toUpperCase();
+    const requiredCount = isROLMascot ? 14 : 10;
 
-        const fullPool = Array.from({length: CONFIG.MAX_NATIONAL_ID}, (_, i) => i + 1);
-        const response = await fetch(`${CONFIG.BACKEND_URL}/get_available_draft`, {
-            method: 'POST', headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ pool: fullPool, count: requiredCount })
-        });
-        STATE.draftPool = await response.json();
-        STATE.selectedDraftIds = [];
-        STATE.discoveredCount = 0;
+    const fullPool = Array.from({length: CONFIG.MAX_NATIONAL_ID}, (_, i) => i + 1);
+    const response = await fetchWithTimeout(`${CONFIG.BACKEND_URL}/get_available_draft`, {
+        method: 'POST', headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ pool: fullPool, count: requiredCount }),
+        timeout: 15000
+    });
+    if (!response.ok) throw new Error("Server Error");
+    STATE.draftPool = await response.json();
+    STATE.selectedDraftIds = [];
+    STATE.discoveredCount = 0;
 
-        // Update selection UI label and instructions
-        const selLabel = document.getElementById('draft-status');
-        if (selLabel) {
-            selLabel.innerHTML = `Selected: <span id="selection-count" class="text-pkm-yellow">0</span>/${STATE.access === 'member' ? '6' : '1'}`;
-        }
+    // Update selection UI label and instructions
+    const selLabel = document.getElementById('draft-status');
+    if (selLabel) {
+        selLabel.innerHTML = `Selected: <span id="selection-count" class="text-pkm-yellow">0</span>/${STATE.access === 'member' ? '6' : '1'}`;
+    }
 
-        if (ELEMENTS.draftSubtitle) {
-            if (STATE.access === 'aspirant') {
-                ELEMENTS.draftSubtitle.textContent = isROLMascot 
-                    ? `Identify ${STATE.draftPool.length} mystery specimens and claim your mascot`
-                    : `Spin ${STATE.draftPool.length} times and discover your potential`;
-            } else {
-                ELEMENTS.draftSubtitle.textContent = `Spin ${STATE.draftPool.length} times and choose your Squad of 6`;
-            }
-        }
-
-
-        // Mascot specific Discovery Mode
-        if (isROLMascot) {
-            if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.remove('hidden');
-            if (ELEMENTS.discoveryCount) ELEMENTS.discoveryCount.textContent = "0";
-            if (ELEMENTS.discoveryTotal) ELEMENTS.discoveryTotal.textContent = STATE.draftPool.length;
-            if (ELEMENTS.discoveryBtn) {
-                ELEMENTS.discoveryBtn.disabled = false;
-                ELEMENTS.discoveryBtn.textContent = "Scan Next Specimen";
-            }
-            if (ELEMENTS.profileUploadSection) {
-                ELEMENTS.profileUploadSection.classList.add('hidden');
-                ELEMENTS.profileUploadSection.style.display = 'none';
-            }
-            const confirmBtn = document.getElementById('confirm-squad-btn');
-            if (confirmBtn) confirmBtn.classList.add('hidden'); // Hide until discovery done
+    if (ELEMENTS.draftSubtitle) {
+        if (STATE.access === 'aspirant') {
+            ELEMENTS.draftSubtitle.textContent = isROLMascot 
+                ? `Identify ${STATE.draftPool.length} mystery specimens and claim your mascot`
+                : `Spin ${STATE.draftPool.length} times and discover your potential`;
         } else {
-            if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.add('hidden');
-            const confirmBtn = document.getElementById('confirm-squad-btn');
-            if (confirmBtn) confirmBtn.classList.remove('hidden');
+            ELEMENTS.draftSubtitle.textContent = `Spin ${STATE.draftPool.length} times and choose your Squad of 6`;
         }
+    }
 
-        renderDraftPool();
-        toggleView('draft-screen');
-    } catch (e) { alert("DRAFT SERVER OFFLINE."); }
+
+    // Mascot specific Discovery Mode
+    if (isROLMascot) {
+        if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.remove('hidden');
+        if (ELEMENTS.discoveryCount) ELEMENTS.discoveryCount.textContent = "0";
+        if (ELEMENTS.discoveryTotal) ELEMENTS.discoveryTotal.textContent = STATE.draftPool.length;
+        if (ELEMENTS.discoveryBtn) {
+            ELEMENTS.discoveryBtn.disabled = false;
+            ELEMENTS.discoveryBtn.textContent = "Scan Next Specimen";
+        }
+        if (ELEMENTS.profileUploadSection) {
+            ELEMENTS.profileUploadSection.classList.add('hidden');
+            ELEMENTS.profileUploadSection.style.display = 'none';
+        }
+        const confirmBtn = document.getElementById('confirm-squad-btn');
+        if (confirmBtn) confirmBtn.classList.add('hidden'); // Hide until discovery done
+    } else {
+        if (ELEMENTS.discoveryControls) ELEMENTS.discoveryControls.classList.add('hidden');
+        const confirmBtn = document.getElementById('confirm-squad-btn');
+        if (confirmBtn) confirmBtn.classList.remove('hidden');
+    }
+
+    renderDraftPool();
+    toggleView('draft-screen');
 }
 
 async function discoverNextMascot() {
@@ -1012,13 +1045,36 @@ async function resetRegistry() {
 
 /* --- ADMIN FUNCTIONS --- */
 
-async function adminLogin() {
-    const key = prompt("ENTER ADMIN ACCESS KEY:");
-    if (!key) return;
+function openAdminModal() {
+    const modal = document.getElementById('admin-modal');
+    const input = document.getElementById('admin-passcode');
+    if (modal) {
+        modal.classList.remove('hidden');
+        document.getElementById('main-ui').classList.add('blur-bg');
+        if (input) {
+            input.value = '';
+            input.focus();
+        }
+    }
+}
+
+function closeAdminModal() {
+    const modal = document.getElementById('admin-modal');
+    if (modal) {
+        modal.classList.add('hidden');
+        document.getElementById('main-ui').classList.remove('blur-bg');
+    }
+}
+
+async function handleAdminLogin() {
+    const input = document.getElementById('admin-passcode');
+    const key = input ? input.value.trim() : '';
     
     if (key === CONFIG.ALLIANCE_CODE) {
         STATE.isAdmin = true;
+        closeAdminModal();
         alert("ACCESS GRANTED: ADMIN MODE ACTIVE.");
+        
         // If we are currently viewing the hall, refresh it
         if (STATE.currentView === 'hall-of-leaders') {
             await fetchAndRenderLeaders();
@@ -1027,8 +1083,22 @@ async function adminLogin() {
         }
     } else {
         alert("ACCESS DENIED: INVALID KEY.");
+        if (input) input.value = '';
     }
 }
+
+// Add Event Listeners for Admin Modal
+document.addEventListener('DOMContentLoaded', () => {
+    const submitBtn = document.getElementById('admin-submit-btn');
+    const passInput = document.getElementById('admin-passcode');
+    
+    if (submitBtn) submitBtn.onclick = handleAdminLogin;
+    if (passInput) {
+        passInput.onkeypress = (e) => {
+            if (e.key === 'Enter') handleAdminLogin();
+        };
+    }
+});
 
 async function updateLeaderProfilePic(alias) {
     if (!STATE.isAdmin) return;

@@ -381,3 +381,22 @@ body::after {
         padding-top: env(safe-area-inset-top);
     }
 }
+
+/* --- ADMIN MODAL PREMIUM POLISH --- */
+#admin-modal {
+    transition: all 0.5s ease;
+}
+
+#admin-modal input::placeholder {
+    letter-spacing: normal;
+    font-size: 0.8rem;
+    color: rgba(49, 167, 215, 0.2);
+}
+
+#admin-modal .bg-gradient-to-b {
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.8), 0 0 40px rgba(49, 167, 215, 0.1);
+}
+
+#admin-passcode {
+    text-shadow: 0 0 10px rgba(49, 167, 215, 0.5);
+}
