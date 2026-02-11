@@ -397,6 +397,14 @@ body::after {
     box-shadow: 0 0 100px rgba(0, 0, 0, 0.8), 0 0 40px rgba(49, 167, 215, 0.1);
 }
 
-#admin-passcode {
+#admin-passcode, #confirm-modal-input {
     text-shadow: 0 0 10px rgba(49, 167, 215, 0.5);
+}
+
+#confirm-modal-input {
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+#confirm-modal-input:focus {
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.4), 0 0 20px rgba(49, 167, 215, 0.1);
 }

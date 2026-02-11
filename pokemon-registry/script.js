@@ -363,14 +363,14 @@ async function updateLeaderProfilePic(alias) {
             });
 
             if (updateRes.ok) {
-                alert("✅ Profile picture updated successfully!");
+                await showAlert("Success", "Profile picture updated successfully!", "success");
                 fetchAndRenderLeaders();
             } else {
-                alert("❌ Update failed.");
+                await showAlert("Update Failed", "Profile picture update failed.", "danger");
             }
         } catch (err) {
             console.error(err);
-            alert("❌ Error uploading file.");
+            await showAlert("Sync Error", "Error uploading file.", "danger");
         }
     };
     input.click();
@@ -447,7 +447,7 @@ initBackground();
 async function startSummon() {
     const castleName = ELEMENTS.castleName.value.trim();
     if (!castleName) {
-        alert("PLEASE ENTER YOUR CASTLE NAME.");
+        await showAlert("Entry Required", "PLEASE ENTER YOUR CASTLE NAME TO BEGIN REGISTRATION.", "warning");
         return;
     }
 
@@ -799,7 +799,7 @@ async function finalizeSquad() {
         if (isMascotMode) {
             if (ELEMENTS.resultHeader) ELEMENTS.resultHeader.querySelector('span').textContent = "Mascot Registered";
             if (ELEMENTS.resultBadge) ELEMENTS.resultBadge.classList.remove('hidden');
-            alert("YOUR SIGNATURE MASCOT HAS BEEN REGISTERED!");
+            await showAlert("Registration Success", "YOUR SIGNATURE MASCOT HAS BEEN REGISTERED!", "success");
         }
 
         setBusy(false);
@@ -811,7 +811,7 @@ async function finalizeSquad() {
     } catch (e) {
         setBusy(false);
         console.error("Finalize Error:", e);
-        alert(`SQUAD SYNC FAILURE: ${e.message}`);
+        await showAlert("Registry Failure", `SQUAD SYNC FAILURE: ${e.message}`, "danger");
     }
 }
 
@@ -928,28 +928,91 @@ async function fetchAndRenderLeaders() {
     }
 }
 
-// --- Custom Confirmation Modal Logic ---
-function showConfirm(title, message) {
+// --- Custom Popup Modal Logic ---
+async function showAlert(title, message, type = 'warning') {
+    return showPopup(title, message, { mode: 'alert', type });
+}
+
+async function showConfirm(title, message, type = 'danger') {
+    return showPopup(title, message, { mode: 'confirm', type });
+}
+
+async function showPrompt(title, message, defaultValue = '', type = 'info') {
+    return showPopup(title, message, { mode: 'prompt', type, defaultValue });
+}
+
+function showPopup(title, message, options = {}) {
+    const { mode = 'alert', type = 'info', defaultValue = '' } = options;
     return new Promise((resolve) => {
         const modal = document.getElementById('confirm-modal');
         const titleEl = document.getElementById('confirm-modal-title');
         const msgEl = document.getElementById('confirm-modal-message');
         const cancelBtn = document.getElementById('confirm-modal-cancel');
         const proceedBtn = document.getElementById('confirm-modal-proceed');
+        const inputContainer = document.getElementById('confirm-modal-input-container');
+        const input = document.getElementById('confirm-modal-input');
+        const icon = document.getElementById('confirm-modal-icon');
+        const iconBg = document.getElementById('confirm-modal-icon-bg');
 
         titleEl.textContent = title;
         msgEl.textContent = message;
+        
+        // Setup Icon and Visuals based on type
+        const colors = {
+            danger: { bg: 'bg-pkm-red/10', border: 'border-pkm-red/20', icon: 'fa-triangle-exclamation', iconColor: 'text-pkm-red', bar: 'border-t-pkm-red', btn: 'bg-pkm-red' },
+            warning: { bg: 'bg-pkm-yellow/10', border: 'border-pkm-yellow/20', icon: 'fa-circle-exclamation', iconColor: 'text-pkm-yellow', bar: 'border-t-pkm-yellow', btn: 'bg-pkm-yellow' },
+            success: { bg: 'bg-pkm-blue/10', border: 'border-pkm-blue/20', icon: 'fa-circle-check', iconColor: 'text-pkm-blue', bar: 'border-t-pkm-blue', btn: 'bg-pkm-blue' },
+            info: { bg: 'bg-white/5', border: 'border-white/10', icon: 'fa-circle-info', iconColor: 'text-white/40', bar: 'border-t-white/20', btn: 'bg-pkm-blue' }
+        };
+        const config = colors[type] || colors.info;
+        
+        if (icon) icon.className = `fa-solid ${config.icon} ${config.iconColor} text-2xl`;
+        if (iconBg) iconBg.className = `w-16 h-16 ${config.bg} rounded-full flex items-center justify-center mx-auto mb-4 border ${config.border}`;
+        
+        const modalContent = modal.querySelector('div.anim-modal-entrance');
+        if (modalContent) {
+            // Precise replacement of border-t classes
+            modalContent.classList.remove('border-t-pkm-red', 'border-t-pkm-yellow', 'border-t-pkm-blue', 'border-t-white/20');
+            modalContent.classList.add(config.bar);
+        }
+
+        // Setup Mode
+        if (mode === 'alert') {
+            cancelBtn.classList.add('hidden');
+            inputContainer.classList.add('hidden');
+            proceedBtn.textContent = 'Acknowledged';
+        } else if (mode === 'confirm') {
+            cancelBtn.classList.remove('hidden');
+            inputContainer.classList.add('hidden');
+            cancelBtn.textContent = 'Abort';
+            proceedBtn.textContent = 'Proceed';
+        } else if (mode === 'prompt') {
+            cancelBtn.classList.remove('hidden');
+            inputContainer.classList.remove('hidden');
+            input.value = defaultValue;
+            cancelBtn.textContent = 'Cancel';
+            proceedBtn.textContent = 'Submit';
+            setTimeout(() => input.focus(), 100);
+        }
+
+        // Apply Button Style
+        proceedBtn.className = proceedBtn.className.replace(/bg-pkm-\w+/g, config.btn);
+
         modal.classList.remove('hidden');
 
         const cleanup = (result) => {
             modal.classList.add('hidden');
             cancelBtn.onclick = null;
             proceedBtn.onclick = null;
+            input.onkeypress = null;
             resolve(result);
         };
 
-        cancelBtn.onclick = () => cleanup(false);
-        proceedBtn.onclick = () => cleanup(true);
+        cancelBtn.onclick = () => cleanup(mode === 'prompt' ? null : false);
+        proceedBtn.onclick = () => cleanup(mode === 'prompt' ? input.value : true);
+        if (mode === 'prompt') {
+            input.onkeypress = (e) => { if (e.key === 'Enter') cleanup(input.value); };
+        }
     });
 }
 
@@ -1104,7 +1167,7 @@ async function handleAdminLogin() {
     if (key === CONFIG.ALLIANCE_CODE) {
         STATE.isAdmin = true;
         closeAdminModal();
-        alert("ACCESS GRANTED: ADMIN MODE ACTIVE.");
+        await showAlert("Access Granted", "ADMIN MODE ACTIVE. WELCOME, COMMANDER.", "success");
         
         // If we are currently viewing the hall, refresh it
         if (STATE.currentView === 'hall-of-leaders') {
@@ -1113,7 +1176,7 @@ async function handleAdminLogin() {
             toggleView('hall-of-leaders');
         }
     } else {
-        alert("ACCESS DENIED: INVALID KEY.");
+        await showAlert("Access Denied", "INVALID SECURITY KEY. AUTHORIZATION FAILED.", "danger");
         if (input) input.value = '';
     }
 }
@@ -1166,15 +1229,15 @@ async function updateLeaderProfilePic(alias) {
                 });
                 
                 if (updateRes.ok) {
-                    alert(`Profile picture for ${alias} updated successfully!`);
+                    await showAlert("Success", `Profile picture for ${alias} updated successfully!`, "success");
                     await fetchAndRenderLeaders(); // Refresh the list
                 } else {
-                    alert("Database update failed.");
+                    await showAlert("Database Error", "Database update failed.", "danger");
                 }
             }
         } catch (err) {
             console.error(err);
-            alert("Error updating profile picture.");
+            await showAlert("Network Error", "Error updating profile picture.", "danger");
         }
     };
     
@@ -1184,7 +1247,7 @@ async function updateLeaderProfilePic(alias) {
 async function updateLeaderLevel(alias) {
     if (!STATE.isAdmin) return;
     
-    const newLevel = prompt(`Enter new Castle Level for ${alias}:`);
+    const newLevel = await showPrompt("Level Calibration", `Enter new Castle Level for ${alias}:`, "");
     if (newLevel === null || newLevel.trim() === "") return;
     
     try {
@@ -1198,13 +1261,13 @@ async function updateLeaderLevel(alias) {
         });
         
         if (res.ok) {
-            alert(`Castle Level for ${alias} updated to ${newLevel}!`);
+            await showAlert("Success", `Castle Level for ${alias} updated to ${newLevel}!`, "success");
             await fetchAndRenderLeaders();
         } else {
-            alert("Failed to update level.");
+            await showAlert("Update Failed", "Failed to update level.", "danger");
         }
     } catch (err) {
         console.error(err);
-        alert("Error connecting to server.");
+        await showAlert("Connection Error", "Error connecting to server.", "danger");
     }
 }
