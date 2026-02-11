@@ -144,8 +144,8 @@ body::after {
 
 /* Base UI Transitions */
 #main-ui.blur-bg {
-    filter: blur(20px) brightness(0.5);
-    transform: scale(0.95);
+    filter: blur(4px) brightness(0.5);
+    transform: scale(0.98);
 }
 
 /* --- CONSOLIDATED & CLEAN UI --- */
