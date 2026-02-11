@@ -15,7 +15,7 @@ DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'registry.db'
 
 @app.route('/ping')
 def ping():
-    return jsonify({"status": "online", "version": "4.1.0", "timestamp": "2026-02-11 16:25"})
+    return jsonify({"status": "online", "version": "4.1.2", "timestamp": "2026-02-11 16:55"})
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
@@ -370,11 +370,51 @@ def admin_list_leaders():
         return jsonify({"error": "Unauthorized"}), 403
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute("SELECT alias, castle_name, castle_level, character, squad, profile_pic, timestamp FROM global_registry WHERE squad IS NOT NULL")
+    c.execute("SELECT alias, castle_name, castle_level, character, squad, profile_pic, timestamp FROM squad_registry")
     rows = c.fetchall()
     conn.close()
     leaders = [{"alias": r[0], "castle_name": r[1], "castle_level": r[2], "character": r[3], "squad": r[4], "profile_pic": r[5], "timestamp": r[6]} for r in rows]
     return jsonify(leaders)
+
+@app.route('/admin/update_squad', methods=['POST'])
+def admin_update_squad():
+    key = request.args.get('key')
+    if key != ADMIN_KEY:
+        return jsonify({"error": "Unauthorized"}), 403
+    
+    data = request.get_json()
+    alias = data.get('alias')
+    updates = {
+        "castle_level": data.get('castle_level'),
+        "profile_pic": data.get('profile_pic'),
+        "character": data.get('character'),
+        "identity": data.get('identity')
+    }
+    
+    if not alias:
+        return jsonify({"error": "Missing alias"}), 400
+        
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    
+    # Dynamically build UPDATE query
+    fields = []
+    values = []
+    for k, v in updates.items():
+        if v is not None:
+            fields.append(f"{k} = ?")
+            values.append(v)
+    
+    if not fields:
+        return jsonify({"error": "No updates provided"}), 400
+        
+    values.append(alias)
+    query = f"UPDATE squad_registry SET {', '.join(fields)} WHERE alias = ?"
+    c.execute(query, tuple(values))
+    conn.commit()
+    conn.close()
+    
+    return jsonify({"status": "updated", "alias": alias})
 
 @app.route('/admin/delete_leader/<alias>', methods=['DELETE'])
 def admin_delete_leader(alias):
@@ -384,12 +424,13 @@ def admin_delete_leader(alias):
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     # Release their claimed pokémon back to the pool
-    c.execute("SELECT squad FROM global_registry WHERE alias = ?", (alias,))
+    c.execute("SELECT squad FROM squad_registry WHERE alias = ?", (alias,))
     row = c.fetchone()
     if row and row[0]:
         for pid in row[0].split(','):
             c.execute("DELETE FROM claimed_pokemon WHERE pokemon_id = ?", (int(pid.strip()),))
-    c.execute("DELETE FROM global_registry WHERE alias = ?", (alias,))
+    c.execute("DELETE FROM squad_registry WHERE alias = ?", (alias,))
+    c.execute("DELETE FROM mascot_registry WHERE alias = ?", (alias,))
     conn.commit()
     conn.close()
     return jsonify({"status": "deleted", "alias": alias})
@@ -409,7 +450,7 @@ def admin_update_profile_pic():
         
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute("UPDATE global_registry SET profile_pic = ? WHERE alias = ?", (new_pic_url, alias))
+    c.execute("UPDATE squad_registry SET profile_pic = ? WHERE alias = ?", (new_pic_url, alias))
     conn.commit()
     conn.close()
     
@@ -423,7 +464,7 @@ def admin_fix_kiatura():
     
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute("UPDATE global_registry SET profile_pic = ? WHERE alias = ?", ("/uploads/Kiatura_profile.webp", "Kiatura"))
+    c.execute("UPDATE squad_registry SET profile_pic = ? WHERE alias = ?", ("/uploads/Kiatura_profile.webp", "Kiatura"))
     conn.commit()
     conn.close()
     return "✅ Kiatura profile picture has been fixed! Refresh the Hall of Leaders."
