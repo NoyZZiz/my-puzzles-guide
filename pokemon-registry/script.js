@@ -873,6 +873,9 @@ async function fetchAndRenderLeaders() {
                             <p class="text-[9px] text-white/40 uppercase tracking-widest">Gym Boss // ${leader.character}</p>
                             <span class="w-1 h-1 bg-white/10 rounded-full"></span>
                             <p class="text-[9px] text-pkm-blue uppercase font-bold">Lvl ${leader.castle_level}</p>
+                            ${STATE.isAdmin ? 
+                                `<i onclick="event.stopPropagation(); updateLeaderLevel('${safeAlias}')" class="fa-solid fa-pen-to-square text-[8px] text-white/30 hover:text-pkm-blue transition-colors cursor-pointer ml-1"></i>` : ''
+                            }
                         </div>
                     </div>
                     <i class="fa-solid fa-chevron-down text-white/20 text-xs transition-transform duration-300 expand-icon"></i>
@@ -1176,4 +1179,32 @@ async function updateLeaderProfilePic(alias) {
     };
     
     input.click();
+}
+
+async function updateLeaderLevel(alias) {
+    if (!STATE.isAdmin) return;
+    
+    const newLevel = prompt(`Enter new Castle Level for ${alias}:`);
+    if (newLevel === null || newLevel.trim() === "") return;
+    
+    try {
+        const res = await fetch(`${CONFIG.BACKEND_URL}/admin/update_squad?key=${CONFIG.ALLIANCE_CODE}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                alias: alias,
+                castle_level: newLevel.trim()
+            })
+        });
+        
+        if (res.ok) {
+            alert(`Castle Level for ${alias} updated to ${newLevel}!`);
+            await fetchAndRenderLeaders();
+        } else {
+            alert("Failed to update level.");
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Error connecting to server.");
+    }
 }
