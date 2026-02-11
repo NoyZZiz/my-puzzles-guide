@@ -15,23 +15,35 @@ DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'registry.db'
 
 @app.route('/ping')
 def ping():
-    return jsonify({"status": "online", "version": "4.0.6", "timestamp": "2026-02-11 05:08"})
+    return jsonify({"status": "online", "version": "4.1.0", "timestamp": "2026-02-11 16:25"})
 
 def init_db():
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS global_registry
-                 (alias TEXT PRIMARY KEY, identity TEXT, pool TEXT, house TEXT, timestamp TEXT, squad TEXT, character TEXT, castle_name TEXT, castle_level INTEGER, lore TEXT, profile_pic TEXT, mascot_id INTEGER)''')
     
-    # Migration: Check if mascot_id column exists, if not add it
-    c.execute("PRAGMA table_info(global_registry)")
-    columns = [row[1] for row in c.fetchall()]
-    if 'mascot_id' not in columns:
-        print("[MIGRATION] Adding mascot_id column to global_registry")
-        c.execute("ALTER TABLE global_registry ADD COLUMN mascot_id INTEGER")
-        
+    # 1. NEW Mascot Registry (Fully Isolated)
+    c.execute('''CREATE TABLE IF NOT EXISTS mascot_registry
+                 (alias TEXT PRIMARY KEY, mascot_id INTEGER, timestamp TEXT)''')
+    
+    # 2. NEW Squad Registry (Fully Isolated)
+    c.execute('''CREATE TABLE IF NOT EXISTS squad_registry
+                 (alias TEXT PRIMARY KEY, identity TEXT, squad TEXT, character TEXT, 
+                  castle_name TEXT, castle_level INTEGER, lore TEXT, profile_pic TEXT, timestamp TEXT)''')
+    
+    # 3. Claims Tracking (Shared)
     c.execute('''CREATE TABLE IF NOT EXISTS claimed_pokemon
                  (pokemon_id INTEGER PRIMARY KEY, claimed_by TEXT)''')
+    
+    # MIGRATION: Logic to move data from old 'global_registry' to new tables
+    c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='global_registry'")
+    if c.fetchone():
+        print("[MIGRATION] Backfilling new tables from global_registry...")
+        # Backfill Mascots
+        c.execute("INSERT OR IGNORE INTO mascot_registry (alias, mascot_id, timestamp) SELECT alias, mascot_id, timestamp FROM global_registry WHERE mascot_id IS NOT NULL")
+        # Backfill Squads
+        c.execute("INSERT OR IGNORE INTO squad_registry (alias, identity, squad, character, castle_name, castle_level, lore, profile_pic, timestamp) SELECT alias, identity, squad, character, castle_name, castle_level, lore, profile_pic, timestamp FROM global_registry WHERE squad IS NOT NULL AND squad != ''")
+        print("[MIGRATION] Backfill complete.")
+        
     conn.commit()
     conn.close()
 
@@ -198,8 +210,6 @@ def save_global_assignment():
     data = request.get_json()
     alias = data.get('alias')
     identity = data.get('identity')
-    pool = data.get('pool')
-    house = data.get('house')
     squad = data.get('squad') # Comma separated IDs
     character = data.get('character')
     castle_name = data.get('castle_name')
@@ -208,21 +218,26 @@ def save_global_assignment():
     profile_pic = data.get('profile_pic')
     mascot_id = data.get('mascot_id') # New single pick
     
+    timestamp = time.strftime('%Y-%m-%d %H:%M:%S')
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
     try:
-        # Save Registry Data
-        c.execute("INSERT OR REPLACE INTO global_registry VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                  (alias, identity, pool, house, time.strftime('%Y-%m-%d %H:%M:%S'), squad, character, castle_name, castle_level, lore, profile_pic, mascot_id))
+        # ARCHITECTURE UPGRADE: Route data to separate tables
         
-        # Mark IDs as claimed
-        if squad:
+        # 1. Handle Mascot (Aspirant Flow)
+        if mascot_id:
+            c.execute("INSERT OR REPLACE INTO mascot_registry VALUES (?, ?, ?)",
+                      (alias, mascot_id, timestamp))
+            c.execute("INSERT OR IGNORE INTO claimed_pokemon (pokemon_id, claimed_by) VALUES (?, ?)", (int(mascot_id), alias))
+            
+        # 2. Handle Squad (Alliance Flow)
+        if squad and len(squad.split(',')) >= 6:
+            c.execute("INSERT OR REPLACE INTO squad_registry VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                      (alias, identity, squad, character, castle_name, castle_level, lore, profile_pic, timestamp))
+            
             ids = squad.split(',')
             for p_id in ids:
                 c.execute("INSERT OR IGNORE INTO claimed_pokemon (pokemon_id, claimed_by) VALUES (?, ?)", (int(p_id), alias))
-        
-        if mascot_id:
-            c.execute("INSERT OR IGNORE INTO claimed_pokemon (pokemon_id, claimed_by) VALUES (?, ?)", (int(mascot_id), alias))
         
         conn.commit()
         return jsonify({"success": True})
@@ -236,7 +251,8 @@ def get_gym_leaders():
     conn = sqlite3.connect(DB_PATH)
     try:
         c = conn.cursor()
-        c.execute("SELECT alias, squad, character, castle_name, castle_level, lore, profile_pic FROM global_registry WHERE squad IS NOT NULL")
+        # Only show leaders with a full squad from the squad_registry
+        c.execute("SELECT alias, squad, character, castle_name, castle_level, lore, profile_pic FROM squad_registry")
         rows = c.fetchall()
         leaders = [{"name": r[0], "squad": r[1].split(','), "character": r[2], "castle_name": r[3], "castle_level": r[4], "lore": r[5], "profile_pic": r[6]} for r in rows]
         return jsonify(leaders)
