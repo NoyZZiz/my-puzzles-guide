@@ -18,6 +18,7 @@ def audit_and_recover():
     claims = c.fetchall()
 
     recovered_count = 0
+    updated_count = 0
     for alias, ids_str in claims:
         ids = ids_str.split(',')
         if len(ids) >= 6:
@@ -75,10 +76,11 @@ def audit_and_recover():
                         WHERE alias = ?
                     """, (identity, char, castle_level, profile_pic, alias))
                     print(f"  UPDATED existing squad for {alias} with salvaged metadata.")
+                    updated_count += 1
 
     conn.commit()
     conn.close()
-    print(f"--- Final Recovery Complete: {recovered_count} squads added/fixed ---")
+    print(f"--- Final Recovery Complete: {recovered_count} added, {updated_count} fixed ---")
 
 if __name__ == "__main__":
     audit_and_recover()

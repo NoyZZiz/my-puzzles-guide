@@ -1,30 +1,23 @@
 import sqlite3
+import json
 import os
 
-db_path = 'c:/Users/NOY/OneDrive/Documents/GitHub/my-puzzles-guide/my-puzzles-guide/registry.db'
+db_path = r'c:\Users\NOY\OneDrive\Documents\GitHub\my-puzzles-guide\my-puzzles-guide\registry.db'
 
-def check_aliases(aliases):
+def get_all(table, cursor):
+    cursor.execute(f'PRAGMA table_info({table})')
+    cols = [col[1] for col in cursor.fetchall()]
+    cursor.execute(f'SELECT * FROM {table}')
+    return [dict(zip(cols, row)) for row in cursor.fetchall()]
+
+if os.path.exists(db_path):
     conn = sqlite3.connect(db_path)
     c = conn.cursor()
-    results = {}
-    for alias in aliases:
-        c.execute("SELECT * FROM global_registry WHERE alias = ?", (alias,))
-        row = c.fetchone()
-        if row:
-            results[alias] = row
-        else:
-            # Try case-insensitive
-            c.execute("SELECT * FROM global_registry WHERE alias LIKE ?", (alias,))
-            rows = c.fetchall()
-            if rows:
-                results[alias] = rows
-            else:
-                results[alias] = None
+    data = {
+        'registrations': get_all('global_registry', c),
+        'claims': get_all('claimed_pokemon', c)
+    }
+    print(json.dumps(data, indent=2))
     conn.close()
-    return results
-
-if __name__ == "__main__":
-    aliases_to_check = ['I\'m noot', 'noot', 'noothless', 'Noothless', 'testing']
-    data = check_aliases(aliases_to_check)
-    for alias, result in data.items():
-        print(f"{alias}: {result}")
+else:
+    print(f"Error: {db_path} not found")

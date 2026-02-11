@@ -21,22 +21,40 @@ def recover_data():
     recovered_count = 0
     for alias, ids_str in claims:
         ids = ids_str.split(',')
-        # We are looking for users who have 6 or more pokemon (Squad + Mascot)
         if len(ids) >= 6:
             # Check if they already exist in the new squad_registry
             c.execute("SELECT alias FROM squad_registry WHERE alias = ?", (alias,))
             if not c.fetchone():
-                # They are missing from the Hall! Let's rebuild them.
-                # First 6 IDs are likely the squad
+                # Rebuild squad
                 squad = ",".join(ids[:6])
-                print(f"RESCUE: Found squad for {alias} in lock-table. Restoring...")
+                print(f"RESCUE: Found squad for {alias} in lock-table. Salvaging metadata...")
                 
-                # We'll use a placeholder for identity/character since that was lost, 
-                # but they can edit it later. The important part is the POKEMON are back.
+                # Try to salvage identity/profile_pic/castle_level from old table
+                identity = "Recovered Alliance Member"
+                char = "Trainer"
+                castle_name = alias
+                castle_level = "N/A"
+                lore = ""
+                profile_pic = ""
+                
+                try:
+                    c.execute("SELECT identity, character, castle_name, castle_level, lore, profile_pic FROM global_registry WHERE alias = ?", (alias,))
+                    old_data = c.fetchone()
+                    if old_data:
+                        # Use old data but override identity if it says 'Aspirant Mascot'
+                        identity = old_data[0] if old_data[0] != 'Aspirant Mascot' else "Recovered Alliance Member"
+                        char = old_data[1] or char
+                        castle_name = old_data[2] or castle_name
+                        castle_level = old_data[3] or castle_level
+                        lore = old_data[4] or lore
+                        profile_pic = old_data[5] or profile_pic
+                except:
+                    pass # Table might be gone or schema different
+                
                 c.execute("""
-                    INSERT INTO squad_registry (alias, identity, squad, timestamp) 
-                    VALUES (?, ?, ?, ?)
-                """, (alias, "Recovered Alliance Member", squad, "2026-02-11 RECOVERY"))
+                    INSERT INTO squad_registry (alias, identity, squad, character, castle_name, castle_level, lore, profile_pic, timestamp) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """, (alias, identity, squad, char, castle_name, castle_level, lore, profile_pic, "2026-02-11 RECOVERY"))
                 recovered_count += 1
 
     conn.commit()
