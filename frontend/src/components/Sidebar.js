@@ -23,7 +23,13 @@ export default function Sidebar() {
         setTimeout(() => setSubscribed(false), 5000);
       }
     } catch (err) {
-      console.error('Subscribe error:', err);
+      // Fallback: store locally if backend is not available (GitHub Pages)
+      const subs = JSON.parse(localStorage.getItem('noyzzing_subs') || '[]');
+      subs.push({ email: email.trim(), date: new Date().toISOString() });
+      localStorage.setItem('noyzzing_subs', JSON.stringify(subs));
+      setSubscribed(true);
+      setEmail('');
+      setTimeout(() => setSubscribed(false), 5000);
     }
     setLoading(false);
   };
