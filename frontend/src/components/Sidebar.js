@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AdSlot from './AdSlot';
+import MonetizationBanner from './MonetizationBanner';
 
 export default function Sidebar() {
   const [email, setEmail] = useState('');
@@ -31,7 +31,7 @@ export default function Sidebar() {
   return (
     <>
       {/* Sidebar Ad */}
-      <AdSlot type="sidebar" />
+      <MonetizationBanner type="sidebar" />
 
       {/* Commander Profile */}
       <div data-testid="commander-profile" className="glass-panel rounded-lg p-6 relative overflow-hidden">
@@ -70,16 +70,47 @@ export default function Sidebar() {
           Delivering top-tier strategy and operational guides for the alliance community.
         </p>
 
-        <a
-          href="https://discord.gg/BX95Q38C"
-          target="_blank"
-          rel="noopener noreferrer"
-          data-testid="sidebar-discord-link"
-          className="block w-full bg-[#020617] hover:bg-[#fbbf24] hover:text-black text-gray-300 text-center py-2 text-xs rounded transition-all border border-[#1e293b] hover:border-[#fbbf24]"
+        <div className="space-y-2">
+          <a
+            href="https://discord.gg/BX95Q38C"
+            target="_blank"
+            rel="noopener noreferrer"
+            data-testid="sidebar-discord-link"
+            className="block w-full bg-[#5865F2] hover:bg-[#4752C4] text-white text-center py-2 text-xs rounded transition-all"
+            style={{ fontFamily: 'JetBrains Mono, monospace' }}
+          >
+            <i className="fa-brands fa-discord mr-2" />
+            JOIN DISCORD
+          </a>
+        </div>
+      </div>
+
+      {/* Support / Buy Me a Coffee */}
+      <div data-testid="support-section" className="glass-panel rounded-lg p-6 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#FF813F] via-[#FFDD00] to-[#FF813F]" />
+        <h3
+          className="text-sm font-bold text-white mb-2 uppercase tracking-wide flex items-center gap-2"
+          style={{ fontFamily: 'Rajdhani, sans-serif' }}
+        >
+          <i className="fa-solid fa-mug-hot text-[#FFDD00]" />
+          Support the Commander
+        </h3>
+        <p
+          className="text-[10px] text-gray-500 mb-4 leading-relaxed"
           style={{ fontFamily: 'JetBrains Mono, monospace' }}
         >
-          <i className="fa-brands fa-discord mr-2" />
-          DISCORD
+          Free guides take hours to create. Fuel the mission with a coffee!
+        </p>
+        <a
+          href="https://www.buymeacoffee.com/noyzzing"
+          target="_blank"
+          rel="noopener noreferrer"
+          data-testid="buy-me-coffee-link"
+          className="block w-full bg-[#FFDD00] hover:bg-[#FFD000] text-black font-bold text-center py-3 text-xs uppercase tracking-wider rounded transition-all"
+          style={{ fontFamily: 'Rajdhani, sans-serif' }}
+        >
+          <i className="fa-solid fa-mug-hot mr-2" />
+          Buy Me a Coffee
         </a>
       </div>
 
@@ -164,7 +195,7 @@ export default function Sidebar() {
       </div>
 
       {/* Bottom Sidebar Ad */}
-      <AdSlot type="sidebar" />
+      <MonetizationBanner type="sidebar" />
     </>
   );
 }
