@@ -1,0 +1,152 @@
+{
+  "identity": {
+    "name": "E1",
+    "role": "Anti-AI Creative Designer",
+    "mission": "Create a unique, tactical, and high-performance gaming command center.",
+    "principles": [
+      "Fusion over Imitation: Mix Military UI with Sci-Fi HUD aesthetics.",
+      "Emotion First: The user should feel like a Commander in a war room.",
+      "Content is King: Data and Guides are the ammunition.",
+      "Negative Space: Use it to separate high-density data clusters.",
+      "Contrast: High contrast (Gold on Black) for readability and impact."
+    ]
+  },
+  "tech_stack": {
+    "framework": "React (Vite recommended for speed)",
+    "language": "JavaScript (ES6+) or TypeScript (preferred for data safety)",
+    "styling": "Tailwind CSS",
+    "components": "Shadcn/ui (Radix Primitives)",
+    "icons": "FontAwesome (migrating to Lucide-React or Phosphor Icons recommended for React)",
+    "animations": "Framer Motion (essential for HUD effects)"
+  },
+  "design_system": {
+    "theme": "dark",
+    "colors": {
+      "palette": {
+        "brand": {
+          "dark": "#020617",
+          "panel": "#0f172a",
+          "border": "#1e293b",
+          "gold": "#fbbf24",
+          "goldDim": "#b45309",
+          "text": "#e2e8f0",
+          "active": "#00dcd7",
+          "alert": "#ef4444"
+        },
+        "gradients": {
+          "gold_metal": "linear-gradient(135deg, #b45309 0%, #fbbf24 50%, #b45309 100%)",
+          "hud_scan": "linear-gradient(to bottom, transparent, rgba(251, 191, 36, 0.2), transparent)"
+        }
+      },
+      "usage": {
+        "background": "bg-brand-dark",
+        "surface": "bg-brand-panel/50 backdrop-blur-md border border-brand-border",
+        "primary_action": "bg-brand-gold text-black hover:bg-yellow-400 font-bold",
+        "secondary_action": "border border-brand-gold text-brand-gold hover:bg-brand-gold/10"
+      }
+    },
+    "typography": {
+      "fonts": {
+        "display": "Rajdhani, sans-serif",
+        "body": "Inter, sans-serif",
+        "mono": "JetBrains Mono, monospace"
+      },
+      "scale": {
+        "h1": "text-5xl md:text-7xl font-bold tracking-tight uppercase",
+        "h2": "text-3xl md:text-4xl font-bold uppercase tracking-wide",
+        "h3": "text-xl font-semibold tracking-wider",
+        "body": "text-base leading-relaxed text-gray-300",
+        "caption": "text-xs font-mono text-brand-gold/70 uppercase"
+      }
+    },
+    "spacing": {
+      "container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
+      "section_gap": "gap-8 md:gap-12"
+    },
+    "visual_enhancers": {
+      "borders": "border border-brand-border hover:border-brand-gold transition-colors duration-300",
+      "shadows": "shadow-[0_0_15px_rgba(251,191,36,0.1)]",
+      "glassmorphism": "backdrop-blur-xl bg-brand-dark/80 supports-[backdrop-filter]:bg-brand-dark/60"
+    }
+  },
+  "layout_strategy": {
+    "grid_system": "Bento Grid (The Tetris Grid)",
+    "rules": [
+      "Use 'grid-cols-1 md:grid-cols-12' for main dashboard layouts.",
+      "Hero section spans full width or 'col-span-8'.",
+      "Sidebar tools span 'col-span-4'.",
+      "Always use gap-6 or gap-8 to prevent clutter."
+    ]
+  },
+  "components": {
+    "header": {
+      "style": "Fixed, Glassmorphic, HUD-style",
+      "elements": [
+        "Logo: 'NOYZZING // OPS' (Text with Gold Accent)",
+        "Nav: Pill-shaped, centered",
+        "Actions: Search (Command Palette style), Theme Toggle (Ghost/Gift mode)"
+      ]
+    },
+    "cards": {
+      "guide_card": {
+        "structure": "Image top (40%), Content bottom (60%)",
+        "effects": "Hover: Border glows Gold, Image zooms slightly, 'Target Locked' corner markers appear."
+      },
+      "tool_card": {
+        "structure": "Icon top-right (large, opacity 10%), Title left, Action button bottom",
+        "effects": "Gradient border on hover."
+      }
+    },
+    "buttons": {
+      "primary": "Clip-path polygon shape (chamfered corners), bold text, pulsing glow effect on hover.",
+      "secondary": "Ghost button with 1px border, monospace font."
+    },
+    "ads": {
+      "strategy": "Containment Units",
+      "design": "Encapsulate ads in a 'Sponsored Intel' frame with a striped hazard border at the bottom to distinguish them from content. Maintain exact dimensions requested by AdSense."
+    }
+  },
+  "assets": {
+    "images": {
+      "hero_bg": "https://images.pexels.com/photos/4079878/pexels-photo-4079878.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "textures": {
+        "gold_metal": "https://images.unsplash.com/photo-1763930286396-51eb06f6f23a?crop=entropy&cs=srgb&fm=jpg&q=85",
+        "digital_grid": "https://images.unsplash.com/photo-1768157970697-bf2dabf3f914?crop=entropy&cs=srgb&fm=jpg&q=85"
+      },
+      "placeholders": {
+        "guide_military": "assets/images/Military.png",
+        "guide_troop": "assets/images/troop strength.png",
+        "guide_talent": "assets/images/talent.png",
+        "profile": "assets/images/noyzzing-logo.png"
+      }
+    },
+    "icons": {
+      "library": "Lucide React",
+      "mapping": {
+        "military": "Swords",
+        "calculator": "Calculator",
+        "bot": "Bot",
+        "alliance": "Shield",
+        "events": "Calendar",
+        "registry": "BookOpen"
+      }
+    }
+  },
+  "functionality_migration": {
+    "steps": [
+      "1. Initialize React project structure (Vite).",
+      "2. Install dependencies: tailwindcss, framer-motion, lucide-react, react-router-dom.",
+      "3. Create 'Layout' component with Header/Footer and Adsense slots.",
+      "4. Port 'index.html' content to 'Home.jsx' using the new Bento Grid components.",
+      "5. Convert 'calculator_logic.js' into a React Hook 'useTroopCalculator'.",
+      "6. Rebuild 'NoyzBot' as a floating React component using the existing Gemini/Groq API logic.",
+      "7. Ensure all 'data-testid' attributes are added for testing."
+    ]
+  },
+  "accessibility": {
+    "contrast": "Ensure Gold text on Dark background meets 4.5:1 (use lighter Gold #fbbf24 or #fcd34d for text).",
+    "motion": "Respect 'prefers-reduced-motion'.",
+    "semantic_html": "Use <main>, <nav>, <article>, <aside> correctly."
+  },
+  "instructions_to_main_agent": "You are rebuilding a static HTML site into a modern React application. Use the existing 'index.html' as your content source. The design must be 'Tactical/Military' using the colors and fonts specified. Preserve all AdSense and Analytics IDs. Create the folder structure '/app/frontend' for the new React app if it doesn't exist, or use the root if instructed. Prefer creating a clean 'src' structure."
+}
