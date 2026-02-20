@@ -12,8 +12,738 @@
     <title>Troop Strength Guide - Tactical Command</title>
 
     <!-- External Resources -->
-    
-    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Google Analytics & AdSense -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VYP41CV8E4');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
+        crossorigin="anonymous"></script>
+
+    <!-- Tailwind Configuration (Consistent with Homepage) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#020617',     // Darker Navy/Black
+                            panel: '#0f172a',    // Panel Background
+                            gold: '#fbbf24',     // Main Accent
+                            goldDim: '#b45309',  // Darker Gold
+                            text: '#e2e8f0',
+                            border: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        tech: ['Rajdhani', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            background-image:
+                linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
+                linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            line-height: 1.75;
+        }
+
+        .tech-border {
+            position: relative;
+            border: 1px solid #1e293b;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Guide Content Styling */
+        .guide-section {
+            background-color: #0f172a;
+            padding: 30px;
+            border-radius: 8px;
+            border: 1px solid #1e293b;
+        }
+
+        .guide-section h2.section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            border-left: 4px solid #fbbf24;
+            padding-left: 12px;
+            color: white;
+            letter-spacing: 0.05em;
+        }
+
+        .guide-section h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 600;
+            font-size: 1.4rem;
+            margin-top: 30px;
+            margin-bottom: 10px;
+            color: #fbbf24;
+            border-bottom: 1px dashed #1e293b;
+            padding-bottom: 5px;
+        }
+
+        .guide-content p {
+            color: #a1a1aa;
+            margin-bottom: 1em;
+        }
+
+        .guide-content ul,
+        .guide-content ol {
+            padding-left: 20px;
+            margin-bottom: 1.5em;
+            color: #e2e8f0;
+        }
+
+        .guide-content li {
+            margin-bottom: 0.5em;
+            list-style-type: disc;
+            color: #a1a1aa;
+        }
+
+        .guide-content li strong {
+            color: white;
+        }
+
+        .author {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+
+        /* Hero Section for Guide Pages */
+        .guide-hero {
+            padding: 60px 0;
+            text-align: center;
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .guide-hero h2 {
+            font-size: 3em;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        .guide-hero p {
+            font-size: 1.1em;
+            color: #94a3b8;
+        }
+
+        /* Loader and Chat Styles (consistent) */
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 2px solid #fbbf24;
+            width: 12px;
+            height: 12px;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .chatbox {
+            position: fixed;
+            bottom: 80px;
+            right: 6px;
+            width: 80vw;
+            max-width: 350px;
+            height: 450px;
+            background-color: #020617;
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .chatbox {
+                bottom: 0;
+                right: 0;
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+
+                <!-- Brand Logo -->
+                <a href="../index.html" class="flex items-center gap-3 group">
+                    <div
+                        class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
+                        <img src="../assets/images/noyzzing-logo.png"
+                            onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity">
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span
+                                class="text-brand-gold glow-text">ZZING // OPS</span></h1>
+                    </div>
+                </a>
+
+                <!-- Nav Menu -->
+                <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
+                    <ul
+                        class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
+                        <li><a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
+                        <li><a href="../military-expedition-guide/index.html"
+                                class="hover:text-brand-gold transition-colors">MILITARY</a></li>
+                        <li><a href="../troop-resource-calculator/index.html"
+                                class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
+                        <li><a href="../battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Search Input is omitted on guide pages for focus -->
+                <div class="hidden md:block w-56"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- AD SLOT 1: TOP BANNER (Leaderboard) -->
+    <div class="container mx-auto px-4 mt-6">
+        <div class="w-full h-[90px] md:h-[100px] overflow-hidden rounded bg-black border-y border-brand-border">
+            <ins class="adsbygoogle" style="display:block; width: 100%; height: 100%;"
+                data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000001" data-ad-format="auto"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <div class="guide-hero mb-8 rounded-lg shadow-xl tech-border">
+            <div class="container">
+                <h2 class="text-5xl font-tech">TROOP STRENGTH GUIDE</h2>
+                <p class="text-lg">Master the art of building and strengthening your troops</p>
+            </div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-8">
+
+            <!-- LEFT COLUMN: GUIDE CONTENT (75%) -->
+            <div class="w-full lg:w-3/4 space-y-8">
+
+                <section id="troop-types" class="guide-section">
+                    <h2 class="section-title">Troop Types and Counters</h2>
+                    <div class="guide-content">
+                        <p>Written by: <span class="author">Noyzzing</span></p>
+                        <p>Understanding troop interactions is crucial to success:</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li><strong>Infantry:</strong> Counters Archers, weak against Cavalry.</li>
+                            <li><strong>Cavalry:</strong> Counters Infantry, weak against Archers.</li>
+                            <li><strong>Archers:</strong> Counters Cavalry, weak against Infantry.</li>
+                        </ul>
+
+                        <p class="text-white font-bold my-4 text-center border-y border-brand-border py-2">
+
+                        </p>
+
+                        <p><strong>Pro Tip:</strong> Always scout your enemy's troop types before attacking to ensure
+                            your troops have the upper hand. Effective scouting ensures you exploit counter
+                            vulnerabilities, maximizing damage and minimizing losses. Never attack blind.</p>
+                    </div>
+                </section>
+
+                <section id="building-castle" class="guide-section">
+                    <h2 class="section-title">Building Your Castle: Focusing on Military Infrastructure</h2>
+                    <div class="guide-content">
+                        <p>Your castle is the core of your kingdom, but not all upgrades directly translate to
+                            battlefield strength. To progress efficiently, prioritize resources for combat
+                            infrastructure:</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>**Speedup Management:** **Never use green speedups for building.** These speedups are
+                                purpose-built for troop training and production; reserving them strictly for barracks
+                                ensures you maximize their value during training events.</li>
+                            <li>**Castle Level Thresholds:** While Castle Level unlocks features, raw power comes from
+                                research and troop tier. Focus on balancing building upgrades until you reach critical
+                                military thresholds, such as **Level 22** to unlock T8 troops and essential Unit Tactic
+                                Skills.</li>
+                        </ul>
+                        <p>Remember: A high-level castle is a large target. A high-level castle with weak troops is an
+                            easy target. Focus investment where it matters: raw troop power.</p>
+                    </div>
+                </section>
+
+                <!-- AD SLOT 2: IN-ARTICLE AD -->
+                <div
+                    class="w-full h-auto min-h-[100px] rounded bg-brand-panel border border-dashed border-gray-700 p-4">
+                    <ins class="adsbygoogle" style="display:block; width: 100%; min-height: 100px;"
+                        data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000002" data-ad-format="auto"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+
+                <section id="producing-troops" class="guide-section">
+                    <h2 class="section-title">Producing Troops: Quantity Over Upgrade Haste</h2>
+                    <div class="guide-content">
+                        <p>Once you reach Castle Level 22 and upgrade your Barracks, mass troop production becomes the
+                            priority. Large troop numbers act as a vital shield and ensure sustained participation in
+                            key events like BOS and ME.</p>
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>**Monotype Focus:** Prioritize producing your main troop type (Infantry, Cavalry, or
+                                Ranged). Mixing troop types dilutes the effectiveness of your hero and gear buffs,
+                                significantly weakening your overall march strength.</li>
+                            <li>**Event Preparation:** Always save your accumulated troop speedups (especially the green
+                                ones) to use during production events. This maximizes the rewards you gain for the
+                                effort invested.</li>
+                            <li>**Combat Sets:** Aim for at least **six full sets** of your main troops. This capacity
+                                ensures you can send multiple, full-strength marches or participate in several rallies
+                                simultaneously during major alliance vs. alliance (AvA) events like BOS and VC.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section id="increasing-troop-strength" class="guide-section">
+                    <h2 class="section-title">Increasing Troop Strength: The Six Pillars of Power</h2>
+                    <div class="guide-content">
+                        <p>True troop strength is the sum of many small, consistent upgrades across key castle
+                            components. Focus on these six pillars for maximum combat enhancement:</p>
+
+                        <h3>Institute Research: The Foundation of Buffs</h3>
+                        <p>The Institute is where permanent, compounding buffs are secured. Your primary focus must be
+                            on **Military Research**, specifically maximizing the Attack, Defense, and Health boosts for
+                            your designated main troop type. Only once your main troop research is maxed or hits a
+                            Castle Level ceiling should you pivot to the secondary troop types or economic research.
+                            Research provides the foundational percentage buffs that multiply all other sources of
+                            strength.</p>
+
+                        <h3>Gear: Specialization and Promotion</h3>
+                        <p>Gear provides specialized, direct boosts to your troop type. **Infantry** players must
+                            prioritize gear enhancing Infantry Attack, Defense, and Health. The most efficient path is:
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>**Promotion Priority:** Prioritize promoting the **two pieces** of gear that offer the
+                                largest direct attack buffs to your main troop type. Promotion is resource-intensive but
+                                offers the highest return on investment.</li>
+                            <li>**Enhancement Strategy:** Use Spinels and Shards to promote and enhance the remaining
+                                gear. Maintain a balanced enhancement level across all pieces after securing the two
+                                critical Attack promotions.</li>
+                        </ul>
+                        </p>
+
+                        <h3>Gems and Saurgems: Slotting Power</h3>
+                        <p>Gems and Saurgems provide substantial stat enhancements directly impacting combat
+                            performance. **Always give first priority to gear upgrades and enhancement items**
+                            (Spinels/Shards) before investing heavily in Gems.
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>**Troop-Specific Focus:** Equip Gems and Saurgems that boost Attack, Defense, and Health
+                                for your main troop type.</li>
+                            <li>**Saurgem Enhancement:** Upgrade Saurgems strategically, maintaining a focus on Attack
+                                boosts. While defensive stats are valuable, offensive power often dictates rally
+                                success.</li>
+                        </ul>
+                        </p>
+
+                        <h3>Warsigil: Might and Defense</h3>
+                        <p>Warsigil offers a powerful, passive boost to your might and core stats. Concentrate on
+                            developing the **three sections** that most directly align with and boost your main troop
+                            type's stats. Even moderate focus on Warsigil development significantly boosts your
+                            displayed might, which is important for alliance recruitment and deterrence.</p>
+
+                        <h3>Saurgil: The Luck Factor</h3>
+                        <p>Saurgil is a long-term, high-variance investment primarily driven by luck and accumulated
+                            Crystal savings. **Strategy here is patience.** Save your Enhance items for Saurgil that
+                            offers maximum Main Attack buffs. Look for Shards in events like Neptune that specifically
+                            promote your primary troop attack type.</p>
+
+                        <h3>Talent: Situational Switching</h3>
+                        <p>Talents are your most flexible buff source. Utilize your free Talent resets (unlocked at
+                            **VIP 10**):
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>**Balance (Default):** Use the Balance Talent set when inactive or performing resource
+                                maintenance (healing, training).</li>
+                            <li>**Military (Combat):** Switch to the Attack/Military Talent set immediately before
+                                launching a rally or engaging in major AvA combat to receive maximum attack buffs. You
+                                can even launch the march and immediately switch back to a Balance/Production talent to
+                                benefit from both sets in quick succession.</li>
+                        </ul>
+                        </p>
+                    </div>
+                </section>
+
+                <section id="heroes-curios-runes" class="guide-section">
+                    <h2 class="section-title">Heroes, Curios, and Runes: Leading the Charge</h2>
+                    <div class="guide-content">
+                        <h3>Hero Buffs and Combat Deployment</h3>
+                        <p>Hero selection is paramount. When sending a combat march, you must use **five heroes**. Use
+                            four heroes focused on your main troop type (e.g., four Infantry heroes) and one **Combo
+                            Hero** (like Aleria) to ensure maximum buff activation. **Never use five heroes of the same
+                            troop type, as one hero's buff will not stack.**</p>
+
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>**Key Level Thresholds:** Heroes unlock critical buffs at specific evolution levels:
+                                2-Star (Level 31), 3-Star (Level 71), and **4- and 5-Star (Level 131)**. Failing to
+                                reach Level 131 on your top 5-star heroes means missing a major attack buff.</li>
+                            <li>**Upgrading vs. Enhancing:** **Enhancing** a hero (using fragments) provides new troop
+                                skills and massive power jumps, while **Upgrading** (using XP potions) only increases
+                                the level. Focus fragment collection on your main hero type for maximum impact.</li>
+                            <li>**Hero Recommendations (4-Star Focus):** For efficient growth, focus on easily
+                                obtainable 4-star heroes: Fuga (Infantry), Deeode (Ranged), and Apollo (Cavalry).</li>
+                        </ul>
+
+                        <h3>Economy and Passive Buff Heroes</h3>
+                        <p>Do not neglect your economic and passive heroes once your main combat heroes are established.
+                            Economic heroes provide free, passive buffs even when not actively leading a march. Upgrade
+                            these to max level (and enhance them) to unlock all passive benefits, which include Rally
+                            Size, Training Speed, and Infirmary Capacity.</p>
+
+                        <ul class="list-disc pl-6 space-y-2">
+                            <li>**Rally/Troop Size:** Heroes like **Lira** and **Ammon** provide essential rally size
+                                buffs. Troop size heroes such as **Anubis** (Trial Challenges), **Nilesh**, and **Hart**
+                                directly boost damage output.</li>
+                            <li>**Resource Management:** **Ryska** (Training Speed/Cost) and **Horus** (Infirmary
+                                Capacity/Heal Speed) are vital for long-term resource efficiency and troop
+                                survivability.</li>
+                            <li>**Passive Troop Attack (Overlooked):** Some Economy heroes provide passive troop attack
+                                buffs that are always active. Look for and develop heroes like **Void Walker**,
+                                **Nephthys**, **Maigret**, and **Ebony** to permanently increase the base damage of your
+                                main troop type.</li>
+                        </ul>
+
+                        <h3>Curios and Runes: The Finishing Touch</h3>
+                        <p>Curios and Runes provide flexible, late-game buffs dependent on luck and careful crafting.
+                            Epic Curios generally offer the best troop strength boosts. The stats you gain depend
+                            heavily on which Hero Curio is crafted, making this a luck-dependent process. Runestones,
+                            obtained from events like Hell Fortress, should be prioritized for maxing out your primary
+                            troop type's Sauroi Military Skills.</p>
+
+                        <h3>Final Words</h3>
+                        <p>Focusing on your main troop type, optimizing research, and developing heroes are the keys to
+                            sustained success in Puzzles and Conquest. Troop strength is not just about raw numbers, but
+                            about the synergistic quality of your heroes, gear, and research. Good luck!</p>
+                        <p>- Noyzzing</p>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- RIGHT COLUMN: SIDEBAR (25%) -->
+            <aside class="w-full lg:w-1/4 space-y-8">
+
+                <!-- SIDEBAR AD (300x250) -->
+                <div class="bg-brand-panel border border-brand-border p-2 rounded w-full flex flex-col items-center">
+                    <div class="w-full h-[250px] bg-black/50 border border-dashed border-gray-700 relative">
+                        <!-- Placeholder description for user -->
+                        <div class="absolute inset-0 flex items-center justify-center text-center p-4">
+                            <div>
+                                <span class="block text-brand-gold font-mono text-xs mb-1">AD SLOT (300x250)</span>
+                                <span class="text-[10px] text-gray-500">Insert Ad Code Here</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AUTHOR PROFILE -->
+                <div class="bg-brand-panel border border-brand-border p-6 relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-brand-gold"></div>
+                    <h3 class="text-lg font-bold font-tech text-white mb-4">COMMANDER PROFILE</h3>
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-14 h-14 rounded bg-black border border-brand-gold/30 p-1">
+                            <img src="../assets/images/Noyzzing.png"
+                                onerror="this.src='https://via.placeholder.com/60?text=CMDR'"
+                                class="w-full h-full object-cover" alt="Noyzzing">
+                        </div>
+                        <div>
+                            <p class="font-bold text-white text-sm">NOYZZING</p>
+                            <span
+                                class="text-[10px] text-brand-gold uppercase tracking-wider bg-brand-gold/10 px-1 rounded">Admin</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">Delivering top-tier strategy and operational
+                        guides for the alliance community.</p>
+                    <div class="grid grid-cols-1 gap-2">
+                        <a href="#"
+                            class="bg-brand-dark hover:bg-brand-gold hover:text-black text-gray-300 text-center py-1.5 text-xs rounded transition-colors border border-brand-border">
+                            <i class="fa-brands fa-discord"></i> DISCORD
+                        </a>
+                    </div>
+                </div>
+
+                <!-- QUICK LINKS / TABLE OF CONTENTS -->
+                <div class="bg-brand-panel border border-brand-border p-6">
+                    <h3 class="text-sm font-bold font-tech text-white mb-3 uppercase tracking-wide">
+                        <i class="fa-solid fa-map-pin text-brand-gold mr-2"></i> JUMP TO SECTION
+                    </h3>
+                    <ul class="text-xs space-y-2">
+                        <li><a href="#troop-types"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">1. Troop Types &
+                                Counters</a></li>
+                        <li><a href="#building-castle"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">2. Building Your
+                                Castle</a></li>
+                        <li><a href="#producing-troops"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">3. Producing
+                                Troops</a></li>
+                        <li><a href="#increasing-troop-strength"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">4. Increasing
+                                Troop Strength</a></li>
+                        <li><a href="#heroes-curios-runes"
+                                class="text-gray-400 hover:text-brand-gold transition-colors font-mono">5. Heroes,
+                                Curios, Runes</a></li>
+                    </ul>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark border-t border-brand-border mt-12 py-8 relative">
+        <!-- FOOTER AD -->
+        <div class="container mx-auto px-4 mb-8">
+            <div class="w-full flex justify-center bg-black border border-gray-800 p-2 rounded">
+                <ins class="adsbygoogle" style="display:block; width: 100%; min-height: 90px;"
+                    data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000003" data-ad-format="auto"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-600 text-xs mb-4 uppercase tracking-wider">© 2025 Noyzzing | Operational Command</p>
+            <div class="flex justify-center gap-6 text-xs text-gray-500 font-mono">
+                <a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a>
+                <a href="../privacy-policy/index.html" class="hover:text-brand-gold transition-colors">PRIVACY</a>
+                <a href="../terms-of-service/index.html" class="hover:text-brand-gold transition-colors">TERMS</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- CHATBOT FLOATING UI and SCRIPTS (Copied from Canvas) -->
+    <button id="open-chat-btn"
+        class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
+        <i class="fa-solid fa-robot"></i> <span class="hidden md:inline font-tech tracking-wide">NOYZBOT v3.0</span>
+    </button>
+
+    <!-- CHATBOX INTERFACE -->
+    <div id="chatbox"
+        class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
+        <!-- Header -->
+        <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
+            <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
+                <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GEMINI ENHANCED)
+            </div>
+            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i
+                    class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <!-- Messages Area -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
+            <div
+                class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
+                <span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>
+                Greetings Commander. NoyzBot v3.0 Online. Ready for strategy queries.
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-3 bg-black/50 border-t border-brand-border">
+            <div class="flex gap-2">
+                <input type="text" id="user-input" placeholder="ASK ABOUT TROOPS OR EVENTS..."
+                    class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
+                <button class="chat-send bg-brand-gold text-black px-3 font-bold hover:bg-yellow-400 transition-colors">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC (The complete, merged script) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            console.log("✅ Nexus Command Loaded");
+            const apiKey = ""; // Runtime provided
+
+            // === COST CONTROL SWITCH (SET TO TRUE FOR FREE, DUMBER BOT) ===
+            const USE_LOCAL_FALLBACK = false;
+
+            // UI Elements
+            const elements = {
+                chatbox: document.getElementById('chatbox'),
+                openBtn: document.getElementById('open-chat-btn'),
+                closeBtn: document.querySelector('.chat-close'),
+                messages: document.getElementById('chat-messages'),
+                userInput: document.getElementById('user-input'),
+                sendBtn: document.querySelector('.chat-send'),
+            };
+
+            // --- Gemini API Handler (SMART, POTENTIALLY PAID) ---
+            async function callGeminiAPI(prompt, systemInstruction) {
+                if (USE_LOCAL_FALLBACK) {
+                    return localFallbackResponse(prompt);
+                }
+
+                if (!apiKey) {
+                    console.warn("API Key missing, using mock response for preview.");
+                }
+
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    systemInstruction: { parts: [{ text: systemInstruction }] }
+                };
+
+                const maxRetries = 3;
+                let delay = 1000;
+
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            if (response.status === 429) {
+                                await new Promise(r => setTimeout(r, delay));
+                                delay *= 2;
+                                continue;
+                            }
+                            throw new Error(`API Error: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted. Try again.";
+                    } catch (error) {
+                        console.error("Gemini call failed", error);
+                        if (i === maxRetries - 1) throw error;
+                    }
+                }
+            }
+
+            // --- Local Fallback Handler (DUMBER, FREE) ---
+            function localFallbackResponse(text) {
+                const t = text.toLowerCase();
+                if (t.includes('counter')) return "Directive: Infantry counters Archers. Cavalry counters Infantry. Archers counter Cavalry. Use scout intel before engagement.";
+                if (t.includes('hero') && t.includes('buff')) return "Directive: Use four main troop heroes and one combo hero (e.g., Aleria) for attacks. Prioritize enhancing main troop heroes.";
+                if (t.includes('gear')) return "Directive: Prioritize gear specific to your main troop type (Attack, Defense, Health). Promote core attack pieces first.";
+                if (t.includes('training')) return "Directive: Focus on producing your main troop type. Save green speedups exclusively for troop production.";
+                if (t.includes('hello') || t.includes('hi')) return "Greetings Commander. State troop strength query clearly.";
+                return "Query protocol unclear. State troop component or tactical objective clearly.";
+            }
+
+            // --- Chat System ---
+            function initChat() {
+                if (!elements.chatbox) return;
+
+                elements.openBtn.addEventListener('click', toggleChat);
+                elements.closeBtn.addEventListener('click', toggleChat);
+                elements.sendBtn.addEventListener('click', sendMessage);
+                elements.userInput.addEventListener('keydown', (e) => e.key === 'Enter' && sendMessage());
+            }
+
+            function toggleChat() {
+                elements.chatbox.classList.toggle('hidden');
+                if (!elements.chatbox.classList.contains('hidden')) {
+                    elements.userInput.focus();
+                }
+            }
+
+            async function sendMessage() {
+                const text = elements.userInput.value.trim();
+                if (!text) return;
+
+                addMessage(text, 'user');
+                elements.userInput.value = '';
+
+                const loadingId = 'loading-' + Date.now();
+                addMessage('<span class="loader"></span> ANALYZING...', 'bot', loadingId);
+
+                const systemPrompt = "You are NoyzBot v3.0, an elite tactical AI for the game 'Puzzles and Conquest', focusing on troop strength optimization (gear, heroes, research). You speak in a concise, military style. Provide strategic advice. Keep responses short (under 100 words) and tactical. If the query is unclear, ask the user to specify the component (e.g., gear, heroes, research) or objective.";
+
+                try {
+                    let reply;
+                    if (USE_LOCAL_FALLBACK) {
+                        reply = localFallbackResponse(text);
+                    } else {
+                        reply = await callGeminiAPI(text, systemPrompt);
+                    }
+
+                    document.getElementById(loadingId)?.remove();
+                    addMessage(reply, 'bot');
+                } catch (error) {
+                    document.getElementById(loadingId)?.remove();
+                    addMessage("Connection to Gemini Command lost. Please retry.", 'bot');
+                }
+            }
+
+            function addMessage(html, type, id = '') {
+                const div = document.createElement('div');
+                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user'
+                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500'
+                    : 'bg-brand-panel text-gray-300 self-start rounded-tr-lg rounded-br-lg rounded-bl-lg border-brand-border'}`;
+
+                if (id) div.id = id;
+                div.innerHTML = type === 'bot' ? `<span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>${html}` : html;
+                elements.messages.appendChild(div);
+                elements.messages.scrollTop = elements.messages.scrollHeight;
+            }
+
+            // --- Helper: Smooth Scrolling ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+        });
+    </script>
+    <!-- Monetag Ads -->
+    <!-- Monetag Ads (Disabled) -->
+    <!-- <script>(function (s) { s.dataset.zone = '10303259', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script> -->
+
+    <!-- Infolinks Ads -->
+    <script type="text/javascript"> var infolinks_pid = 3442090; var infolinks_wsid = 0; </script>
+    <script type="text/javascript" src="https://resources.infolinks.com/js/infolinks_main.js"></script>
 
 </body>
 

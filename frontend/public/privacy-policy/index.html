@@ -12,8 +12,316 @@
     <title>Privacy Policy - Tactical Command</title>
 
     <!-- External Resources -->
-    
-    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Google Analytics & AdSense -->
+    <!-- This is the required global script, must be in the head -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VYP41CV8E4');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
+        crossorigin="anonymous"></script>
+
+    <!-- Tailwind Configuration (Consistent with Homepage) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#020617',     // Darker Navy/Black
+                            panel: '#0f172a',    // Panel Background
+                            gold: '#fbbf24',     // Main Accent
+                            goldDim: '#b45309',  // Darker Gold
+                            text: '#e2e8f0',
+                            border: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        tech: ['Rajdhani', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #020617;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            background-image:
+                linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
+                linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            line-height: 1.75;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Document Hero */
+        .doc-hero {
+            padding: 60px 0;
+            text-align: center;
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .doc-hero h2 {
+            font-size: 3em;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        .doc-hero p {
+            font-size: 1.1em;
+            color: #94a3b8;
+        }
+
+        /* Document Content */
+        .privacy-container {
+            background-color: #0f172a;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            color: #a1a1aa;
+        }
+
+        .privacy-container h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: white;
+            border-bottom: 2px solid #1e293b;
+            padding-bottom: 5px;
+        }
+
+        .privacy-container p {
+            margin-bottom: 1.5em;
+            font-size: 1rem;
+        }
+
+        .privacy-container ul {
+            list-style-type: disc;
+            padding-left: 25px;
+            margin-bottom: 1.5em;
+        }
+
+        .privacy-container li {
+            margin-bottom: 0.5em;
+        }
+
+        .ad-slot-doc {
+            width: 100%;
+            height: 90px;
+            margin: 20px 0;
+            background-color: #020617;
+            border: 1px dashed #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0f172a;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid #1e293b;
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        footer p {
+            color: #94a3b8;
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 0.9em;
+        }
+
+        .footer-links a:hover {
+            color: #fbbf24;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+
+                <!-- Brand Logo -->
+                <a href="../index.html" class="flex items-center gap-3 group">
+                    <div
+                        class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
+                        <img src="../assets/images/noyzzing-logo.png"
+                            onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity">
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span
+                                class="text-brand-gold glow-text">ZZING // OPS</span></h1>
+                    </div>
+                </a>
+
+                <!-- Nav Menu -->
+                <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
+                    <ul
+                        class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
+                        <li><a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
+                        <li><a href="../military-expedition-guide/index.html"
+                                class="hover:text-brand-gold transition-colors">MILITARY</a></li>
+                        <li><a href="../troop-resource-calculator/index.html"
+                                class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
+                        <li><a href="../battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="hidden md:block w-56"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <div class="doc-hero mb-8 rounded-lg shadow-xl border border-brand-border">
+            <div class="container">
+                <h2 class="text-5xl font-tech">PRIVACY POLICY</h2>
+                <p class="text-lg">Your privacy is important to us</p>
+            </div>
+        </div>
+
+        <section class="privacy-container">
+            <h3>1. Introduction</h3>
+            <p>Welcome to the Puzzles and Conquest Guide website (https://noyzzing.com). We are committed to protecting
+                your personal information and your right to privacy. This Privacy Policy explains how we collect, use,
+                disclose, and safeguard your information when you visit our website.</p>
+
+            <!-- AD SLOT 1: In-Article Top -->
+            <div class="ad-slot-doc">
+                <ins class="adsbygoogle" style="display:block; width: 100%; height: 90px;"
+                    data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000004" data-ad-format="auto"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+
+            <h3>2. Information We Collect</h3>
+            <p>We collect information that you provide directly to us when you use our website. This may include:</p>
+            <ul class="list-disc pl-6 space-y-2">
+                <li>Personal information (such as name and email address) if you contact us or subscribe to our
+                    newsletter</li>
+                <li>Usage data (such as IP address, browser type, and pages visited) collected automatically when you
+                    use our website</li>
+            </ul>
+
+            <h3>3. How We Use Your Information</h3>
+            <p>We use the information we collect for various purposes, including:</p>
+            <ul class="list-disc pl-6 space-y-2">
+                <li>To provide and maintain our website</li>
+                <li>To notify you about changes to our website</li>
+                <li>To allow you to participate in interactive features when you choose to do so</li>
+                <li>To provide customer support</li>
+                <li>To gather analysis or valuable information so that we can improve our website</li>
+                <li>To monitor the usage of our website</li>
+                <li>To detect, prevent and address technical issues</li>
+            </ul>
+
+            <h3>4. Data Security</h3>
+            <p>We implement appropriate technical and organizational security measures to protect the security of your
+                personal information. However, please note that no method of transmission over the Internet or method of
+                electronic storage is 100% secure.</p>
+
+            <h3>5. Third-Party Services</h3>
+            <p>We may employ third-party companies and individuals to facilitate our website, provide services on our
+                behalf, perform website-related services, or assist us in analyzing how our website is used. These third
+                parties have access to your personal information only to perform these tasks on our behalf and are
+                obligated not to disclose or use it for any other purpose.</p>
+
+            <!-- AD SLOT 2: In-Article Middle -->
+            <div class="ad-slot-doc">
+                <ins class="adsbygoogle" style="display:block; width: 100%; height: 90px;"
+                    data-ad-client="ca-pub-1115056295957658" data-ad-slot="10000002" data-ad-format="auto"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+
+            <h3>6. Google Analytics and Google AdSense</h3>
+            <p>We use Google Analytics to help us understand how our customers use the site, and Google AdSense to serve
+                advertisements. Google uses cookies and other technologies to collect data. You can read more about how
+                Google uses your Personal Information here: <a href="https://www.google.com/intl/en/policies/privacy/"
+                    target="_blank"
+                    class="text-brand-gold hover:text-white underline">https://www.google.com/intl/en/policies/privacy/</a>.
+                You can also opt-out of Google Analytics here: <a href="https://tools.google.com/dlpage/gaoptout"
+                    target="_blank"
+                    class="text-brand-gold hover:text-white underline">https://tools.google.com/dlpage/gaoptout</a>.</p>
+
+            <h3>7. Children's Privacy</h3>
+            <p>Our website is not intended for children under the age of 13. We do not knowingly collect personal
+                information from children under 13. If you are a parent or guardian and you are aware that your child
+                has provided us with personal information, please contact us.</p>
+
+            <h3>8. Changes to This Privacy Policy</h3>
+            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new
+                Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.
+            </p>
+
+            <h3>9. Contact Us</h3>
+            <p>If you have any questions about this Privacy Policy, please contact us at <span
+                    class="text-brand-gold">pranoykrishna944@gmail.com</span>.</p>
+
+            <p class="text-xs text-right text-gray-500 mt-8">Last updated: November 2025</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Noyzzing | All Rights Reserved | Operational Command</p>
+            <nav class="footer-links">
+                <a href="../index.html">Home</a>
+                <a href="../privacy-policy/index.html">Privacy Policy</a>
+                <a href="../terms-of-service/index.html">Terms of Service</a>
+            </nav>
+        </div>
+    </footer>
+    <!-- Monetag Ads -->
+    <!-- Monetag Ads (Disabled) -->
+    <!-- <script>(function (s) { s.dataset.zone = '10303259', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script> -->
+
+    <!-- Infolinks Ads -->
+    <script type="text/javascript"> var infolinks_pid = 3442090; var infolinks_wsid = 0; </script>
+    <script type="text/javascript" src="https://resources.infolinks.com/js/infolinks_main.js"></script>
 
 </body>
 

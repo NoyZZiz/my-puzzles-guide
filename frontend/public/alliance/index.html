@@ -10,8 +10,249 @@
     <meta name="keywords" content="ROL alliance, Puzzles and Conquest alliance, join alliance, alliance recruitment">
     <title>ROL Alliance - Rebirth of Legends | Join Us</title>
 
-    
-    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VYP41CV8E4');
+    </script>
+
+    <style>
+        :root {
+            --brand-dark: #0a0e1a;
+            --brand-panel: #0f1729;
+            --brand-border: #1e293b;
+            --brand-gold: #fbbf24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--brand-dark) 0%, #1a1f2e 100%);
+            color: #e2e8f0;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 20px rgba(251, 191, 36, 0.6);
+            }
+
+            50% {
+                text-shadow: 0 0 30px rgba(251, 191, 36, 0.9);
+            }
+        }
+
+        .glass-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .rol-logo {
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes logoFloat {
+
+            0%,
+            100% {
+                transform: translateY(0px);
+                filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.4));
+            }
+
+            50% {
+                transform: translateY(-10px);
+                filter: drop-shadow(0 0 30px rgba(251, 191, 36, 0.7));
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="../index.html" class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-brand-panel border-2 border-brand-gold/30 rounded-lg p-1">
+                        <img src="../assets/images/noyzzing-logo.png" alt="NOYZZING"
+                            class="w-full h-full object-contain">
+                    </div>
+                    <span class="text-xl font-bold">
+                        NOY<span class="text-brand-gold glow-text">ZZING // OPS</span>
+                    </span>
+                </a>
+                <a href="../index.html" class="text-sm text-gray-400 hover:text-brand-gold transition">
+                    <i class="fas fa-home mr-2"></i>Back to Home
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+
+        <!-- Hero -->
+        <div class="text-center mb-16">
+            <div class="inline-block mb-6">
+                <img src="../assets/images/ROL_logo.png" alt="ROL Alliance"
+                    onerror="this.src='https://via.placeholder.com/128?text=ROL'"
+                    class="rol-logo w-32 h-32 mx-auto rounded-lg border-4 border-brand-gold shadow-2xl shadow-brand-gold/30">
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-4" style="font-family: 'Orbitron', sans-serif;">
+                REBIRTH OF <span class="text-brand-gold glow-text">LEGENDS</span>
+            </h1>
+            <p class="text-xl text-gray-300 mb-2">TOP 3 Military Expedition Alliance</p>
+            <p class="text-lg text-gray-400 mb-8">Drama-Free | Active Community | Coordinated Events</p>
+            <a href="https://discord.gg/BX95Q38C" target="_blank"
+                class="inline-block px-8 py-4 bg-brand-gold text-black font-bold rounded-lg hover:bg-yellow-300 transition-all transform hover:scale-105">
+                <i class="fab fa-discord mr-2"></i>Join Our Discord
+            </a>
+        </div>
+
+        <!-- ROL Video Section -->
+        <div class="w-full -mx-4 overflow-hidden bg-black mb-12 rounded-lg">
+            <video autoplay loop muted playsinline class="w-full h-auto object-contain">
+                <source src="../assets/images/ROL_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <!-- What We Offer -->
+        <div class="glass-card p-8 rounded-xl mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-center">
+                <i class="fas fa-star text-brand-gold mr-3"></i>Why Join ROL?
+            </h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-trophy text-brand-gold text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">TOP 3 Military Expedition</h3>
+                        <p class="text-gray-400">We do dragon rotation</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-users text-brand-gold text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Active Discord</h3>
+                        <p class="text-gray-400">Strategy discussions and friendly community</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-calendar-alt text-brand-gold text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Coordinated Events</h3>
+                        <p class="text-gray-400">Organized Gates, Alliance Party, and more</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <i class="fas fa-dragon text-brand-gold text-2xl mt-1"></i>
+                    <div>
+                        <h3 class="font-bold text-lg mb-1">Monthly Challenges</h3>
+                        <p class="text-gray-400">Stranger Things events and custom competitions</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Schedule -->
+        <div class="glass-card p-8 rounded-xl mb-12 border-l-4 border-brand-gold">
+            <h2 class="text-3xl font-bold mb-4 text-center">
+                <i class="fas fa-calendar-check text-brand-gold mr-3"></i>Event Schedule
+            </h2>
+            <p class="text-center text-gray-400 mb-2 text-sm">
+                <strong class="text-brand-gold">Events: 6 hours before daily reset (18:00 UTC)</strong>
+            </p>
+            <p class="text-center text-gray-400 mb-6 text-sm">
+                <strong class="text-yellow-400">Battle of Sarnesia: 5 hours before reset (19:00 UTC)</strong>
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+                <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
+                    <h3 class="font-bold mb-2 text-brand-gold">Monday</h3>
+                    <p class="text-sm"><i class="fas fa-dungeon text-gray-400 mr-2"></i>Gates</p>
+                </div>
+                <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
+                    <h3 class="font-bold mb-2 text-brand-gold">Tuesday</h3>
+                    <p class="text-sm"><i class="fas fa-users text-gray-400 mr-2"></i>Alliance Party</p>
+                    <p class="text-sm"><i class="fas fa-skull-crossbones text-purple-400 mr-2"></i>Demon Incursion <span
+                            class="text-gray-500">(Ace week)</span></p>
+                    <p class="text-sm"><i class="fas fa-paw text-green-400 mr-2"></i>Monster Hunt <span
+                            class="text-gray-500">(Weekly)</span></p>
+                </div>
+                <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
+                    <h3 class="font-bold mb-2 text-brand-gold">Thursday</h3>
+                    <p class="text-sm"><i class="fas fa-dungeon text-gray-400 mr-2"></i>Gates</p>
+                    <p class="text-sm"><i class="fas fa-skull-crossbones text-purple-400 mr-2"></i>Demon Incursion <span
+                            class="text-gray-500">(Ace week)</span></p>
+                    <p class="text-sm"><i class="fas fa-paw text-green-400 mr-2"></i>Monster Hunt <span
+                            class="text-gray-500">(Weekly)</span></p>
+                </div>
+                <div class="bg-brand-panel/50 p-4 rounded-lg border border-brand-border">
+                    <h3 class="font-bold mb-2 text-brand-gold">Friday</h3>
+                    <p class="text-sm"><i class="fas fa-users text-gray-400 mr-2"></i>Alliance Party</p>
+                    <p class="text-sm"><i class="fas fa-swords text-red-400 mr-2"></i>Battle of Sarnesia <span
+                            class="text-yellow-400">(5hrs)</span></p>
+                </div>
+            </div>
+
+            <div class="mt-6 p-4 bg-brand-gold/10 border border-brand-gold/30 rounded-lg text-center">
+                <p class="text-sm"><i class="fas fa-info-circle text-brand-gold mr-2"></i><strong>All events coordinated
+                        in Discord</strong></p>
+            </div>
+        </div>
+
+        <!-- Requirements -->
+        <div class="glass-card p-8 rounded-xl mb-12">
+            <h2 class="text-3xl font-bold mb-6 text-center">
+                <i class="fas fa-clipboard-check text-brand-gold mr-3"></i>What We Need
+            </h2>
+            <div class="max-w-2xl mx-auto space-y-3">
+                <p class="flex items-center gap-3"><i class="fas fa-check text-brand-gold"></i> Daily login and event
+                    participation</p>
+                <p class="flex items-center gap-3"><i class="fas fa-check text-brand-gold"></i> Join Discord and stay
+                    active</p>
+                <p class="flex items-center gap-3"><i class="fas fa-check text-brand-gold"></i> Respectful,
+                    team-oriented attitude</p>
+            </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center glass-card p-12 rounded-xl">
+            <h2 class="text-4xl font-black mb-4">Ready to Join?</h2>
+            <p class="text-xl text-gray-300 mb-8">Contact us on Discord to apply!</p>
+            <a href="https://discord.gg/BX95Q38C" target="_blank"
+                class="inline-block px-12 py-4 bg-brand-gold text-black font-bold text-lg rounded-lg hover:bg-yellow-300 transition-all transform hover:scale-105 shadow-lg shadow-brand-gold/30">
+                <i class="fab fa-discord mr-2"></i>Join Discord Now
+            </a>
+        </div>
+
+    </main>
+
+    <footer class="bg-black/50 border-t border-brand-border py-8 mt-16">
+        <div class="container mx-auto px-4 text-center">
+            <p class="text-gray-600 text-sm">© 2025 ROL Alliance | Puzzles & Conquest</p>
+        </div>
+    </footer>
+
+    <!-- Monetag Ads -->
+    <!-- Monetag Ads (Disabled) -->
+    <!-- <script>(function (s) { s.dataset.zone = '10303259', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script> -->
+
+    <!-- Infolinks Ads -->
+    <script type="text/javascript"> var infolinks_pid = 3442090; var infolinks_wsid = 0; </script>
+    <script type="text/javascript" src="https://resources.infolinks.com/js/infolinks_main.js"></script>
 
 </body>
 
