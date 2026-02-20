@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Advanced troop and resource calculator for Puzzles and Conquest. Calculate troops trained, resources needed, and required speed-ups precisely.">
+    <meta name="keywords"
+        content="Puzzles and Conquest calculator, troop calculator, resource calculator, training speedup, might calculation">
+
+    <title>Troop & Resource Calculator - Tactical Command</title>
+
+    <!-- External Resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Google Analytics & AdSense -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VYP41CV8E4');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
+        crossorigin="anonymous"></script>
+
+    <!-- Tailwind Configuration (Consistent with Homepage) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#020617',     // Darker Navy/Black
+                            panel: '#0f172a',    // Panel Background
+                            gold: '#fbbf24',     // Main Accent
+                            goldDim: '#b45309',  // Darker Gold
+                            text: '#e2e8f0',
+                            border: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        tech: ['Rajdhani', 'sans-serif'],
+                        body: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Tactical Theme */
+        body {
+            background-color: #020617;
+            color: #e2e8f0;
+            font-family: 'Inter', sans-serif;
+            background-image:
+                linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
+                linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        }
+
+        /* Guide Hero */
+        .guide-hero {
+            padding: 60px 0;
+            text-align: center;
+            background: #0f172a;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .guide-hero h2 {
+            font-size: 3em;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        .guide-hero p {
+            font-size: 1.1em;
+            color: #94a3b8;
+        }
+
+        /* Neon Calculator Override & Integration */
+        .calculator-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .calculator-tab {
+            background-color: rgba(72, 191, 227, 0.08);
+            /* Light Blue Neon Accent */
+            color: #48bfe3;
+            padding: 12px 20px;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 0 5px rgba(72, 191, 227, 0.2);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .calculator-tab.active,
+        .calculator-tab:hover {
+            background-color: rgba(72, 191, 227, 0.3);
+            color: white;
+            border-color: #48bfe3;
+            box-shadow: 0 0 15px rgba(72, 191, 227, 0.8);
+        }
+
+        .calculator-tab.active {
+            background-color: #48bfe3;
+            color: #020617;
+            text-shadow: none;
+        }
+
+        .calculator {
+            background-color: #0f172a;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.05);
+            margin-bottom: 40px;
+        }
+
+        .calculator h2 {
+            color: #fbbf24;
+            /* Use Gold for Section Titles */
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #1e293b;
+            padding-bottom: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        input[type="number"],
+        input[type="range"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            background-color: #020617;
+            color: #e2e8f0;
+            transition: border-color 0.2s;
+        }
+
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #fbbf24;
+            box-shadow: 0 0 5px rgba(251, 191, 36, 0.5);
+        }
+
+        fieldset {
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        legend {
+            color: #48bfe3;
+            font-weight: 600;
+            padding: 0 10px;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        button#calculate-troops,
+        button#calculate-resources,
+        button#calculate-troops-from-resources,
+        button#calculate-speedups {
+            width: 100%;
+            padding: 12px;
+            background-color: #fbbf24;
+            color: #020617;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 700;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        button:hover {
+            background-color: #fcd34d;
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.8);
+        }
+
+        .result {
+            background-color: #0f172a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #48bfe3;
+            color: white;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        #buff-value,
+        #resource-buff-value,
+        #produce-resource-buff-value {
+            display: block;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #48bfe3;
+            text-align: right;
+            font-weight: bold;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .slider-info {
+            color: #94a3b8;
+            font-size: 0.8rem;
+            margin-top: -10px;
+            margin-bottom: 15px;
+            border-left: 2px solid #48bfe3;
+            padding-left: 8px;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .calculator-tabs {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .calculator-tab {
+                width: 100%;
+            }
+        }
+
+        /* Footer Links (standard site style) */
+        footer {
+            background-color: #0f172a;
+            padding: 40px 0;
+            margin-top: 60px;
+            border-top: 1px solid #1e293b;
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        footer p {
+            color: #94a3b8;
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 0.9em;
+        }
+
+        .footer-links a:hover {
+            color: #fbbf24;
+        }
+
+        /* Loader and Chat Styles (consistent) */
+        .loader {
+            border: 2px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 2px solid #fbbf24;
+            width: 12px;
+            height: 12px;
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .chatbox {
+            position: fixed;
+            bottom: 80px;
+            right: 6px;
+            width: 80vw;
+            max-width: 350px;
+            height: 450px;
+            background-color: #020617;
+            border: 1px solid #fbbf24;
+            border-radius: 8px;
+            overflow: hidden;
+            z-index: 500;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .chatbox.hidden {
+            display: none !important;
+        }
+
+        @media (max-width: 768px) {
+            .chatbox {
+                bottom: 0;
+                right: 0;
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+            }
+        }
+
+        .message-anim {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <!-- NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+
+                <!-- Brand Logo -->
+                <a href="../index.html" class="flex items-center gap-3 group">
+                    <div
+                        class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
+                        <img src="../assets/images/noyzzing-logo.png"
+                            onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="Logo"
+                            class="w-full h-full object-cover">
+                        <div
+                            class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity">
+                        </div>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span
+                                class="text-brand-gold glow-text">ZZING // OPS</span></h1>
+                    </div>
+                </a>
+
+                <!-- Nav Menu -->
+                <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
+                    <ul
+                        class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
+                        <li><a href="../index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
+                        <li><a href="../military-expedition-guide/index.html"
+                                class="hover:text-brand-gold transition-colors">MILITARY</a></li>
+                        <li><a href="index.html" class="text-brand-gold hover:text-brand-gold transition-colors">CALCULATOR</a>
+                        </li>
+                        <li><a href="../battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Search Input is omitted on guide pages for focus -->
+                <div class="hidden md:block w-56"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8 flex-grow">
+        <div class="guide-hero mb-8 rounded-lg shadow-xl border border-brand-border">
+            <div class="container">
+                <h2 class="text-5xl font-tech">TROOP & RESOURCE CALCULATOR</h2>
+                <p class="text-lg">Optimize your strategy with precise calculations</p>
+            </div>
+        </div>
+
+        <!-- Calculator Tabs -->
+        <div class="calculator-tabs">
+            <button class="calculator-tab" data-calculator="troop">Troop Calculator</button>
+            <button class="calculator-tab" data-calculator="resourceNeeded">Resources Needed</button>
+            <button class="calculator-tab" data-calculator="resourceProduce">Troops from Resources</button>
+            <button class="calculator-tab" data-calculator="speedup">Speed-Up Calculator</button>
+        </div>
+
+        <!-- Calculator Sections -->
+        <div class="w-full">
+            <section id="troop-calculator" class="calculator active">
+                <h2>Troop Calculator</h2>
+                <form id="troop-form" onsubmit="event.preventDefault()">
+                    <div class="form-group">
+                        <label for="training-cap">Training Capacity:</label>
+                        <input type="number" id="training-cap" required value="10000">
+                    </div>
+                    <div class="form-group">
+                        <label for="run-time-hours">Run Time (Hours):</label>
+                        <input type="number" id="run-time-hours" required value="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="run-time-minutes">Run Time (Minutes):</label>
+                        <input type="number" id="run-time-minutes" required value="60">
+                    </div>
+                    <div class="form-group">
+                        <label for="buff-slider">Training Speed Buff (%):</label>
+                        <input type="range" id="buff-slider" min="0" max="1000" step="1" value="0">
+                        <span id="buff-value">0%</span>
+                        <p class="slider-info">
+                            During the Military Expedition event, buffs can be high. For example, if you have a 300%
+                            buff from the event and an additional 30% buff, set the slider to <strong>330%</strong>.
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label for="troop-might-input">Troop Might per Unit:</label>
+                        <input type="number" id="troop-might-input" required value="45">
+                    </div>
+                    <fieldset>
+                        <legend>Speed-Ups Available</legend>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="form-group">
+                                <label for="1hr-speedups">1-Hour:</label>
+                                <input type="number" id="1hr-speedups" value="10">
+                            </div>
+                            <div class="form-group">
+                                <label for="30min-speedups">30-Minute:</label>
+                                <input type="number" id="30min-speedups" value="10">
+                            </div>
+                            <div class="form-group">
+                                <label for="15min-speedups">15-Minute:</label>
+                                <input type="number" id="15min-speedups" value="10">
+                            </div>
+                            <div class="form-group">
+                                <label for="10min-speedups">10-Minute:</label>
+                                <input type="number" id="10min-speedups" value="10">
+                            </div>
+                            <div class="form-group">
+                                <label for="5min-speedups">5-Minute:</label>
+                                <input type="number" id="5min-speedups" value="10">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <button type="button" onclick="calculateTroops()" id="calculate-troops">Calculate Troops</button>
+                </form>
+                <div id="troop-result" class="result"></div>
+            </section>
+
+            <section id="resource-needed-calculator" class="calculator">
+                <h2>Resources Needed Calculator</h2>
+                <form id="resource-needed-form" onsubmit="event.preventDefault()">
+                    <div class="form-group">
+                        <label for="troop-count">Number of Troops:</label>
+                        <input type="number" id="troop-count" required value="50000">
+                    </div>
+                    <div class="form-group">
+                        <label for="food-cost">Food Cost per Troop:</label>
+                        <input type="number" id="food-cost" required value="1200">
+                    </div>
+                    <div class="form-group">
+                        <label for="wood-cost">Wood Cost per Troop:</label>
+                        <input type="number" id="wood-cost" required value="1200">
+                    </div>
+                    <div class="form-group">
+                        <label for="iron-cost">Iron Cost per Troop:</label>
+                        <input type="number" id="iron-cost" required value="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="gold-cost">Gold Cost per Troop:</label>
+                        <input type="number" id="gold-cost" required value="150">
+                    </div>
+                    <div class="form-group">
+                        <label for="resource-buff">Resource Boost (%):</label>
+                        <input type="range" id="resource-buff" min="0" max="50" step="1" value="0">
+                        <span id="resource-buff-value">0%</span>
+                    </div>
+                    <button type="button" onclick="calculateResourcesNeeded()" id="calculate-resources">Calculate
+                        Resources</button>
+                </form>
+                <div id="resource-needed-result" class="result"></div>
+            </section>
+
+            <section id="resource-produce-calculator" class="calculator">
+                <h2>Troops from Resources Calculator</h2>
+                <form id="resource-produce-form" onsubmit="event.preventDefault()">
+                    <div class="form-group">
+                        <label for="available-food">Available Food:</label>
+                        <input type="number" id="available-food" required value="50000000">
+                    </div>
+                    <div class="form-group">
+                        <label for="available-wood">Available Wood:</label>
+                        <input type="number" id="available-wood" required value="50000000">
+                    </div>
+                    <div class="form-group">
+                        <label for="available-iron">Available Iron:</label>
+                        <input type="number" id="available-iron" required value="5000000">
+                    </div>
+                    <div class="form-group">
+                        <label for="available-gold">Available Gold:</label>
+                        <input type="number" id="available-gold" required value="7500000">
+                    </div>
+                    <div class="form-group">
+                        <label for="troop-food-cost">Food Cost per Troop:</label>
+                        <input type="number" id="troop-food-cost" required value="1200">
+                    </div>
+                    <div class="form-group">
+                        <label for="troop-wood-cost">Wood Cost per Troop:</label>
+                        <input type="number" id="troop-wood-cost" required value="1200">
+                    </div>
+                    <div class="form-group">
+                        <label for="troop-iron-cost">Iron Cost per Troop:</label>
+                        <input type="number" id="troop-iron-cost" required value="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="troop-gold-cost">Gold Cost per Troop:</label>
+                        <input type="number" id="troop-gold-cost" required value="150">
+                    </div>
+                    <div class="form-group">
+                        <label for="produce-resource-buff">Resource Boost (%):</label>
+                        <input type="range" id="produce-resource-buff" min="0" max="50" step="1" value="0">
+                        <span id="produce-resource-buff-value">0%</span>
+                    </div>
+                    <button type="button" onclick="calculateTroopsFromResources()"
+                        id="calculate-troops-from-resources">Calculate Troops</button>
+                </form>
+                <div id="resource-produce-result" class="result"></div>
+            </section>
+
+            <section id="speedup-calculator" class="calculator">
+                <h2>Speed-Up Calculator</h2>
+                <form id="speedup-form" onsubmit="event.preventDefault()">
+                    <div class="form-group">
+                        <label for="target-troop-count">Target Number of Troops:</label>
+                        <input type="number" id="target-troop-count" required value="100000">
+                    </div>
+                    <div class="form-group">
+                        <label for="current-training-cap">Training Capacity per Batch:</label>
+                        <input type="number" id="current-training-cap" required value="10000">
+                    </div>
+                    <div class="form-group">
+                        <label for="batch-time-hours">Batch Time (Hours):</label>
+                        <input type="number" id="batch-time-hours" required value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="batch-time-minutes">Batch Time (Minutes):</label>
+                        <input type="number" id="batch-time-minutes" required value="0">
+                    </div>
+                    <button type="button" onclick="calculateSpeedUps()" id="calculate-speedups">Calculate
+                        Speed-Ups</button>
+                </form>
+                <div id="speedup-result" class="result"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Noyzzing | All Rights Reserved</p>
+            <nav class="footer-links">
+                <a href="../index.html">Home</a>
+                <a href="../privacy-policy/index.html">Privacy Policy</a>
+                <a href="../terms-of-service/index.html">Terms of Service</a>
+            </nav>
+        </div>
+    </footer>
+
+    <!-- CHATBOT FLOATING UI and SCRIPTS (Consistent across all pages) -->
+    <button id="open-chat-btn"
+        class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
+        <i class="fa-solid fa-robot"></i> <span class="hidden md:inline font-tech tracking-wide">NOYZBOT v3.0</span>
+    </button>
+
+    <!-- CHATBOX INTERFACE -->
+    <div id="chatbox"
+        class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
+        <!-- Header -->
+        <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
+            <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
+                <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (GEMINI ENHANCED)
+            </div>
+            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i
+                    class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <!-- Messages Area -->
+        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
+            <div
+                class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
+                <span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>
+                Greetings Commander. NoyzBot v3.0 Online. Ready for strategy queries.
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="p-3 bg-black/50 border-t border-brand-border">
+            <div class="flex gap-2">
+                <input type="text" id="user-input" placeholder="ASK ABOUT CALCULATOR DATA OR TIPS..."
+                    class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
+                <button class="chat-send bg-brand-gold text-black px-3 font-bold hover:bg-yellow-400 transition-colors">
+                    <i class="fa-solid fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC (The complete, merged script including calculator logic) -->
+    <script>
+        // === CALCULATOR LOGIC (PRESERVED) ===
+        // Utility function to format numbers with commas
+        function formatNumberWithCommas(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // Function to update the Training Speed Buff value display
+        function updateBuffValue() {
+            const buffSlider = document.getElementById('buff-slider');
+            document.getElementById('buff-value').textContent = `${buffSlider.value}%`;
+        }
+
+        // Function to update the Resource Buff value display
+        function updateResourceBuffValue() {
+            const resourceBuffSlider = document.getElementById('resource-buff');
+            document.getElementById('resource-buff-value').textContent = `${resourceBuffSlider.value}%`;
+        }
+
+        function updateProduceResourceBuffValue() {
+            const produceResourceBuffSlider = document.getElementById('produce-resource-buff');
+            document.getElementById('produce-resource-buff-value').textContent = `${produceResourceBuffSlider.value}%`;
+        }
+
+        // Function to calculate the number of troops that can be trained with given speed-ups
+        function calculateTroops() {
+            const trainingCap = parseInt(document.getElementById('training-cap').value) || 0;
+            const runTimeHours = parseInt(document.getElementById('run-time-hours').value) || 0;
+            const runTimeMinutes = parseInt(document.getElementById('run-time-minutes').value) || 0;
+            const buffPercent = parseInt(document.getElementById('buff-slider').value) || 0;
+            const troopMight = parseInt(document.getElementById('troop-might-input').value) || 45;
+
+            const totalRunTimeMinutes = runTimeHours * 60 + runTimeMinutes;
+            // Approximate the reduced run time based on the 300% buff data
+            const adjustedRunTime = Math.max(0, totalRunTimeMinutes - (2.3 * buffPercent));
+
+            const oneHourSpeedUps = parseInt(document.getElementById('1hr-speedups').value) || 0;
+            const thirtyMinSpeedUps = parseInt(document.getElementById('30min-speedups').value) || 0;
+            const fifteenMinSpeedUps = parseInt(document.getElementById('15min-speedups').value) || 0;
+            const tenMinSpeedUps = parseInt(document.getElementById('10min-speedups').value) || 0;
+            const fiveMinSpeedUps = parseInt(document.getElementById('5min-speedups').value) || 0;
+
+            const totalMinutesFromSpeedUps =
+                oneHourSpeedUps * 60 +
+                thirtyMinSpeedUps * 30 +
+                fifteenMinSpeedUps * 15 +
+                tenMinSpeedUps * 10 +
+                fiveMinSpeedUps * 5;
+
+            const troopsTrained = Math.floor((totalMinutesFromSpeedUps / adjustedRunTime) * trainingCap);
+            const totalMight = troopsTrained * troopMight;
+
+            document.getElementById('troop-result').innerHTML = `
+                <strong>You can train approximately ${formatNumberWithCommas(troopsTrained)} troops.</strong><br>
+                Total Might: ${formatNumberWithCommas(totalMight)}
+            `;
+        }
+
+        // Function to calculate resources needed to train troops
+        function calculateResourcesNeeded() {
+            const troopCount = parseInt(document.getElementById('troop-count').value) || 0;
+            const foodCost = parseInt(document.getElementById('food-cost').value) || 0;
+            const woodCost = parseInt(document.getElementById('wood-cost').value) || 0;
+            const ironCost = parseInt(document.getElementById('iron-cost').value) || 0;
+            const goldCost = parseInt(document.getElementById('gold-cost').value) || 0;
+            const resourceBuff = parseInt(document.getElementById('resource-buff').value) || 0;
+
+            const totalFood = Math.floor(troopCount * foodCost * (1 - resourceBuff / 100));
+            const totalWood = Math.floor(troopCount * woodCost * (1 - resourceBuff / 100));
+            const totalIron = Math.floor(troopCount * ironCost * (1 - resourceBuff / 100));
+            const totalGold = Math.floor(troopCount * goldCost * (1 - resourceBuff / 100));
+
+            document.getElementById('resource-needed-result').innerHTML = `
+                <strong>Resources Needed to Train ${formatNumberWithCommas(troopCount)} Troops:</strong><br>
+                Food: ${formatNumberWithCommas(totalFood)}<br>
+                Wood: ${formatNumberWithCommas(totalWood)}<br>
+                Iron: ${formatNumberWithCommas(totalIron)}<br>
+                Gold: ${formatNumberWithCommas(totalGold)}
+            `;
+        }
+
+        // Function to calculate troops that can be trained with available resources and buff
+        function calculateTroopsFromResources() {
+            const availableFood = parseInt(document.getElementById('available-food').value) || 0;
+            const availableWood = parseInt(document.getElementById('available-wood').value) || 0;
+            const availableIron = parseInt(document.getElementById('available-iron').value) || 0;
+            const availableGold = parseInt(document.getElementById('available-gold').value) || 0;
+
+            const foodCostPerTroop = parseFloat(document.getElementById('troop-food-cost').value) || 0;
+            const woodCostPerTroop = parseFloat(document.getElementById('troop-wood-cost').value) || 0;
+            const ironCostPerTroop = parseFloat(document.getElementById('troop-iron-cost').value) || 0;
+            const goldCostPerTroop = parseFloat(document.getElementById('troop-gold-cost').value) || 0;
+
+            const resourceBuff = parseFloat(document.getElementById('produce-resource-buff').value) || 0;
+
+            // Calculate the effective costs after applying the resource buff
+            const adjustedFoodCost = foodCostPerTroop * (1 - resourceBuff / 100);
+            const adjustedWoodCost = woodCostPerTroop * (1 - resourceBuff / 100);
+            const adjustedIronCost = ironCostPerTroop * (1 - resourceBuff / 100);
+            const adjustedGoldCost = goldCostPerTroop * (1 - resourceBuff / 100);
+
+            // Calculate the number of troops that can be trained with the available resources
+            const troopsFromFood = Math.floor(availableFood / adjustedFoodCost);
+            const troopsFromWood = Math.floor(availableWood / adjustedWoodCost);
+            const troopsFromIron = Math.floor(availableIron / adjustedIronCost);
+            const troopsFromGold = Math.floor(availableGold / adjustedGoldCost);
+
+            // Find the limiting factor
+            const maxTroops = Math.min(troopsFromFood, troopsFromWood, troopsFromIron, troopsFromGold);
+
+            // Display the result
+            document.getElementById('resource-produce-result').innerHTML = `
+                <strong>You can train approximately ${formatNumberWithCommas(maxTroops)} troops with the available resources.</strong><br>
+                <strong>Adjusted Costs Per Troop:</strong><br>
+                Food: ${adjustedFoodCost.toFixed(2)}<br>
+                Wood: ${adjustedWoodCost.toFixed(2)}<br>
+                Iron: ${adjustedIronCost.toFixed(2)}<br>
+                Gold: ${adjustedGoldCost.toFixed(2)}
+            `;
+        }
+
+        // Updated Speed-Up Calculation Logic
+        function calculateSpeedUps() {
+            const targetTroops = parseInt(document.getElementById('target-troop-count').value) || 0;
+            const trainingCapacity = parseInt(document.getElementById('current-training-cap').value) || 0;
+            const batchTimeHours = parseInt(document.getElementById('batch-time-hours').value) || 0;
+            const batchTimeMinutes = parseInt(document.getElementById('batch-time-minutes').value) || 0;
+
+            if (targetTroops <= 0 || trainingCapacity <= 0 || (batchTimeHours <= 0 && batchTimeMinutes <= 0)) {
+                document.getElementById('speedup-result').innerHTML = 'Please enter valid numbers for all fields.';
+                return;
+            }
+
+            // Calculate total time per batch in minutes
+            const batchTimeInMinutes = batchTimeHours * 60 + batchTimeMinutes;
+
+            // Calculate time per troop
+            const timePerTroop = batchTimeInMinutes / trainingCapacity;
+
+            // Calculate total time required in minutes
+            const totalTimeInMinutes = targetTroops * timePerTroop;
+
+            // Convert total time to hours and minutes
+            const totalTimeInHours = Math.floor(totalTimeInMinutes / 60);
+            const remainingMinutes = totalTimeInMinutes % 60;
+
+            // Speed-up calculations
+            const speedUps1Hour = totalTimeInHours;
+            let remaining = remainingMinutes;
+
+            const speedUps30Min = Math.floor(remaining / 30);
+            remaining %= 30;
+
+            const speedUps15Min = Math.floor(remaining / 15);
+            remaining %= 15;
+
+            const speedUps10Min = Math.floor(remaining / 10);
+            remaining %= 10;
+
+            const speedUps5Min = Math.floor(remaining / 5);
+            remaining %= 5;
+
+            const speedUps1Min = remaining;
+
+            document.getElementById('speedup-result').innerHTML = `
+                To train <strong>${formatNumberWithCommas(targetTroops)}</strong> troops, you need approximately:<br>
+                <strong>${formatNumberWithCommas(speedUps1Hour)}</strong> x 1-Hour Speed-Ups<br>
+                <strong>${formatNumberWithCommas(speedUps30Min)}</strong> x 30-Minute Speed-Ups<br>
+                <strong>${formatNumberWithCommas(speedUps15Min)}</strong> x 15-Minute Speed-Ups<br>
+                <strong>${formatNumberWithCommas(speedUps10Min)}</strong> x 10-Minute Speed-Ups<br>
+                <strong>${formatNumberWithCommas(speedUps5Min)}</strong> x 5-Minute Speed-Ups<br>
+                <strong>${formatNumberWithCommas(speedUps1Min)}</strong> x 1-Minute Speed-Ups
+            `;
+        }
+
+        // === DOM AND CHAT LOGIC ===
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get all calculator sections
+            const calculators = {
+                troop: document.getElementById('troop-calculator'),
+                resourceNeeded: document.getElementById('resource-needed-calculator'),
+                resourceProduce: document.getElementById('resource-produce-calculator'),
+                speedup: document.getElementById('speedup-calculator')
+            };
+
+            // Get all tab buttons
+            const tabButtons = document.querySelectorAll('.calculator-tab');
+
+            // Add click event listeners to all tab buttons
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+
+                    // Hide all calculators
+                    Object.values(calculators).forEach(calc => {
+                        if (calc) calc.style.display = 'none';
+                    });
+
+                    // Show the selected calculator
+                    const calculatorId = this.getAttribute('data-calculator');
+                    const selectedCalculator = calculators[calculatorId];
+                    if (selectedCalculator) {
+                        selectedCalculator.style.display = 'block';
+                    }
+                });
+            });
+
+            // Show troop calculator by default
+            const defaultTab = document.querySelector('[data-calculator="troop"]');
+            if (defaultTab) {
+                defaultTab.click();
+            }
+
+            // Add event listeners for calculation buttons
+            document.getElementById('calculate-troops').addEventListener('click', calculateTroops);
+            document.getElementById('calculate-resources').addEventListener('click', calculateResourcesNeeded);
+            document.getElementById('calculate-troops-from-resources').addEventListener('click', calculateTroopsFromResources);
+            document.getElementById('calculate-speedups').addEventListener('click', calculateSpeedUps);
+
+            // Add event listeners for slider updates
+            document.getElementById('buff-slider').addEventListener('input', updateBuffValue);
+            document.getElementById('resource-buff').addEventListener('input', updateResourceBuffValue);
+            document.getElementById('produce-resource-buff').addEventListener('input', updateProduceResourceBuffValue);
+
+            // Call update functions to set initial slider values
+            updateBuffValue();
+            updateResourceBuffValue();
+            updateProduceResourceBuffValue();
+
+
+            // === CHATBOT LOGIC (Copied and adapted from other pages) ===
+            const apiKey = ""; // Runtime provided
+
+            // === COST CONTROL SWITCH (SET TO TRUE FOR FREE, DUMBER BOT) ===
+            const USE_LOCAL_FALLBACK = false;
+
+            // UI Elements
+            const elements = {
+                chatbox: document.getElementById('chatbox'),
+                openBtn: document.getElementById('open-chat-btn'),
+                closeBtn: document.querySelector('.chat-close'),
+                messages: document.getElementById('chat-messages'),
+                userInput: document.getElementById('user-input'),
+                sendBtn: document.querySelector('.chat-send'),
+            };
+
+            // --- Gemini API Handler (SMART, POTENTIALLY PAID) ---
+            async function callGeminiAPI(prompt, systemInstruction) {
+                if (USE_LOCAL_FALLBACK) {
+                    return localFallbackResponse(prompt);
+                }
+
+                if (!apiKey) {
+                    console.warn("API Key missing, using mock response for preview.");
+                }
+
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: prompt }] }],
+                    systemInstruction: { parts: [{ text: systemInstruction }] }
+                };
+
+                const maxRetries = 3;
+                let delay = 1000;
+
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(url, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+
+                        if (!response.ok) {
+                            if (response.status === 429) {
+                                await new Promise(r => setTimeout(r, delay));
+                                delay *= 2;
+                                continue;
+                            }
+                            throw new Error(`API Error: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted. Try again.";
+                    } catch (error) {
+                        console.error("Gemini call failed", error);
+                        if (i === maxRetries - 1) throw error;
+                    }
+                }
+            }
+
+            // --- Local Fallback Handler (DUMBER, FREE) ---
+            function localFallbackResponse(text) {
+                const t = text.toLowerCase();
+                if (t.includes('speedup') || t.includes('time')) return "Directive: Speedups are optimized by utilizing high training capacity buffs (e.g., ME Fast Comeback). Input the correct buff percentage for accurate calculation.";
+                if (t.includes('resource') || t.includes('cost')) return "Directive: Resource efficiency is maximized with Resource Cost Reduction buffs (heroes, titles). Ensure the Resource Boost slider is accurate.";
+                if (t.includes('might')) return "Directive: Troop might input (e.g., T10 = 45) is essential for might calculation. Confirm troop tier data before calculating.";
+                if (t.includes('hello') || t.includes('hi')) return "Greetings Commander. State calculator query clearly.";
+                return "Query protocol unclear. Specify calculator function (Troop, Resource, or Speed-Up).";
+            }
+
+            // --- Chat System ---
+            function initChat() {
+                if (!elements.chatbox) return;
+
+                elements.openBtn.addEventListener('click', toggleChat);
+                elements.closeBtn.addEventListener('click', toggleChat);
+                elements.sendBtn.addEventListener('click', sendMessage);
+                elements.userInput.addEventListener('keydown', (e) => e.key === 'Enter' && sendMessage());
+            }
+            initChat(); // Initialize chat after defining functions
+
+            function toggleChat() {
+                elements.chatbox.classList.toggle('hidden');
+                if (!elements.chatbox.classList.contains('hidden')) {
+                    elements.userInput.focus();
+                }
+            }
+
+            async function sendMessage() {
+                const text = elements.userInput.value.trim();
+                if (!text) return;
+
+                addMessage(text, 'user');
+                elements.userInput.value = '';
+
+                const loadingId = 'loading-' + Date.now();
+                addMessage('<span class="loader"></span> ANALYZING...', 'bot', loadingId);
+
+                const systemPrompt = "You are NoyzBot v3.0, an elite tactical AI for the game 'Puzzles and Conquest', specializing in resource and troop management strategy and providing tips for calculator usage. You speak in a concise, military style. Keep responses short (under 100 words) and tactical. If the query is unclear, ask the user to clarify the calculation objective.";
+
+                try {
+                    let reply;
+                    if (USE_LOCAL_FALLBACK) {
+                        reply = localFallbackResponse(text);
+                    } else {
+                        reply = await callGeminiAPI(text, systemPrompt);
+                    }
+
+                    document.getElementById(loadingId)?.remove();
+                    addMessage(reply, 'bot');
+                } catch (error) {
+                    document.getElementById(loadingId)?.remove();
+                    addMessage("Connection to Gemini Command lost. Please retry.", 'bot');
+                }
+            }
+
+            function addMessage(html, type, id = '') {
+                const div = document.createElement('div');
+                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user'
+                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500'
+                    : 'bg-brand-panel text-gray-300 self-start rounded-tr-lg rounded-br-lg rounded-bl-lg border-brand-border'}`;
+
+                if (id) div.id = id;
+                div.innerHTML = type === 'bot' ? `<span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>${html}` : html;
+                elements.messages.appendChild(div);
+                elements.messages.scrollTop = elements.messages.scrollHeight;
+            }
+
+            // --- Helper: Smooth Scrolling ---
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+        });
+    </script>
+    <!-- Monetag Ads -->
+    <!-- Monetag Ads (Disabled) -->
+    <!-- <script>(function (s) { s.dataset.zone = '10303259', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script> -->
+
+    <!-- Infolinks Ads -->
+    <script type="text/javascript"> var infolinks_pid = 3442090; var infolinks_wsid = 0; </script>
+    <script type="text/javascript" src="https://resources.infolinks.com/js/infolinks_main.js"></script>
+
+</body>
+
+</html>
