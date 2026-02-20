@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troop & Resource Calculator - Puzzles and Conquest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VYP41CV8E4');
+    </script>
+    <!-- Monetag MultiTag -->
+    <meta name="monetag" content="dc4cd1c75e904df6c3759be0529f93c8">
+    <script>(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('thubanoa.com','10303259',document.createElement('script'))</script>
+    <!-- Open Graph / SEO -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Troop & Resource Calculator - Puzzles and Conquest" />
+    <meta property="og:description" content="Puzzles and Conquest strategy guides and tools" />
+    <meta property="og:image" content="https://noyziz.github.io/my-puzzles-guide/assets/images/noyzzing-logo-premium.jpg" />
+    <meta property="og:site_name" content="NoYzzing OPS" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Troop & Resource Calculator - Puzzles and Conquest" />
+    <meta name="twitter:description" content="Puzzles and Conquest strategy guides and tools" />
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">
+                <h1 class="neon-text">Puzzles and Conquest Guide</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/military-expedition/" class="nav-link">Military Expedition</a></li>
+                <li><a href="/talent-memory-guide/" class="nav-link">Talent Memory Guide</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container hero-content">
+                <h2 class="neon-text">Troop & Resource Calculator</h2>
+                <p>Optimize your strategy with precise calculations</p>
+            </div>
+        </section>
+
+        <div class="calculator-tabs">
+            <button class="calculator-tab active" data-calculator="troop">Troop Calculator</button>
+            <button class="calculator-tab" data-calculator="resourceNeeded">Resources Needed</button>
+            <button class="calculator-tab" data-calculator="resourceProduce">Troops from Resources</button>
+            <button class="calculator-tab" data-calculator="speedup">Speed-Up Calculator</button>
+        </div>
+
+        <section id="troop-calculator" class="calculator active">
+            <h2>Troop Calculator</h2>
+            <form id="troop-form">
+                <div class="form-group">
+                    <label for="training-cap">Training Capacity:</label>
+                    <input type="number" id="training-cap" required>
+                </div>
+                <div class="form-group">
+                    <label for="run-time-hours">Run Time (Hours):</label>
+                    <input type="number" id="run-time-hours" required>
+                </div>
+                <div class="form-group">
+                    <label for="run-time-minutes">Run Time (Minutes):</label>
+                    <input type="number" id="run-time-minutes" required>
+                </div>
+                <div class="form-group">
+                    <label for="buff-slider">Training Speed Buff (%):</label>
+                    <input type="range" id="buff-slider" min="0" max="1000" step="1">
+                    <span id="buff-value">0%</span>
+                </div>
+                <div class="form-group">
+                    <label for="troop-might-input">Troop Might per Unit:</label>
+                    <input type="number" id="troop-might-input" required>
+                </div>
+                <fieldset>
+                    <legend>Speed-Ups</legend>
+                    <div class="form-group">
+                        <label for="1hr-speedups">1-Hour:</label>
+                        <input type="number" id="1hr-speedups">
+                    </div>
+                    <div class="form-group">
+                        <label for="30min-speedups">30-Minute:</label>
+                        <input type="number" id="30min-speedups">
+                    </div>
+                    <div class="form-group">
+                        <label for="15min-speedups">15-Minute:</label>
+                        <input type="number" id="15min-speedups">
+                    </div>
+                    <div class="form-group">
+                        <label for="10min-speedups">10-Minute:</label>
+                        <input type="number" id="10min-speedups">
+                    </div>
+                    <div class="form-group">
+                        <label for="5min-speedups">5-Minute:</label>
+                        <input type="number" id="5min-speedups">
+                    </div>
+                </fieldset>
+                <button type="button" onclick="calculateTroops()">Calculate Troops</button>
+            </form>
+            <div id="troop-result" class="result"></div>
+        </section>
+
+        <section id="resource-needed-calculator" class="calculator">
+            <h2>Resources Needed Calculator</h2>
+            <form id="resource-needed-form">
+                <div class="form-group">
+                    <label for="troop-count">Number of Troops:</label>
+                    <input type="number" id="troop-count" required>
+                </div>
+                <div class="form-group">
+                    <label for="food-cost">Food Cost per Troop:</label>
+                    <input type="number" id="food-cost" required>
+                </div>
+                <div class="form-group">
+                    <label for="wood-cost">Wood Cost per Troop:</label>
+                    <input type="number" id="wood-cost" required>
+                </div>
+                <div class="form-group">
+                    <label for="iron-cost">Iron Cost per Troop:</label>
+                    <input type="number" id="iron-cost" required>
+                </div>
+                <div class="form-group">
+                    <label for="gold-cost">Gold Cost per Troop:</label>
+                    <input type="number" id="gold-cost" required>
+                </div>
+                <div class="form-group">
+                    <label for="resource-buff">Resource Boost (%):</label>
+                    <input type="range" id="resource-buff" min="0" max="50" step="1">
+                    <span id="resource-buff-value">0%</span>
+                </div>
+                <button type="button" onclick="calculateResourcesNeeded()">Calculate Resources</button>
+            </form>
+            <div id="resource-needed-result" class="result"></div>
+        </section>
+
+        <section id="resource-produce-calculator" class="calculator">
+            <h2>Troops from Resources Calculator</h2>
+            <form id="resource-produce-form">
+                <div class="form-group">
+                    <label for="available-food">Available Food:</label>
+                    <input type="number" id="available-food" required>
+                </div>
+                <div class="form-group">
+                    <label for="available-wood">Available Wood:</label>
+                    <input type="number" id="available-wood" required>
+                </div>
+                <div class="form-group">
+                    <label for="available-iron">Available Iron:</label>
+                    <input type="number" id="available-iron" required>
+                </div>
+                <div class="form-group">
+                    <label for="available-gold">Available Gold:</label>
+                    <input type="number" id="available-gold" required>
+                </div>
+                <div class="form-group">
+                    <label for="troop-food-cost">Food Cost per Troop:</label>
+                    <input type="number" id="troop-food-cost" required>
+                </div>
+                <div class="form-group">
+                    <label for="troop-wood-cost">Wood Cost per Troop:</label>
+                    <input type="number" id="troop-wood-cost" required>
+                </div>
+                <div class="form-group">
+                    <label for="troop-iron-cost">Iron Cost per Troop:</label>
+                    <input type="number" id="troop-iron-cost" required>
+                </div>
+                <div class="form-group">
+                    <label for="troop-gold-cost">Gold Cost per Troop:</label>
+                    <input type="number" id="troop-gold-cost" required>
+                </div>
+                <div class="form-group">
+                    <label for="produce-resource-buff">Resource Boost (%):</label>
+                    <input type="range" id="produce-resource-buff" min="0" max="50" step="1">
+                    <span id="produce-resource-buff-value">0%</span>
+                </div>
+                <button type="button" onclick="calculateTroopsFromResources()">Calculate Troops</button>
+            </form>
+            <div id="resource-produce-result" class="result"></div>
+        </section>
+
+        <section id="speedup-calculator" class="calculator">
+            <h2>Speed-Up Calculator</h2>
+            <form id="speedup-form">
+                <div class="form-group">
+                    <label for="target-troop-count">Target Number of Troops:</label>
+                    <input type="number" id="target-troop-count" required>
+                </div>
+                <div class="form-group">
+                    <label for="current-training-cap">Training Capacity per Batch:</label>
+                    <input type="number" id="current-training-cap" required>
+                </div>
+                <div class="form-group">
+                    <label for="batch-time-hours">Batch Time (Hours):</label>
+                    <input type="number" id="batch-time-hours" required>
+                </div>
+                <div class="form-group">
+                    <label for="batch-time-minutes">Batch Time (Minutes):</label>
+                    <input type="number" id="batch-time-minutes" required>
+                </div>
+                <button type="button" onclick="calculateSpeedUps()">Calculate Speed-Ups</button>
+            </form>
+            <div id="speedup-result" class="result"></div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Noyzzing | All Rights Reserved</p>
+            <nav class="footer-links">
+                <a href="/">Home</a>
+                <a href="/privacy-policy">Privacy Policy</a>
+                <a href="/terms-of-service">Terms of Service</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="calculator_logic.js"></script>
+</body>
+</html>

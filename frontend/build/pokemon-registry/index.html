@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon World Registry - Master's Interface</title>
+    
+    <!-- Premium Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Rajdhani:wght@500;600;700&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pkm-red': '#ff1f1f',
+                        'pkm-yellow': '#ffcc00',
+                        'pkm-blue': '#31a7d7',
+                        'pkm-dark': '#1a1a1a',
+                        'pkm-panel': 'rgba(255, 255, 255, 0.05)',
+                    },
+                    fontFamily: {
+                        'rajdhani': ['Rajdhani', 'sans-serif'],
+                        'outfit': ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Analytics & AdSense Scripts -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VYP41CV8E4');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
+        crossorigin="anonymous"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    <!-- Monetag MultiTag -->
+    <meta name="monetag" content="dc4cd1c75e904df6c3759be0529f93c8">
+    <script>(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('thubanoa.com','10303259',document.createElement('script'))</script>
+    <!-- Open Graph / SEO -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Pokémon World Registry - Master's Interface" />
+    <meta property="og:description" content="Puzzles and Conquest strategy guides and tools" />
+    <meta property="og:image" content="https://noyziz.github.io/my-puzzles-guide/assets/images/noyzzing-logo-premium.jpg" />
+    <meta property="og:site_name" content="NoYzzing OPS" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pokémon World Registry - Master's Interface" />
+    <meta name="twitter:description" content="Puzzles and Conquest strategy guides and tools" />
+</head>
+<body class="bg-pkm-dark text-white font-outfit overflow-x-hidden antialiased">
+
+    <!-- THE GRAND EXHIBITION HALL (Full Page Visuals) -->
+    <div id="hall-container">
+        <div class="god-ray"></div>
+        <!-- Pokémon are dynamically scattered across the screen in script.js -->
+    </div>
+
+    <!-- Visual Life Layer (Legacy) -->
+
+    <!-- Cinematic Video/Overlay Layer (Hidden by default) -->
+    <div id="cinematic-overlay" class="fixed inset-0 z-[100] bg-black flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-1000">
+        <div id="reveal-light" class="absolute inset-0 bg-white opacity-0 z-[110]"></div>
+        
+        <div class="relative scale-150 md:scale-100">
+            <!-- Pokéball Shake Container -->
+            <div id="pokeball-reveal" class="w-80 h-80 relative">
+                <img src="assets/classic-ball.png" id="reveal-ball-img" class="w-full h-full object-contain filter drop-shadow-[0_0_50px_rgba(255,31,31,0.4)]">
+                <!-- Energy Rays -->
+                <div class="absolute inset-0 energy-rays"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN INTERFACE -->
+    <div class="relative min-h-screen flex flex-col z-10 transition-all duration-1000" id="main-ui">
+        
+        <!-- HEADER -->
+        <header class="w-full border-b border-white/10 bg-black/40 backdrop-blur-md px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-full bg-pkm-red flex items-center justify-center border-2 border-pkm-yellow shadow-[0_0_15px_#ff1f1f]">
+                    <i class="fa-solid fa-compact-disc text-white text-xl"></i>
+                </div>
+                <h1 class="font-rajdhani font-bold text-2xl tracking-[0.2em] uppercase">
+                    ROL <span class="text-pkm-red">Registry</span> <span class="text-white/20 text-xs tracking-normal font-light ml-2">// Alliance Hub</span>
+                </h1>
+            </div>
+            <div class="hidden md:flex items-center gap-8 font-rajdhani text-sm uppercase tracking-widest text-white/60">
+                <a href="../index.html" class="hover:text-pkm-yellow transition-colors"><i class="fa-solid fa-house text-xs mr-1"></i>Home</a>
+                <span class="hover:text-pkm-yellow cursor-pointer transition-colors" onclick="toggleView('hall-of-leaders')">Hall of Leaders</span>
+                <span class="hover:text-pkm-yellow cursor-pointer transition-colors" onclick="toggleView('registration-form')">Registration</span>
+                <div class="w-[2px] h-6 bg-white/10"></div>
+                <select id="lang-selector" class="bg-black/60 border border-white/10 text-pkm-yellow text-xs font-rajdhani font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg cursor-pointer focus:outline-none focus:border-pkm-yellow"></select>
+                <span class="text-pkm-red font-bold animate-pulse" id="connection-status">Alliance Member Verified</span>
+            </div>
+        </header>
+
+        <!-- HOW TO PLAY / INSTRUCTIONS PANEL -->
+        <div id="instructions-panel" class="w-full bg-black/60 backdrop-blur-md border-b border-white/5 px-6 py-4 text-center">
+            <button onclick="document.getElementById('instructions-content').classList.toggle('hidden'); this.querySelector('i').classList.toggle('fa-chevron-down'); this.querySelector('i').classList.toggle('fa-chevron-up');" class="font-rajdhani font-bold text-sm uppercase tracking-[0.3em] text-pkm-yellow hover:text-white transition-colors">
+                <i class="fa-solid fa-circle-question mr-2"></i><span data-i18n="how_to_play">How to Play</span> <i class="fa-solid fa-chevron-down ml-2 text-xs"></i>
+            </button>
+            <div id="instructions-content" class="hidden mt-4 max-w-2xl mx-auto text-left space-y-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white/5 rounded-xl p-4 border border-white/5">
+                        <h4 class="font-rajdhani font-bold text-pkm-blue uppercase tracking-widest text-xs mb-2"><i class="fa-solid fa-users mr-1"></i> <span data-i18n="instr_aspirant_title">Aspirants (Anyone)</span></h4>
+                        <ul class="text-white/50 text-xs space-y-1 list-disc list-inside">
+                            <li data-i18n="instr_aspirant_1">Select "Aspirant" and enter any name</li>
+                            <li data-i18n="instr_aspirant_2">Spin to discover random Pokémon</li>
+                            <li data-i18n="instr_aspirant_3">Spin unlimited times to explore</li>
+                            <li data-i18n="instr_aspirant_4">View the Hall of Leaders to see the elite</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white/5 rounded-xl p-4 border border-pkm-red/20">
+                        <h4 class="font-rajdhani font-bold text-pkm-red uppercase tracking-widest text-xs mb-2"><i class="fa-solid fa-crown mr-1"></i> <span data-i18n="instr_member_title">Alliance Members (ROL)</span></h4>
+                        <ul class="text-white/50 text-xs space-y-1 list-disc list-inside">
+                            <li data-i18n="instr_member_1">Select "Alliance Member" and enter your secret key</li>
+                            <li data-i18n="instr_member_2">Draft a squad of 6 from 10 random Pokémon</li>
+                            <li data-i18n="instr_member_3">1 guaranteed Legendary in every draft</li>
+                            <li data-i18n="instr_member_4">Upload a profile pic and register as a Gym Boss</li>
+                            <li data-i18n="instr_member_5">Your squad appears forever in the Hall of Leaders</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <main class="flex-grow flex items-center justify-center p-6 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-pkm-blue/5 via-transparent to-transparent">
+            
+            <div class="w-full max-w-lg space-y-8" id="registration-form">
+                <div class="text-center space-y-4">
+                    <h2 class="text-4xl md:text-5xl font-rajdhani font-bold uppercase tracking-tighter" id="form-title">
+                        Trainer <span class="text-pkm-yellow">Registration</span>
+                    </h2>
+                    <p class="text-white/40 font-light max-w-xs mx-auto text-sm uppercase tracking-[0.3em]">
+                        Establish your unique Trainer Signature
+                    </p>
+                </div>
+
+                <!-- GLASS CARD -->
+                <div class="bg-pkm-panel backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl space-y-6 relative overflow-hidden group">
+                    <div class="absolute -top-24 -left-24 w-48 h-48 bg-pkm-blue/10 rounded-full blur-3xl group-hover:bg-pkm-blue/20 transition-all duration-700"></div>
+                    
+                    <div class="space-y-4 relative" id="identity-toggle">
+                        <label class="font-rajdhani text-xs font-bold uppercase tracking-widest text-pkm-yellow">Access Type</label>
+                        <div class="flex gap-2">
+                            <button onclick="setAccess('aspirant')" id="btn-aspirant" class="flex-grow py-3 rounded-xl border border-white/10 bg-white/5 font-rajdhani font-bold uppercase tracking-widest text-xs hover:bg-white/10 transition-all text-pkm-blue">Aspirant</button>
+                            <button onclick="setAccess('member')" id="btn-member" class="flex-grow py-3 rounded-xl border border-white/10 bg-white/5 font-rajdhani font-bold uppercase tracking-widest text-xs hover:bg-white/10 transition-all">Alliance Member</button>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 relative">
+                        <div class="space-y-2">
+                            <label for="castle-name" class="font-rajdhani text-xs font-bold uppercase tracking-widest text-pkm-blue">Castle Name</label>
+                            <input type="text" id="castle-name" placeholder="YOUR IN-GAME NAME..." class="w-full bg-black/40 border-2 border-white/5 rounded-xl px-4 py-4 font-rajdhani text-xl tracking-widest text-white placeholder:text-white/10 focus:outline-none focus:border-pkm-blue transition-all">
+                        </div>
+                        <div class="space-y-2 relative" id="mascot-code-container">
+                            <label for="mascot-code" class="font-rajdhani text-[10px] uppercase font-bold tracking-[0.2em] text-pkm-yellow/50">Mascot Secret Key <span class="text-white/10 font-normal tracking-normal lowercase ml-1">// for ROL mascot registration</span></label>
+                            <div class="relative">
+                                <input type="password" id="mascot-code" placeholder="ENTER MASCOT KEY..." class="w-full bg-black/40 border-2 border-white/5 rounded-xl px-4 py-3 font-rajdhani text-lg tracking-[0.5em] text-white placeholder:text-white/10 focus:outline-none focus:border-pkm-yellow transition-all">
+                                <div id="mascot-key-status" class="absolute right-4 top-1/2 -translate-y-1/2 hidden">
+                                    <span class="bg-pkm-yellow/20 text-pkm-yellow text-[8px] px-2 py-1 rounded-md border border-pkm-yellow/30 font-bold tracking-widest uppercase">Verified</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 relative hidden" id="member-code-container">
+                        <div class="space-y-2">
+                            <label for="castle-level" class="font-rajdhani text-xs font-bold uppercase tracking-widest text-pkm-yellow">Castle Level</label>
+                            <input type="number" id="castle-level" placeholder="LEVEL (e.g. 30)..." class="w-full bg-black/40 border-2 border-white/5 rounded-xl px-4 py-3 font-rajdhani text-lg tracking-widest text-white placeholder:text-white/10 focus:outline-none focus:border-pkm-yellow transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label for="member-code" class="font-rajdhani text-xs font-bold uppercase tracking-widest text-pkm-red">Alliance Secret Key</label>
+                            <input type="password" id="member-code" placeholder="ENTER SECRET KEY..." class="w-full bg-black/40 border-2 border-white/5 rounded-xl px-4 py-3 font-rajdhani text-lg tracking-[0.5em] text-white placeholder:text-white/10 focus:outline-none focus:border-pkm-red transition-all">
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-center">
+                        <p class="text-white/20 text-[10px] uppercase font-bold tracking-[0.2em] animate-pulse">
+                            <i class="fa-solid fa-atom mr-2 text-pkm-blue"></i> Universal Registry Sync Active
+                        </p>
+                    </div>
+
+                    <button id="summon-btn" class="w-full py-5 bg-pkm-red rounded-2xl font-rajdhani font-bold text-xl tracking-[0.3em] uppercase hover:bg-red-500 hover:shadow-[0_0_30px_#ff1f1f] active:scale-[0.98] transition-all relative overflow-hidden">
+                        <span class="relative z-10">Initialize Capture</span>
+                        <div class="absolute inset-0 bg-white/20 translate-x-[-100%] hover:translate-x-[100%] transition-transform duration-1000"></div>
+                    </button>
+
+                    <!-- Preview Icons (Gen 4 Legends) -->
+                    <div class="flex justify-center gap-4 pt-4 border-t border-white/5 opacity-50">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/483.png" class="w-8 h-8 object-contain filter grayscale hover:grayscale-0 transition-all cursor-help" title="Elite: Dialga">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/484.png" class="w-8 h-8 object-contain filter grayscale hover:grayscale-0 transition-all cursor-help" title="Elite: Palkia">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/487.png" class="w-8 h-8 object-contain filter grayscale hover:grayscale-0 transition-all cursor-help" title="Elite: Giratina">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/493.png" class="w-8 h-8 object-contain filter grayscale hover:grayscale-0 transition-all cursor-help" title="Elite: Arceus">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/448.png" class="w-8 h-8 object-contain filter grayscale hover:grayscale-0 transition-all cursor-help" title="Elite: Lucario">
+                    </div>
+                </div>
+
+                <!-- Footer Text (Professional/Legal Style) -->
+                <div class="space-y-1">
+                    <p class="text-center text-[10px] text-white/20 uppercase tracking-[0.2em]">
+                        Oak's Global Laboratory System v4.0.2 // Secured by ROL Alliance Core
+                    </p>
+                    <p class="text-center text-[8px] text-white/20 mt-2 uppercase tracking-widest font-bold">
+                        <span onclick="openAdminModal()" class="cursor-pointer hover:text-pkm-blue transition-colors flex items-center justify-center gap-2">
+                            <span class="w-1.5 h-1.5 rounded-full bg-pkm-blue/40 animate-pulse"></span>
+                            <i class="fa-solid fa-shield-halved text-[8px]"></i> Staff Portal
+                        </span>
+                    </p>
+                    <p class="text-center text-[7px] text-white/10 mt-3 leading-relaxed max-w-lg mx-auto" data-i18n="legal_disclaimer">
+                        This is an unofficial fan project. Pokémon and all related names, images, and trademarks are © Nintendo, Game Freak, and The Pokémon Company. This site is not affiliated with, endorsed, or sponsored by any of these companies. All Pokémon data is sourced from the open-source PokéAPI project. No copyright infringement is intended.
+                    </p>
+                </div>
+            </div>
+    <!-- MODALS (Stay Sharp) -->
+    <div id="draft-screen" class="hidden w-full max-w-5xl space-y-8">
+        <div class="text-center">
+            <h2 class="text-4xl font-rajdhani font-bold uppercase tracking-[0.3em]">Gym Leader <span class="text-pkm-yellow">Draft</span></h2>
+            <p id="draft-subtitle" class="text-white/40 text-sm tracking-widest uppercase">Spin 10 times and choose your Squad of 6</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4" id="draft-pool">
+            <!-- 10 Spun Pokémon will appear here -->
+        </div>
+
+        <div class="flex flex-col items-center gap-6">
+            <div id="draft-status" class="bg-black/60 px-6 py-3 rounded-full border border-white/10 font-rajdhani text-xl tracking-widest uppercase">
+                Selected: <span id="selection-count" class="text-pkm-yellow">0</span>/6
+            </div>
+
+            <!-- Discovery Controls (Mascot Mode Only) -->
+            <div id="discovery-controls" class="hidden flex flex-col items-center gap-4">
+                <p id="discovery-progress" class="font-rajdhani text-sm text-pkm-yellow font-bold uppercase tracking-widest">
+                    Specimens Identified: <span id="discovery-count">0</span> / <span id="discovery-total">14</span>
+                </p>
+                <button id="btn-discover" class="px-8 py-3 bg-pkm-blue/20 border-2 border-pkm-blue text-pkm-blue rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:bg-pkm-blue hover:text-white transition-all">
+                    Scan Next Specimen
+                </button>
+            </div>
+
+            <!-- Profile Pic Upload -->
+            <div id="profile-upload-section" class="hidden w-full max-w-lg space-y-3">
+                <input type="file" id="profile-pic-input" accept="image/*" class="hidden">
+                <div id="profile-pic-dropzone" onclick="document.getElementById('profile-pic-input').click()" class="cursor-pointer group bg-black/40 border-2 border-dashed border-white/10 hover:border-pkm-blue/50 rounded-2xl p-6 flex flex-col items-center gap-3 transition-all duration-300">
+                    <div id="profile-pic-preview" class="hidden">
+                        <img id="profile-pic-thumb" src="" class="w-20 h-20 rounded-full object-cover border-2 border-pkm-blue shadow-[0_0_20px_rgba(96,165,250,0.3)]">
+                    </div>
+                    <div id="profile-pic-placeholder" class="flex flex-col items-center gap-2">
+                        <div class="w-14 h-14 bg-pkm-blue/10 rounded-full flex items-center justify-center group-hover:bg-pkm-blue/20 transition-all">
+                            <i class="fa-solid fa-camera text-pkm-blue text-lg"></i>
+                        </div>
+                        <p class="font-rajdhani text-xs font-bold uppercase tracking-widest text-pkm-blue">Upload Profile Pic</p>
+                    </div>
+                    <p class="text-[8px] text-white/20 uppercase tracking-widest text-center">Upload only AI-Generated Pokémon pic of yourself from Gemini</p>
+                </div>
+            </div>
+
+            <button id="confirm-squad-btn" disabled class="px-12 py-5 bg-pkm-red opacity-50 rounded-2xl font-rajdhani font-bold text-2xl uppercase tracking-[0.3em] transition-all">
+                Finalize Contract
+            </button>
+            <p class="text-[10px] text-white/20 uppercase tracking-widest">Once contracted, your unique team and AI Lore are locked in the Registry</p>
+        </div>
+    </div>
+
+    <!-- HALL OF LEADERS (Hidden) -->
+    <div id="hall-of-leaders" class="hidden w-full max-w-6xl space-y-8 bg-black/40 backdrop-blur-xl p-8 rounded-[3rem] border border-white/5">
+        <div class="text-center">
+            <h2 class="text-4xl font-rajdhani font-bold uppercase tracking-[0.3em]"><span class="text-pkm-red">Global</span> Hall of Leaders</h2>
+            <p class="text-white/40 text-sm tracking-widest uppercase">The elite Gym Bosses of the ROL Alliance</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="leaders-grid">
+            <!-- Leader Cards injected here -->
+        </div>
+    </div>
+
+    <!-- POKEMON DETAIL MODAL -->
+    <div id="pokemon-modal" class="hidden fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="closePkmModal(event)">
+        <div class="bg-[#1a1a2e] border border-white/10 rounded-3xl p-8 max-w-sm w-full space-y-4 relative" onclick="event.stopPropagation()">
+            <button onclick="document.getElementById('pokemon-modal').classList.add('hidden')" class="absolute top-4 right-4 text-white/30 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex flex-col items-center gap-3">
+                <img id="modal-pkm-sprite" src="" class="w-40 h-40 object-contain drop-shadow-[0_0_30px_rgba(96,165,250,0.3)]">
+                <h3 id="modal-pkm-name" class="font-rajdhani font-bold text-2xl uppercase tracking-widest"></h3>
+                <div id="modal-pkm-types" class="flex gap-2"></div>
+            </div>
+            <div id="modal-pkm-stats" class="space-y-2 pt-3 border-t border-white/10"></div>
+        </div>
+    </div>
+
+    <!-- PREMIUM CUSTOM POPUP MODAL -->
+    <div id="confirm-modal" class="hidden fixed inset-0 z-[300] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-[#1a1a2e] border border-white/10 rounded-3xl p-8 max-w-sm w-full space-y-6 relative border-t-4 border-t-pkm-red shadow-[0_0_50px_rgba(255,31,31,0.15)] anim-modal-entrance">
+            <div class="text-center space-y-2">
+                <div id="confirm-modal-icon-bg" class="w-16 h-16 bg-pkm-red/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-pkm-red/20">
+                    <i id="confirm-modal-icon" class="fa-solid fa-triangle-exclamation text-pkm-red text-2xl"></i>
+                </div>
+                <h3 id="confirm-modal-title" class="font-rajdhani font-bold text-2xl uppercase tracking-widest text-white">Security Protocol</h3>
+                <p id="confirm-modal-message" class="text-white/60 text-sm leading-relaxed font-light uppercase tracking-wider text-[10px]">
+                    Are you sure you want to proceed with this action?
+                </p>
+            </div>
+
+            <!-- Input Field for Prompts -->
+            <div id="confirm-modal-input-container" class="hidden space-y-2">
+                <input type="text" id="confirm-modal-input" class="w-full bg-black/40 border-2 border-white/5 rounded-xl px-4 py-3 font-rajdhani text-lg tracking-widest text-pkm-blue placeholder:text-white/10 focus:outline-none focus:border-pkm-blue transition-all" placeholder="Enter value...">
+            </div>
+
+            <div class="flex gap-4">
+                <button id="confirm-modal-cancel" class="flex-grow py-3 bg-white/5 border border-white/10 rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:bg-white/10 transition-all text-xs text-white/40 hover:text-white">
+                    Abort
+                </button>
+                <button id="confirm-modal-proceed" class="flex-grow py-3 bg-pkm-red rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:bg-red-500 transition-all text-sm shadow-[0_5px_15px_rgba(255,31,31,0.3)]">
+                    Proceed
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL (Premium Experience) -->
+    <div id="admin-modal" class="hidden fixed inset-0 z-[400] bg-black/90 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-[#1a1a2e] to-black border border-white/10 rounded-[2.5rem] p-10 max-w-sm w-full space-y-8 relative border-t-2 border-t-pkm-blue shadow-[0_0_80px_rgba(49,167,215,0.15)] anim-modal-entrance">
+            
+            <!-- Decorative Elements -->
+            <div class="absolute -top-12 -left-12 w-24 h-24 bg-pkm-blue/20 rounded-full blur-3xl"></div>
+            
+            <div class="text-center space-y-3">
+                <div class="w-20 h-20 bg-pkm-blue/10 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-pkm-blue/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                    <i class="fa-solid fa-user-shield text-pkm-blue text-3xl"></i>
+                </div>
+                <h3 class="font-rajdhani font-black text-3xl uppercase tracking-tighter text-white">Security Hub</h3>
+                <p class="text-white/40 text-[10px] uppercase tracking-[0.3em] font-bold">Authorized Personnel Only</p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <label class="font-rajdhani text-[10px] uppercase font-bold tracking-[0.2em] text-pkm-blue/60 ml-2">Clearance Level 4 Key</label>
+                    <div class="relative">
+                        <input type="password" id="admin-passcode" placeholder="••••••••••••" class="w-full bg-white/5 border-2 border-white/5 rounded-2xl px-6 py-5 font-rajdhani text-2xl tracking-[0.5em] text-pkm-blue placeholder:text-white/5 focus:outline-none focus:border-pkm-blue transition-all shadow-inner">
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-3">
+                    <button id="admin-submit-btn" class="w-full py-5 bg-pkm-blue rounded-2xl font-rajdhani font-bold text-lg uppercase tracking-[0.3em] hover:bg-blue-500 hover:shadow-[0_0_30px_rgba(49,167,215,0.4)] transition-all shadow-lg">
+                        Authenticate
+                    </button>
+                    <button onclick="closeAdminModal()" class="w-full py-3 bg-white/5 border border-white/10 rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:bg-white/10 transition-all text-[10px] text-white/30">
+                        Dismiss Connection
+                    </button>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/5 text-center">
+                <p class="text-[8px] text-white/10 uppercase tracking-widest">Global Admin Protocol 88-X // Noyzzing Core</p>
+            </div>
+        </div>
+    </div>
+
+            <!-- RESULT DISPLAY (Hidden) -->
+            <div id="result-screen" class="hidden w-full max-w-4xl flex flex-col md:flex-row gap-8 items-center">
+                <!-- POKEMON DISPLAY -->
+                <div class="relative w-full max-w-sm aspect-square bg-pkm-panel rounded-full border border-white/10 flex items-center justify-center group">
+                    <div id="result-badge" class="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-pkm-blue rounded-full text-[10px] font-bold text-white uppercase tracking-widest z-20 hidden">Mascot Registered</div>
+                    <div class="absolute inset-0 rounded-full bg-[conic-gradient(from_0deg,_transparent_0%,_#31a7d7_50%,_transparent_100%)] opacity-20 animate-[spin_10s_linear_infinite]"></div>
+                    <img id="pokemon-sprite" src="" class="w-4/5 h-4/5 object-contain z-10 pokemon-breathe drop-shadow-[0_0_30px_rgba(49,167,215,0.3)] transition-all duration-700">
+                    
+                    <!-- Stats Badges -->
+                    <div class="absolute -bottom-4 right-0 bg-pkm-blue px-4 py-2 rounded-full font-rajdhani font-bold text-sm shadow-[0_5px_15px_rgba(49,167,215,0.4)]">
+                        CP: <span id="pokemon-cp">2450</span>
+                    </div>
+                </div>
+
+                <!-- DETAILS CARD -->
+                <div class="flex-grow bg-pkm-panel border border-white/10 rounded-[2.5rem] p-10 space-y-6 self-stretch relative overflow-hidden group">
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-pkm-red/5 rounded-full blur-2xl"></div>
+                    
+                    <div class="space-y-1 relative">
+                        <p id="result-header" class="font-rajdhani font-bold text-pkm-blue uppercase tracking-[0.4em] text-sm flex items-center gap-2">
+                            <span>Target Identified</span>
+                            <span class="text-[10px] text-white/20 tracking-normal font-light">// ROL ALLIANCE SECURE LINK</span>
+                        </p>
+                        <h3 id="pokemon-name" class="font-rajdhani font-extrabold text-6xl uppercase tracking-tighter">LUCARIO</h3>
+                    </div>
+
+                    <div class="flex gap-4" id="pokemon-types">
+                        <!-- Types injected here -->
+                    </div>
+
+                    <div class="w-full h-[1px] bg-white/10"></div>
+
+                    <div class="grid grid-cols-2 gap-8">
+                        <div class="space-y-1">
+                            <p class="text-white/30 text-[10px] uppercase font-bold tracking-widest">Primary Move</p>
+                            <p id="pokemon-move" class="font-rajdhani font-bold text-xl uppercase">Aura Sphere</p>
+                        </div>
+                        <div class="space-y-1 text-right">
+                            <p class="text-white/30 text-[10px] uppercase font-bold tracking-widest">Classification</p>
+                            <p id="pokemon-genus" class="font-rajdhani font-bold text-xl uppercase italic">Aura Pokémon</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <p class="text-white/30 text-[10px] uppercase font-bold tracking-widest">Biological Synthesis</p>
+                        <p id="pokemon-flavor" class="text-white/60 text-sm leading-relaxed font-light">
+                            It can read the thoughts and movements of others by sensing their auras.
+                        </p>
+                    </div>
+
+                    <div class="flex gap-4 pt-4">
+                        <button class="flex-grow py-4 bg-white/5 border border-white/10 rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:bg-white/10 transition-all text-sm" id="new-signature-btn">
+                            New Signature
+                        </button>
+                        <button class="flex-grow py-4 bg-pkm-blue rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:opacity-90 transition-all text-sm shadow-[0_5px_15px_rgba(49,167,215,0.3)]">
+                            Export Record
+                        </button>
+                    </div>
+
+                    <!-- ALLIANCE RECRUITMENT CTA (visible for aspirants only) -->
+                    <div id="aspirant-cta" class="hidden mt-4 border border-pkm-red/20 rounded-2xl p-4 space-y-2 text-center bg-white/[0.02]">
+                        <p class="text-white/50 text-xs leading-relaxed">
+                            Join the <span class="text-pkm-red font-bold">ROL Alliance</span> to become a <span class="text-pkm-yellow font-bold">Gym Leader</span> — get a secret key, draft your own squad, and battle others soon.
+                        </p>
+                        <a href="https://discord.gg/BX95Q38C" target="_blank" class="inline-block px-5 py-2 bg-pkm-red rounded-xl font-rajdhani font-bold uppercase tracking-widest text-xs hover:bg-red-500 transition-all">
+                            <i class="fa-brands fa-discord mr-2"></i>Join Discord
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- MOBILE BOTTOM NAVIGATION -->
+            <nav class="md:hidden fixed bottom-0 left-0 w-full bg-black/60 backdrop-blur-xl border-t border-white/10 px-6 py-3 flex items-center justify-around z-[100]">
+                <a href="../index.html" class="flex flex-col items-center gap-1 text-white/60 hover:text-pkm-yellow transition-colors">
+                    <i class="fa-solid fa-house text-lg"></i>
+                    <span class="text-[10px] font-rajdhani font-bold uppercase tracking-widest">Home</span>
+                </a>
+                <button onclick="toggleView('hall-of-leaders')" class="flex flex-col items-center gap-1 text-white/60 hover:text-pkm-yellow transition-colors">
+                    <i class="fa-solid fa-trophy text-lg"></i>
+                    <span class="text-[10px] font-rajdhani font-bold uppercase tracking-widest">Hall</span>
+                </button>
+                <button onclick="toggleView('registration-form')" class="flex flex-col items-center gap-1 text-white/60 hover:text-pkm-yellow transition-colors">
+                    <i class="fa-solid fa-id-card text-lg"></i>
+                    <span class="text-[10px] font-rajdhani font-bold uppercase tracking-widest">Register</span>
+                </button>
+                <div class="w-[1px] h-8 bg-white/10 mx-2"></div>
+                <select id="lang-selector-mobile" onchange="setLanguage(this.value)" class="bg-transparent border-none text-pkm-yellow text-[10px] font-rajdhani font-bold uppercase tracking-widest focus:outline-none"></select>
+            </nav>
+        </main>
+    </div>
+
+    <!-- MODALS (Sharp focus, outside blurred UI) -->
+    <div id="pokemon-modal" class="hidden fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4" onclick="closePkmModal(event)">
+        <div class="bg-[#1a1a2e] border border-white/10 rounded-3xl p-8 max-w-sm w-full space-y-4 relative" onclick="event.stopPropagation()">
+            <button onclick="document.getElementById('pokemon-modal').classList.add('hidden')" class="absolute top-4 right-4 text-white/30 hover:text-white text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex flex-col items-center gap-3">
+                <img id="modal-pkm-sprite" src="" class="w-40 h-40 object-contain drop-shadow-[0_0_30px_rgba(96,165,250,0.3)]">
+                <h3 id="modal-pkm-name" class="font-rajdhani font-bold text-2xl uppercase tracking-widest"></h3>
+                <div id="modal-pkm-types" class="flex gap-2"></div>
+            </div>
+            <div id="modal-pkm-stats" class="space-y-2 pt-3 border-t border-white/10"></div>
+        </div>
+    </div>
+
+    <!-- CUSTOM CONFIRMATION MODAL -->
+    <div id="confirm-modal" class="hidden fixed inset-0 z-[300] bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-[#1a1a2e] border border-white/10 rounded-3xl p-8 max-w-sm w-full space-y-6 relative border-t-4 border-t-pkm-red shadow-[0_0_50px_rgba(255,31,31,0.15)] anim-modal-entrance">
+            <div class="text-center space-y-2">
+                <div id="confirm-modal-icon-bg" class="w-16 h-16 bg-pkm-red/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-pkm-red/20">
+                    <i id="confirm-modal-icon" class="fa-solid fa-triangle-exclamation text-pkm-red text-2xl"></i>
+                </div>
+                <h3 id="confirm-modal-title" class="font-rajdhani font-bold text-2xl uppercase tracking-widest text-white">Security Protocol</h3>
+                <p id="confirm-modal-message" class="text-white/60 text-sm leading-relaxed font-light uppercase tracking-wider text-[10px]">
+                    Are you sure you want to proceed with this action?
+                </p>
+            </div>
+
+            <div id="confirm-modal-input-container" class="hidden space-y-2">
+                <input type="text" id="confirm-modal-input" class="w-full bg-black/40 border-2 border-white/5 rounded-xl px-4 py-3 font-rajdhani text-lg tracking-widest text-pkm-blue placeholder:text-white/10 focus:outline-none focus:border-pkm-blue transition-all" placeholder="Enter value...">
+            </div>
+
+            <div class="flex gap-4">
+                <button id="confirm-modal-cancel" class="flex-grow py-3 bg-white/5 border border-white/10 rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:bg-white/10 transition-all text-xs text-white/40 hover:text-white">
+                    Abort
+                </button>
+                <button id="confirm-modal-proceed" class="flex-grow py-3 bg-pkm-red rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:bg-red-500 transition-all text-sm shadow-[0_5px_15px_rgba(255,31,31,0.3)]">
+                    Proceed
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div id="admin-modal" class="hidden fixed inset-0 z-[400] bg-black/90 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="bg-gradient-to-b from-[#1a1a2e] to-black border border-white/10 rounded-[2.5rem] p-10 max-w-sm w-full space-y-8 relative border-t-2 border-t-pkm-blue shadow-[0_0_80px_rgba(49,167,215,0.15)] anim-modal-entrance">
+            <div class="absolute -top-12 -left-12 w-24 h-24 bg-pkm-blue/20 rounded-full blur-3xl"></div>
+            <div class="text-center space-y-3">
+                <div class="w-20 h-20 bg-pkm-blue/10 rounded-3xl flex items-center justify-center mx-auto mb-6 border border-pkm-blue/20 rotate-12 group-hover:rotate-0 transition-transform duration-500">
+                    <i class="fa-solid fa-user-shield text-pkm-blue text-3xl"></i>
+                </div>
+                <h3 class="font-rajdhani font-black text-3xl uppercase tracking-tighter text-white">Security Hub</h3>
+                <p class="text-white/40 text-[10px] uppercase tracking-[0.3em] font-bold">Authorized Personnel Only</p>
+            </div>
+            <div class="space-y-6">
+                <div class="space-y-2">
+                    <label class="font-rajdhani text-[10px] uppercase font-bold tracking-[0.2em] text-pkm-blue/60 ml-2">Clearance Level 4 Key</label>
+                    <div class="relative">
+                        <input type="password" id="admin-passcode" placeholder="••••••••••••" class="w-full bg-white/5 border-2 border-white/5 rounded-2xl px-6 py-5 font-rajdhani text-2xl tracking-[0.5em] text-pkm-blue placeholder:text-white/5 focus:outline-none focus:border-pkm-blue transition-all shadow-inner">
+                    </div>
+                </div>
+                <div class="flex flex-col gap-3">
+                    <button id="admin-submit-btn" class="w-full py-5 bg-pkm-blue rounded-2xl font-rajdhani font-bold text-lg uppercase tracking-[0.3em] hover:bg-blue-500 hover:shadow-[0_0_30px_rgba(49,167,215,0.4)] transition-all shadow-lg">
+                        Authenticate
+                    </button>
+                    <button onclick="closeAdminModal()" class="w-full py-3 bg-white/5 border border-white/10 rounded-xl font-rajdhani font-bold uppercase tracking-widest hover:bg-white/10 transition-all text-[10px] text-white/30">
+                        Dismiss Connection
+                    </button>
+                </div>
+            </div>
+            <div class="pt-4 border-t border-white/5 text-center">
+                <p class="text-[8px] text-white/10 uppercase tracking-widest">Global Admin Protocol 88-X // Noyzzing Core</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

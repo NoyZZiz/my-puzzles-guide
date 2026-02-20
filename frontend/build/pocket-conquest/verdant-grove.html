@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Pocket Conquest - Verdant Grove</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rajdhani:wght@600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-family: 'Rajdhani', sans-serif;
+        }
+
+        .game-wrapper {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            max-width: 800px;
+            max-height: 600px;
+            overflow: hidden;
+        }
+
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* UI OVERLAY */
+        .ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .location-bar {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.85);
+            padding: 8px 25px;
+            border-radius: 20px;
+            border: 2px solid #4ade80;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            color: #4ade80;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px #4ade80;
+        }
+
+        .controls-bar {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 20px;
+            border-radius: 15px;
+            font-size: 11px;
+            color: #94a3b8;
+        }
+
+        /* DIALOGUE BOX */
+        .dialogue-box {
+            position: absolute;
+            bottom: 60px;
+            left: 20px;
+            right: 20px;
+            background: linear-gradient(180deg, #1e3a5f 0%, #0f172a 100%);
+            border: 4px solid #60a5fa;
+            border-radius: 15px;
+            padding: 20px;
+            display: none;
+            pointer-events: auto;
+            box-shadow: 0 0 30px rgba(96, 165, 250, 0.3);
+        }
+
+        .dialogue-box.active {
+            display: block;
+            animation: dialogueSlide 0.3s ease-out;
+        }
+
+        @keyframes dialogueSlide {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .dialogue-speaker {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 11px;
+            color: #fbbf24;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .dialogue-text {
+            font-size: 16px;
+            color: #fff;
+            line-height: 1.6;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .dialogue-continue {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size: 10px;
+            color: #60a5fa;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* MOBILE D-PAD */
+        .mobile-dpad {
+            position: absolute;
+            bottom: 80px;
+            left: 20px;
+            display: none;
+            pointer-events: auto;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-dpad {
+                display: block;
+            }
+
+            .controls-bar {
+                display: none;
+            }
+        }
+
+        .dpad {
+            display: grid;
+            grid-template-columns: repeat(3, 50px);
+            grid-template-rows: repeat(3, 50px);
+            gap: 3px;
+        }
+
+        .dpad-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .dpad-btn:active {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .dpad-center {
+            background: transparent;
+            border: none;
+        }
+
+        .action-btn {
+            position: absolute;
+            bottom: 100px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: rgba(74, 222, 128, 0.3);
+            border: 3px solid #4ade80;
+            border-radius: 50%;
+            color: white;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+        }
+
+        @media (max-width: 768px) {
+            .action-btn {
+                display: flex;
+            }
+        }
+
+        /* MENU BUTTON */
+        .menu-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 2px solid #64748b;
+            border-radius: 8px;
+            padding: 8px 15px;
+            color: white;
+            font-size: 12px;
+            pointer-events: auto;
+            cursor: pointer;
+        }
+    </style>
+    <!-- Monetag MultiTag -->
+    <meta name="monetag" content="dc4cd1c75e904df6c3759be0529f93c8">
+    <script>(function(d,z,s){s.src='https://'+d+'/400/'+z;try{(document.body||document.documentElement).appendChild(s)}catch(e){}})('thubanoa.com','10303259',document.createElement('script'))</script>
+    <!-- Open Graph / SEO -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Pocket Conquest - Verdant Grove" />
+    <meta property="og:description" content="Puzzles and Conquest strategy guides and tools" />
+    <meta property="og:image" content="https://noyziz.github.io/my-puzzles-guide/assets/images/noyzzing-logo-premium.jpg" />
+    <meta property="og:site_name" content="NoYzzing OPS" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Pocket Conquest - Verdant Grove" />
+    <meta name="twitter:description" content="Puzzles and Conquest strategy guides and tools" />
+</head>
+
+<body>
+    <div class="game-wrapper">
+        <canvas id="gameCanvas"></canvas>
+
+        <div class="ui-layer">
+            <div class="location-bar">🌿 VERDANT GROVE</div>
+
+            <div class="controls-bar">
+                [ARROWS] Move &nbsp;&nbsp; [SPACE] Interact &nbsp;&nbsp; [ESC] Menu
+            </div>
+
+            <button class="menu-btn" onclick="location.href='map.html'">← MAP</button>
+
+            <div id="dialogueBox" class="dialogue-box">
+                <div id="dialogueSpeaker" class="dialogue-speaker">VILLAGER</div>
+                <div id="dialogueText" class="dialogue-text">Welcome to Verdant Grove!</div>
+                <div class="dialogue-continue">▼ SPACE</div>
+            </div>
+
+            <!-- Mobile Controls -->
+            <div class="mobile-dpad">
+                <div class="dpad">
+                    <div class="dpad-btn dpad-center"></div>
+                    <div class="dpad-btn" ontouchstart="startMove('up')" ontouchend="stopMove()">▲</div>
+                    <div class="dpad-btn dpad-center"></div>
+                    <div class="dpad-btn" ontouchstart="startMove('left')" ontouchend="stopMove()">◀</div>
+                    <div class="dpad-btn dpad-center"></div>
+                    <div class="dpad-btn" ontouchstart="startMove('right')" ontouchend="stopMove()">▶</div>
+                    <div class="dpad-btn dpad-center"></div>
+                    <div class="dpad-btn" ontouchstart="startMove('down')" ontouchend="stopMove()">▼</div>
+                    <div class="dpad-btn dpad-center"></div>
+                </div>
+            </div>
+
+            <div class="action-btn" ontouchstart="interact()">ACTION</div>
+        </div>
+    </div>
+
+    <script>
+        // CANVAS SETUP
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Responsive canvas
+        function resizeCanvas() {
+            const wrapper = canvas.parentElement;
+            canvas.width = Math.min(800, window.innerWidth);
+            canvas.height = Math.min(600, window.innerHeight);
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // CONSTANTS
+        const TILE = 32;
+        const WORLD_WIDTH = 40;  // 40 tiles wide (BIG MAP!)
+        const WORLD_HEIGHT = 30; // 30 tiles tall
+
+        // TILE TYPES
+        const T = {
+            GRASS: 0, PATH: 1, TREE: 2, WATER: 3, HOUSE: 4,
+            GYM: 5, FLOWER: 6, FENCE: 7, SIGN: 8, BUSH: 9,
+            BRIDGE: 10, ROCK: 11
+        };
+
+        // COLORS (We'll use gradients for better look)
+        const GRASS_COLORS = ['#2d5016', '#3d6a1e', '#4a7c23', '#3d6a1e'];
+
+        // BIG WORLD MAP (40x30 = 1200 tiles!)
+        const worldMap = generateWorld();
+
+        function generateWorld() {
+            const map = [];
+            for (let y = 0; y < WORLD_HEIGHT; y++) {
+                const row = [];
+                for (let x = 0; x < WORLD_WIDTH; x++) {
+                    // Border trees
+                    if (x === 0 || y === 0 || x === WORLD_WIDTH - 1 || y === WORLD_HEIGHT - 1) {
+                        row.push(T.TREE);
+                    }
+                    // Main paths
+                    else if (y === 15 && x > 2 && x < WORLD_WIDTH - 3) {
+                        row.push(T.PATH);
+                    }
+                    else if (x === 20 && y > 2 && y < WORLD_HEIGHT - 3) {
+                        row.push(T.PATH);
+                    }
+                    // Village area (center-left)
+                    else if (x >= 5 && x <= 15 && y >= 10 && y <= 20) {
+                        if ((x === 7 || x === 12) && (y === 12 || y === 17)) {
+                            row.push(T.HOUSE);
+                        } else if (x === 10 && y === 14) {
+                            row.push(T.SIGN);
+                        } else if (Math.random() < 0.1) {
+                            row.push(T.FLOWER);
+                        } else {
+                            row.push(T.GRASS);
+                        }
+                    }
+                    // Lake area (right side)
+                    else if (x >= 28 && x <= 35 && y >= 8 && y <= 14) {
+                        row.push(T.WATER);
+                    }
+                    // Bridge over lake
+                    else if (x >= 28 && x <= 35 && y === 15) {
+                        row.push(T.BRIDGE);
+                    }
+                    // Gym area (top)
+                    else if (x >= 18 && x <= 23 && y >= 3 && y <= 7) {
+                        if (x >= 19 && x <= 22 && y >= 4 && y <= 6) {
+                            row.push(T.GYM);
+                        } else if (y === 7 && (x === 20 || x === 21)) {
+                            row.push(T.PATH);
+                        } else {
+                            row.push(T.GRASS);
+                        }
+                    }
+                    // Forest area (bottom)
+                    else if (y >= 22 && y <= 28) {
+                        if (Math.random() < 0.4) {
+                            row.push(T.TREE);
+                        } else if (Math.random() < 0.2) {
+                            row.push(T.BUSH);
+                        } else {
+                            row.push(T.GRASS);
+                        }
+                    }
+                    // Random decorations
+                    else if (Math.random() < 0.05) {
+                        row.push(T.FLOWER);
+                    }
+                    else if (Math.random() < 0.08) {
+                        row.push(T.TREE);
+                    }
+                    else {
+                        row.push(T.GRASS);
+                    }
+                }
+                map.push(row);
+            }
+
+            // Ensure paths are clear
+            for (let x = 3; x < WORLD_WIDTH - 3; x++) {
+                map[15][x] = T.PATH;
+            }
+            for (let y = 3; y < WORLD_HEIGHT - 3; y++) {
+                map[y][20] = T.PATH;
+            }
+
+            return map;
+        }
+
+        // NPCs
+        const npcs = [
+            {
+                x: 8, y: 14, name: 'Elder', sprite: '👴', dialogue: [
+                    "Welcome to Verdant Grove, young trainer!",
+                    "The Gym is to the north. Guardian Oak awaits.",
+                    "Collect heroes and become the champion!"
+                ]
+            },
+            {
+                x: 14, y: 12, name: 'Girl', sprite: '👧', dialogue: [
+                    "Have you seen the lake? It's so pretty!",
+                    "I heard there are water-type heroes there."
+                ]
+            },
+            {
+                x: 10, y: 14, name: 'Sign', sprite: '📜', dialogue: [
+                    "↑ VERDANT GYM",
+                    "→ CRYSTAL LAKE",
+                    "↓ DARK FOREST"
+                ]
+            }
+        ];
+
+        // PLAYER
+        const player = {
+            x: 10 * TILE,
+            y: 18 * TILE,
+            width: TILE - 4,
+            height: TILE - 4,
+            speed: 3,
+            direction: 'down',
+            frame: 0,
+            frameTimer: 0,
+            moving: false
+        };
+
+        // CAMERA (follows player)
+        const camera = {
+            x: 0,
+            y: 0,
+            width: canvas.width,
+            height: canvas.height
+        };
+
+        // INPUT
+        const keys = { up: false, down: false, left: false, right: false };
+        let dialogueActive = false;
+        let currentNPC = null;
+        let dialogueIndex = 0;
+
+        // KEYBOARD
+        document.addEventListener('keydown', (e) => {
+            if (dialogueActive) {
+                if (e.code === 'Space') advanceDialogue();
+                return;
+            }
+            switch (e.code) {
+                case 'ArrowUp': case 'KeyW': keys.up = true; break;
+                case 'ArrowDown': case 'KeyS': keys.down = true; break;
+                case 'ArrowLeft': case 'KeyA': keys.left = true; break;
+                case 'ArrowRight': case 'KeyD': keys.right = true; break;
+                case 'Space': interact(); break;
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            switch (e.code) {
+                case 'ArrowUp': case 'KeyW': keys.up = false; break;
+                case 'ArrowDown': case 'KeyS': keys.down = false; break;
+                case 'ArrowLeft': case 'KeyA': keys.left = false; break;
+                case 'ArrowRight': case 'KeyD': keys.right = false; break;
+            }
+        });
+
+        // MOBILE CONTROLS
+        function startMove(dir) { keys[dir] = true; }
+        function stopMove() { keys.up = keys.down = keys.left = keys.right = false; }
+
+        // COLLISION
+        function canMove(px, py) {
+            const tileX = Math.floor(px / TILE);
+            const tileY = Math.floor(py / TILE);
+            const tileX2 = Math.floor((px + player.width) / TILE);
+            const tileY2 = Math.floor((py + player.height) / TILE);
+
+            for (let y = tileY; y <= tileY2; y++) {
+                for (let x = tileX; x <= tileX2; x++) {
+                    if (x < 0 || x >= WORLD_WIDTH || y < 0 || y >= WORLD_HEIGHT) return false;
+                    const tile = worldMap[y][x];
+                    if (tile === T.TREE || tile === T.WATER || tile === T.HOUSE ||
+                        tile === T.GYM || tile === T.FENCE || tile === T.ROCK || tile === T.BUSH) {
+                        return false;
+                    }
+                }
+            }
+
+            // Check NPC collision
+            for (let npc of npcs) {
+                const npcPx = npc.x * TILE;
+                const npcPy = npc.y * TILE;
+                if (px < npcPx + TILE && px + player.width > npcPx &&
+                    py < npcPy + TILE && py + player.height > npcPy) {
+                    if (npc.name !== 'Sign') return false;
+                }
+            }
+
+            return true;
+        }
+
+        // INTERACTION
+        function interact() {
+            if (dialogueActive) {
+                advanceDialogue();
+                return;
+            }
+
+            let checkX = Math.floor(player.x / TILE);
+            let checkY = Math.floor(player.y / TILE);
+
+            switch (player.direction) {
+                case 'up': checkY--; break;
+                case 'down': checkY++; break;
+                case 'left': checkX--; break;
+                case 'right': checkX++; break;
+            }
+
+            // Check NPCs
+            for (let npc of npcs) {
+                if (npc.x === checkX && npc.y === checkY) {
+                    startDialogue(npc);
+                    return;
+                }
+            }
+
+            // Check Gym
+            const tile = worldMap[checkY]?.[checkX];
+            if (tile === T.GYM) {
+                if (confirm('⚔️ Challenge Guardian Oak?')) {
+                    window.location.href = 'demo.html';
+                }
+            }
+        }
+
+        function startDialogue(npc) {
+            dialogueActive = true;
+            currentNPC = npc;
+            dialogueIndex = 0;
+            showDialogue();
+        }
+
+        function showDialogue() {
+            document.getElementById('dialogueSpeaker').textContent = currentNPC.name.toUpperCase();
+            document.getElementById('dialogueText').textContent = currentNPC.dialogue[dialogueIndex];
+            document.getElementById('dialogueBox').classList.add('active');
+        }
+
+        function advanceDialogue() {
+            dialogueIndex++;
+            if (dialogueIndex >= currentNPC.dialogue.length) {
+                closeDialogue();
+            } else {
+                showDialogue();
+            }
+        }
+
+        function closeDialogue() {
+            dialogueActive = false;
+            currentNPC = null;
+            document.getElementById('dialogueBox').classList.remove('active');
+        }
+
+        // UPDATE
+        function update() {
+            if (dialogueActive) return;
+
+            player.moving = false;
+            let newX = player.x;
+            let newY = player.y;
+
+            if (keys.up) { newY -= player.speed; player.direction = 'up'; player.moving = true; }
+            if (keys.down) { newY += player.speed; player.direction = 'down'; player.moving = true; }
+            if (keys.left) { newX -= player.speed; player.direction = 'left'; player.moving = true; }
+            if (keys.right) { newX += player.speed; player.direction = 'right'; player.moving = true; }
+
+            if (canMove(newX, player.y)) player.x = newX;
+            if (canMove(player.x, newY)) player.y = newY;
+
+            // Animation frame
+            if (player.moving) {
+                player.frameTimer++;
+                if (player.frameTimer >= 10) {
+                    player.frame = (player.frame + 1) % 4;
+                    player.frameTimer = 0;
+                }
+            } else {
+                player.frame = 0;
+            }
+
+            // Camera follows player (centered)
+            camera.x = player.x - canvas.width / 2 + TILE / 2;
+            camera.y = player.y - canvas.height / 2 + TILE / 2;
+
+            // Clamp camera to world bounds
+            camera.x = Math.max(0, Math.min(camera.x, WORLD_WIDTH * TILE - canvas.width));
+            camera.y = Math.max(0, Math.min(camera.y, WORLD_HEIGHT * TILE - canvas.height));
+        }
+
+        // DRAW TILE
+        function drawTile(x, y, type, screenX, screenY) {
+            switch (type) {
+                case T.GRASS:
+                    ctx.fillStyle = GRASS_COLORS[(x + y) % 4];
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    // Grass detail
+                    ctx.fillStyle = '#4a7c23';
+                    if ((x + y) % 3 === 0) {
+                        ctx.fillRect(screenX + 10, screenY + 8, 2, 6);
+                        ctx.fillRect(screenX + 20, screenY + 15, 2, 5);
+                    }
+                    break;
+
+                case T.PATH:
+                    ctx.fillStyle = '#c9a86c';
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    ctx.fillStyle = '#b8956a';
+                    ctx.fillRect(screenX + 5, screenY + 5, 4, 4);
+                    ctx.fillRect(screenX + 20, screenY + 20, 3, 3);
+                    break;
+
+                case T.TREE:
+                    ctx.fillStyle = GRASS_COLORS[0];
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    // Trunk
+                    ctx.fillStyle = '#5c3d2e';
+                    ctx.fillRect(screenX + 12, screenY + 18, 8, 14);
+                    // Leaves
+                    ctx.fillStyle = '#228b22';
+                    ctx.beginPath();
+                    ctx.arc(screenX + 16, screenY + 12, 14, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#2ea82e';
+                    ctx.beginPath();
+                    ctx.arc(screenX + 14, screenY + 10, 8, 0, Math.PI * 2);
+                    ctx.fill();
+                    break;
+
+                case T.WATER:
+                    ctx.fillStyle = '#1e40af';
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    // Waves
+                    ctx.strokeStyle = '#60a5fa';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    const waveOffset = (Date.now() / 500) % (Math.PI * 2);
+                    ctx.moveTo(screenX, screenY + 16 + Math.sin(waveOffset) * 3);
+                    ctx.bezierCurveTo(
+                        screenX + 10, screenY + 12 + Math.sin(waveOffset) * 3,
+                        screenX + 22, screenY + 20 + Math.sin(waveOffset) * 3,
+                        screenX + 32, screenY + 16 + Math.sin(waveOffset) * 3
+                    );
+                    ctx.stroke();
+                    break;
+
+                case T.HOUSE:
+                    ctx.fillStyle = GRASS_COLORS[0];
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    // House body
+                    ctx.fillStyle = '#d4a574';
+                    ctx.fillRect(screenX + 4, screenY + 12, 24, 18);
+                    // Roof
+                    ctx.fillStyle = '#8b4513';
+                    ctx.beginPath();
+                    ctx.moveTo(screenX + 2, screenY + 14);
+                    ctx.lineTo(screenX + 16, screenY + 2);
+                    ctx.lineTo(screenX + 30, screenY + 14);
+                    ctx.fill();
+                    // Door
+                    ctx.fillStyle = '#5c3d2e';
+                    ctx.fillRect(screenX + 13, screenY + 20, 6, 10);
+                    // Window
+                    ctx.fillStyle = '#87ceeb';
+                    ctx.fillRect(screenX + 7, screenY + 16, 5, 5);
+                    ctx.fillRect(screenX + 20, screenY + 16, 5, 5);
+                    break;
+
+                case T.GYM:
+                    ctx.fillStyle = GRASS_COLORS[0];
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    // Gym building
+                    ctx.fillStyle = '#166534';
+                    ctx.fillRect(screenX + 2, screenY + 8, 28, 22);
+                    // Roof
+                    ctx.fillStyle = '#15803d';
+                    ctx.fillRect(screenX, screenY + 4, 32, 8);
+                    // Columns
+                    ctx.fillStyle = '#d4d4d4';
+                    ctx.fillRect(screenX + 5, screenY + 12, 4, 18);
+                    ctx.fillRect(screenX + 23, screenY + 12, 4, 18);
+                    // Door
+                    ctx.fillStyle = '#854d0e';
+                    ctx.fillRect(screenX + 12, screenY + 18, 8, 12);
+                    // Gym symbol
+                    ctx.fillStyle = '#4ade80';
+                    ctx.font = '12px Arial';
+                    ctx.fillText('⚔️', screenX + 12, screenY + 16);
+                    break;
+
+                case T.FLOWER:
+                    ctx.fillStyle = GRASS_COLORS[(x + y) % 4];
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    // Flower
+                    const flowerColors = ['#f472b6', '#fbbf24', '#ef4444', '#a855f7'];
+                    ctx.fillStyle = flowerColors[(x * y) % 4];
+                    ctx.beginPath();
+                    ctx.arc(screenX + 16, screenY + 16, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#fef08a';
+                    ctx.beginPath();
+                    ctx.arc(screenX + 16, screenY + 16, 2, 0, Math.PI * 2);
+                    ctx.fill();
+                    break;
+
+                case T.BRIDGE:
+                    ctx.fillStyle = '#8b6914';
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    ctx.fillStyle = '#a67c00';
+                    ctx.fillRect(screenX, screenY + 4, TILE, 4);
+                    ctx.fillRect(screenX, screenY + 24, TILE, 4);
+                    break;
+
+                case T.BUSH:
+                    ctx.fillStyle = GRASS_COLORS[0];
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    ctx.fillStyle = '#166534';
+                    ctx.beginPath();
+                    ctx.arc(screenX + 16, screenY + 20, 12, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = '#22c55e';
+                    ctx.beginPath();
+                    ctx.arc(screenX + 12, screenY + 18, 6, 0, Math.PI * 2);
+                    ctx.fill();
+                    break;
+
+                case T.SIGN:
+                    ctx.fillStyle = GRASS_COLORS[0];
+                    ctx.fillRect(screenX, screenY, TILE, TILE);
+                    // Post
+                    ctx.fillStyle = '#8b4513';
+                    ctx.fillRect(screenX + 14, screenY + 16, 4, 16);
+                    // Sign board
+                    ctx.fillStyle = '#deb887';
+                    ctx.fillRect(screenX + 6, screenY + 8, 20, 12);
+                    ctx.strokeStyle = '#5c3d2e';
+                    ctx.lineWidth = 1;
+                    ctx.strokeRect(screenX + 6, screenY + 8, 20, 12);
+                    break;
+            }
+        }
+
+        // DRAW PLAYER
+        function drawPlayer() {
+            const screenX = player.x - camera.x;
+            const screenY = player.y - camera.y;
+
+            // Shadow
+            ctx.fillStyle = 'rgba(0,0,0,0.3)';
+            ctx.beginPath();
+            ctx.ellipse(screenX + TILE / 2, screenY + TILE - 2, 10, 4, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Body
+            ctx.fillStyle = '#3b82f6';
+            ctx.fillRect(screenX + 8, screenY + 12, 16, 16);
+
+            // Head
+            ctx.fillStyle = '#fcd9b6';
+            ctx.beginPath();
+            ctx.arc(screenX + 16, screenY + 10, 8, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Hair
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath();
+            ctx.arc(screenX + 16, screenY + 7, 8, Math.PI, 0);
+            ctx.fill();
+
+            // Eyes (direction based)
+            ctx.fillStyle = '#000';
+            if (player.direction === 'up') {
+                // Back of head
+            } else if (player.direction === 'down') {
+                ctx.fillRect(screenX + 13, screenY + 9, 2, 2);
+                ctx.fillRect(screenX + 17, screenY + 9, 2, 2);
+            } else if (player.direction === 'left') {
+                ctx.fillRect(screenX + 11, screenY + 9, 2, 2);
+            } else {
+                ctx.fillRect(screenX + 19, screenY + 9, 2, 2);
+            }
+
+            // Walking animation - legs
+            if (player.moving) {
+                const legOffset = Math.sin(player.frame * Math.PI / 2) * 3;
+                ctx.fillStyle = '#1e40af';
+                ctx.fillRect(screenX + 10, screenY + 26 + legOffset, 5, 6);
+                ctx.fillRect(screenX + 17, screenY + 26 - legOffset, 5, 6);
+            } else {
+                ctx.fillStyle = '#1e40af';
+                ctx.fillRect(screenX + 10, screenY + 26, 5, 6);
+                ctx.fillRect(screenX + 17, screenY + 26, 5, 6);
+            }
+        }
+
+        // DRAW NPCs
+        function drawNPCs() {
+            for (let npc of npcs) {
+                const screenX = npc.x * TILE - camera.x;
+                const screenY = npc.y * TILE - camera.y;
+
+                // Only draw if on screen
+                if (screenX > -TILE && screenX < canvas.width + TILE &&
+                    screenY > -TILE && screenY < canvas.height + TILE) {
+
+                    ctx.font = '24px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.fillText(npc.sprite, screenX + 16, screenY + 24);
+                }
+            }
+        }
+
+        // GAME LOOP
+        function gameLoop() {
+            // Clear
+            ctx.fillStyle = '#1a1a2e';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Update
+            update();
+
+            // Draw visible tiles only
+            const startTileX = Math.floor(camera.x / TILE);
+            const startTileY = Math.floor(camera.y / TILE);
+            const endTileX = Math.ceil((camera.x + canvas.width) / TILE);
+            const endTileY = Math.ceil((camera.y + canvas.height) / TILE);
+
+            for (let y = startTileY; y <= endTileY; y++) {
+                for (let x = startTileX; x <= endTileX; x++) {
+                    if (x >= 0 && x < WORLD_WIDTH && y >= 0 && y < WORLD_HEIGHT) {
+                        const screenX = x * TILE - camera.x;
+                        const screenY = y * TILE - camera.y;
+                        drawTile(x, y, worldMap[y][x], screenX, screenY);
+                    }
+                }
+            }
+
+            // Draw NPCs
+            drawNPCs();
+
+            // Draw player
+            drawPlayer();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        // START
+        gameLoop();
+    </script>
+</body>
+
+</html>
