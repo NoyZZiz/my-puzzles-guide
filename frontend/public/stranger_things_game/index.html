@@ -226,6 +226,35 @@
                 transform: translate(-1px, 0);
             }
         }
+
+        /* === Mobile text overflow fixes === */
+        @media (max-width: 480px) {
+            h1, h2, h3, .title, .character-name, .castle-name {
+                overflow-wrap: break-word;
+                word-break: break-word;
+                hyphens: auto;
+            }
+            
+            .result-card, .assignment-card, .character-card {
+                max-width: 100%;
+                overflow: hidden;
+            }
+            
+            .result-card h3, .character-name {
+                font-size: 0.9rem !important;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            
+            body {
+                overflow-x: hidden;
+            }
+            
+            input, select, button {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+        }
     </style>
     <!-- Monetag MultiTag -->
     <meta name="monetag" content="dc4cd1c75e904df6c3759be0529f93c8">

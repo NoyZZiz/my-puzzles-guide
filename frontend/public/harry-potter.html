@@ -582,6 +582,29 @@
         a, button, .custom-select-trigger, .custom-option, .cursor-pointer { 
             cursor: pointer !important; 
         }
+
+        /* === Mobile text overflow fixes === */
+        @media (max-width: 480px) {
+            h1, h2, h3, .title, .wizard-name, .house-name {
+                overflow-wrap: break-word;
+                word-break: break-word;
+                max-width: 100%;
+            }
+            
+            body {
+                overflow-x: hidden;
+            }
+            
+            .card, .result-card, .parchment {
+                max-width: 100%;
+                overflow: hidden;
+            }
+            
+            input, select, button {
+                max-width: 100%;
+                box-sizing: border-box;
+            }
+        }
     </style>
     <!-- Monetag MultiTag -->
     <meta name="monetag" content="dc4cd1c75e904df6c3759be0529f93c8">
