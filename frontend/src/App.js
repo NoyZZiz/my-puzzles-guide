@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import AllianceBanner from './components/AllianceBanner';
-import AdSlot from './components/AdSlot';
+import MonetizationBanner from './components/MonetizationBanner';
 import GuidesSection from './components/GuidesSection';
 import ToolsSection from './components/ToolsSection';
 import Sidebar from './components/Sidebar';
@@ -20,18 +20,22 @@ function App() {
 
       <Header />
 
-      <AdSlot type="leaderboard" className="mt-6" />
+      {/* Top Monetag Banner */}
+      <MonetizationBanner type="top" />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow w-full">
         <div className="flex flex-col lg:flex-row gap-8">
+          {/* Main Content */}
           <div className="w-full lg:w-3/4 space-y-10">
             <Hero />
             <AllianceBanner />
-            <AdSlot type="infeed" />
+            <MonetizationBanner type="infeed" />
             <GuidesSection />
-            <AdSlot type="infeed" />
+            <MonetizationBanner type="infeed" />
             <ToolsSection />
           </div>
+
+          {/* Sidebar */}
           <aside className="w-full lg:w-1/4 space-y-8">
             <Sidebar />
           </aside>
