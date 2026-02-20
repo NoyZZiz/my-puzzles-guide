@@ -1,30 +1,170 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const SYSTEM_PROMPT = "You are NoyzBot v3.0, an elite tactical AI for 'Puzzles and Conquest'. You speak in a concise, military style. Provide strategy on troops, heroes, and events. Keep responses short (under 100 words) and tactical.";
+const KNOWLEDGE_BASE = {
+  military: {
+    keywords: ['military', 'expedition', 'me', 'kingdom', 'kvk'],
+    response: `**Military Expedition Intel:**
+- Focus on **Occupation Points** over Kill Points - they're worth more!
+- Keep your infirmary below max capacity to avoid troop losses
+- Use **Fast Comeback** mechanism wisely - it's your secret weapon
+- Coordinate with alliance for chapter objectives
+- Altar defense + Occupation = maximum scoring
+Check the full guide: [Military Expedition Guide](/military-expedition-guide/)`
+  },
+  troop: {
+    keywords: ['troop', 'calculator', 'train', 'resource', 'army', 'might'],
+    response: `**Troop Strategy:**
+- T9+ troops recommended for competitive play
+- Balance training speed with resource management
+- Use **Training Speed Buff** to maximize output
+- Calculate with our tool: [Troop Calculator](/troop-resource-calculator/)
+- Higher tier = more might per unit but costs more resources`
+  },
+  talent: {
+    keywords: ['talent', 'memory', 'skill', 'build', 'vip'],
+    response: `**Talent Memory Sets (VIP 10+):**
+- **Balance Set**: Everyday use, general purpose
+- **Attack Set**: Rallies, PvP combat, open field
+- **Production Set**: Resource gathering, economy focus
+- Free resets at VIP 10 - switch between sets strategically!
+Full breakdown: [Talent Memory Guide](/talent-memory-guide/)`
+  },
+  bos: {
+    keywords: ['bos', 'battle', 'saurnesia', 'wonder'],
+    response: `**Battle of Saurnesia (BOS):**
+- It's a 1-hour alliance competition based on League Grade
+- Secure wonders early for point advantage
+- Dragon Cub Escort gives bonus points
+- Demands coordination AND endurance
+- Check scoring details: [BOS Guide](/battle-of/)`
+  },
+  heroes: {
+    keywords: ['hero', 'best', 'lineup', 'tier', 'element'],
+    response: `**Hero Strategy:**
+- 5 elements: Fire, Water, Gale, Light, Dark
+- Dark beats Light, Water beats Fire (2x damage)
+- **God Tier**: Pioneer Crusader, Skender
+- **Elite**: Orochi, Lux, Gorgon (Medusa), Zeus, Horus
+- Match hero elements to enemy weaknesses in battles!`
+  },
+  trap: {
+    keywords: ['trap', 'defense', 'workshop', 'castle', 'defend', 'shield'],
+    response: `**Trap Workshop Defense:**
+- Unlock at Castle Level 4
+- **Boulder** (Lv1): Anti-cavalry
+- **Stone Tower** (Lv3): General defense  
+- **Spike** (Lv5), **Log** (Lv7), **Arrow Tower** (Lv9): Anti-ranged
+- **Caltrop** (Lv11): Anti-infantry
+- Max capacity via upgrades. No shield after Lv10!`
+  },
+  rally: {
+    keywords: ['rally', 'attack', 'formation', 'pvp', 'war'],
+    response: `**Rally Strategies:**
+- Scout with Watchtower before attacking
+- vs Mixed Rally (442/992): Use INF formations
+- vs Blast Rallies: Ranged wedge formation
+- Use T3 frontline to prevent burns
+- Coordinate timing with your alliance!`
+  },
+  alliance: {
+    keywords: ['alliance', 'rol', 'join', 'discord', 'team'],
+    response: `**Alliance ROL - Rebirth of Legends:**
+- Drama-free zone with coordinated strikes
+- Monthly alliance events (Stranger Things, Pokemon, etc.)
+- Active community with strategy sharing
+- Join Discord: [discord.gg/BX95Q38C](https://discord.gg/BX95Q38C)`
+  },
+  events: {
+    keywords: ['event', 'calendar', 'weekly', 'ace', 'showdown', 'cycle'],
+    response: `**Event Calendar:**
+- Tracks Weekly, Ace, and Showdown cycles
+- Real-time countdown timers for next events
+- Plan your resources around upcoming events
+- Check live tracker: [Event Calendar](/event-calendar/)`
+  },
+  beginner: {
+    keywords: ['beginner', 'start', 'new', 'tip', 'advice', 'help', 'guide', 'how'],
+    response: `**Beginner Commander Tips:**
+1. Follow the main storyline for unlocks
+2. Join an alliance ASAP (more rewards + protection)
+3. Complete daily quests religiously
+4. Don't neglect gem matching combos (prioritize enemy-weak elements)
+5. Balance: Castle upgrades > Research > Troop training
+Browse all guides from the homepage!`
+  },
+  tools: {
+    keywords: ['tool', 'game', 'play', 'fun', 'mini', 'pocket', 'pokemon', 'hogwarts', 'stranger'],
+    response: `**Alliance Mini-Games & Tools:**
+- **Pocket Conquest**: RPG hero collector sim
+- **Code Name: Hawkins**: Stranger Things S5 character assignment
+- **Hogwarts Registry**: Official book of fates
+- **Pokemon Registry**: Build your squad, become Gym Boss
+- **Troop Calculator**: Battle simulation tool
+Explore all from the homepage!`
+  }
+};
 
-function fallbackResponse(msg) {
-  const m = msg.toLowerCase();
-  if (m.includes('hello') || m.includes('hi') || m.includes('hey'))
-    return "Greetings, Commander. NoyzBot v3.0 online. State your tactical query — troops, heroes, events, or strategy.";
-  if (m.includes('military') || m.includes('expedition'))
-    return "Military Expedition intel: Focus on occupation points > kill points. Keep infirmary under capacity. Use Fast Comeback wisely. Check our Military Expedition Guide for full breakdown.";
-  if (m.includes('troop') || m.includes('calculator'))
-    return "Troop optimization requires precise resource allocation. Use our Troop Calculator for real-time analysis. T9+ troops recommended for competitive play.";
-  if (m.includes('talent') || m.includes('memory'))
-    return "Talent Memory sets: Balance (VIP 10 default), Attack (rallies/PvP), Production (resource gathering). Our guide covers optimal configs for each scenario.";
-  if (m.includes('bos') || m.includes('battle') || m.includes('saurnesia'))
-    return "BOS strategy: Secure wonders early. Dragon Cub Escort for bonus points. Coordinate alliance attacks. Check our BOS Guide for scoring details.";
-  if (m.includes('alliance') || m.includes('rol'))
-    return "Alliance ROL — Rebirth of Legends. Drama-free, coordinated strikes, monthly events. Join via Discord: discord.gg/BX95Q38C";
-  if (m.includes('guide'))
-    return "Available guides: Military Expedition, Troop Strength, Talent Memory, Battle of Saurnesia. Access them from the Database section on the homepage.";
-  return "Query acknowledged. For detailed strategy, explore our guides using the navigation above. State a specific topic — troops, heroes, events, or battle tactics.";
+function getResponse(msg) {
+  const m = msg.toLowerCase().trim();
+  
+  if (m.match(/^(hi|hello|hey|yo|sup|greetings)/)) {
+    return `Commander reporting in. NoyzBot v3.0 at your service.
+
+I can help with:
+- **Troop** strategy & calculator
+- **Military Expedition** tactics
+- **Heroes** & lineup advice
+- **BOS** (Battle of Saurnesia)
+- **Talent Memory** builds
+- **Rally** & trap strategies
+- **Events** calendar
+- **Alliance** info
+
+What's your query, Commander?`;
+  }
+  
+  if (m.match(/^(thank|thanks|thx|ty)/)) {
+    return `Roger that, Commander. NoyzBot standing by for your next query. Good luck on the battlefield!`;
+  }
+  
+  // Search knowledge base
+  let bestMatch = null;
+  let bestScore = 0;
+  
+  for (const [key, data] of Object.entries(KNOWLEDGE_BASE)) {
+    let score = 0;
+    for (const kw of data.keywords) {
+      if (m.includes(kw)) score += 1;
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      bestMatch = data;
+    }
+  }
+  
+  if (bestMatch && bestScore > 0) {
+    return bestMatch.response;
+  }
+  
+  return `Query acknowledged, Commander. I don't have specific intel on that topic yet.
+
+Try asking about:
+- **Military Expedition** strategy
+- **Troop** training & calculator
+- **Hero** lineups & tier list
+- **BOS** (Battle of Saurnesia)
+- **Talent Memory** builds
+- **Rally** tactics
+- **Trap** defense
+- **Events** calendar
+
+Or browse our guides from the navigation menu above.`;
 }
 
 export default function ChatBot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
-    { type: 'bot', text: 'Greetings Commander. NoyzBot v3.0 Online. Ready for strategy queries.' },
+    { type: 'bot', text: 'Commander reporting in. NoyzBot v3.0 Online.\n\nAsk me about troops, heroes, events, military expedition, BOS, talents, or rally tactics.' },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,7 +174,7 @@ export default function ChatBot() {
     messagesEnd.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const sendMessage = async () => {
+  const sendMessage = () => {
     const text = input.trim();
     if (!text || loading) return;
 
@@ -42,12 +182,21 @@ export default function ChatBot() {
     setInput('');
     setLoading(true);
 
-    // Use fallback responses (no API key needed - free!)
     setTimeout(() => {
-      const reply = fallbackResponse(text);
+      const reply = getResponse(text);
       setMessages((prev) => [...prev, { type: 'bot', text: reply }]);
       setLoading(false);
-    }, 600);
+    }, 400 + Math.random() * 400);
+  };
+
+  const renderMessage = (text) => {
+    // Simple markdown-like rendering
+    return text.split('\n').map((line, i) => {
+      let processed = line
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" style="color:#fbbf24;text-decoration:underline">$1</a>');
+      return <p key={i} className="mb-1" dangerouslySetInnerHTML={{ __html: processed }} />;
+    });
   };
 
   return (
@@ -60,17 +209,17 @@ export default function ChatBot() {
         style={{ fontFamily: 'Rajdhani, sans-serif' }}
       >
         <i className={`fa-solid ${open ? 'fa-xmark' : 'fa-robot'}`} />
-        <span className="hidden md:inline tracking-wide">NOYZBOT v3.0</span>
+        <span className="hidden sm:inline tracking-wide text-sm">NOYZBOT v3.0</span>
       </button>
 
       {/* Chat Window */}
       {open && (
         <div
           data-testid="chatbot-window"
-          className="fixed bottom-20 right-6 w-80 md:w-96 h-[440px] glass-panel rounded-lg shadow-2xl shadow-black/50 z-50 flex flex-col overflow-hidden animate-fade-in-up border-[#fbbf24]/30"
+          className="fixed bottom-20 right-4 left-4 sm:left-auto sm:w-96 h-[440px] glass-panel rounded-lg shadow-2xl shadow-black/50 z-50 flex flex-col overflow-hidden animate-fade-in-up border border-[#fbbf24]/30"
         >
           {/* Header */}
-          <div className="bg-[#0f172a] p-3 border-b border-[#1e293b] flex justify-between items-center">
+          <div className="bg-[#0f172a] p-3 border-b border-[#1e293b] flex justify-between items-center shrink-0">
             <div className="flex items-center gap-2">
               <i className="fa-solid fa-terminal text-[#fbbf24] text-xs" />
               <span
@@ -95,17 +244,17 @@ export default function ChatBot() {
             {messages.map((msg, i) => (
               <div
                 key={i}
-                className={`max-w-[88%] p-3 rounded text-xs animate-fade-in-up ${
+                className={`max-w-[88%] p-3 rounded text-xs leading-relaxed animate-fade-in-up ${
                   msg.type === 'user'
                     ? 'bg-[#fbbf24] text-black ml-auto rounded-tl-lg rounded-tr-lg rounded-bl-lg'
                     : 'bg-[#0f172a] text-gray-300 border border-[#1e293b] rounded-tr-lg rounded-br-lg rounded-bl-lg'
                 }`}
-                style={{ fontFamily: 'JetBrains Mono, monospace' }}
+                style={{ fontFamily: msg.type === 'user' ? 'inherit' : 'JetBrains Mono, monospace' }}
               >
                 {msg.type === 'bot' && (
-                  <span className="text-[#fbbf24] block text-[10px] mb-1 font-bold">SYSTEM:</span>
+                  <span className="text-[#fbbf24] block text-[10px] mb-1.5 font-bold tracking-wider">SYSTEM:</span>
                 )}
-                {msg.text}
+                {msg.type === 'bot' ? renderMessage(msg.text) : msg.text}
               </div>
             ))}
             {loading && (
@@ -122,7 +271,7 @@ export default function ChatBot() {
           </div>
 
           {/* Input */}
-          <div className="p-3 bg-black/50 border-t border-[#1e293b]">
+          <div className="p-3 bg-black/50 border-t border-[#1e293b] shrink-0">
             <div className="flex gap-2">
               <input
                 data-testid="chatbot-input"
@@ -130,15 +279,15 @@ export default function ChatBot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                placeholder="Ask about troops, events..."
-                className="flex-1 bg-[#020617] text-white border border-[#1e293b] p-2.5 text-xs rounded focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/30 outline-none transition-all"
+                placeholder="Ask about troops, heroes, events..."
+                className="flex-1 bg-[#020617] text-white border border-[#1e293b] p-2.5 text-xs rounded focus:border-[#fbbf24] focus:ring-1 focus:ring-[#fbbf24]/30 outline-none transition-all min-w-0"
                 style={{ fontFamily: 'JetBrains Mono, monospace' }}
               />
               <button
                 data-testid="chatbot-send"
                 onClick={sendMessage}
                 disabled={loading}
-                className="bg-[#fbbf24] text-black px-3 rounded font-bold hover:bg-[#f59e0b] transition-colors disabled:opacity-50"
+                className="bg-[#fbbf24] text-black px-3 rounded font-bold hover:bg-[#f59e0b] transition-colors disabled:opacity-50 shrink-0"
               >
                 <i className="fa-solid fa-chevron-right" />
               </button>
