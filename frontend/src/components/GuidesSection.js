@@ -11,6 +11,15 @@ const GUIDES = [
     tagColor: 'text-[#fbbf24] border-[#fbbf24]/30 bg-[#fbbf24]/10',
   },
   {
+    id: 'hero-tier',
+    title: 'HERO TIER LIST 2026',
+    description: 'Complete hero rankings by element and game mode. Find the strongest lineup for campaign, arena, rallies, and PvP.',
+    image: '/assets/images/noyzzing-logo-premium.jpg',
+    tag: 'NEW',
+    href: '/hero-tier-list/',
+    tagColor: 'text-[#ef4444] border-[#ef4444]/30 bg-[#ef4444]/10',
+  },
+  {
     id: 'troop-strength',
     title: 'TROOP STRENGTH',
     description: 'Optimization protocols for maximum army output. Calculate power, speed, and resource efficiency.',
@@ -18,6 +27,15 @@ const GUIDES = [
     tag: 'UNITS',
     href: '/troop-strength-guide/',
     tagColor: 'text-[#00dcd7] border-[#00dcd7]/30 bg-[#00dcd7]/10',
+  },
+  {
+    id: 'trap-workshop',
+    title: 'TRAP WORKSHOP',
+    description: 'Master castle defense with trap types, levels, capacity management, and counter-strategies against rallies.',
+    image: '/assets/images/noyzzing-logo-premium.jpg',
+    tag: 'NEW',
+    href: '/trap-workshop-guide/',
+    tagColor: 'text-[#ef4444] border-[#ef4444]/30 bg-[#ef4444]/10',
   },
   {
     id: 'talent',
