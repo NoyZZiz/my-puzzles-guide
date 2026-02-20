@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/my-puzzles-guide/static/css/main.112589e2.css",
-    "main.js": "/my-puzzles-guide/static/js/main.9dfbe575.js",
+    "main.js": "/my-puzzles-guide/static/js/main.6ad5e6df.js",
     "index.html": "/my-puzzles-guide/index.html",
     "main.112589e2.css.map": "/my-puzzles-guide/static/css/main.112589e2.css.map",
-    "main.9dfbe575.js.map": "/my-puzzles-guide/static/js/main.9dfbe575.js.map"
+    "main.6ad5e6df.js.map": "/my-puzzles-guide/static/js/main.6ad5e6df.js.map"
   },
   "entrypoints": [
     "static/css/main.112589e2.css",
-    "static/js/main.9dfbe575.js"
+    "static/js/main.6ad5e6df.js"
   ]
 }
