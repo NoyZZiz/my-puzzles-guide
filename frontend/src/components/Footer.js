@@ -6,7 +6,6 @@ const FOOTER_LINKS = {
     { label: 'Military Expedition', href: '/military-expedition-guide/' },
     { label: 'Hero Tier List 2026', href: '/hero-tier-list/' },
     { label: 'Troop Strength', href: '/troop-strength-guide/' },
-    { label: 'Trap Workshop', href: '/trap-workshop-guide/' },
     { label: 'Talent Memory', href: '/talent-memory-guide/' },
     { label: 'Battle of Saurnesia', href: '/battle-of/' },
   ],

@@ -49,13 +49,8 @@ Full breakdown: [Talent Memory Guide](/talent-memory-guide/)`
   },
   trap: {
     keywords: ['trap', 'defense', 'workshop', 'castle', 'defend', 'shield'],
-    response: `**Trap Workshop Defense:**
-- Unlock at Castle Level 4
-- **Boulder** (Lv1): Anti-cavalry
-- **Stone Tower** (Lv3): General defense  
-- **Spike** (Lv5), **Log** (Lv7), **Arrow Tower** (Lv9): Anti-ranged
-- **Caltrop** (Lv11): Anti-infantry
-- Max capacity via upgrades. No shield after Lv10!`
+    response: `**Trap Workshop Note:**
+Traps are no longer effective in the current meta. The Trap Workshop exists but traps don't really do anything meaningful anymore. Focus your resources on troop training, hero upgrades, and rally formations instead.`
   },
   rally: {
     keywords: ['rally', 'attack', 'formation', 'pvp', 'war'],

@@ -29,15 +29,6 @@ const GUIDES = [
     tagColor: 'text-[#00dcd7] border-[#00dcd7]/30 bg-[#00dcd7]/10',
   },
   {
-    id: 'trap-workshop',
-    title: 'TRAP WORKSHOP',
-    description: 'Master castle defense with trap types, levels, capacity management, and counter-strategies against rallies.',
-    image: '/assets/images/noyzzing-logo-premium.jpg',
-    tag: 'NEW',
-    href: '/trap-workshop-guide/',
-    tagColor: 'text-[#ef4444] border-[#ef4444]/30 bg-[#ef4444]/10',
-  },
-  {
     id: 'talent',
     title: 'TALENT MEMORY',
     description: 'Unlock hero potential with optimal skill trees. Covers Balance, Attack, and Production sets for VIP 10+.',
