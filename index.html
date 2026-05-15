@@ -5,23 +5,18 @@
     <meta charset="UTF-8">
     <meta name="monetag" content="dc4cd1c75e904df6c3759be0529f93c8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
-    <meta name="keywords"
-        content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies, conquest guide, alliance guide">
+    <meta name="description" content="Master Puzzles and Conquest with expert guides, troop calculators, and strategies. Get military expedition tips, talent builds, and battle tactics.">
+    <meta name="keywords" content="Puzzles and Conquest, military expedition, troop calculator, talent memory, battle strategies, conquest guide, alliance guide">
     <meta name="author" content="Noyzzing">
     <meta name="robots" content="index, follow">
-    <title>NoYzzing - Strategy Command Center</title>
+    <title>NoYzzing // OPS — Strategy Command Center</title>
 
     <!-- External Resources -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Cinzel:wght@600;700&display=swap" rel="stylesheet">
 
-    <!-- Google Analytics & AdSense Scripts -->
-    <!-- NOTE: These scripts are kept for structure but won't execute fully in the preview environment. -->
+    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -29,28 +24,29 @@
         gtag('js', new Date());
         gtag('config', 'G-VYP41CV8E4');
     </script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658"
-        crossorigin="anonymous"></script>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658" crossorigin="anonymous"></script>
 
-    <!-- Reality Shifter Configuration -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            dark: 'var(--brand-dark, #020617)',
-                            panel: 'var(--brand-panel, #0f172a)',
-                            gold: 'var(--brand-gold, #fbbf24)',
-                            goldDim: 'var(--brand-gold-dim, #b45309)',
-                            text: 'var(--brand-text, #e2e8f0)',
-                            border: 'var(--brand-border, #1e2933)'
-                        }
+                        neon: { gold: '#fbbf24', cyan: '#22d3ee', pink: '#f472b6', green: '#4ade80' },
+                        dark: { 900: '#020617', 800: '#0a0f1e', 700: '#0f172a', 600: '#1a2236', 500: '#1e2d45' }
                     },
                     fontFamily: {
                         tech: ['Rajdhani', 'sans-serif'],
                         body: ['Inter', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
                         royal: ['Cinzel', 'serif']
+                    },
+                    animation: {
+                        'glow-pulse': 'glowPulse 2s ease-in-out infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'scan': 'scan 3s linear infinite',
+                        'shimmer': 'shimmer 2s linear infinite',
+                        'border-flow': 'borderFlow 4s linear infinite',
                     }
                 }
             }
@@ -59,1015 +55,1858 @@
 
     <style>
         :root {
-            --brand-dark: #020617;
-            --brand-panel: #0f172a;
-            --brand-gold: #fbbf24;
-            --brand-gold-dim: #b45309;
-            --brand-text: #e2e8f0;
-            --brand-border: #1e2933;
-            --bg-image: linear-gradient(rgba(2, 6, 23, 0.9), rgba(2, 6, 23, 0.9)),
-                        linear-gradient(to right, rgba(30, 41, 59, 0.3) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(30, 41, 59, 0.3) 1px, transparent 1px);
+            --gold: #fbbf24;
+            --gold-dim: #b45309;
+            --gold-glow: rgba(251,191,36,0.25);
+            --cyan: #22d3ee;
+            --cyan-glow: rgba(34,211,238,0.2);
+            --dark-bg: #020617;
+            --dark-panel: #0a0f1e;
+            --dark-surface: #0f172a;
+            --dark-border: #1e2d3d;
+            --text: #e2e8f0;
+            --text-muted: #64748b;
         }
 
-        body[data-theme="yule-ball"] {
-            --brand-dark: #020617;
-            --brand-panel: #0f172a;
-            --brand-gold: #a5f3fc;
-            --brand-gold-dim: #334155;
-            --brand-text: #f8fafc;
-            --brand-border: #1e293b;
-            --bg-image: linear-gradient(rgba(2, 6, 23, 0.8), rgba(2, 6, 23, 0.8)),
-                        url('assets/images/yule-ball-bg.png');
-            font-family: 'Cinzel', serif;
-        }
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
         body {
-            background-color: var(--brand-dark);
-            color: var(--brand-text);
+            background-color: var(--dark-bg);
+            color: var(--text);
             font-family: 'Inter', sans-serif;
-            background-image: var(--bg-image);
-            background-size: 100% 100%, 40px 40px, 40px 40px;
-            background-attachment: fixed;
-            background-position: center;
-            background-repeat: no-repeat;
-            transition: all 0.5s ease-in-out;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% -20%, rgba(251,191,36,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 40% at 80% 80%, rgba(34,211,238,0.05) 0%, transparent 50%);
         }
 
-        body[data-theme="yule-ball"] {
-            background-size: cover;
+        /* ═══════════════════════════════════════
+           GRID BACKGROUND
+        ═══════════════════════════════════════ */
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                linear-gradient(rgba(30,45,61,0.4) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30,45,61,0.4) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 100% 100% at 50% 0%, black 30%, transparent 80%);
         }
 
-        /* Tech Borders (Corner Accent) */
-        .tech-border {
+        /* ═══════════════════════════════════════
+           PARTICLE CANVAS
+        ═══════════════════════════════════════ */
+        #particle-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        /* ═══════════════════════════════════════
+           CONTENT WRAPPER
+        ═══════════════════════════════════════ */
+        .content-wrapper { position: relative; z-index: 2; }
+
+        /* ═══════════════════════════════════════
+           HEADER
+        ═══════════════════════════════════════ */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(2, 6, 23, 0.85);
+            backdrop-filter: blur(20px) saturate(180%);
+            border-bottom: 1px solid rgba(251,191,36,0.12);
+            box-shadow: 0 0 40px rgba(0,0,0,0.5), 0 1px 0 rgba(251,191,36,0.1);
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        /* Logo */
+        .logo-wrap { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .logo-icon {
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, #0a0f1e, #1e2d3d);
+            border: 1px solid rgba(251,191,36,0.4);
+            border-radius: 6px;
+            display: flex; align-items: center; justify-content: center;
             position: relative;
-            border: 1px solid var(--tw-colors-brand-border, #1e2933);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
         }
-
-        .tech-border::before {
+        .logo-icon img { width: 30px; height: 30px; object-fit: contain; }
+        .logo-icon::before {
             content: '';
             position: absolute;
-            top: -1px;
-            left: -1px;
-            width: 10px;
-            height: 10px;
-            border-top: 2px solid var(--tw-colors-brand-gold, #fbbf24);
-            border-left: 2px solid var(--tw-colors-brand-gold, #fbbf24);
+            inset: 0;
+            background: linear-gradient(135deg, transparent 40%, rgba(251,191,36,0.1));
         }
-
-        .tech-border::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            right: -1px;
-            width: 10px;
-            height: 10px;
-            border-bottom: 2px solid var(--tw-colors-brand-gold, #fbbf24);
-            border-right: 2px solid var(--tw-colors-brand-gold, #fbbf24);
+        .logo-text {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            line-height: 1;
         }
+        .logo-text span { color: var(--gold); }
 
-        /* FIX: Added CSS for clip-path button styling */
-        .clip-path-polygon {
-            clip-path: polygon(0 0, 100% 0, 100% 80%, 80% 100%, 0 100%);
+        /* Nav */
+        .main-nav {
+            background: rgba(15,23,42,0.6);
+            border: 1px solid rgba(30,45,61,0.8);
+            border-radius: 50px;
+            padding: 6px 20px;
         }
-
-        /* FIX: Ensure the group-hover effect on the button works consistently */
-        .clip-path-polygon:hover {
-            clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 100%);
+        .main-nav ul { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; flex-wrap: wrap; justify-content: center; }
+        .main-nav a {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.2s;
         }
+        .main-nav a:hover { color: var(--gold); }
 
-        /* Glowing Text */
-        .glow-text {
-            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        /* Header actions */
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .search-wrap {
+            position: relative;
         }
-
-        /* Hover Effects */
-        .card-hover {
-            transition: all 0.3s ease;
+        .search-wrap i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #475569; font-size: 12px; pointer-events: none; }
+        .search-input {
+            background: rgba(10,15,30,0.8);
+            border: 1px solid var(--dark-border);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 8px 12px 8px 34px;
+            border-radius: 6px;
+            outline: none;
+            width: 200px;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-
-        .card-hover:hover {
-            transform: translateY(-4px);
-            border-color: #fbbf24;
-            box-shadow: 0 10px 30px -10px rgba(251, 191, 36, 0.15);
+        .search-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(251,191,36,0.1);
         }
+        .search-input::placeholder { color: #334155; }
 
-        .card-hover:hover img {
-            transform: scale(1.05);
+        /* Theme toggle */
+        .theme-toggle {
+            width: 52px; height: 28px;
+            background: rgba(10,15,30,0.8);
+            border: 1px solid var(--dark-border);
+            border-radius: 50px;
+            position: relative;
+            cursor: pointer;
+            display: flex; align-items: center;
+            padding: 2px 4px;
+            transition: border-color 0.3s;
         }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: #020617;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 3px;
-        }
-
-        /* Chat Animation */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .message-anim {
-            animation: slideIn 0.3s ease forwards;
-        }
-
-        /* Loader Animation */
-        .loader {
-            border: 2px solid #f3f3f3;
+        .toggle-thumb {
+            width: 22px; height: 22px;
+            background: var(--gold);
             border-radius: 50%;
-            border-top: 2px solid #fbbf24;
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 10px;
+            color: #000;
+        }
+
+        /* ═══════════════════════════════════════
+           AD UNIT STYLING
+        ═══════════════════════════════════════ */
+        .ad-unit {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        .ad-unit::before {
+            content: 'SPONSORED INTEL';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            background: repeating-linear-gradient(45deg, rgba(251,191,36,0.05) 0px, rgba(251,191,36,0.05) 4px, transparent 4px, transparent 8px);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            color: rgba(251,191,36,0.4);
+            text-align: center;
+            padding: 3px;
+            border-bottom: 1px solid rgba(251,191,36,0.1);
+            z-index: 1;
+        }
+        .ad-unit-inner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10,15,30,0.6);
+            border: 1px solid rgba(30,45,61,0.8);
+        }
+
+        /* ═══════════════════════════════════════
+           HERO SECTION
+        ═══════════════════════════════════════ */
+        .hero-section {
+            position: relative;
+            padding: 80px 24px 60px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero-bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            pointer-events: none;
+        }
+        .hero-orb-1 {
+            width: 600px; height: 400px;
+            background: radial-gradient(circle, rgba(251,191,36,0.12) 0%, transparent 70%);
+            top: -100px; left: 50%;
+            transform: translateX(-50%);
+        }
+        .hero-orb-2 {
+            width: 400px; height: 300px;
+            background: radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%);
+            bottom: 0; right: 0;
+        }
+        .hero-orb-3 {
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(244,114,182,0.06) 0%, transparent 70%);
+            top: 0; left: 0;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(251,191,36,0.08);
+            border: 1px solid rgba(251,191,36,0.25);
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            margin-bottom: 28px;
+        }
+        .badge-dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 8px #4ade80;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.4); }
+        }
+
+        .hero-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            margin-bottom: 20px;
+        }
+        .hero-title .line1 {
+            display: block;
+            font-size: clamp(48px, 8vw, 96px);
+            color: #fff;
+        }
+        .hero-title .line2 {
+            display: block;
+            font-size: clamp(48px, 8vw, 96px);
+            background: linear-gradient(135deg, #b45309 0%, #fbbf24 40%, #fde68a 65%, #fbbf24 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 30px rgba(251,191,36,0.4));
+        }
+
+        .hero-sub {
+            font-size: 16px;
+            color: #64748b;
+            max-width: 520px;
+            margin: 0 auto 36px;
+            line-height: 1.7;
+        }
+        .hero-sub .highlight { color: var(--gold); font-weight: 500; }
+
+        .hero-typing {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: rgba(34,211,238,0.7);
+            border-right: 2px solid var(--cyan);
+            padding-right: 4px;
+            min-height: 22px;
+            display: inline-block;
+            margin-bottom: 40px;
+        }
+
+        .hero-cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #b45309 0%, #fbbf24 50%, #fde68a 100%);
+            color: #000;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 14px 32px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 92% 100%, 0 100%);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(251,191,36,0.4), 0 0 80px rgba(251,191,36,0.2);
+        }
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2));
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .btn-primary:hover::after { opacity: 1; }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: transparent;
+            color: var(--gold);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            padding: 14px 32px;
+            border: 1px solid rgba(251,191,36,0.4);
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover {
+            background: rgba(251,191,36,0.08);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(251,191,36,0.15);
+        }
+
+        /* ═══════════════════════════════════════
+           STATS BAR
+        ═══════════════════════════════════════ */
+        .stats-bar {
+            background: linear-gradient(135deg, rgba(10,15,30,0.9) 0%, rgba(15,23,42,0.9) 100%);
+            border-top: 1px solid rgba(30,45,61,0.8);
+            border-bottom: 1px solid rgba(30,45,61,0.8);
+            padding: 20px 24px;
+        }
+        .stats-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 12px;
+            border-right: 1px solid rgba(30,45,61,0.5);
+        }
+        .stat-item:last-child { border-right: none; }
+        .stat-value {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+        }
+        .stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #475569;
+            letter-spacing: 1.5px;
+            margin-top: 4px;
+        }
+
+        /* ═══════════════════════════════════════
+           SECTION TITLE
+        ═══════════════════════════════════════ */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+        .section-header::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, rgba(30,45,61,1), transparent);
+        }
+        .section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title i { color: var(--gold); font-size: 16px; }
+
+        /* ═══════════════════════════════════════
+           GUIDE CARDS
+        ═══════════════════════════════════════ */
+        .guide-card {
+            background: linear-gradient(135deg, rgba(10,15,30,0.9) 0%, rgba(15,23,42,0.7) 100%);
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.34,1.56,0.64,1);
+            position: relative;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(251,191,36,0.03), transparent);
+            border-radius: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .guide-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(251,191,36,0.5);
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.5),
+                0 0 30px rgba(251,191,36,0.1),
+                inset 0 1px 0 rgba(251,191,36,0.1);
+        }
+        .guide-card:hover::before { opacity: 1; }
+
+        .card-img-wrap {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        .card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            opacity: 0.75;
+        }
+        .guide-card:hover .card-img-wrap img {
+            transform: scale(1.08);
+            opacity: 1;
+        }
+        .card-img-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(2,6,23,0.9) 0%, transparent 60%);
+        }
+
+        .card-tag {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            z-index: 2;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(251,191,36,0.4);
+            color: var(--gold);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            padding: 3px 8px;
+            border-radius: 4px;
+        }
+        .card-tl-corner {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            z-index: 2;
             width: 12px;
             height: 12px;
-            -webkit-animation: spin 1s linear infinite;
-            /* Safari */
-            animation: spin 1s linear infinite;
+            border-top: 2px solid var(--gold);
+            border-left: 2px solid var(--gold);
+        }
+        .card-br-corner {
+            position: absolute;
+            bottom: 8px;
+            right: 8px;
+            z-index: 2;
+            width: 12px;
+            height: 12px;
+            border-bottom: 2px solid var(--gold);
+            border-right: 2px solid var(--gold);
+        }
+
+        .card-body { padding: 20px; }
+        .card-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            transition: color 0.2s;
+        }
+        .guide-card:hover .card-title { color: var(--gold); }
+        .card-desc {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        .card-btn {
+            width: 100%;
+            padding: 10px;
+            background: rgba(30,45,61,0.5);
+            border: 1px solid var(--dark-border);
+            color: #64748b;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            border-radius: 4px;
+        }
+        .guide-card:hover .card-btn {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #000;
+            font-weight: 700;
+        }
+
+        /* ═══════════════════════════════════════
+           TOOL CARDS
+        ═══════════════════════════════════════ */
+        .tool-card {
+            background: linear-gradient(135deg, rgba(10,15,30,0.9), rgba(15,23,42,0.6));
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        .tool-card-icon {
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            font-size: 80px;
+            opacity: 0.05;
+            transition: opacity 0.3s, transform 0.3s;
+            pointer-events: none;
+        }
+        .tool-card:hover .tool-card-icon { opacity: 0.1; transform: scale(1.1) rotate(-5deg); }
+        .tool-card-content { position: relative; z-index: 1; }
+        .tool-card-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        .tool-card-desc {
+            font-size: 11px;
+            color: #475569;
+            line-height: 1.6;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 20px;
+        }
+        .tool-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        .tool-btn-gold {
+            background: rgba(30,45,61,0.6);
+            color: #94a3b8;
+            border: 1px solid var(--dark-border);
+        }
+        .tool-btn-gold:hover {
+            background: var(--gold);
+            color: #000;
+            border-color: var(--gold);
+            box-shadow: 0 4px 20px rgba(251,191,36,0.3);
+        }
+        .tool-btn-red {
+            background: rgba(127,29,29,0.4);
+            color: #fca5a5;
+            border: 1px solid rgba(239,68,68,0.3);
+        }
+        .tool-btn-red:hover { background: #dc2626; color: #fff; border-color: #dc2626; }
+        .tool-btn-purple {
+            background: rgba(88,28,135,0.4);
+            color: #c4b5fd;
+            border: 1px solid rgba(168,85,247,0.3);
+        }
+        .tool-btn-purple:hover { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+        .tool-btn-cyan {
+            background: rgba(8,51,68,0.4);
+            color: #67e8f9;
+            border: 1px solid rgba(34,211,238,0.3);
+        }
+        .tool-btn-cyan:hover { background: #0891b2; color: #fff; border-color: #0891b2; }
+
+        /* ═══════════════════════════════════════
+           ALLIANCE MODULE
+        ═══════════════════════════════════════ */
+        .alliance-card {
+            background: linear-gradient(135deg, rgba(10,15,30,0.95), rgba(15,23,42,0.8));
+            border: 1px solid rgba(251,191,36,0.2);
+            border-left: 4px solid var(--gold);
+            border-radius: 12px;
+            padding: 28px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .alliance-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(251,191,36,0.04) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .alliance-logo {
+            width: 80px; height: 80px;
+            border-radius: 12px;
+            border: 1px solid rgba(251,191,36,0.3);
+            background: rgba(0,0,0,0.5);
+            padding: 8px;
+            flex-shrink: 0;
+        }
+        .alliance-logo img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* ═══════════════════════════════════════
+           SIDEBAR
+        ═══════════════════════════════════════ */
+        .sidebar-card {
+            background: linear-gradient(135deg, rgba(10,15,30,0.9), rgba(15,23,42,0.7));
+            border: 1px solid var(--dark-border);
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .sidebar-card-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sidebar-card-title i { color: var(--gold); font-size: 12px; }
+        .sidebar-card-top-bar {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--gold), transparent);
+        }
+
+        /* Newsletter */
+        .newsletter-input {
+            width: 100%;
+            background: rgba(2,6,23,0.8);
+            border: 1px solid var(--dark-border);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 10px 12px;
+            border-radius: 4px;
+            outline: none;
+            transition: border-color 0.2s;
+            margin-bottom: 8px;
+        }
+        .newsletter-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(251,191,36,0.1);
+        }
+        .newsletter-input::placeholder { color: #334155; }
+
+        /* ═══════════════════════════════════════
+           ANIMATIONS
+        ═══════════════════════════════════════ */
+        @keyframes glowPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(251,191,36,0.2); }
+            50% { box-shadow: 0 0 30px rgba(251,191,36,0.5), 0 0 60px rgba(251,191,36,0.2); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes borderFlow {
+            0% { border-color: rgba(251,191,36,0.3); }
+            50% { border-color: rgba(34,211,238,0.3); }
+            100% { border-color: rgba(251,191,36,0.3); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up { animation: fadeInUp 0.6s ease forwards; }
+
+        /* ═══════════════════════════════════════
+           SCROLLBAR
+        ═══════════════════════════════════════ */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #020617; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #b45309, #fbbf24); border-radius: 3px; }
+
+        /* ═══════════════════════════════════════
+           SCAN LINE OVERLAY
+        ═══════════════════════════════════════ */
+        .scanline {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(to right, transparent, rgba(251,191,36,0.15), transparent);
+            pointer-events: none;
+            z-index: 5;
+            animation: scan 8s linear infinite;
+        }
+
+        /* ═══════════════════════════════════════
+           CHATBOT
+        ═══════════════════════════════════════ */
+        .chat-fab {
+            position: fixed;
+            bottom: 28px; right: 28px;
+            z-index: 50;
+            background: linear-gradient(135deg, #b45309, #fbbf24);
+            border: none;
+            border-radius: 50px;
+            padding: 14px 22px;
+            color: #000;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            box-shadow: 0 8px 30px rgba(251,191,36,0.35), 0 0 60px rgba(251,191,36,0.15);
+        }
+        .chat-fab:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 16px 50px rgba(251,191,36,0.5), 0 0 80px rgba(251,191,36,0.25);
+        }
+
+        .chatbox-panel {
+            position: fixed;
+            bottom: 100px; right: 28px;
+            width: 360px;
+            max-width: calc(100vw - 40px);
+            height: 480px;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            background: rgba(4,9,20,0.97);
+            border: 1px solid rgba(251,191,36,0.3);
+            border-radius: 16px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 40px rgba(251,191,36,0.1);
+            backdrop-filter: blur(20px);
+            overflow: hidden;
+        }
+        .chatbox-header {
+            background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(10,15,30,0.9));
+            border-bottom: 1px solid rgba(30,45,61,0.8);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .chatbox-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .chatbox-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .chat-msg {
+            max-width: 88%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            line-height: 1.6;
+            animation: fadeInUp 0.3s ease;
+        }
+        .chat-msg-bot {
+            background: rgba(15,23,42,0.8);
+            border: 1px solid rgba(30,45,61,0.8);
+            color: #94a3b8;
+            align-self: flex-start;
+        }
+        .chat-msg-bot .msg-sender { color: var(--gold); font-size: 9px; letter-spacing: 2px; display: block; margin-bottom: 4px; }
+        .chat-msg-user {
+            background: linear-gradient(135deg, rgba(180,83,9,0.4), rgba(251,191,36,0.2));
+            border: 1px solid rgba(251,191,36,0.3);
+            color: #fde68a;
+            align-self: flex-end;
+        }
+        .chatbox-input-wrap {
+            padding: 12px;
+            background: rgba(2,6,23,0.8);
+            border-top: 1px solid rgba(30,45,61,0.8);
+            display: flex;
+            gap: 8px;
+        }
+        .chat-input {
+            flex: 1;
+            background: rgba(10,15,30,0.9);
+            border: 1px solid rgba(30,45,61,0.8);
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .chat-input:focus { border-color: var(--gold); }
+        .chat-send-btn {
+            background: var(--gold);
+            border: none;
+            color: #000;
+            width: 40px; height: 40px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .chat-send-btn:hover {
+            background: #fde68a;
+            box-shadow: 0 4px 15px rgba(251,191,36,0.4);
+        }
+
+        /* ═══════════════════════════════════════
+           SCRIBE MODAL
+        ═══════════════════════════════════════ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-panel {
+            background: linear-gradient(135deg, rgba(10,15,30,0.98), rgba(15,23,42,0.98));
+            border: 1px solid rgba(251,191,36,0.3);
+            border-radius: 16px;
+            padding: 28px;
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8), 0 0 60px rgba(251,191,36,0.1);
+        }
+
+        /* ═══════════════════════════════════════
+           LOADER
+        ═══════════════════════════════════════ */
+        .loader {
+            width: 14px; height: 14px;
+            border: 2px solid rgba(251,191,36,0.2);
+            border-top-color: var(--gold);
+            border-radius: 50%;
             display: inline-block;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ═══════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════ */
+        .site-footer {
+            background: linear-gradient(to top, rgba(2,6,23,1) 0%, rgba(10,15,30,0.5) 100%);
+            border-top: 1px solid rgba(30,45,61,0.5);
+            padding: 40px 24px 28px;
+            margin-top: 80px;
         }
 
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
+        /* ═══════════════════════════════════════
+           UTILITY
+        ═══════════════════════════════════════ */
+        .hidden { display: none !important; }
+        .glow-gold { text-shadow: 0 0 20px rgba(251,191,36,0.5), 0 0 40px rgba(251,191,36,0.2); }
+        .border-glow { box-shadow: 0 0 20px rgba(251,191,36,0.15), inset 0 0 20px rgba(251,191,36,0.03); }
 
-            100% {
-                transform: rotate(360deg);
-            }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-inner { flex-direction: column; padding: 12px 16px; }
+            .main-nav ul { gap: 12px; }
+            .search-input { width: 160px; }
+            .hero-section { padding: 48px 16px 40px; }
+            .alliance-card { flex-direction: column; text-align: center; }
+            .stat-item { border-right: none; border-bottom: 1px solid rgba(30,45,61,0.5); }
+            .stat-item:last-child { border-bottom: none; }
         }
 
-        /* Utility for chat hidden elements */
-        .hidden {
-            display: none !important;
+        /* Tone buttons for scribe */
+        .tone-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            letter-spacing: 1px;
         }
+        .tone-btn.active {
+            background: var(--gold);
+            color: #000;
+            border: 1px solid var(--gold);
+        }
+        .tone-btn:not(.active) {
+            background: rgba(10,15,30,0.8);
+            color: #475569;
+            border: 1px solid var(--dark-border);
+        }
+        .tone-btn:not(.active):hover { border-color: var(--gold); color: #94a3b8; }
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen selection:bg-brand-gold selection:text-brand-dark font-body">
+<body>
+    <!-- Grid Background -->
+    <div class="grid-bg"></div>
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+    <!-- Scan Line -->
+    <div class="scanline"></div>
 
-    <!-- NAVIGATION BAR -->
-    <header class="sticky top-0 z-50 bg-brand-dark/95 backdrop-blur border-b border-brand-border shadow-lg">
-        <div class="container mx-auto px-4 py-3">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="content-wrapper">
 
-                <!-- Brand Logo -->
-                <a href="index.html" class="flex items-center gap-3 group">
-                    <div
-                        class="relative w-10 h-10 flex items-center justify-center bg-brand-panel border border-brand-border rounded overflow-hidden">
-                        <img src="assets/images/noyzzing-logo.png" alt="NOYZZING"
-                            class="w-full h-full object-contain p-1">
-                        <div
-                            class="absolute inset-0 border border-brand-gold opacity-30 group-hover:opacity-100 transition-opacity">
-                        </div>
+        <!-- ═══════════════════════════════════
+             HEADER
+        ═══════════════════════════════════ -->
+        <header class="site-header">
+            <div class="header-inner">
+                <!-- Logo -->
+                <a href="index.html" class="logo-wrap">
+                    <div class="logo-icon">
+                        <img src="assets/images/noyzzing-logo.png" alt="NOYZZING" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <span style="display:none; color:var(--gold); font-family:'Rajdhani',sans-serif; font-size:18px; font-weight:700;">N</span>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold font-tech text-white tracking-wider">NOY<span
-                                class="text-brand-gold glow-text">ZZING // OPS</span></h1>
+                        <div class="logo-text">NOY<span>ZZING</span></div>
+                        <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:#475569; letter-spacing:3px; margin-top:1px;">// OPS CENTER</div>
                     </div>
                 </a>
 
-                <!-- Nav Menu -->
-                <nav class="bg-brand-panel/50 px-6 py-1.5 rounded-full border border-brand-border/50">
-                    <ul
-                        class="flex flex-wrap justify-center gap-6 text-sm font-semibold font-tech tracking-wider text-gray-400">
-                        <li><a href="index.html" class="hover:text-brand-gold transition-colors">HOME</a></li>
-                        <li><a href="military-expedition-guide/index.html"
-                                class="hover:text-brand-gold transition-colors">MILITARY</a></li>
-                        <li><a href="troop-resource-calculator/index.html"
-                                class="hover:text-brand-gold transition-colors">CALCULATOR</a></li>
-                        <li><a href="event-calendar/" class="hover:text-brand-gold transition-colors">EVENTS</a></li>
-                        <li><a href="battle-of/index.html" class="hover:text-brand-gold transition-colors">BOS</a></li>
-                        <li><a href="pokemon-registry/index.html" class="hover:text-brand-gold transition-colors">REGISTRY</a></li>
+                <!-- Nav -->
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="index.html">HOME</a></li>
+                        <li><a href="military-expedition-guide/index.html">MILITARY</a></li>
+                        <li><a href="troop-resource-calculator/index.html">CALCULATOR</a></li>
+                        <li><a href="event-calendar/">EVENTS</a></li>
+                        <li><a href="battle-of/index.html">BOS</a></li>
+                        <li><a href="pokemon-registry/index.html">REGISTRY</a></li>
                     </ul>
                 </nav>
 
-                <!-- Reality Switcher Button -->
-                <div class="flex items-center gap-4">
-                    <div class="flex items-center gap-2">
-                        <button id="theme-toggle" class="relative inline-flex items-center h-8 rounded-full w-14 transition-colors focus:outline-none bg-brand-panel border border-brand-border group overflow-hidden">
-                            <span id="toggle-circle" class="absolute left-1 inline-block w-6 h-6 transform bg-brand-gold rounded-full transition-all duration-500 z-10"></span>
-                            <i class="fa-solid fa-ghost absolute left-2 text-[12px] text-brand-dark transition-opacity duration-300 z-20" id="ghost-icon"></i>
-                            <i class="fa-solid fa-gift absolute right-2 text-[12px] text-brand-dark opacity-0 transition-opacity duration-300 z-20" id="gift-icon"></i>
-                        </button>
-                        <span class="text-[10px] font-bold text-brand-gold uppercase tracking-tighter hidden md:block" id="theme-status">MODERN</span>
-                    </div>
-
-                    <!-- Search Input -->
-                    <div class="relative w-full md:w-56 group">
-                        <i
-                            class="fa-solid fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 group-focus-within:text-brand-gold transition-colors"></i>
-                        <input type="text" id="search-input" placeholder="SEARCH DATABASE..."
-                            class="w-full bg-brand-dark border border-brand-border text-gray-200 text-xs font-mono rounded px-10 py-2.5 focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all placeholder-gray-600">
+                <!-- Header Actions -->
+                <div class="header-actions">
+                    <button id="theme-toggle" class="theme-toggle" title="Switch Theme">
+                        <div class="toggle-thumb" id="toggle-thumb">
+                            <i class="fa-solid fa-ghost" id="ghost-icon"></i>
+                        </div>
+                    </button>
+                    <span id="theme-status" style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--gold); letter-spacing:2px;">MODE: TACTICAL</span>
+                    <div class="search-wrap">
+                        <i class="fa-solid fa-search"></i>
+                        <input type="text" id="search-input" class="search-input" placeholder="SEARCH DATABASE...">
                     </div>
                 </div>
             </div>
+        </header>
+
+        <!-- ═══════════════════════════════════
+             TOP AD BANNER
+        ═══════════════════════════════════ -->
+        <div style="max-width:1400px; margin:20px auto; padding:0 24px;">
+            <div class="ad-unit" style="padding-top:18px;">
+                <div class="ad-unit-inner" style="min-height:100px; border-radius:0 0 8px 8px;">
+                    <!-- Google AdSense - Top Leaderboard -->
+                    <ins class="adsbygoogle"
+                        style="display:block; width:100%; min-height:90px;"
+                        data-ad-client="ca-pub-1115056295957658"
+                        data-ad-slot="auto"
+                        data-ad-format="horizontal"
+                        data-full-width-responsive="true"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+            </div>
         </div>
-    </header>
 
-    <!-- AD SLOT 1: TOP BANNER (Leaderboard) -->
-    <div class="container mx-auto px-4 mt-6">
-        <div
-            class="w-full h-[90px] md:h-[100px] overflow-hidden rounded bg-black border-y border-brand-border flex items-center justify-center">
-            <div class="ad-slot-label"></div>
+        <!-- ═══════════════════════════════════
+             HERO
+        ═══════════════════════════════════ -->
+        <section class="hero-section">
+            <div class="hero-bg-orb hero-orb-1"></div>
+            <div class="hero-bg-orb hero-orb-2"></div>
+            <div class="hero-bg-orb hero-orb-3"></div>
+
+            <div class="hero-badge">
+                <div class="badge-dot"></div>
+                SYSTEM ONLINE — STRATEGY DATABASE ACTIVE
+            </div>
+
+            <h1 class="hero-title">
+                <span class="line1">CONQUEST</span>
+                <span class="line2">MASTERED</span>
+            </h1>
+
+            <p class="hero-sub">
+                Elite <span class="highlight">Puzzles & Conquest</span> guides, troop calculators,
+                and military strategies. Powered by data. Forged in battle.
+            </p>
+
+            <div style="margin-bottom:36px;">
+                <span id="typing-text" class="hero-typing"></span>
+            </div>
+
+            <div class="hero-cta-group">
+                <a href="#guides" class="btn-primary">
+                    <i class="fa-solid fa-crosshairs"></i>
+                    INITIATE GUIDES
+                </a>
+                <button onclick="document.getElementById('open-chat-btn').click()" class="btn-secondary">
+                    <i class="fa-solid fa-robot"></i>
+                    ACCESS AI
+                </button>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════
+             STATS BAR
+        ═══════════════════════════════════ -->
+        <div class="stats-bar">
+            <div class="stats-inner">
+                <div class="stat-item">
+                    <div class="stat-value">7+</div>
+                    <div class="stat-label">STRATEGY GUIDES</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">LIVE TOOLS</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">ROL</div>
+                    <div class="stat-label">ALLIANCE TAG</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">v3.0</div>
+                    <div class="stat-label">AI BOT ONLINE</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">UPTIME</div>
+                </div>
+            </div>
         </div>
-    </div>
 
-    <main class="container mx-auto px-4 py-8 flex-grow">
-        <!-- Main Layout: Stacks vertically on small screens, splits 3/4 and 1/4 on large screens -->
-        <div class="flex flex-col lg:flex-row gap-8">
+        <!-- ═══════════════════════════════════
+             MAIN CONTENT
+        ═══════════════════════════════════ -->
+        <main style="max-width:1400px; margin:0 auto; padding:48px 24px;">
+            <div style="display:flex; flex-direction:column; gap:0;">
+                <div style="display:flex; gap:32px; flex-wrap:wrap;">
 
-            <!-- LEFT COLUMN: CONTENT (3/4 width on large screens) -->
-            <div class="w-full lg:w-3/4 space-y-10">
+                    <!-- LEFT: MAIN COLUMN -->
+                    <div style="flex:1; min-width:280px; display:flex; flex-direction:column; gap:40px;">
 
-                <!-- HERO SECTION: TACTICAL DISPLAY -->
-                <section class="relative tech-border bg-brand-panel p-8 md:p-12 overflow-hidden group rounded">
-                    <!-- Background accent -->
-                    <div
-                        class="absolute top-0 right-0 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none">
-                    </div>
-
-                    <div class="relative z-10 text-center">
-                        <span
-                            class="inline-block px-2 py-1 mb-4 text-[10px] font-bold tracking-[0.2em] text-brand-gold border border-brand-gold/30 bg-brand-gold/10 rounded">SYSTEM
-                            ONLINE</span>
-                        <h2 class="text-4xl md:text-6xl font-bold font-tech text-white mb-4 leading-tight">
-                            CONQUEST <span
-                                class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-yellow-600">MASTERED</span>
-                        </h2>
-                        <div class="h-6 mb-8 flex justify-center">
-                            <p id="typing-text"
-                                class="text-brand-text/70 font-mono text-sm md:text-base border-r-2 border-brand-gold pr-1 animate-pulse">
-                            </p>
-                        </div>
-
-                        <div class="flex flex-wrap justify-center gap-4">
-                            <a href="#guides"
-                                class="group relative px-8 py-3 bg-brand-gold hover:bg-yellow-400 text-black font-bold font-tech tracking-wide clip-path-polygon transition-all">
-                                <span class="relative z-10">INITIATE GUIDES</span>
-                                <div
-                                    class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        <!-- ALLIANCE MODULE -->
+                        <div class="alliance-card fade-in-up">
+                            <div class="alliance-logo">
+                                <img src="assets/images/ROL_logo.png" alt="ROL" onerror="this.style.display='none'">
+                            </div>
+                            <div style="flex:1;">
+                                <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--gold); letter-spacing:3px; margin-bottom:6px;">AFFILIATED ALLIANCE</div>
+                                <h3 style="font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:#fff; margin-bottom:8px;">REBIRTH OF LEGENDS</h3>
+                                <p style="font-size:13px; color:#475569; line-height:1.6; margin-bottom:16px;">
+                                    Elite tactical operations. Drama-free zone. Monthly events including Stranger Things challenges and special tournaments.
+                                    <span style="color:var(--gold);"> Join the #1 ranked alliance.</span>
+                                </p>
+                                <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                                    <a href="https://discord.gg/BX95Q38C" target="_blank" class="tool-btn tool-btn-gold" style="font-size:11px; padding:9px 18px;">
+                                        <i class="fa-brands fa-discord"></i> DISCORD
+                                    </a>
+                                    <a href="alliance/index.html" class="tool-btn tool-btn-gold" style="font-size:11px; padding:9px 18px;">
+                                        <i class="fa-solid fa-info-circle"></i> LEARN MORE
+                                    </a>
                                 </div>
-                            </a>
-                            <button onclick="document.getElementById('open-chat-btn').click()"
-                                class="px-8 py-3 bg-transparent border border-brand-border hover:border-brand-gold text-brand-text font-tech tracking-wide hover:text-brand-gold transition-all">
-                                ACCESS AI
-                            </button>
+                            </div>
                         </div>
-                    </div>
-                </section>
 
-                <!-- ALLIANCE MODULE -->
-                <section
-                    class="relative bg-brand-panel/60 border-l-4 border-brand-gold p-6 flex flex-col md:flex-row items-center gap-6 rounded">
-                    <div class="absolute inset-0 bg-gradient-to-r from-brand-gold/5 to-transparent pointer-events-none">
-                    </div>
-                    <div
-                        class="relative w-20 h-20 bg-black rounded-lg border border-brand-border flex items-center justify-center shadow-lg">
-                        <img src="assets/images/ROL_logo.png" alt="ROL Alliance" class="w-16 h-16 object-contain">
-                    </div>
-                    <div class="flex-1 text-center md:text-left z-10">
-                        <h3 class="text-xl font-bold font-tech text-white mb-1">ALLIANCE: ROL</h3>
-                        <p class="text-sm text-gray-400 mb-3">Rebirth of Legends. Coordinated strikes. Drama-free zone.
-                            <br><span class="text-brand-gold text-xs">Monthly events like Stranger Things
-                                challenges!</span>
-                        </p>
-                        <div class="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3">
-                            <a href="https://discord.gg/BX95Q38C" target="_blank"
-                                class="text-xs font-bold text-brand-gold hover:text-white uppercase tracking-wider flex items-center gap-2">
-                                <i class="fa-brands fa-discord"></i> Connect to Secure Channel
-                            </a>
-                            <a href="alliance/index.html"
-                                class="text-xs font-bold text-gray-400 hover:text-brand-gold uppercase tracking-wider flex items-center gap-2">
-                                <i class="fas fa-info-circle"></i> Learn More
+                        <!-- IN-FEED AD -->
+                        <div class="ad-unit" style="padding-top:18px;">
+                            <div class="ad-unit-inner" style="min-height:90px; border-radius:0 0 8px 8px; width:100%;">
+                                <ins class="adsbygoogle"
+                                    style="display:block; width:100%;"
+                                    data-ad-client="ca-pub-1115056295957658"
+                                    data-ad-slot="auto"
+                                    data-ad-format="fluid"
+                                    data-ad-layout="in-article"
+                                    data-full-width-responsive="true"></ins>
+                                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                            </div>
+                        </div>
+
+                        <!-- STRATEGY DATABASE -->
+                        <section id="guides">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fa-solid fa-layer-group"></i>
+                                    STRATEGY DATABASE
+                                </h2>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:20px;">
+
+                                <!-- Card: Military -->
+                                <a href="military-expedition-guide/index.html" class="guide-card">
+                                    <div class="card-img-wrap">
+                                        <span class="card-tag">TACTICS</span>
+                                        <div class="card-tl-corner"></div>
+                                        <div class="card-br-corner"></div>
+                                        <img src="assets/images/Military.png" alt="Military Expedition">
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title">MILITARY EXPEDITION</div>
+                                        <p class="card-desc">Advanced warfare tactics for kingdom conquest events. Dominate every campaign with precision.</p>
+                                        <div class="card-btn">ACCESS FILE &nbsp;›</div>
+                                    </div>
+                                </a>
+
+                                <!-- Card: Troop Strength -->
+                                <a href="troop-strength-guide/index.html" class="guide-card">
+                                    <div class="card-img-wrap">
+                                        <span class="card-tag">UNITS</span>
+                                        <div class="card-tl-corner"></div>
+                                        <div class="card-br-corner"></div>
+                                        <img src="assets/images/troop strength.png" alt="Troop Strength">
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title">TROOP STRENGTH</div>
+                                        <p class="card-desc">Optimization protocols for maximum army output. Build the unstoppable force.</p>
+                                        <div class="card-btn">ACCESS FILE &nbsp;›</div>
+                                    </div>
+                                </a>
+
+                                <!-- Card: Talent Memory -->
+                                <a href="talent-memory-guide/index.html" class="guide-card">
+                                    <div class="card-img-wrap">
+                                        <span class="card-tag">HERO</span>
+                                        <div class="card-tl-corner"></div>
+                                        <div class="card-br-corner"></div>
+                                        <img src="assets/images/talent.png" alt="Talent Memory">
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title">TALENT MEMORY</div>
+                                        <p class="card-desc">Unlock hero potential with optimal skill trees. Master the art of hero progression.</p>
+                                        <div class="card-btn">ACCESS FILE &nbsp;›</div>
+                                    </div>
+                                </a>
+
+                            </div>
+                        </section>
+
+                        <!-- MID-CONTENT AD (Rectangle) -->
+                        <div class="ad-unit" style="padding-top:18px;">
+                            <div class="ad-unit-inner" style="min-height:250px; border-radius:0 0 8px 8px; width:100%;">
+                                <ins class="adsbygoogle"
+                                    style="display:block; width:100%; min-height:250px;"
+                                    data-ad-client="ca-pub-1115056295957658"
+                                    data-ad-slot="auto"
+                                    data-ad-format="rectangle"
+                                    data-full-width-responsive="true"></ins>
+                                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                            </div>
+                        </div>
+
+                        <!-- UTILITIES -->
+                        <section id="tools">
+                            <div class="section-header">
+                                <h2 class="section-title">
+                                    <i class="fa-solid fa-microchip"></i>
+                                    OPERATIONAL UTILITIES
+                                </h2>
+                            </div>
+
+                            <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:20px;">
+
+                                <!-- Troop Calculator -->
+                                <div class="tool-card" style="border-color:rgba(251,191,36,0.2);">
+                                    <div class="tool-card-icon" style="color:var(--gold);"><i class="fa-solid fa-calculator"></i></div>
+                                    <div class="tool-card-content">
+                                        <div class="tool-card-title">TROOP CALCULATOR</div>
+                                        <p class="tool-card-desc">Real-time battle simulation & resource analysis.</p>
+                                        <a href="troop-resource-calculator/index.html" class="tool-btn tool-btn-gold">
+                                            <i class="fa-solid fa-external-link-alt"></i> LAUNCH APP
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- AI Bot -->
+                                <div class="tool-card" style="border-color:rgba(34,211,238,0.15);">
+                                    <div class="tool-card-icon" style="color:var(--cyan);"><i class="fa-solid fa-robot"></i></div>
+                                    <div class="tool-card-content">
+                                        <div class="tool-card-title">TACTICAL AI BOT <span style="color:var(--cyan); font-size:12px;">✨</span></div>
+                                        <p class="tool-card-desc">Query the database for instant strategy advice.</p>
+                                        <button onclick="document.getElementById('open-chat-btn').click()" class="tool-btn tool-btn-cyan">
+                                            <i class="fa-solid fa-comments"></i> OPEN COMMS
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Alliance Scribe -->
+                                <div class="tool-card" style="border-color:rgba(251,191,36,0.15);">
+                                    <div class="tool-card-icon" style="color:var(--gold);"><i class="fa-solid fa-feather-pointed"></i></div>
+                                    <div class="tool-card-content">
+                                        <div class="tool-card-title">ALLIANCE SCRIBE <span style="font-size:12px;">✨</span></div>
+                                        <p class="tool-card-desc">Generate war declarations and recruitment mails.</p>
+                                        <button onclick="document.getElementById('scribe-modal').classList.remove('hidden')" class="tool-btn tool-btn-gold">
+                                            <i class="fa-solid fa-pencil"></i> DRAFT MSG
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Hawkins Game -->
+                                <div class="tool-card" style="border-color:rgba(239,68,68,0.2); background:linear-gradient(135deg,rgba(127,29,29,0.2),rgba(10,15,30,0.9));">
+                                    <div class="tool-card-icon" style="color:#ef4444;"><i class="fa-solid fa-dice-d20"></i></div>
+                                    <div class="tool-card-content">
+                                        <div class="tool-card-title" style="color:#fca5a5;">CODE NAME: HAWKINS</div>
+                                        <p class="tool-card-desc">Find your Stranger Things Season 5 alliance character.</p>
+                                        <a href="stranger_things_game/index.html" class="tool-btn tool-btn-red">
+                                            <i class="fa-solid fa-skull-crossbones"></i> ASSIGN CODE
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Pocket Conquest -->
+                                <div class="tool-card" style="border-color:rgba(168,85,247,0.2); background:linear-gradient(135deg,rgba(88,28,135,0.2),rgba(10,15,30,0.9));">
+                                    <div class="tool-card-icon" style="color:#a855f7;"><i class="fa-solid fa-khanda"></i></div>
+                                    <div class="tool-card-content">
+                                        <div class="tool-card-title" style="color:#c4b5fd;">POCKET CONQUEST</div>
+                                        <p class="tool-card-desc">Collect heroes, summon 5-stars, and battle in this RPG sim!</p>
+                                        <a href="pocket-conquest/index.html" class="tool-btn tool-btn-purple">
+                                            <i class="fa-solid fa-play"></i> START ADVENTURE
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Hogwarts Registry -->
+                                <div class="tool-card" style="border-color:rgba(34,211,238,0.2); background:linear-gradient(135deg,rgba(8,51,68,0.3),rgba(10,15,30,0.9));">
+                                    <div class="tool-card-icon" style="color:var(--cyan);"><i class="fa-solid fa-wand-sparkles"></i></div>
+                                    <div class="tool-card-content">
+                                        <div class="tool-card-title" style="color:#67e8f9;">HOGWARTS REGISTRY</div>
+                                        <p class="tool-card-desc">Inscribe your signature in the official book of fates.</p>
+                                        <a href="harry-potter.html" class="tool-btn tool-btn-cyan">
+                                            <i class="fa-solid fa-scroll"></i> UNROLL PARCHMENT
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Pokemon Registry -->
+                                <div class="tool-card" style="border-color:rgba(251,191,36,0.2); background:linear-gradient(135deg,rgba(127,29,29,0.15),rgba(10,15,30,0.9));">
+                                    <div class="tool-card-icon" style="color:#fbbf24;"><i class="fa-solid fa-dragon"></i></div>
+                                    <div class="tool-card-content">
+                                        <div class="tool-card-title">POKÉMON REGISTRY</div>
+                                        <p class="tool-card-desc">Draft your squad. Become a Gym Boss. Enter the Hall of Leaders.</p>
+                                        <a href="pokemon-registry/index.html" class="tool-btn" style="background:linear-gradient(135deg,rgba(127,29,29,0.5),rgba(180,83,9,0.5)); color:#fde68a; border:1px solid rgba(251,191,36,0.3);">
+                                            <i class="fa-solid fa-star"></i> ENTER REGISTRY
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+
+                        <!-- BOTTOM AD -->
+                        <div class="ad-unit" style="padding-top:18px;">
+                            <div class="ad-unit-inner" style="min-height:90px; border-radius:0 0 8px 8px; width:100%;">
+                                <ins class="adsbygoogle"
+                                    style="display:block; width:100%;"
+                                    data-ad-client="ca-pub-1115056295957658"
+                                    data-ad-slot="auto"
+                                    data-ad-format="horizontal"
+                                    data-full-width-responsive="true"></ins>
+                                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                            </div>
+                        </div>
+
+                    </div><!-- END LEFT COLUMN -->
+
+                    <!-- RIGHT: SIDEBAR -->
+                    <aside style="width:300px; flex-shrink:0; display:flex; flex-direction:column; gap:24px;">
+
+                        <!-- SIDEBAR AD: 300x600 -->
+                        <div class="ad-unit" style="padding-top:18px; position:sticky; top:80px;">
+                            <div class="ad-unit-inner" style="min-height:250px; border-radius:0 0 8px 8px; flex-direction:column;">
+                                <ins class="adsbygoogle"
+                                    style="display:block; width:300px; min-height:600px;"
+                                    data-ad-client="ca-pub-1115056295957658"
+                                    data-ad-slot="auto"
+                                    data-ad-format="auto"
+                                    data-full-width-responsive="false"></ins>
+                                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                            </div>
+                        </div>
+
+                        <!-- COMMANDER PROFILE -->
+                        <div class="sidebar-card">
+                            <div class="sidebar-card-top-bar"></div>
+                            <div class="sidebar-card-title">
+                                <i class="fa-solid fa-user-shield"></i>
+                                COMMANDER PROFILE
+                            </div>
+                            <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
+                                <div style="width:52px; height:52px; border-radius:8px; border:1px solid rgba(251,191,36,0.3); background:rgba(0,0,0,0.5); overflow:hidden; display:flex; align-items:center; justify-content:center;">
+                                    <img src="assets/images/noyzzing-logo.png" alt="Noyzzing" style="width:100%; height:100%; object-fit:cover;" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-family:Rajdhani,sans-serif;font-size:20px;font-weight:700;color:var(--gold);\'>N</span>'">
+                                </div>
+                                <div>
+                                    <div style="font-family:'Rajdhani',sans-serif; font-size:16px; font-weight:700; color:#fff;">NOYZZING</div>
+                                    <div style="font-family:'JetBrains Mono',monospace; font-size:9px; color:var(--gold); background:rgba(251,191,36,0.1); border:1px solid rgba(251,191,36,0.2); padding:2px 6px; border-radius:3px; display:inline-block; letter-spacing:1px;">ADMIN</div>
+                                </div>
+                            </div>
+                            <p style="font-size:12px; color:#475569; line-height:1.7; margin-bottom:14px;">Delivering top-tier strategy and operational guides for the Puzzles & Conquest community.</p>
+                            <a href="https://discord.gg/BX95Q38C" target="_blank" class="tool-btn tool-btn-gold" style="width:100%; justify-content:center; padding:10px;">
+                                <i class="fa-brands fa-discord"></i> JOIN DISCORD
                             </a>
                         </div>
-                    </div>
-                </section>
 
-                <!-- AD SLOT 2: IN-FEED (Native Style) -->
-                <div
-                    class="w-full rounded bg-brand-panel border border-dashed border-gray-700 p-4 flex items-center justify-center min-h-[100px]">
-                    <div class="ad-slot-label"></div>
+                        <!-- NEWSLETTER -->
+                        <div class="sidebar-card">
+                            <div class="sidebar-card-top-bar" style="background:linear-gradient(to right, var(--cyan), transparent);"></div>
+                            <div class="sidebar-card-title">
+                                <i class="fa-regular fa-envelope"></i>
+                                INTEL BRIEFING
+                            </div>
+                            <p style="font-size:11px; color:#475569; margin-bottom:14px; line-height:1.6;">Subscribe for weekly strategy updates and event alerts.</p>
+                            <form id="newsletter-form">
+                                <input type="email" id="newsletter-email" placeholder="ENTER EMAIL ADDRESS..." required class="newsletter-input">
+                                <button type="submit" class="btn-primary" style="width:100%; justify-content:center; clip-path:none; border-radius:4px; font-size:12px; padding:11px;">
+                                    SUBSCRIBE
+                                </button>
+                            </form>
+                            <div id="subscription-message" class="hidden" style="margin-top:8px; font-family:'JetBrains Mono',monospace; font-size:10px; color:#4ade80; text-align:center;">
+                                ✓ TRANSMISSION RECEIVED
+                            </div>
+                        </div>
+
+                        <!-- SIDEBAR AD: 300x250 -->
+                        <div class="ad-unit" style="padding-top:18px;">
+                            <div class="ad-unit-inner" style="min-height:250px; border-radius:0 0 8px 8px;">
+                                <ins class="adsbygoogle"
+                                    style="display:block; width:300px; height:250px;"
+                                    data-ad-client="ca-pub-1115056295957658"
+                                    data-ad-slot="auto"
+                                    data-ad-format="auto"
+                                    data-full-width-responsive="false"></ins>
+                                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                            </div>
+                        </div>
+
+                    </aside><!-- END SIDEBAR -->
+
+                </div><!-- END FLEX ROW -->
+            </div>
+        </main>
+
+        <!-- ═══════════════════════════════════
+             FOOTER
+        ═══════════════════════════════════ -->
+        <footer class="site-footer">
+            <!-- Footer Ad -->
+            <div style="max-width:1400px; margin:0 auto 36px; padding:0 24px;">
+                <div class="ad-unit" style="padding-top:18px;">
+                    <div class="ad-unit-inner" style="min-height:90px; border-radius:0 0 8px 8px; width:100%;">
+                        <ins class="adsbygoogle"
+                            style="display:block; width:100%;"
+                            data-ad-client="ca-pub-1115056295957658"
+                            data-ad-slot="auto"
+                            data-ad-format="horizontal"
+                            data-full-width-responsive="true"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    </div>
                 </div>
-
-                <!-- STRATEGY DATABASE (Guides) -->
-                <section id="guides">
-                    <div class="flex items-end justify-between mb-6 border-b border-gray-800 pb-2">
-                        <h2 class="text-2xl font-bold font-tech text-white flex items-center gap-2">
-                            <i class="fa-solid fa-layer-group text-brand-gold text-sm"></i> DATABASE
-                        </h2>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                        <!-- Military Expedition Card -->
-                        <div
-                            class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative rounded">
-                            <div class="h-48 overflow-hidden relative">
-                                <img src="assets/images/Military.png" alt="Military Expedition"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                                <div
-                                    class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
-                                    TACTICS</div>
-                            </div>
-                            <div class="p-5">
-                                <h3
-                                    class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
-                                    MILITARY EXPEDITION</h3>
-                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Advanced warfare tactics for
-                                    kingdom conquest events.</p>
-                                <a href="military-expedition-guide/index.html"
-                                    class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
-                                    FILE ></a>
-                            </div>
-                        </div>
-
-                        <!-- Troop Strength Card -->
-                        <div
-                            class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative rounded">
-                            <div class="h-48 overflow-hidden relative">
-                                <img src="assets/images/troop strength.png" alt="Troop Strength"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                                <div
-                                    class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
-                                    UNITS</div>
-                            </div>
-                            <div class="p-5">
-                                <h3
-                                    class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
-                                    TROOP STRENGTH</h3>
-                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Optimization protocols for maximum
-                                    army output.</p>
-                                <a href="troop-strength-guide/index.html"
-                                    class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
-                                    FILE ></a>
-                            </div>
-                        </div>
-
-                        <!-- Talent Memory Card -->
-                        <div
-                            class="guide-card group bg-brand-panel border border-brand-border card-hover overflow-hidden relative rounded">
-                            <div class="h-48 overflow-hidden relative">
-                                <img src="assets/images/talent.png" alt="Talent Memory"
-                                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 opacity-80 group-hover:opacity-100">
-                                <div
-                                    class="absolute top-2 right-2 bg-black/80 text-brand-gold text-[10px] font-bold px-2 py-1 rounded border border-brand-gold/30">
-                                    HERO</div>
-                            </div>
-                            <div class="p-5">
-                                <h3
-                                    class="text-lg font-bold font-tech text-white mb-2 group-hover:text-brand-gold transition-colors">
-                                    TALENT MEMORY</h3>
-                                <p class="text-xs text-gray-400 mb-4 leading-relaxed">Unlock hero potential with optimal
-                                    skill trees.</p>
-                                <a href="talent-memory-guide/index.html"
-                                    class="block w-full text-center text-xs font-bold bg-brand-border/50 hover:bg-brand-gold hover:text-black py-2 transition-all font-mono tracking-wide">ACCESS
-                                    FILE ></a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- UTILITIES (Tools) -->
-                <section id="tools">
-                    <h2
-                        class="text-2xl font-bold font-tech text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-2">
-                        <i class="fa-solid fa-microchip text-brand-gold text-sm"></i> UTILITIES
-                    </h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-                        <!-- Tool 1 -->
-                        <div
-                            class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
-                            <div
-                                class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
-                                <i class="fa-solid fa-calculator text-5xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold font-tech text-white mb-2">TROOP CALCULATOR</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Real-time battle simulation and resource
-                                analysis.</p>
-                            <a href="troop-resource-calculator/index.html"
-                                class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
-                                LAUNCH APP
-                            </a>
-                        </div>
-
-                        <!-- Tool 2 -->
-                        <div
-                            class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
-                            <div
-                                class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
-                                <i class="fa-solid fa-robot text-5xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold font-tech text-white mb-2">TACTICAL AI BOT ✨</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Query the database for instant strategy
-                                advice.</p>
-                            <button onclick="document.getElementById('open-chat-btn').click()"
-                                class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
-                                OPEN COMMS
-                            </button>
-                        </div>
-
-                        <!-- Tool 3: ALLIANCE SCRIBE -->
-                        <div
-                            class="tool-card p-6 bg-gradient-to-br from-brand-panel to-brand-dark border border-brand-border hover:border-brand-gold transition-all rounded relative group">
-                            <div
-                                class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
-                                <i class="fa-solid fa-feather-pointed text-5xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold font-tech text-white mb-2">ALLIANCE SCRIBE ✨</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Generate war declarations and recruitment
-                                mails.</p>
-                            <button onclick="document.getElementById('scribe-modal').classList.remove('hidden')"
-                                class="inline-block px-4 py-2 bg-brand-border hover:bg-brand-gold hover:text-black text-xs font-bold font-mono transition-colors rounded-sm">
-                                DRAFT MSG
-                            </button>
-                        </div>
-
-                        <!-- Tool 4: HAWKINS GAME (New Link) -->
-                        <div
-                            class="tool-card p-6 bg-gradient-to-br from-red-900/40 to-brand-dark border border-red-500/50 hover:border-red-500 transition-all rounded relative group">
-                            <div
-                                class="absolute right-4 top-4 text-red-500/20 group-hover:text-red-500/40 transition-colors">
-                                <i class="fa-solid fa-dice-d20 text-5xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold font-tech text-white mb-2">CODE NAME: HAWKINS</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Find your unique Stranger Things Season 5
-                                alliance character.</p>
-                            <a href="stranger_things_game/index.html"
-                                class="inline-block px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
-                                ASSIGN CODE
-                            </a>
-                        </div>
-
-                        <!-- Tool 5: POCKET CONQUEST (New Game) -->
-                        <div
-                            class="tool-card p-6 bg-gradient-to-br from-purple-900/40 to-brand-dark border border-purple-500/50 hover:border-purple-500 transition-all rounded relative group">
-                            <div
-                                class="absolute right-4 top-4 text-purple-500/20 group-hover:text-purple-500/40 transition-colors">
-                                <i class="fa-solid fa-khanda text-5xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold font-tech text-white mb-2">POCKET CONQUEST</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Collect heroes, summon 5-stars, and battle
-                                in this RPG sim!</p>
-                            <a href="pocket-conquest/index.html"
-                                class="inline-block px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
-                                START ADVENTURE
-                            </a>
-                        </div>
-
-                        <!-- Tool 6: HOGWARTS REGISTRY -->
-                        <div
-                            class="tool-card p-6 bg-gradient-to-br from-cyan-900/40 to-brand-dark border border-cyan-500/50 hover:border-brand-gold transition-all rounded relative group">
-                            <div
-                                class="absolute right-4 top-4 text-brand-gold/10 group-hover:text-brand-gold/20 transition-colors">
-                                <i class="fa-solid fa-wand-sparkles text-5xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold font-tech text-white mb-2 uppercase">Hogwarts Registry</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Inscribe your signature in the official book of fates. An authentic ROL alliance experience.</p>
-                            <a href="harry-potter.html"
-                                class="inline-block px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-700 text-white text-xs font-bold font-mono transition-colors rounded-sm">
-                                UNROLL PARCHMENT
-                            </a>
-                        </div>
-
-                        <!-- Tool 7: POKEMON REGISTRY -->
-                        <div
-                            class="tool-card p-6 bg-gradient-to-br from-red-900/40 to-brand-dark border border-red-400/50 hover:border-yellow-400 transition-all rounded relative group">
-                            <div
-                                class="absolute right-4 top-4 text-red-400/20 group-hover:text-yellow-400/30 transition-colors">
-                                <i class="fa-solid fa-dragon text-5xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold font-tech text-white mb-2 uppercase">Pokémon Registry</h3>
-                            <p class="text-xs text-gray-400 mb-6 font-mono">Draft your squad. Become a Gym Boss. Enter the Hall of Leaders.</p>
-                            <a href="pokemon-registry/index.html"
-                                class="inline-block px-4 py-2 bg-gradient-to-r from-red-600 to-yellow-500 text-black text-xs font-bold font-mono transition-colors rounded-sm">
-                                ENTER REGISTRY
-                            </a>
-                        </div>
-
-                    </div>
-                </section>
             </div>
 
-            <!-- RIGHT COLUMN: SIDEBAR (1/4 width on large screens) -->
-            <aside class="w-full lg:w-1/4 space-y-8">
-
-                <!-- SIDEBAR AD (300x250) -->
-                <div class="bg-brand-panel border border-brand-border p-2 rounded w-full flex flex-col items-center">
-                    <div
-                        class="w-full h-[250px] bg-black/50 border border-dashed border-gray-700 relative flex items-center justify-center">
-                        <div class="ad-slot-label"></div>
-                    </div>
+            <div style="max-width:1400px; margin:0 auto; padding:0 24px; display:flex; flex-direction:column; align-items:center; gap:20px;">
+                <!-- Logo -->
+                <div style="font-family:'Rajdhani',sans-serif; font-size:26px; font-weight:700; color:#fff; letter-spacing:3px;">
+                    NOY<span style="color:var(--gold);">ZZING</span>
+                    <span style="font-family:'JetBrains Mono',monospace; font-size:11px; color:#334155; margin-left:8px;">// OPS</span>
                 </div>
-
-                <!-- AUTHOR PROFILE -->
-                <div class="bg-brand-panel border border-brand-border p-6 relative overflow-hidden rounded">
-                    <div class="absolute top-0 left-0 w-full h-1 bg-brand-gold"></div>
-                    <h3 class="text-lg font-bold font-tech text-white mb-4">COMMANDER PROFILE</h3>
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-14 h-14 rounded bg-black border border-brand-gold/30 p-1">
-                            <!-- Placeholder for Noyzzing logo image -->
-                            <div
-                                class="w-full h-full object-cover flex items-center justify-center text-xl font-tech text-brand-gold">
-                                C</div>
-                        </div>
-                        <div>
-                            <p class="font-bold text-white text-sm">NOYZZING</p>
-                            <span
-                                class="text-[10px] text-brand-gold uppercase tracking-wider bg-brand-gold/10 px-1 rounded">Admin</span>
-                        </div>
-                    </div>
-                    <p class="text-xs text-gray-400 mb-4 leading-relaxed">Delivering top-tier strategy and operational
-                        guides for the alliance community.</p>
-                    <div class="grid grid-cols-1 gap-2">
-                        <a href="https://discord.gg/BX95Q38C" target="_blank"
-                            class="bg-brand-dark hover:bg-brand-gold hover:text-black text-gray-300 text-center py-1.5 text-xs rounded transition-colors border border-brand-border">
-                            <i class="fa-brands fa-discord"></i> DISCORD
-                        </a>
-                    </div>
+                <!-- Nav Links -->
+                <div style="display:flex; gap:24px; flex-wrap:wrap; justify-content:center;">
+                    <a href="index.html" style="font-family:'JetBrains Mono',monospace; font-size:10px; color:#334155; text-decoration:none; letter-spacing:2px; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#334155'">HOME</a>
+                    <a href="privacy-policy/index.html" style="font-family:'JetBrains Mono',monospace; font-size:10px; color:#334155; text-decoration:none; letter-spacing:2px; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#334155'">PRIVACY</a>
+                    <a href="terms-of-service/index.html" style="font-family:'JetBrains Mono',monospace; font-size:10px; color:#334155; text-decoration:none; letter-spacing:2px; transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#334155'">TERMS</a>
                 </div>
-
-                <!-- NEWSLETTER -->
-                <div class="bg-brand-panel p-6 border border-brand-border rounded">
-                    <h3 class="text-sm font-bold font-tech text-white mb-2 uppercase tracking-wide">
-                        <i class="fa-regular fa-envelope text-brand-gold mr-2"></i> Intel Briefing
-                    </h3>
-                    <p class="text-[10px] text-gray-500 mb-4">Subscribe for weekly strategy updates.</p>
-
-                    <form id="newsletter-form" class="space-y-2">
-                        <input type="email" id="newsletter-email" placeholder="ENCRYPTED EMAIL..." required
-                            class="w-full bg-black/50 border border-brand-border text-gray-300 text-xs p-2 focus:border-brand-gold outline-none font-mono">
-                        <button type="submit"
-                            class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-bold py-2 text-xs uppercase tracking-wide transition-colors">
-                            SUBSCRIBE
-                        </button>
-                    </form>
-                    <div id="subscription-message" class="hidden mt-2 text-[10px] text-green-400 text-center">Confirmed.
-                    </div>
-                </div>
-
-            </aside>
-        </div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-brand-dark border-t border-brand-border mt-12 py-8 relative">
-        <!-- FOOTER AD -->
-        <div class="container mx-auto px-4 mb-8">
-            <div class="w-full flex justify-center bg-black border border-gray-800 p-2 rounded">
-                <div class="ad-slot-label min-h-[90px]"></div>
+                <!-- Copyright -->
+                <p style="font-family:'JetBrains Mono',monospace; font-size:10px; color:#1e2d3d; letter-spacing:2px;">
+                    © 2025 NOYZZING — OPERATIONAL COMMAND
+                </p>
             </div>
-        </div>
+        </footer>
 
-        <div class="container mx-auto px-4 text-center">
-            <p class="text-gray-600 text-xs mb-4 uppercase tracking-wider">© 2025 Noyzzing | Operational Command</p>
-            <div class="flex justify-center gap-6 text-xs text-gray-500 font-mono">
-                <a href="index.html" class="hover:text-brand-gold transition-colors">HOME</a>
-                <a href="privacy-policy/index.html" class="hover:text-brand-gold transition-colors">PRIVACY</a>
-                <a href="terms-of-service/index.html" class="hover:text-brand-gold transition-colors">TERMS</a>
-            </div>
-        </div>
-    </footer>
+    </div><!-- END CONTENT WRAPPER -->
 
-    <!-- CHATBOT FLOATING UI -->
-    <button id="open-chat-btn"
-        class="fixed bottom-6 right-6 z-40 bg-brand-gold hover:bg-yellow-400 text-black font-bold py-3 px-4 rounded shadow-lg shadow-yellow-500/20 flex items-center gap-2 transition-transform transform hover:-translate-y-1 border border-yellow-300">
-        <i class="fa-solid fa-robot"></i> <span class="hidden md:inline font-tech tracking-wide">NOYZBOT v3.0</span>
+    <!-- ═══════════════════════════════════
+         CHAT FAB BUTTON
+    ═══════════════════════════════════ -->
+    <button id="open-chat-btn" class="chat-fab">
+        <i class="fa-solid fa-robot"></i>
+        <span>NOYZBOT v3.0</span>
     </button>
 
-    <!-- CHATBOX INTERFACE -->
-    <div id="chatbox"
-        class="fixed bottom-20 right-6 w-80 md:w-96 h-[450px] bg-brand-dark border border-brand-gold/50 rounded shadow-2xl z-50 flex flex-col hidden backdrop-blur-md">
-        <!-- Header -->
-        <div class="bg-brand-panel p-3 border-b border-brand-border flex justify-between items-center">
-            <div class="flex items-center gap-2 text-brand-gold font-bold font-tech tracking-wider">
-                <i class="fa-solid fa-terminal text-xs"></i> NOYZBOT v3.0 (AI ENABLED)
+    <!-- ═══════════════════════════════════
+         CHATBOX PANEL
+    ═══════════════════════════════════ -->
+    <div id="chatbox" class="chatbox-panel hidden">
+        <div class="chatbox-header">
+            <div class="chatbox-title">
+                <i class="fa-solid fa-terminal" style="font-size:12px;"></i>
+                NOYZBOT v3.0 — AI ENABLED
             </div>
-            <button class="chat-close text-gray-500 hover:text-white transition-colors"><i
-                    class="fa-solid fa-xmark"></i></button>
+            <button class="chat-close" style="background:none; border:none; color:#475569; font-size:16px; cursor:pointer; transition:color 0.2s; padding:4px;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#475569'">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         </div>
-
-        <!-- Messages Area -->
-        <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs">
-            <div
-                class="message-anim bg-brand-panel border border-brand-border text-gray-300 p-3 rounded-tr-lg rounded-br-lg rounded-bl-lg max-w-[90%]">
-                <span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>
-                Greetings Commander. NoyzBot v3.0 Online. Ready for strategy queries.
+        <div id="chat-messages" class="chatbox-messages">
+            <div class="chat-msg chat-msg-bot">
+                <span class="msg-sender">SYSTEM:</span>
+                Greetings Commander. NoyzBot v3.0 online. Ready for tactical queries on troops, heroes, and events.
             </div>
         </div>
-
-        <!-- Input Area -->
-        <div class="p-3 bg-black/50 border-t border-brand-border">
-            <div class="flex gap-2">
-                <input type="text" id="user-input" placeholder="ASK ABOUT TROOPS OR EVENTS..."
-                    class="flex-1 bg-brand-dark text-white border border-brand-border p-2 text-xs font-mono focus:border-brand-gold outline-none">
-                <button class="chat-send bg-brand-gold text-black px-3 font-bold hover:bg-yellow-400 transition-colors">
-                    <i class="fa-solid fa-chevron-right"></i>
-                </button>
-            </div>
+        <div class="chatbox-input-wrap">
+            <input type="text" id="user-input" class="chat-input" placeholder="ASK ABOUT STRATEGY...">
+            <button class="chat-send-btn chat-send">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
         </div>
     </div>
 
-    <!-- ALLIANCE SCRIBE MODAL -->
-    <div id="scribe-modal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 hidden backdrop-blur-sm">
-        <div class="bg-brand-panel w-full max-w-md border border-brand-gold/50 rounded shadow-2xl p-6 relative">
+    <!-- ═══════════════════════════════════
+         ALLIANCE SCRIBE MODAL
+    ═══════════════════════════════════ -->
+    <div id="scribe-modal" class="modal-overlay hidden">
+        <div class="modal-panel">
             <button onclick="document.getElementById('scribe-modal').classList.add('hidden')"
-                class="absolute top-4 right-4 text-gray-500 hover:text-white"><i
-                    class="fa-solid fa-xmark fa-lg"></i></button>
-
-            <h3 class="text-xl font-bold font-tech text-brand-gold mb-1"><i
-                    class="fa-solid fa-feather-pointed mr-2"></i>ALLIANCE SCRIBE</h3>
-            <p class="text-xs text-gray-400 mb-4 font-mono">AI-Generated Communications Protocol</p>
-
-            <div class="space-y-4">
+                style="position:absolute; top:16px; right:16px; background:none; border:none; color:#475569; font-size:18px; cursor:pointer; transition:color 0.2s;"
+                onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#475569'">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div style="margin-bottom:20px;">
+                <div style="font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--gold); letter-spacing:3px; margin-bottom:6px;">AI TOOL</div>
+                <h3 style="font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:#fff; margin-bottom:4px;">
+                    <i class="fa-solid fa-feather-pointed" style="color:var(--gold); margin-right:8px;"></i>ALLIANCE SCRIBE
+                </h3>
+                <p style="font-size:12px; color:#475569; font-family:'JetBrains Mono',monospace;">AI-Generated Communications Protocol</p>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:16px;">
                 <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">TOPIC / KEY POINTS</label>
-                    <textarea id="scribe-topic" rows="3"
-                        placeholder="e.g. Recruiting active players level 25+, must have T9 troops. KVK starts Friday."
-                        class="w-full bg-brand-dark border border-brand-border rounded p-2 text-xs text-gray-200 focus:border-brand-gold outline-none"></textarea>
+                    <label style="display:block; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; color:#64748b; letter-spacing:2px; margin-bottom:6px;">TOPIC / KEY POINTS</label>
+                    <textarea id="scribe-topic" rows="3" placeholder="e.g. Recruiting active players level 25+, must have T9 troops. KVK starts Friday."
+                        style="width:100%; background:rgba(2,6,23,0.9); border:1px solid var(--dark-border); color:#e2e8f0; font-family:'JetBrains Mono',monospace; font-size:11px; padding:10px 12px; border-radius:6px; outline:none; resize:vertical; transition:border-color 0.2s;"
+                        onfocus="this.style.borderColor='var(--gold)'" onblur="this.style.borderColor='var(--dark-border)'"></textarea>
                 </div>
-
                 <div>
-                    <label class="block text-xs font-bold text-gray-300 mb-1">TONE PROTOCOL</label>
-                    <div class="flex gap-2">
-                        <!-- Corrected initial selection class and hover classes -->
-                        <button onclick="selectTone(this, 'Military/Aggressive')"
-                            class="tone-btn flex-1 bg-brand-gold text-black border border-transparent py-2 text-xs font-bold font-mono hover:bg-yellow-400 transition-colors">AGGRESSIVE</button>
-                        <button onclick="selectTone(this, 'Diplomatic/Formal')"
-                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs font-bold font-mono text-gray-400 hover:text-white hover:border-brand-gold transition-colors">DIPLOMATIC</button>
-                        <button onclick="selectTone(this, 'Urgent/Alert')"
-                            class="tone-btn flex-1 bg-brand-dark border border-brand-border py-2 text-xs font-bold font-mono text-gray-400 hover:text-white hover:border-brand-gold transition-colors">URGENT</button>
+                    <label style="display:block; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; color:#64748b; letter-spacing:2px; margin-bottom:6px;">TONE PROTOCOL</label>
+                    <div style="display:flex; gap:8px;">
+                        <button onclick="selectTone(this, 'Military/Aggressive')" class="tone-btn active">AGGRESSIVE</button>
+                        <button onclick="selectTone(this, 'Diplomatic/Formal')" class="tone-btn">DIPLOMATIC</button>
+                        <button onclick="selectTone(this, 'Urgent/Alert')" class="tone-btn">URGENT</button>
                     </div>
                 </div>
-
-                <button id="generate-scribe-btn"
-                    class="w-full bg-brand-gold hover:bg-yellow-400 text-black font-bold font-tech py-2 rounded shadow-lg shadow-yellow-500/20 transition-all">
+                <button id="generate-scribe-btn" class="btn-primary" style="clip-path:none; border-radius:6px; justify-content:center; width:100%;">
                     GENERATE TRANSMISSION ✨
                 </button>
-
                 <div id="scribe-output-container" class="hidden">
-                    <label class="block text-xs font-bold text-gray-300 mb-1">GENERATED OUTPUT</label>
-                    <div class="relative">
-                        <textarea id="scribe-result" rows="5"
-                            class="w-full bg-black/50 border border-brand-border rounded p-2 text-xs text-brand-gold font-mono"
-                            readonly></textarea>
-                        <button onclick="copyScribe()" class="absolute top-2 right-2 text-gray-500 hover:text-white"><i
-                                class="fa-regular fa-copy"></i></button>
+                    <label style="display:block; font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; color:#64748b; letter-spacing:2px; margin-bottom:6px;">GENERATED OUTPUT</label>
+                    <div style="position:relative;">
+                        <textarea id="scribe-result" rows="5" readonly
+                            style="width:100%; background:rgba(2,6,23,0.9); border:1px solid rgba(251,191,36,0.3); color:var(--gold); font-family:'JetBrains Mono',monospace; font-size:11px; padding:10px 36px 10px 12px; border-radius:6px; outline:none;"></textarea>
+                        <button onclick="copyScribe()"
+                            style="position:absolute; top:8px; right:8px; background:none; border:none; color:#475569; cursor:pointer; transition:color 0.2s; font-size:14px;"
+                            onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#475569'">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- ═══════════════════════════════════
+         JAVASCRIPT
+    ═══════════════════════════════════ -->
     <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            console.log("✅ Nexus Command Loaded");
+    // ─── Particle System ────────────────────────────────────────────
+    (function() {
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-            // --- API Configuration ---
-            const API_KEY_GROQ = ""; // Use a secure proxy in production
-            const API_KEY_GEMINI = ""; // Runtime provided by Canvas/Google
-            const LLM_MODEL = "GEMINI"; // Changed to GEMINI to ensure execution in the Canvas environment
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
 
-            // --- API Endpoints and Model Names ---
-            const GEMINI_MODEL_NAME = "gemini-2.5-flash-preview-09-2025";
-            const FALLBACK_GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL_NAME}:generateContent?key=${API_KEY_GEMINI}`;
-
-
-            // UI Elements
-            const elements = {
-                chatbox: document.getElementById('chatbox'),
-                openBtn: document.getElementById('open-chat-btn'),
-                closeBtn: document.querySelector('.chat-close'),
-                messages: document.getElementById('chat-messages'),
-                userInput: document.getElementById('user-input'),
-                sendBtn: document.querySelector('.chat-send'),
-                // Scribe Elements (Homepage Only)
-                generateScribeBtn: document.getElementById('generate-scribe-btn'),
-                scribeTopic: document.getElementById('scribe-topic'),
-                scribeResult: document.getElementById('scribe-result'),
-                scribeContainer: document.getElementById('scribe-output-container')
+        function createParticle() {
+            return {
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: -Math.random() * 0.5 - 0.1,
+                size: Math.random() * 1.5 + 0.5,
+                opacity: Math.random() * 0.6 + 0.2,
+                color: Math.random() > 0.7 ? '#22d3ee' : '#fbbf24'
             };
+        }
 
-            // --- Initialization calls for all features ---
-            initChat();
-            initScribe();
-            initTypingEffect();
-            initNewsletterSubscription();
-            initSearch();
-            initThemeSwitcher();
+        for (let i = 0; i < 80; i++) particles.push(createParticle());
 
-            // --- Theme Switcher Logic ---
-            function initThemeSwitcher() {
-                const toggleBtn = document.getElementById('theme-toggle');
-                const circle = document.getElementById('toggle-circle');
-                const ghostIcon = document.getElementById('ghost-icon');
-                const giftIcon = document.getElementById('gift-icon');
-                const status = document.getElementById('theme-status');
-                const body = document.body;
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, i) => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.opacity * 255).toString(16).padStart(2,'0');
+                ctx.fill();
 
-                // Load saved theme
-                const savedTheme = localStorage.getItem('site-theme') || 'modern';
-                if (savedTheme === 'yule-ball') {
-                    setTheme('yule-ball');
-                } else {
-                    setTheme('modern');
-                }
+                p.x += p.vx;
+                p.y += p.vy;
+                p.opacity -= 0.001;
 
-                toggleBtn.addEventListener('click', () => {
-                    const currentTheme = body.getAttribute('data-theme') || 'modern';
-                    const newTheme = currentTheme === 'modern' ? 'yule-ball' : 'modern';
-                    setTheme(newTheme);
-                    localStorage.setItem('site-theme', newTheme);
-                });
+                if (p.y < -10 || p.opacity <= 0) particles[i] = createParticle();
+            });
+            requestAnimationFrame(draw);
+        }
+        draw();
+    })();
 
-                function setTheme(theme) {
-                    if (theme === 'yule-ball') {
-                        body.setAttribute('data-theme', 'yule-ball');
-                        circle.style.transform = 'translateX(24px)';
-                        ghostIcon.style.opacity = '0';
-                        giftIcon.style.opacity = '1';
-                        status.textContent = 'REGISTRY';
-                        status.classList.replace('text-brand-gold', 'text-white');
-                    } else {
-                        body.removeAttribute('data-theme');
-                        circle.style.transform = 'translateX(0)';
-                        ghostIcon.style.opacity = '1';
-                        giftIcon.style.opacity = '0';
-                        status.textContent = 'MODERN';
-                        status.classList.replace('text-white', 'text-brand-gold');
-                    }
-                    console.log(`Reality shifted to: ${theme}`);
-                }
-            }
+    // ─── Main App ────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
 
+        // API Config
+        const API_KEY_GEMINI = "";
+        const GEMINI_MODEL = "gemini-2.5-flash-preview-09-2025";
+        const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${API_KEY_GEMINI}`;
 
-            // --- Gemini/Groq API Handler ---
-            async function callLLMAPI(prompt, systemInstruction) {
-                let endpoint, payload;
-                const modelToUse = LLM_MODEL === 'GROQ' ? 'llama3-8b-8192' : GEMINI_MODEL_NAME;
-
-                // Configure payload for the Gemini API structure (preferred for Canvas)
-                endpoint = FALLBACK_GEMINI_ENDPOINT;
-                payload = {
-                    contents: [{ parts: [{ text: prompt }] }],
-                    systemInstruction: { parts: [{ text: systemInstruction }] },
-                    tools: [{ "google_search": {} }] // Enable grounding for context
-                };
-
-                const maxRetries = 3;
-                let delay = 1000;
-
-                for (let i = 0; i < maxRetries; i++) {
-                    try {
-                        const response = await fetch(endpoint, {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(payload)
-                        });
-
-                        if (!response.ok) {
-                            if (response.status === 429) {
-                                await new Promise(r => setTimeout(r, delay));
-                                delay *= 2;
-                                continue;
-                            }
-                            console.error(`LLM API Error (${response.status})`);
-                            throw new Error(`API Error: ${response.status}`);
-                        }
-
-                        // Handle standard Gemini response format
-                        const data = await response.json();
-                        return data.candidates?.[0]?.content?.parts?.[0]?.text || "Communication disrupted (Gemini).";
-
-                    } catch (error) {
-                        console.error("LLM Call failed entirely:", error);
-                        if (i === maxRetries - 1) {
-                            return "Query protocol unclear. State military objective or asset clearly (AI Offline).";
-                        }
-                        await new Promise(r => setTimeout(r, delay));
-                        delay *= 2;
-                    }
-                }
-            }
-
-
-            // --- Chat System ---
-            function initChat() {
-                if (!elements.chatbox) return;
-
-                elements.openBtn.addEventListener('click', toggleChat);
-                elements.closeBtn.addEventListener('click', toggleChat);
-                elements.sendBtn.addEventListener('click', sendMessage);
-                elements.userInput.addEventListener('keydown', (e) => e.key === 'Enter' && sendMessage());
-            }
-
-            function toggleChat() {
-                elements.chatbox.classList.toggle('hidden');
-                if (!elements.chatbox.classList.contains('hidden')) {
-                    elements.userInput.focus();
-                }
-            }
-
-            async function sendMessage() {
-                const text = elements.userInput.value.trim();
-                if (!text) return;
-
-                addMessage(text, 'user');
-                elements.userInput.value = '';
-                elements.userInput.disabled = true; // Disable input while waiting for response
-
-                const loadingId = 'loading-' + Date.now();
-                addMessage('<span class="loader"></span> ANALYZING...', 'bot', loadingId);
-
-                const systemPrompt = "You are NoyzBot v3.0, an elite tactical AI for the game 'Puzzles and Conquest'. You speak in a concise, military style. You provide strategy on troops, heroes, and events. Keep responses short (under 100 words) and tactical. Focus on the Military Expedition context.";
-
+        // ─── LLM Call ───────────────────────────────────────────────
+        async function callLLM(prompt, system) {
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                systemInstruction: { parts: [{ text: system }] }
+            };
+            let delay = 1000;
+            for (let i = 0; i < 3; i++) {
                 try {
-                    let reply = await callLLMAPI(text, systemPrompt);
-
-                    document.getElementById(loadingId)?.remove();
-                    addMessage(reply, 'bot');
-                } catch (error) {
-                    document.getElementById(loadingId)?.remove();
-                    addMessage("Connection to Command lost. Please retry. (Check Console for API details)", 'bot');
-                } finally {
-                    elements.userInput.disabled = false;
-                    elements.userInput.focus();
-                }
-            }
-
-            function addMessage(html, type, id = '') {
-                const div = document.createElement('div');
-                div.className = `message-anim p-3 rounded text-xs max-w-[90%] border ${type === 'user'
-                    ? 'bg-brand-gold text-black self-end rounded-tl-lg rounded-tr-lg rounded-bl-lg border-yellow-500 ml-auto'
-                    : 'bg-brand-panel text-gray-300 self-start rounded-tr-lg rounded-br-lg rounded-bl-lg border-brand-border'}`;
-
-                if (id) div.id = id;
-                div.innerHTML = type === 'bot' ? `<span class="text-brand-gold block text-[10px] mb-1">SYSTEM:</span>${html}` : html;
-                elements.messages.appendChild(div);
-                elements.messages.scrollTop = elements.messages.scrollHeight;
-            }
-
-            // --- Alliance Scribe Tool (Homepage Only) ---
-            let currentTone = 'Military/Aggressive';
-            function initScribe() {
-                if (!elements.generateScribeBtn) return;
-
-                window.selectTone = (btn, tone) => {
-                    document.querySelectorAll('.tone-btn').forEach(b => {
-                        // Reset all buttons to default state
-                        b.classList.remove('bg-brand-gold', 'text-black', 'border-transparent');
-                        b.classList.add('bg-brand-dark', 'text-gray-400', 'border-brand-border');
+                    const res = await fetch(GEMINI_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
                     });
-                    // Set selected button to active state
-                    btn.classList.remove('bg-brand-dark', 'text-gray-400', 'border-brand-border');
-                    btn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
-                    currentTone = tone;
-                };
-
-                // Initialize the default tone button appearance
-                const defaultToneBtn = document.querySelector('.tone-btn');
-                if (defaultToneBtn) {
-                    defaultToneBtn.classList.remove('bg-brand-dark', 'text-gray-400', 'border-brand-border');
-                    defaultToneBtn.classList.add('bg-brand-gold', 'text-black', 'border-transparent');
-                }
-
-
-                elements.generateScribeBtn.addEventListener('click', async () => {
-                    const topic = elements.scribeTopic.value.trim();
-                    if (!topic) return;
-
-                    elements.generateScribeBtn.disabled = true;
-                    elements.generateScribeBtn.innerHTML = '<span class="loader border-black border-t-transparent"></span> GENERATING...';
-                    elements.scribeContainer.classList.add('hidden');
-
-                    const prompt = `Topic: ${topic}`;
-                    const systemInstruction = `You are the Communications Officer for a 'Puzzles and Conquest' alliance. Generate a SHORT, punchy recruitment message or announcement based on the user's topic. Tone: ${currentTone}. Use relevant emojis (swords, dragons, shields, fire). Format for in-game chat (no markdown, just raw text).`;
-
-                    try {
-                        const result = await callLLMAPI(prompt, systemInstruction);
-                        elements.scribeResult.value = result;
-                        elements.scribeContainer.classList.remove('hidden');
-                    } catch (e) {
-                        elements.scribeResult.value = "ERROR: Cannot reach strategic communications channel. Check API connection.";
-                        elements.scribeContainer.classList.remove('hidden');
-                    } finally {
-                        elements.generateScribeBtn.disabled = false;
-                        elements.generateScribeBtn.innerHTML = 'GENERATE TRANSMISSION ✨';
+                    if (!res.ok) {
+                        if (res.status === 429) { await sleep(delay); delay *= 2; continue; }
+                        throw new Error(`API ${res.status}`);
                     }
-                });
-
-                window.copyScribe = () => {
-                    const copyText = document.getElementById("scribe-result");
-                    copyText.select();
-                    document.execCommand("copy");
-                    // Using console log as a non-intrusive alert replacement
-                    console.log("Transmission copied to clipboard!");
+                    const d = await res.json();
+                    return d.candidates?.[0]?.content?.parts?.[0]?.text || "Connection lost.";
+                } catch(e) {
+                    if (i === 2) return "AI offline. Check back later.";
+                    await sleep(delay); delay *= 2;
                 }
             }
+        }
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
 
+        // ─── Theme Switcher ─────────────────────────────────────────
+        const toggleBtn = document.getElementById('theme-toggle');
+        const toggleThumb = document.getElementById('toggle-thumb');
+        const ghostIcon = document.getElementById('ghost-icon');
+        const themeStatus = document.getElementById('theme-status');
 
-            // --- Typing Visual (Homepage Only) ---
-            function initTypingEffect() {
-                const typingText = document.getElementById('typing-text');
-                if (!typingText) return;
+        let currentTheme = localStorage.getItem('site-theme') || 'tactical';
+        applyTheme(currentTheme);
 
-                const config = {
-                    typingText: "INITIALIZING STRATEGY PROTOCOLS...",
-                    typingSpeed: 40
-                };
+        toggleBtn.addEventListener('click', () => {
+            currentTheme = currentTheme === 'tactical' ? 'yule-ball' : 'tactical';
+            applyTheme(currentTheme);
+            localStorage.setItem('site-theme', currentTheme);
+        });
 
-                let i = 0;
-                function type() {
-                    if (i < config.typingText.length) {
-                        typingText.textContent += config.typingText.charAt(i);
-                        i++;
-                        setTimeout(type, config.typingSpeed);
-                    }
-                }
-                type();
+        function applyTheme(theme) {
+            if (theme === 'yule-ball') {
+                document.body.setAttribute('data-theme', 'yule-ball');
+                toggleThumb.style.transform = 'translateX(24px)';
+                ghostIcon.className = 'fa-solid fa-gift';
+                themeStatus.textContent = 'MODE: YULE';
+                document.documentElement.style.setProperty('--gold', '#a5f3fc');
+            } else {
+                document.body.removeAttribute('data-theme');
+                toggleThumb.style.transform = 'translateX(0)';
+                ghostIcon.className = 'fa-solid fa-ghost';
+                themeStatus.textContent = 'MODE: TACTICAL';
+                document.documentElement.style.setProperty('--gold', '#fbbf24');
             }
+        }
 
+        // ─── Typing Effect ──────────────────────────────────────────
+        const lines = [
+            "INITIALIZING STRATEGY PROTOCOLS...",
+            "LOADING TROOP OPTIMIZATION DATA...",
+            "CONNECTING TO ALLIANCE NETWORK...",
+            "DEPLOYING TACTICAL AI ASSISTANT...",
+        ];
+        let lineIdx = 0, charIdx = 0, deleting = false;
+        const typingEl = document.getElementById('typing-text');
 
-            // --- Database Search (Homepage Only) ---
-            function initSearch() {
-                const searchInput = document.getElementById('search-input');
-                if (!searchInput) return;
-
-                searchInput.addEventListener('input', (e) => {
-                    const term = e.target.value.toLowerCase();
-                    const cards = document.querySelectorAll('.guide-card, .tool-card');
-
-                    // Note: This filtering might break the grid layout if not handled carefully, 
-                    // but keeping it simple as requested for now (using display: none).
-                    cards.forEach(card => {
-                        const title = card.querySelector('h3')?.textContent.toLowerCase() || "";
-                        const description = card.querySelector('p')?.textContent.toLowerCase() || "";
-                        card.style.display = (title.includes(term) || description.includes(term)) ? '' : 'none';
-                    });
-                });
+        function typeLoop() {
+            const line = lines[lineIdx];
+            if (!deleting) {
+                typingEl.textContent = line.slice(0, charIdx++);
+                if (charIdx > line.length) { deleting = true; setTimeout(typeLoop, 2000); return; }
+            } else {
+                typingEl.textContent = line.slice(0, charIdx--);
+                if (charIdx < 0) { deleting = false; lineIdx = (lineIdx + 1) % lines.length; charIdx = 0; setTimeout(typeLoop, 300); return; }
             }
+            setTimeout(typeLoop, deleting ? 30 : 45);
+        }
+        if (typingEl) typeLoop();
 
-            // --- Newsletter (Homepage Only) ---
-            function initNewsletterSubscription() {
-                const form = document.getElementById('newsletter-form');
-                const msg = document.getElementById('subscription-message');
-                if (form) {
-                    form.addEventListener('submit', (e) => {
-                        e.preventDefault();
-                        msg.classList.remove('hidden');
-                        form.reset();
-                        setTimeout(() => msg.classList.add('hidden'), 4000);
-                    });
-                }
-            }
+        // ─── Chat System ────────────────────────────────────────────
+        const chatbox = document.getElementById('chatbox');
+        const openBtn = document.getElementById('open-chat-btn');
+        const closeBtn = document.querySelector('.chat-close');
+        const messages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.querySelector('.chat-send');
 
+        openBtn.addEventListener('click', () => {
+            chatbox.classList.toggle('hidden');
+            if (!chatbox.classList.contains('hidden')) userInput.focus();
+        });
+        closeBtn.addEventListener('click', () => chatbox.classList.add('hidden'));
+        sendBtn.addEventListener('click', sendMsg);
+        userInput.addEventListener('keydown', e => e.key === 'Enter' && sendMsg());
 
-            // --- Helper: Smooth Scrolling ---
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
+        async function sendMsg() {
+            const text = userInput.value.trim();
+            if (!text) return;
+            addMsg(text, 'user');
+            userInput.value = '';
+            userInput.disabled = true;
+            const loadId = 'loading-' + Date.now();
+            addMsg('<span class="loader"></span> ANALYZING INTEL...', 'bot', loadId);
+            const sys = "You are NoyzBot v3.0, an elite tactical AI for 'Puzzles and Conquest'. Speak concisely in military style. Give strategy on troops, heroes, events. Max 80 words per response.";
+            const reply = await callLLM(text, sys);
+            document.getElementById(loadId)?.remove();
+            addMsg(reply, 'bot');
+            userInput.disabled = false;
+            userInput.focus();
+        }
+
+        function addMsg(html, type, id) {
+            const div = document.createElement('div');
+            div.className = `chat-msg ${type === 'user' ? 'chat-msg-user' : 'chat-msg-bot'}`;
+            if (id) div.id = id;
+            div.innerHTML = type === 'bot'
+                ? `<span class="msg-sender">SYSTEM:</span>${html}`
+                : html;
+            messages.appendChild(div);
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        // ─── Alliance Scribe ────────────────────────────────────────
+        let currentTone = 'Military/Aggressive';
+
+        window.selectTone = (btn, tone) => {
+            document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentTone = tone;
+        };
+
+        const genBtn = document.getElementById('generate-scribe-btn');
+        if (genBtn) {
+            genBtn.addEventListener('click', async () => {
+                const topic = document.getElementById('scribe-topic').value.trim();
+                if (!topic) return;
+                genBtn.disabled = true;
+                genBtn.innerHTML = '<span class="loader"></span> GENERATING...';
+                document.getElementById('scribe-output-container').classList.add('hidden');
+                const sys = `You are the Communications Officer for a 'Puzzles and Conquest' alliance. Generate a short, punchy recruitment message based on the topic. Tone: ${currentTone}. Use relevant emojis. Format for in-game chat (no markdown).`;
+                const result = await callLLM(topic, sys);
+                document.getElementById('scribe-result').value = result || "ERROR: AI channel offline.";
+                document.getElementById('scribe-output-container').classList.remove('hidden');
+                genBtn.disabled = false;
+                genBtn.innerHTML = 'GENERATE TRANSMISSION ✨';
+            });
+        }
+
+        window.copyScribe = () => {
+            const el = document.getElementById('scribe-result');
+            el.select();
+            document.execCommand('copy');
+        };
+
+        // ─── Search ─────────────────────────────────────────────────
+        const searchInput = document.getElementById('search-input');
+        if (searchInput) {
+            searchInput.addEventListener('input', e => {
+                const term = e.target.value.toLowerCase();
+                document.querySelectorAll('.guide-card, .tool-card').forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.opacity = term && !text.includes(term) ? '0.2' : '1';
+                    card.style.pointerEvents = term && !text.includes(term) ? 'none' : '';
                 });
             });
+        }
 
+        // ─── Newsletter ─────────────────────────────────────────────
+        const nForm = document.getElementById('newsletter-form');
+        if (nForm) {
+            nForm.addEventListener('submit', e => {
+                e.preventDefault();
+                document.getElementById('subscription-message').classList.remove('hidden');
+                nForm.reset();
+                setTimeout(() => document.getElementById('subscription-message').classList.add('hidden'), 4000);
+            });
+        }
+
+        // ─── Smooth Scroll ──────────────────────────────────────────
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', e => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+            });
         });
+
+        // ─── Intersection Observer for Fade-In ──────────────────────
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.guide-card, .tool-card, .alliance-card, .sidebar-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(el);
+        });
+
+    });
     </script>
 
-    <!-- Monetag Ads Script -->
-    <!-- Monetag Ads (Disabled) -->
-    <!-- <script>(function (s) { s.dataset.zone = '10303259', s.src = 'https://gizokraijaw.net/vignette.min.js' })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script> -->
-
-    <!-- Infolinks Ads -->
-    <script type="text/javascript"> var infolinks_pid = 3442090; var infolinks_wsid = 0; </script>
+    <!-- Infolinks -->
+    <script type="text/javascript">var infolinks_pid = 3442090; var infolinks_wsid = 0;</script>
     <script type="text/javascript" src="https://resources.infolinks.com/js/infolinks_main.js"></script>
 
-
-
-    <!-- Stick AI Ad Code -->
+    <!-- Stick AI -->
     <script src="https://js.stick.ai/v/3.0.2/stk.min.js" id="stk_jsc" data-uid="m9vng1ypme"></script>
     <script type="text/javascript">
-        aclib.runAutoTag({
-            zoneId: 'm9vng1ypme',
-        });
+        aclib.runAutoTag({ zoneId: 'm9vng1ypme' });
     </script>
-</body>
 
+</body>
 </html>
