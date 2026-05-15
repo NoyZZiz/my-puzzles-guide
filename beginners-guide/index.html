@@ -1,0 +1,1281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The complete Puzzles & Conquest beginner's guide — Castle upgrades, troop type selection, building priority, research order, hero picks, resource management, and F2P survival tips. Go from Castle 1 to competitive player.">
+    <meta name="keywords" content="Puzzles and Conquest beginner guide, Puzzles Conquest tips, troop type guide, building order, F2P guide, Horus hero, Ryska hero, alliance tips, Castle upgrade guide, Puzzles Conquest strategy">
+    <meta name="author" content="Noyzzing">
+    <meta name="robots" content="index, follow">
+    <title>Beginner's Guide — Puzzles &amp; Conquest | NoYzzing // OPS</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Beginner's Guide — Puzzles & Conquest">
+    <meta property="og:description" content="Everything you need to know to go from Castle 1 to competitive player — F2P friendly.">
+    <meta property="og:type" content="article">
+
+    <!-- External Resources -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VYP41CV8E4"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-VYP41CV8E4');
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1115056295957658" crossorigin="anonymous"></script>
+
+    <!-- Shared Design System -->
+    <link rel="stylesheet" href="../shared.css">
+
+    <style>
+        /* ── PAGE-SPECIFIC EXTRAS ───────────────────────── */
+
+        /* Troop type comparison grid */
+        .troop-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin: 20px 0;
+        }
+        @media (max-width: 640px) { .troop-grid { grid-template-columns: 1fr; } }
+
+        .troop-card {
+            background: linear-gradient(135deg, rgba(10,15,30,0.95), rgba(15,23,42,0.8));
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            padding: 18px 16px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.2s;
+        }
+        .troop-card:hover { border-color: rgba(251,191,36,0.4); transform: translateY(-2px); }
+        .troop-card-icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .troop-card-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
+        }
+        .troop-card-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            letter-spacing: 2px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        .tag-infantry { background: rgba(34,211,238,0.1); color: var(--cyan); border: 1px solid rgba(34,211,238,0.25); }
+        .tag-cavalry  { background: rgba(251,191,36,0.1); color: var(--gold); border: 1px solid rgba(251,191,36,0.25); }
+        .tag-ranged   { background: rgba(244,114,182,0.1); color: #f472b6; border: 1px solid rgba(244,114,182,0.25); }
+        .troop-card p {
+            font-size: 12px !important;
+            color: #64748b !important;
+            line-height: 1.6 !important;
+            margin: 0 !important;
+        }
+        .troop-card-beats {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #4ade80;
+            margin-top: 10px;
+            display: block;
+        }
+        .troop-card-loses {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #f87171;
+            display: block;
+        }
+        .troop-card.recommended { border-color: rgba(251,191,36,0.4); }
+        .troop-card.recommended::after {
+            content: 'RECOMMENDED F2P';
+            position: absolute;
+            top: 10px; right: -20px;
+            background: var(--gold);
+            color: #000;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 3px 28px;
+            transform: rotate(45deg);
+        }
+
+        /* Building priority list */
+        .priority-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .priority-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: rgba(10,15,30,0.7);
+            border: 1px solid rgba(30,45,61,0.6);
+            border-radius: 8px;
+            padding: 14px 16px;
+            transition: border-color 0.2s;
+        }
+        .priority-item:hover { border-color: rgba(251,191,36,0.2); }
+        .priority-num {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1;
+            min-width: 32px;
+            text-align: center;
+            opacity: 0.7;
+        }
+        .priority-item.top-priority .priority-num { opacity: 1; font-size: 32px; }
+        .priority-content-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #e2e8f0;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+        .priority-content-desc {
+            font-size: 12px;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* Hero quick-pick cards */
+        .hero-picks {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin: 20px 0;
+        }
+        @media (max-width: 540px) { .hero-picks { grid-template-columns: 1fr; } }
+        .hero-card {
+            background: linear-gradient(135deg, rgba(10,15,30,0.9), rgba(15,23,42,0.7));
+            border: 1px solid var(--dark-border);
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            transition: border-color 0.2s;
+        }
+        .hero-card:hover { border-color: rgba(251,191,36,0.3); }
+        .hero-avatar {
+            width: 44px; height: 44px;
+            background: linear-gradient(135deg, rgba(180,83,9,0.3), rgba(251,191,36,0.15));
+            border: 1px solid rgba(251,191,36,0.3);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .hero-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .hero-role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: #475569;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+        .hero-desc {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* Resource spend table */
+        .resource-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 13px;
+        }
+        .resource-table th {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            letter-spacing: 2px;
+            color: var(--gold);
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(251,191,36,0.2);
+            background: rgba(251,191,36,0.05);
+        }
+        .resource-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(30,45,61,0.4);
+            color: #94a3b8;
+            vertical-align: top;
+        }
+        .resource-table tr:last-child td { border-bottom: none; }
+        .resource-table tr:hover td { background: rgba(251,191,36,0.03); }
+        .resource-table .priority-high { color: #4ade80; font-weight: 600; }
+        .resource-table .priority-mid { color: var(--gold); }
+        .resource-table .priority-low { color: #f87171; }
+
+        /* Event schedule */
+        .event-schedule {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 16px 0;
+            border: 1px solid rgba(30,45,61,0.6);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .event-day {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid rgba(30,45,61,0.4);
+        }
+        .event-day:last-child { border-bottom: none; }
+        .event-day-label {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #fff;
+            background: rgba(15,23,42,0.8);
+            padding: 10px 14px;
+            min-width: 110px;
+            display: flex;
+            align-items: center;
+            border-right: 1px solid rgba(30,45,61,0.4);
+        }
+        .event-day-label span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: #475569;
+            display: block;
+            letter-spacing: 1px;
+        }
+        .event-day-content {
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.5;
+            flex: 1;
+        }
+        .event-day-content strong { color: var(--gold); }
+        .event-tag {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            padding: 2px 7px;
+            border-radius: 3px;
+            letter-spacing: 1px;
+            margin-left: 6px;
+        }
+        .etag-train { background: rgba(34,211,238,0.1); color: var(--cyan); border: 1px solid rgba(34,211,238,0.2); }
+        .etag-build { background: rgba(251,191,36,0.1); color: var(--gold); border: 1px solid rgba(251,191,36,0.2); }
+        .etag-gather { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+        .etag-kvk { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+
+        /* Mistake checklist */
+        .mistake-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 16px 0;
+        }
+        .mistake-item {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: linear-gradient(135deg, rgba(127,29,29,0.12), rgba(59,7,7,0.18));
+            border: 1px solid rgba(239,68,68,0.15);
+            border-radius: 8px;
+            padding: 12px 14px;
+        }
+        .mistake-icon {
+            color: #ef4444;
+            font-size: 14px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .mistake-text { font-size: 13px; color: #fca5a5; line-height: 1.6; }
+        .mistake-text strong { color: #fecaca; }
+
+        /* Stat badge */
+        .stat-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(251,191,36,0.08);
+            border: 1px solid rgba(251,191,36,0.2);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+
+        /* Sidebar sticky */
+        @media (min-width: 900px) {
+            .sidebar-sticky { position: sticky; top: 80px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ═══════════════════════════════════════════════════
+         SITE HEADER
+    ═══════════════════════════════════════════════════ -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="../index.html" class="logo-wrap">
+                <div class="logo-icon">
+                    <img src="../assets/images/noyzzing-logo.png"
+                         onerror="this.src='https://via.placeholder.com/40?text=PC'" alt="NoYzzing Logo">
+                </div>
+                <div>
+                    <div class="logo-text">NOY<span>ZZING // OPS</span></div>
+                    <div class="logo-sub">PUZZLES &amp; CONQUEST INTEL</div>
+                </div>
+            </a>
+
+            <nav class="main-nav" aria-label="Main navigation">
+                <ul>
+                    <li><a href="../index.html">HOME</a></li>
+                    <li><a href="../beginners-guide/index.html">BEGINNER</a></li>
+                    <li><a href="../military-expedition-guide/index.html">MILITARY</a></li>
+                    <li><a href="../event-calendar/index.html">EVENTS</a></li>
+                    <li><a href="../troop-resource-calculator/index.html">CALCULATOR</a></li>
+                    <li><a href="../alliance/index.html">ALLIANCE</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════
+         AD SLOT 1: TOP BANNER
+    ═══════════════════════════════════════════════════ -->
+    <div class="page-container" style="padding-top:24px; padding-bottom:0;">
+        <div class="ad-unit">
+            <div class="ad-unit-inner">
+                <ins class="adsbygoogle"
+                     style="display:block; width:100%; min-height:90px;"
+                     data-ad-client="ca-pub-1115056295957658"
+                     data-ad-slot="2001000001"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         PAGE HERO
+    ═══════════════════════════════════════════════════ -->
+    <div class="page-hero">
+        <div class="page-hero-eyebrow">
+            <i class="fa-solid fa-star"></i> START HERE
+        </div>
+        <h1 class="page-hero-title">BEGINNER'S <span>GUIDE</span></h1>
+        <p class="page-hero-sub">Everything you need to know to go from Castle 1 to competitive player — F2P friendly</p>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════════════════════ -->
+    <main>
+        <div class="page-container">
+            <div class="content-layout">
+
+                <!-- ─── LEFT COLUMN: GUIDE CONTENT ────────────── -->
+                <div class="content-main">
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 1: YOUR FIRST 7 DAYS
+                    ══════════════════════════════════════════ -->
+                    <section id="first-7-days" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-calendar-week" style="color:var(--gold);font-size:16px;"></i> Your First 7 Days</h2>
+                        <div class="guide-content">
+                            <span class="author-tag"><i class="fa-solid fa-user"></i> Written by: Noyzzing</span>
+
+                            <p>The first week in Puzzles &amp; Conquest determines the trajectory of your entire account. Players who understand these early priorities hit Castle 16+ within their first week; players who don't stall at Castle 10 for weeks. Here's your day-by-day mission plan.</p>
+
+                            <h3>Headquarters Is Everything</h3>
+                            <p>Your primary objective, every single day, is to <strong>upgrade your Castle (Headquarters / HQ)</strong>. Every HQ level unlocks new buildings, higher troop tiers, larger troop caps, and new research nodes. Nothing else in the game matters as much as your HQ level — it is the gating mechanism for literally every other progression system. If your HQ upgrade timer is not running, you are falling behind.</p>
+
+                            <h3>Use Your Beginner's Protection Shield</h3>
+                            <p>New players receive a <strong>Beginner's Protection Shield</strong> that prevents other players from attacking your castle. This shield is invaluable — you can gather resources on the map freely, build without fear, and grow at your own pace. Do <strong>not</strong> attack other players while this shield is active — attacking an enemy castle will break your protection instantly, exposing your base to retaliation before you're ready.</p>
+
+                            <div class="callout-warning">
+                                <strong><i class="fa-solid fa-triangle-exclamation"></i> Critical:</strong> The moment you attack another player's castle — for any reason — your Beginner's Protection ends permanently. This is an irreversible action. Always check your shield status before marching offensively.
+                            </div>
+
+                            <h3>Complete Every Daily Quest</h3>
+                            <p>Daily quests are free speed-ups, gems, and resources handed to you on a silver platter. They take minutes to complete and compound enormously over your first week. Treat them as a mandatory login checklist. The Daily Activity chest at maximum activity gives you speed-ups worth hours of build time.</p>
+
+                            <h3>Join an Alliance on Day 1 — No Exceptions</h3>
+                            <p>Alliance Technology provides permanent, free percentage buffs to your entire roster — troop attack, defense, construction speed, and research speed all increase from Alliance Tech points. These buffs cost you nothing; they are funded collectively by your alliance members. Joining an active alliance on Day 1 means you benefit from tech that took the alliance weeks or months to accumulate. Solo players are at a permanent stat disadvantage.</p>
+
+                            <p>Beyond tech, alliance membership gives you:</p>
+                            <ul>
+                                <li><strong>Alliance Help</strong> — members click "Help" on your build queue, shaving 1-5 minutes per click off every construction and research timer</li>
+                                <li><strong>Alliance Gifts</strong> — every time an alliance member makes any purchase, all members receive free gift chests</li>
+                                <li><strong>Alliance Store</strong> — purchase exclusive items with Alliance Credits earned by contributing</li>
+                                <li><strong>Protection</strong> — a strong alliance deters other players from farming your resources</li>
+                            </ul>
+
+                            <h3>Pick Your Troop Type Early</h3>
+                            <p>Before you invest in any research or talent points, decide on your primary troop type: <strong>Infantry, Cavalry, or Ranged</strong>. This choice shapes your entire research tree, hero investment, and gear crafting for the life of your account. Pick one and commit. See Section 2 for a complete breakdown of each type.</p>
+
+                            <div class="callout-tip">
+                                <strong><i class="fa-solid fa-lightbulb"></i> Pro Tip:</strong> Find the strongest alliance in your kingdom and apply. Many top alliances have a "Farm" or "R1-R3" branch for newer members. Even being in a top alliance's farm city gives you access to better Alliance Tech than a weak independent alliance.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 2: TROOP TYPE
+                    ══════════════════════════════════════════ -->
+                    <section id="troop-type" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-shield-halved" style="color:var(--gold);font-size:16px;"></i> Choosing Your Troop Type</h2>
+                        <div class="guide-content">
+
+                            <p>Troop type selection is the single most impactful strategic decision you'll make as a beginner. Unlike most games, you cannot effectively maintain two troop types simultaneously — your research, hero soul stones, gear, and talent tree must all align with one type to maximize effectiveness.</p>
+
+                            <h3>The Counter Triangle</h3>
+                            <p>Puzzles &amp; Conquest uses a rock-paper-scissors combat system. Understanding it prevents you from marching your T4 troops directly into a counter:</p>
+
+                            <div class="troop-grid">
+                                <div class="troop-card recommended">
+                                    <span class="troop-card-icon">🛡️</span>
+                                    <div class="troop-card-name">INFANTRY</div>
+                                    <span class="troop-card-tag tag-infantry">SHIELD WALL</span>
+                                    <p>Highest survivability. Most forgiving for beginners. Excellent for garrison and Altar defense during Military Expedition.</p>
+                                    <span class="troop-card-beats">✓ Beats Cavalry</span>
+                                    <span class="troop-card-loses">✗ Loses to Ranged</span>
+                                </div>
+                                <div class="troop-card">
+                                    <span class="troop-card-icon">🐴</span>
+                                    <div class="troop-card-name">CAVALRY</div>
+                                    <span class="troop-card-tag tag-cavalry">FAST STRIKE</span>
+                                    <p>Highest march speed. Best for world map gathering and hit-and-run raids. Strong during KVK for chasing or escaping.</p>
+                                    <span class="troop-card-beats">✓ Beats Ranged</span>
+                                    <span class="troop-card-loses">✗ Loses to Infantry</span>
+                                </div>
+                                <div class="troop-card">
+                                    <span class="troop-card-icon">🏹</span>
+                                    <div class="troop-card-name">RANGED</div>
+                                    <span class="troop-card-tag tag-ranged">GLASS CANNON</span>
+                                    <p>Highest DPS ceiling. Dominates open-field combat. Requires more investment (gear + heroes) to unlock its full potential.</p>
+                                    <span class="troop-card-beats">✓ Beats Infantry</span>
+                                    <span class="troop-card-loses">✗ Loses to Cavalry</span>
+                                </div>
+                            </div>
+
+                            <h3>Committing to One Type</h3>
+                            <p>Your research must go into <em>one</em> military tree branch deeply. Your combat hero must buff <em>that specific troop type</em>. Your gear set — crafted at the Forge — provides bonuses aligned to one type. Your talent tree should be set to the troop-specific talent set during combat. Every system in the game rewards specialization and punishes generalism.</p>
+
+                            <div class="callout-info">
+                                <strong><i class="fa-solid fa-info-circle"></i> Mixed Marches:</strong> Sending Infantry + Cavalry + Ranged together does not average out — it actively weakens your march. Your buffs apply to one troop type, so two-thirds of your troops fight at base stats. A focused march of 100k Infantry beats a mixed march of 100k total troops almost every time.
+                            </div>
+
+                            <h3>Which Type Should You Choose?</h3>
+                            <ul>
+                                <li><strong>New players and F2P accounts:</strong> Start with Infantry. The higher survivability reduces permanent troop death while your Infirmary is still being upgraded, and Infantry research is the most straightforward path.</li>
+                                <li><strong>Players who want maximum late-game combat power:</strong> Ranged has the highest damage ceiling but requires significant hero investment (Mina, Aditya) and high-tier gear to reach it.</li>
+                                <li><strong>Players in large, active alliances with frequent KVK:</strong> Cavalry's march speed makes it invaluable for coordinatedKVK attacks and protecting gathering troops. Consider this if your alliance leadership values mobility.</li>
+                            </ul>
+
+                            <div class="callout-warning">
+                                <strong><i class="fa-solid fa-triangle-exclamation"></i> Never Switch Without a Reset Item:</strong> Switching troop types mid-game means discarding hundreds of hours of research investment. If you want to change, wait until you have a Research Reset item — do not start new military research in another tree without one.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 3: BUILDING PRIORITY
+                    ══════════════════════════════════════════ -->
+                    <section id="building-priority" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-city" style="color:var(--gold);font-size:16px;"></i> Building Priority Order</h2>
+                        <div class="guide-content">
+
+                            <p>New players often spread construction resources evenly across all building types, ending up with a "balanced" city that excels at nothing. The optimal strategy is a strict priority order that maximizes your power growth rate.</p>
+
+                            <div class="priority-list">
+                                <div class="priority-item top-priority">
+                                    <div class="priority-num">1</div>
+                                    <div>
+                                        <div class="priority-content-title"><i class="fa-solid fa-crown" style="color:var(--gold);margin-right:6px;"></i> Headquarters (Castle)</div>
+                                        <div class="priority-content-desc">Always upgrade first. Every HQ level unlocks new building tiers, raises troop capacity, and opens new research nodes. This is your permanent #1 priority — never let anything else queue ahead of it unless HQ is already building.</div>
+                                    </div>
+                                </div>
+                                <div class="priority-item">
+                                    <div class="priority-num">2</div>
+                                    <div>
+                                        <div class="priority-content-title"><i class="fa-solid fa-heart-pulse" style="color:#f87171;margin-right:6px;"></i> Infirmary (Build Multiple, Max Level)</div>
+                                        <div class="priority-content-desc">This is the most important building that beginners ignore. Wounded troops go to the Infirmary and can be healed for a fraction of the training cost. Dead troops — troops that exceed your Infirmary capacity — are gone permanently and must be retrained at full cost. Training cost for dead troops is approximately 5× higher than healing wounded ones. Build as many Infirmaries as your HQ level allows, and upgrade them all.</div>
+                                    </div>
+                                </div>
+                                <div class="priority-item">
+                                    <div class="priority-num">3</div>
+                                    <div>
+                                        <div class="priority-content-title"><i class="fa-solid fa-person-military-rifle" style="color:var(--cyan);margin-right:6px;"></i> Training Grounds / Barracks (Multiple)</div>
+                                        <div class="priority-content-desc">Each Training Grounds runs its own queue simultaneously. Three maxed Training Grounds trains troops 3× faster than one. During Training Events, this multiplies your points dramatically. Build multiple copies and upgrade them all in parallel when possible.</div>
+                                    </div>
+                                </div>
+                                <div class="priority-item">
+                                    <div class="priority-num">4</div>
+                                    <div>
+                                        <div class="priority-content-title"><i class="fa-solid fa-flask" style="color:#a78bfa;margin-right:6px;"></i> Research Lab</div>
+                                        <div class="priority-content-desc">Research provides permanent stat increases that apply to every troop you ever train. Unlike building upgrades, research never "caps" — there is always more to research. A single Research Lab at max level runs continuously. Prioritize it early.</div>
+                                    </div>
+                                </div>
+                                <div class="priority-item">
+                                    <div class="priority-num">5</div>
+                                    <div>
+                                        <div class="priority-content-title"><i class="fa-solid fa-wheat-awn" style="color:#4ade80;margin-right:6px;"></i> Resource Buildings (Farms, Lumber Mills, Quarries, Mines)</div>
+                                        <div class="priority-content-desc">Upgrade to reasonable levels for self-sufficiency, but don't obsess over maxing them early. Gathering from the world map is far more efficient than in-city production. Keep them updated as your HQ grows, but don't delay HQ upgrades to rush these.</div>
+                                    </div>
+                                </div>
+                                <div class="priority-item">
+                                    <div class="priority-num">6</div>
+                                    <div>
+                                        <div class="priority-content-title"><i class="fa-solid fa-shield" style="color:#94a3b8;margin-right:6px;"></i> Wall + Traps</div>
+                                        <div class="priority-content-desc">Basic wall upgrades and trap production provide a meaningful deterrent to casual attackers. Don't neglect them entirely, but don't prioritize them above the top five. Update periodically as your HQ advances.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="callout-warning">
+                                <strong><i class="fa-solid fa-triangle-exclamation"></i> Avoid Decorative Buildings:</strong> Buildings like statues, fountains, and decorative structures provide minimal or purely cosmetic benefits. They consume build slots and resources that are better spent on the core six building types above. Leave them at their minimum required level indefinitely.
+                            </div>
+
+                            <div class="callout-tip">
+                                <strong><i class="fa-solid fa-lightbulb"></i> Pro Tip — Double Queue:</strong> If your VIP level is 6 or higher, you unlock a second construction queue. Always keep both queues running simultaneously — one for your primary priority (HQ) and one for secondary buildings. Idle queues are wasted time.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- AD SLOT 2: IN-ARTICLE (after section 3) -->
+                    <div class="ad-unit">
+                        <div class="ad-unit-inner">
+                            <ins class="adsbygoogle"
+                                 style="display:block; width:100%; min-height:100px;"
+                                 data-ad-client="ca-pub-1115056295957658"
+                                 data-ad-slot="2001000002"
+                                 data-ad-format="auto"
+                                 data-full-width-responsive="true"></ins>
+                            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                        </div>
+                    </div>
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 4: RESEARCH PRIORITY
+                    ══════════════════════════════════════════ -->
+                    <section id="research-priority" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-microscope" style="color:var(--gold);font-size:16px;"></i> Research Priority</h2>
+                        <div class="guide-content">
+
+                            <p>Research is one of the most powerful — and most permanent — systems in the game. Every research node you complete gives a percentage buff that applies forever. The order in which you research matters enormously: wrong order = permanent stat deficit for weeks.</p>
+
+                            <h3>Phase 1: Development Tree First</h3>
+                            <p>The <strong>Development (Economic) Research Tree</strong> should be your first focus. Development research unlocks construction speed, resource production, gathering efficiency, and — critically — the early-game economic boosts that accelerate your entire progression. Completing the first two tiers of Development research significantly reduces your build times and increases resource income, which in turn speeds up everything else.</p>
+
+                            <p>Key Development research targets:</p>
+                            <ul>
+                                <li><strong>Construction Speed I &amp; II</strong> — reduces all building timers by a cumulative percentage</li>
+                                <li><strong>Research Speed I &amp; II</strong> — reduces research timers, compounding every future research node</li>
+                                <li><strong>Troop Load</strong> — allows troops to carry more from gathering marches, maximizing resource collection</li>
+                                <li><strong>Gathering Speed</strong> — faster marches back from resource tiles means more trips per day</li>
+                            </ul>
+
+                            <h3>Phase 2: Military Tree — Your Troop Type Only</h3>
+                            <p>Once your Development tree is reasonably complete (first 2–3 tiers unlocked), shift focus to the <strong>Military Research Tree</strong> — specifically, your chosen troop type. Research the Attack, Defense, and Health nodes for Infantry, Cavalry, or Ranged — whichever you selected. These nodes directly increase the combat stats of every troop of that type that you field.</p>
+
+                            <div class="callout-warning">
+                                <strong><i class="fa-solid fa-triangle-exclamation"></i> Never Split Military Research:</strong> Putting 10 points into Infantry, 10 into Cavalry, and 10 into Ranged gives you nothing. Splitting research means you are weaker in all three types than a focused player who put all 30 into one type. Your main troop research must be complete before you spend a single resource on alternate troop types.
+                            </div>
+
+                            <h3>Talent Set During Research</h3>
+                            <p>Switch to the <strong>Production Talent Set</strong> while queuing long research — particularly when queuing your biggest research items. The Production Talent Set includes the <em>Fast Build</em> talent, which at T4 provides a significant research time reduction. Many players forget to switch talents and lose hours of speed-up value per week.</p>
+
+                            <div class="callout-tip">
+                                <strong><i class="fa-solid fa-lightbulb"></i> Research Event Timing:</strong> Save your longest, most expensive research items to start during Research Events (typically Wednesday on the ACE weekly cycle). Research events give points per-time-spent or per-tier-completed — starting a 2-day research during the event window maximizes your event score without spending extra speed-ups.
+                            </div>
+
+                            <h3>Research Priority Checklist</h3>
+                            <ol>
+                                <li>Development Tree — Construction Speed I &amp; II, Research Speed I &amp; II</li>
+                                <li>Development Tree — Gathering and Troop Load improvements</li>
+                                <li>Military Tree — Chosen troop type: Attack I → Defense I → Health I</li>
+                                <li>Military Tree — Chosen troop type: Attack II → Defense II → Health II</li>
+                                <li>Military Tree — Troop Tier unlocks (T3 → T4 unlock nodes)</li>
+                                <li>Continue Military Tree depth before branching into other types</li>
+                            </ol>
+                        </div>
+                    </section>
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 5: FIRST HEROES
+                    ══════════════════════════════════════════ -->
+                    <section id="first-heroes" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-user-shield" style="color:var(--gold);font-size:16px;"></i> Your First Heroes</h2>
+                        <div class="guide-content">
+
+                            <p>Heroes provide some of the largest single-source stat bonuses in the game. However, heroes require <strong>Soul Stones</strong> to level up and unlock skills — and Soul Stones are a scarce resource. The key error beginners make is spreading Soul Stones across every hero they collect, resulting in a roster of weak, half-built heroes instead of 1–2 dominant ones.</p>
+
+                            <h3>How to Recruit Early Heroes</h3>
+                            <p>At the start, your primary recruitment source is the <strong>Alliance Hall</strong> — alliance member summons and Alliance Store hero fragments. Avoid spending Diamonds on hero summons in the main summon portal early on; the odds are unfavorable and you need those diamonds for VIP levels (see Section 6). Focus on heroes that are available through free and alliance channels.</p>
+
+                            <div class="hero-picks">
+                                <div class="hero-card">
+                                    <div class="hero-avatar">🦅</div>
+                                    <div>
+                                        <div class="hero-name">HORUS</div>
+                                        <div class="hero-role">INFIRMARY SPECIALIST</div>
+                                        <div class="hero-desc">At Level 131, Horus unlocks a passive that adds <strong>+200,000 Infirmary capacity</strong>. This single skill prevents massive permanent troop death — the #1 cause of stalling in mid-game. Get Horus to Lv131 as fast as possible.</div>
+                                    </div>
+                                </div>
+                                <div class="hero-card">
+                                    <div class="hero-avatar">⚔️</div>
+                                    <div>
+                                        <div class="hero-name">RYSKA</div>
+                                        <div class="hero-role">TRAINING COST REDUCER</div>
+                                        <div class="hero-desc">Ryska reduces troop training cost by <strong>25%</strong> at key skill levels — essential for F2P players who need to train large troop volumes without burning resource stockpiles. Stack her early.</div>
+                                    </div>
+                                </div>
+                                <div class="hero-card">
+                                    <div class="hero-avatar">🛡️</div>
+                                    <div>
+                                        <div class="hero-name">YOUR COMBAT HERO</div>
+                                        <div class="hero-role">CHOSEN TROOP TYPE</div>
+                                        <div class="hero-desc">Pick the combat hero that matches your troop type. Infantry players should pursue heroes like Scion or Arthur. Cavalry players target Orion or Lysander. Ranged players prioritize Mina or Aditya.</div>
+                                    </div>
+                                </div>
+                                <div class="hero-card">
+                                    <div class="hero-avatar">🧪</div>
+                                    <div>
+                                        <div class="hero-name">RESOURCE HEROES</div>
+                                        <div class="hero-role">GATHERING &amp; PRODUCTION</div>
+                                        <div class="hero-desc">Some heroes (like Azurite) boost gathering speed and load capacity. Keep one or two low-investment gathering heroes to lead your world-map resource marches — their passive bonuses apply even at low levels.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="callout-tip">
+                                <strong><i class="fa-solid fa-lightbulb"></i> Soul Stone Rule:</strong> Choose your primary combat hero and your Horus. Put every Soul Stone into those two heroes only. A Lv200 main combat hero is worth far more than six Lv80 heroes. Focus is the most important resource management principle in the hero system.
+                            </div>
+
+                            <h3>Hero Talent Sets — Learn to Switch</h3>
+                            <p>Your heroes have multiple <strong>Talent Sets</strong> that can be saved and swapped at zero cost (if you have saved sets). You should have at minimum:</p>
+                            <ul>
+                                <li><strong>Combat Set</strong> — all points in your chosen troop type's offensive talents. Used during attacks and Military Expedition.</li>
+                                <li><strong>Production Set</strong> — points in Construction Speed, Research Speed, and Fast Build. Used when buildings or research are queuing.</li>
+                                <li><strong>Gathering Set</strong> — points in March Speed and Troop Load. Used when sending troops to gather.</li>
+                            </ul>
+                            <p>Not switching talent sets is one of the most common and costly mistakes in the game. A player using a Combat Set during construction wastes every point they invested in production talents — permanently, for every hour their building is constructing.</p>
+                        </div>
+                    </section>
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 6: RESOURCE MANAGEMENT
+                    ══════════════════════════════════════════ -->
+                    <section id="resource-management" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-coins" style="color:var(--gold);font-size:16px;"></i> Resource Management</h2>
+                        <div class="guide-content">
+
+                            <p>Poor resource management is the primary reason F2P players feel stuck. The rules are simple once understood, but counterintuitive at first.</p>
+
+                            <h3>The Resource Protection Limit</h3>
+                            <p>Your castle protects a certain amount of each resource type from being raided. Resources <em>above</em> that limit are visible on your city's resource display and can be stolen by any player who attacks you. Check your protection limit (visible in your city info panel) and <strong>never let resources sit above that threshold</strong> for longer than necessary — especially overnight.</p>
+
+                            <p>The solution is to spend excess resources constantly:</p>
+                            <ul>
+                                <li>Immediately invest excess Food and Wood into troop training — troops convert resources into power</li>
+                                <li>Keep a construction or research queue running to consume resources</li>
+                                <li>Use excess Stone to upgrade Walls or Traps if you have no other queue</li>
+                            </ul>
+
+                            <h3>World Map Gathering Is Non-Negotiable</h3>
+                            <p>In-city resource production is supplementary. Your primary income comes from <strong>gathering on the World Map</strong>. Send all available march slots to resource tiles at all times — even while you sleep. Use your best Gathering Hero to lead these marches. Gather from <strong>Alliance Territory mines first</strong> — they provide a resource bonus percentage over standard tiles.</p>
+
+                            <h3>Diamond Spending Priority</h3>
+
+                            <table class="resource-table">
+                                <thead>
+                                    <tr>
+                                        <th>DIAMOND USE</th>
+                                        <th>PRIORITY</th>
+                                        <th>REASONING</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>VIP Level Upgrades</td>
+                                        <td class="priority-high">HIGHEST</td>
+                                        <td>VIP provides permanent multipliers: 2nd build queue (VIP 6), extra marches, help limits. The best diamond investment in the game.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Special Hero Summons (Crossover / Limited Events)</td>
+                                        <td class="priority-mid">MEDIUM</td>
+                                        <td>Limited heroes with strong kits appear in crossover events. Save for these rather than standard pool summons.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Infirmary Capacity Expansion</td>
+                                        <td class="priority-mid">MEDIUM</td>
+                                        <td>If you are under-capacity and about to participate in a major battle, temporary Infirmary capacity expansion purchases prevent permanent troop death.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Speed-Ups for Casual Events</td>
+                                        <td class="priority-low">NEVER</td>
+                                        <td>Using diamonds to buy speed-ups for low-value events is an inefficient conversion. Speed-ups earned for free from quests are sufficient.</td>
+                                    </tr>
+                                    <tr>
+                                        <td>"Value Packs" / Shop Deals</td>
+                                        <td class="priority-low">AVOID EARLY</td>
+                                        <td>Unless you intend to spend consistently long-term, value packs provide short bursts that fade quickly. VIP is always the better purchase.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <div class="callout-info">
+                                <strong><i class="fa-solid fa-info-circle"></i> Gold and Gems vs. Diamonds:</strong> The game uses multiple currencies. "Diamonds" (the premium currency) are different from event tokens or Alliance Credits. Never conflate them — Alliance Credits spent in the Alliance Store are free and should always be used. Diamonds are scarce and should be spent strategically.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 7: EVENTS AND WEEKLY CYCLE
+                    ══════════════════════════════════════════ -->
+                    <section id="events-cycle" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-calendar-days" style="color:var(--gold);font-size:16px;"></i> Events and Weekly Cycle</h2>
+                        <div class="guide-content">
+
+                            <p>Puzzles &amp; Conquest runs on a structured event calendar that repeats on a weekly and ACE cycle. Players who understand this calendar align their activities with bonus events — effectively multiplying their progress without spending anything extra. Players who don't understand it train troops on building days, start buildings on training days, and earn a fraction of available rewards.</p>
+
+                            <h3>The ACE / Weekly Event Structure</h3>
+
+                            <div class="event-schedule">
+                                <div class="event-day">
+                                    <div class="event-day-label">MONDAY<span>WEEK START</span></div>
+                                    <div class="event-day-content"><strong>Alliance Events / Kingdom Events</strong> — Check your kingdom's specific event rotation. Often a quieter build day. Great for queuing long HQ upgrades.</div>
+                                </div>
+                                <div class="event-day">
+                                    <div class="event-day-label">TUESDAY<span>ACE WEEK</span></div>
+                                    <div class="event-day-content"><strong>Training Event</strong> <span class="event-tag etag-train">TRAIN TROOPS</span> — Train as many troops as possible. Queue all Training Grounds, use all training speed-ups. This is the highest-value troop training day of the week.</div>
+                                </div>
+                                <div class="event-day">
+                                    <div class="event-day-label">WEDNESDAY<span>ACE WEEK</span></div>
+                                    <div class="event-day-content"><strong>Building / Research Event</strong> <span class="event-tag etag-build">BUILD &amp; RESEARCH</span> — Start your single longest construction or research item. Do not queue many small items — start the one item that will take the most time, as event points reward completion or time invested.</div>
+                                </div>
+                                <div class="event-day">
+                                    <div class="event-day-label">THURSDAY</div>
+                                    <div class="event-day-content"><strong>Gathering / Monster Hunting</strong> <span class="event-tag etag-gather">GATHER</span> — Send all marches to high-level resource tiles. Farm world map monsters for Stamina rewards and XP. Gathering events reward resource volume collected.</div>
+                                </div>
+                                <div class="event-day">
+                                    <div class="event-day-label">FRIDAY–SAT</div>
+                                    <div class="event-day-content"><strong>KVK / Military Expedition Prep</strong> <span class="event-tag etag-kvk">COMBAT</span> — Shield up or prepare for combat events. Check your alliance's rules. Ensure Infirmary is full-capacity before major battles.</div>
+                                </div>
+                                <div class="event-day">
+                                    <div class="event-day-label">SUNDAY</div>
+                                    <div class="event-day-content"><strong>Alliance Contribution / Daily Reset</strong> — Complete all weekly missions. Collect all pending reward chests. Spend Alliance Credits before the weekly reset if applicable.</div>
+                                </div>
+                            </div>
+
+                            <div class="callout-info">
+                                <strong><i class="fa-solid fa-info-circle"></i> Live Event Calendar:</strong> The exact event rotation varies by kingdom age and ACE cycle position. Check the <a href="../event-calendar/index.html" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(251,191,36,0.3);">Event Calendar page</a> for live tracking of your kingdom's specific schedule, including upcoming Military Expedition and KVK dates.
+                            </div>
+
+                            <h3>Why Event Alignment Matters</h3>
+                            <p>Event rewards are not passive — they require you to <em>perform the action during the event window</em>. Training 50,000 troops the day before a Training Event earns you nothing from that event. Training 50,000 troops during the event earns you chests containing speed-ups, resources, and hero fragments. Over a month, a player who event-aligns their actions can accumulate the equivalent of 2–3 weeks of "extra" progress compared to someone who ignores the calendar entirely.</p>
+
+                            <div class="callout-tip">
+                                <strong><i class="fa-solid fa-lightbulb"></i> Stockpile Before Events:</strong> In the 24 hours before a Training Event, do not start any troop training. Let your resources accumulate. Then, when the event opens, queue the maximum troops possible across all Training Grounds simultaneously. This one habit doubles or triples your event score per session.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- AD SLOT 3: IN-ARTICLE (after section 7) -->
+                    <div class="ad-unit">
+                        <div class="ad-unit-inner">
+                            <ins class="adsbygoogle"
+                                 style="display:block; width:100%; min-height:100px;"
+                                 data-ad-client="ca-pub-1115056295957658"
+                                 data-ad-slot="2001000003"
+                                 data-ad-format="auto"
+                                 data-full-width-responsive="true"></ins>
+                            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                        </div>
+                    </div>
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 8: ALLIANCE BENEFITS
+                    ══════════════════════════════════════════ -->
+                    <section id="alliance-benefits" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-people-group" style="color:var(--gold);font-size:16px;"></i> Alliance Benefits</h2>
+                        <div class="guide-content">
+
+                            <p>An alliance is not just a chat group — it is a fundamental progression system. Players who treat their alliance as a background feature leave enormous free power on the table daily.</p>
+
+                            <h3>Alliance Technology</h3>
+                            <p><strong>Alliance Technology</strong> is researched collectively using Alliance Science Points, donated by all members. Once unlocked, tech buffs apply permanently to every member of the alliance at zero individual cost. A mature alliance with maxed tech can provide:</p>
+                            <ul>
+                                <li>+10–20% to your troop Attack and Defense</li>
+                                <li>+10–15% Construction and Research Speed</li>
+                                <li>Increased March Speed and Troop Load for gathering</li>
+                                <li>Additional Infirmary Capacity (alliance-wide)</li>
+                            </ul>
+                            <p>These are among the largest stat multipliers available in the game for free. The difference between a new player in a top alliance versus a new player in a dead alliance is often 30%+ across all combat stats.</p>
+
+                            <h3>Alliance Gifts</h3>
+                            <p>Every time any alliance member spends real money (any amount), all alliance members receive a free <strong>Alliance Gift Chest</strong>. These chests contain speed-ups, hero fragments, resources, and occasionally rare items. In an active alliance with paying members, you can receive 5–15 gift chests per day doing absolutely nothing. <strong>Collect them every single day</strong> — uncollected gifts expire.</p>
+
+                            <h3>Alliance Help</h3>
+                            <p>Every time you start a building or research, tap the "Request Help" button. Each alliance member who clicks Help reduces your timer by a small amount — often 1–5 minutes per member. In a 30-person alliance, one Help request can cut 30–150 minutes from your timer. Over a week, this alone can save 10–20 hours of build time.</p>
+
+                            <h3>Prepare for KVK with Your Alliance</h3>
+                            <p>Before Kingdom vs. Kingdom (KVK), your alliance's R4 and R5 leadership should conduct a review. Ensure all members:</p>
+                            <ul>
+                                <li>Have a shield active or are behind the alliance's defensive perimeter</li>
+                                <li>Have Infirmaries fully upgraded and at capacity</li>
+                                <li>Have their Combat Talent Set active</li>
+                                <li>Have received their march assignments from R4/R5 leadership</li>
+                            </ul>
+
+                            <div class="callout-tip">
+                                <strong><i class="fa-solid fa-lightbulb"></i> Alliance Events:</strong> Participate in every Alliance Event — Alliance Battle, Alliance Rally, Alliance Construction. These events provide the best free rewards in the game per time invested. Alliance Battle in particular offers hero fragments, rare speed-ups, and resource packages that would otherwise cost Diamonds to obtain.
+                            </div>
+
+                            <div class="callout-info">
+                                <strong><i class="fa-solid fa-info-circle"></i> Alliance Rank Matters:</strong> R4 and R5 members have access to alliance war declarations, territory management, and alliance construction. If you earn trust and a leadership rank, use these tools to benefit the whole alliance — coordinate territory expansion before KVK to secure resource bonuses for all members.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 9: F2P SURVIVAL TIPS
+                    ══════════════════════════════════════════ -->
+                    <section id="f2p-tips" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-hand-holding-dollar" style="color:var(--gold);font-size:16px;"></i> F2P Survival Tips</h2>
+                        <div class="guide-content">
+
+                            <p>Free-to-play in a mobile strategy game is harder than the game's tutorial implies, but it is absolutely viable with discipline. The players who succeed F2P follow a strict resource and time discipline that whales often don't need to bother with. Here are the non-negotiable rules.</p>
+
+                            <h3>The Diamond Rule: VIP Only</h3>
+                            <p>If you spend a single cent on this game, or if you accumulate diamonds through events, <strong>put them into VIP levels first and only</strong>. VIP provides permanent account-wide multipliers that compound every single day. VIP 6 unlocks the second build queue — worth approximately 50% more progress per day forever. VIP 8 unlocks extra march slots. VIP 10+ unlocks major combat buffs. No other diamond expenditure comes close to this return on investment.</p>
+
+                            <div class="callout-warning">
+                                <strong><i class="fa-solid fa-triangle-exclamation"></i> Value Pack Trap:</strong> The game frequently offers "Value Packs" at discounted prices with a timer. These feel like good deals, but unless you are committed to long-term spending, they create a fleeting power spike that fades quickly. The in-game economy is tuned so that one-time spenders fall behind consistent spenders regardless. F2P is better than "dolphin" (occasional spender) in most kingdoms.
+                            </div>
+
+                            <h3>Daily Non-Negotiables</h3>
+                            <ul>
+                                <li><strong>Complete every Daily Mission</strong> — the Activity Chest at max activity contains free speed-ups and resources worth hours of progress</li>
+                                <li><strong>Collect Alliance Gifts</strong> — open your gift chest every login without fail; uncollected gifts expire within 24 hours</li>
+                                <li><strong>Farm World Map Monsters</strong> — daily monster hunting awards Stamina reward chests, hero XP, and rare upgrade materials. Never let your Stamina cap out idle</li>
+                                <li><strong>Keep all marches active</strong> — idle marches are wasted production. Gathering, monster hunting, or alliance construction — always have troops moving</li>
+                                <li><strong>Request Alliance Help</strong> on every build and research queue</li>
+                            </ul>
+
+                            <h3>Speed-Up Strategy</h3>
+                            <p>Green (1-hour) and blue (3-hour) speed-ups should be <strong>reserved exclusively for Troop Training events</strong>. Do not spend them casually between events. During Training Events, the point multiplier makes each speed-up worth 3–5× its face value in event rewards. F2P players who stockpile speed-ups for 6 days and unleash them on Training Day can compete with moderate spenders on the event leaderboard.</p>
+
+                            <h3>The Time Altar and Fast Comeback</h3>
+                            <p>During Military Expedition, the <strong>Time Altar</strong> mechanic allows you to safely trigger "Fast Comeback" — a mechanic that recalls your troops from an Altar occupation without losing them to permanent death. Use this defensively when you see a large incoming enemy attack targeting your Altar. F2P players especially cannot afford permanent troop death, so mastering Fast Comeback timing is essential. See the Military Expedition Guide for detailed timing instructions.</p>
+
+                            <div class="callout-tip">
+                                <strong><i class="fa-solid fa-lightbulb"></i> Monster Drop Priority:</strong> Focus on farming the highest-level monsters your Stamina budget allows. High-level monsters drop Relic fragments and hero upgrade materials that are gated behind stamina investment. Don't spread stamina across low-level monsters for quick kills — the reward quality difference between Level 5 and Level 10 monsters is substantial.
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ══════════════════════════════════════════
+                         SECTION 10: COMMON BEGINNER MISTAKES
+                    ══════════════════════════════════════════ -->
+                    <section id="common-mistakes" class="guide-section">
+                        <h2 class="section-title"><i class="fa-solid fa-circle-exclamation" style="color:#ef4444;font-size:16px;"></i> Common Beginner Mistakes</h2>
+                        <div class="guide-content">
+
+                            <p>These are the six most common mistakes that new players make — each one costs weeks of progress. Review this list and check your current habits against it.</p>
+
+                            <div class="mistake-list">
+                                <div class="mistake-item">
+                                    <i class="fa-solid fa-xmark mistake-icon"></i>
+                                    <div class="mistake-text">
+                                        <strong>Upgrading Castle too slowly.</strong> This is the #1 mistake without exception. Players who deprioritize HQ upgrades to upgrade other buildings — "just to get this one thing" — compound the delay across every system. The HQ is always, always the priority. If your HQ upgrade is not running, nothing else should be running instead of it unless HQ is physically at its cap for your current level.
+                                    </div>
+                                </div>
+                                <div class="mistake-item">
+                                    <i class="fa-solid fa-xmark mistake-icon"></i>
+                                    <div class="mistake-text">
+                                        <strong>Splitting troop research across all three types.</strong> A player with 300 research points split evenly across Infantry, Cavalry, and Ranged has 100 points in each — which unlocks almost nothing useful. A player with 300 points focused entirely in Infantry has maxed-out tier 3 Infantry buffs and is training T4 troops. The focused player is categorically stronger. Never split military research.
+                                    </div>
+                                </div>
+                                <div class="mistake-item">
+                                    <i class="fa-solid fa-xmark mistake-icon"></i>
+                                    <div class="mistake-text">
+                                        <strong>Ignoring the Infirmary.</strong> Building one Infirmary and never upgrading it is a slow-motion disaster. When you take losses in combat — especially during Military Expedition — troops that exceed your Infirmary capacity die permanently. Replacing dead troops costs 5× more than healing wounded troops and resets your army size setback by days. Max Infirmary capacity is not optional.
+                                    </div>
+                                </div>
+                                <div class="mistake-item">
+                                    <i class="fa-solid fa-xmark mistake-icon"></i>
+                                    <div class="mistake-text">
+                                        <strong>Attacking random players early.</strong> Breaking your Beginner's Shield to attack a random player is almost never worth it. You gain a small amount of resources (which you could have gathered from the world map safely) and you earn a permanent enemy who may be stronger than you realize. Worse, many experienced players will farm you repeatedly once your shield is down. Stay shielded until your Infirmary and army are both strong enough to absorb losses.
+                                    </div>
+                                </div>
+                                <div class="mistake-item">
+                                    <i class="fa-solid fa-xmark mistake-icon"></i>
+                                    <div class="mistake-text">
+                                        <strong>Not switching Talent Sets situationally.</strong> Using a Combat Talent Set while waiting for a 48-hour construction timer to complete means every construction speed buff in your Production Set is doing nothing. Conversely, using a Production Set during Military Expedition means you are fighting at reduced attack for hours. Switching takes 10 seconds. Not switching costs you thousands of stat points per day.
+                                    </div>
+                                </div>
+                                <div class="mistake-item">
+                                    <i class="fa-solid fa-xmark mistake-icon"></i>
+                                    <div class="mistake-text">
+                                        <strong>Forgetting to collect Alliance Gifts daily.</strong> Alliance Gifts expire. A player in an active alliance who logs in once every two days may be missing 10–20 gift chests per cycle — chests containing speed-ups, hero fragments, and resources. Set a daily reminder if necessary. This is the single easiest free power source in the game and the most commonly neglected.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="callout-tip">
+                                <strong><i class="fa-solid fa-lightbulb"></i> Self-Audit:</strong> Every week, ask yourself: Is my HQ upgrade running? Is my Infirmary at max capacity for my level? Are my Soul Stones going into 1–2 heroes only? Am I event-aligned? Is my talent set correct for my current activity? If the answer to all five is yes, you are playing optimally for your stage of progression.
+                            </div>
+
+                            <div class="callout-info">
+                                <strong><i class="fa-solid fa-info-circle"></i> Where to Go Next:</strong> Once you've internalized this guide, your next steps are the <a href="../military-expedition-guide/index.html" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(251,191,36,0.3);">Military Expedition Guide</a> (for combat event strategy), the <a href="../event-calendar/index.html" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(251,191,36,0.3);">Event Calendar</a> (for live scheduling), and the <a href="../troop-resource-calculator/index.html" style="color:var(--gold);text-decoration:none;border-bottom:1px solid rgba(251,191,36,0.3);">Troop Resource Calculator</a> (to plan your training events before they start).
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- ══════════════════════════════════════════
+                         FOOTER AD
+                    ══════════════════════════════════════════ -->
+                    <div class="ad-unit">
+                        <div class="ad-unit-inner">
+                            <ins class="adsbygoogle"
+                                 style="display:block; width:100%; min-height:90px;"
+                                 data-ad-client="ca-pub-1115056295957658"
+                                 data-ad-slot="2001000004"
+                                 data-ad-format="auto"
+                                 data-full-width-responsive="true"></ins>
+                            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- END content-main -->
+
+                <!-- ─── RIGHT SIDEBAR ──────────────────────────── -->
+                <aside class="content-sidebar">
+                    <div class="sidebar-sticky">
+
+                        <!-- TABLE OF CONTENTS -->
+                        <div class="sidebar-card" style="margin-bottom:20px;">
+                            <div class="sidebar-card-top"></div>
+                            <div class="sidebar-card-title">
+                                <i class="fa-solid fa-list"></i> TABLE OF CONTENTS
+                            </div>
+                            <nav aria-label="Page sections">
+                                <a href="#first-7-days" class="toc-link">
+                                    <span>01 &mdash; Your First 7 Days</span>
+                                </a>
+                                <a href="#troop-type" class="toc-link">
+                                    <span>02 &mdash; Choosing Your Troop Type</span>
+                                </a>
+                                <a href="#building-priority" class="toc-link">
+                                    <span>03 &mdash; Building Priority Order</span>
+                                </a>
+                                <a href="#research-priority" class="toc-link">
+                                    <span>04 &mdash; Research Priority</span>
+                                </a>
+                                <a href="#first-heroes" class="toc-link">
+                                    <span>05 &mdash; Your First Heroes</span>
+                                </a>
+                                <a href="#resource-management" class="toc-link">
+                                    <span>06 &mdash; Resource Management</span>
+                                </a>
+                                <a href="#events-cycle" class="toc-link">
+                                    <span>07 &mdash; Events &amp; Weekly Cycle</span>
+                                </a>
+                                <a href="#alliance-benefits" class="toc-link">
+                                    <span>08 &mdash; Alliance Benefits</span>
+                                </a>
+                                <a href="#f2p-tips" class="toc-link">
+                                    <span>09 &mdash; F2P Survival Tips</span>
+                                </a>
+                                <a href="#common-mistakes" class="toc-link">
+                                    <span>10 &mdash; Common Mistakes</span>
+                                </a>
+                            </nav>
+                        </div>
+
+                        <!-- SIDEBAR AD 300x250 -->
+                        <div class="ad-unit" style="margin-bottom:20px;">
+                            <div class="ad-unit-inner" style="min-height:250px; max-width:300px; margin:0 auto;">
+                                <ins class="adsbygoogle"
+                                     style="display:block; width:300px; height:250px;"
+                                     data-ad-client="ca-pub-1115056295957658"
+                                     data-ad-slot="2001000005"
+                                     data-ad-format="fixed"></ins>
+                                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                            </div>
+                        </div>
+
+                        <!-- QUICK REFERENCE CARD -->
+                        <div class="sidebar-card" style="margin-bottom:20px;">
+                            <div class="sidebar-card-top"></div>
+                            <div class="sidebar-card-title">
+                                <i class="fa-solid fa-bolt"></i> QUICK REFERENCE
+                            </div>
+                            <div style="display:flex;flex-direction:column;gap:8px;">
+                                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#475569;letter-spacing:1px;padding-bottom:6px;border-bottom:1px solid rgba(30,45,61,0.4);">TROOP COUNTER TRIANGLE</div>
+                                <div style="font-size:11px;color:#94a3b8;line-height:1.6;">
+                                    <span style="color:var(--cyan);">Infantry</span> &gt; <span style="color:var(--gold);">Cavalry</span><br>
+                                    <span style="color:var(--gold);">Cavalry</span> &gt; <span style="color:#f472b6;">Ranged</span><br>
+                                    <span style="color:#f472b6;">Ranged</span> &gt; <span style="color:var(--cyan);">Infantry</span>
+                                </div>
+                                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#475569;letter-spacing:1px;padding:6px 0;border-bottom:1px solid rgba(30,45,61,0.4);border-top:1px solid rgba(30,45,61,0.4);margin-top:4px;">BUILD ORDER (TOP 3)</div>
+                                <div style="font-size:11px;color:#94a3b8;line-height:1.8;">
+                                    <span style="color:var(--gold);">1.</span> Headquarters<br>
+                                    <span style="color:var(--gold);">2.</span> Infirmary (multiple)<br>
+                                    <span style="color:var(--gold);">3.</span> Training Grounds (multiple)
+                                </div>
+                                <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#475569;letter-spacing:1px;padding:6px 0;border-bottom:1px solid rgba(30,45,61,0.4);border-top:1px solid rgba(30,45,61,0.4);margin-top:4px;">DIAMOND SPEND</div>
+                                <div style="font-size:11px;color:#4ade80;line-height:1.8;">
+                                    ✓ VIP Level (always first)<br>
+                                    ✓ Infirmary capacity (KVK)<br>
+                                    ✓ Limited hero summons
+                                </div>
+                                <div style="font-size:11px;color:#f87171;margin-top:4px;line-height:1.8;">
+                                    ✗ Speed-ups for casual events<br>
+                                    ✗ Value packs (unless long-term)
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RELATED GUIDES -->
+                        <div class="sidebar-card">
+                            <div class="sidebar-card-top"></div>
+                            <div class="sidebar-card-title">
+                                <i class="fa-solid fa-book-open"></i> RELATED GUIDES
+                            </div>
+                            <div style="display:flex;flex-direction:column;gap:10px;">
+                                <a href="../military-expedition-guide/index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;padding:10px;border-radius:8px;background:rgba(10,15,30,0.6);border:1px solid rgba(30,45,61,0.5);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(251,191,36,0.3)'" onmouseout="this.style.borderColor='rgba(30,45,61,0.5)'">
+                                    <i class="fa-solid fa-sword" style="color:var(--gold);font-size:14px;width:16px;text-align:center;"></i>
+                                    <div>
+                                        <div style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:#e2e8f0;letter-spacing:0.5px;">Military Expedition</div>
+                                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#475569;letter-spacing:1px;">KVK Strategy Guide</div>
+                                    </div>
+                                </a>
+                                <a href="../event-calendar/index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;padding:10px;border-radius:8px;background:rgba(10,15,30,0.6);border:1px solid rgba(30,45,61,0.5);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(251,191,36,0.3)'" onmouseout="this.style.borderColor='rgba(30,45,61,0.5)'">
+                                    <i class="fa-solid fa-calendar-check" style="color:var(--gold);font-size:14px;width:16px;text-align:center;"></i>
+                                    <div>
+                                        <div style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:#e2e8f0;letter-spacing:0.5px;">Event Calendar</div>
+                                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#475569;letter-spacing:1px;">Live Tracking</div>
+                                    </div>
+                                </a>
+                                <a href="../troop-resource-calculator/index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;padding:10px;border-radius:8px;background:rgba(10,15,30,0.6);border:1px solid rgba(30,45,61,0.5);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(251,191,36,0.3)'" onmouseout="this.style.borderColor='rgba(30,45,61,0.5)'">
+                                    <i class="fa-solid fa-calculator" style="color:var(--gold);font-size:14px;width:16px;text-align:center;"></i>
+                                    <div>
+                                        <div style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:#e2e8f0;letter-spacing:0.5px;">Troop Calculator</div>
+                                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#475569;letter-spacing:1px;">Resource Planner</div>
+                                    </div>
+                                </a>
+                                <a href="../alliance/index.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;padding:10px;border-radius:8px;background:rgba(10,15,30,0.6);border:1px solid rgba(30,45,61,0.5);transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(251,191,36,0.3)'" onmouseout="this.style.borderColor='rgba(30,45,61,0.5)'">
+                                    <i class="fa-solid fa-shield-halved" style="color:var(--gold);font-size:14px;width:16px;text-align:center;"></i>
+                                    <div>
+                                        <div style="font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;color:#e2e8f0;letter-spacing:0.5px;">Alliance Guide</div>
+                                        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;color:#475569;letter-spacing:1px;">Team Strategy</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </aside>
+                <!-- END sidebar -->
+
+            </div>
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════
+         SITE FOOTER
+    ═══════════════════════════════════════════════════ -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-logo">NOY<span>ZZING</span> // OPS</div>
+            <div class="footer-links">
+                <a href="../index.html" class="footer-link">HOME</a>
+                <a href="../beginners-guide/index.html" class="footer-link">BEGINNER'S GUIDE</a>
+                <a href="../military-expedition-guide/index.html" class="footer-link">MILITARY EXPEDITION</a>
+                <a href="../event-calendar/index.html" class="footer-link">EVENT CALENDAR</a>
+                <a href="../troop-resource-calculator/index.html" class="footer-link">CALCULATOR</a>
+                <a href="../alliance/index.html" class="footer-link">ALLIANCE</a>
+                <a href="../privacy-policy/index.html" class="footer-link">PRIVACY POLICY</a>
+                <a href="../terms-of-service/index.html" class="footer-link">TERMS</a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2024–2026 NOYZZING // OPS &mdash; PUZZLES &amp; CONQUEST STRATEGY INTEL. NOT AFFILIATED WITH CENTURY GAMES.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ═══════════════════════════════════════════════════
+         CHAT FAB + CHATBOX
+    ═══════════════════════════════════════════════════ -->
+    <button class="chat-fab" id="chatFab" aria-label="Open strategy chat" aria-expanded="false">
+        <i class="fa-solid fa-comments"></i>
+        <span>ASK STRATEGY</span>
+    </button>
+
+    <div class="chatbox-panel hidden" id="chatPanel" role="dialog" aria-modal="true" aria-label="Strategy chat">
+        <div class="chatbox-header">
+            <div class="chatbox-title">
+                <i class="fa-solid fa-robot"></i> NOYZZING // BOT
+            </div>
+            <button class="chat-close-btn" id="chatClose" aria-label="Close chat">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="chatbox-messages" id="chatMessages">
+            <div class="chat-msg chat-msg-bot">
+                <span class="msg-sender">NOYZZING // BOT</span>
+                Welcome, Commander. Ask me anything about the Beginner's Guide — troop types, building priority, heroes, or F2P tips.
+            </div>
+        </div>
+        <div class="chatbox-input-wrap">
+            <input class="chat-input" id="chatInput" type="text" placeholder="Ask a strategy question..." autocomplete="off" aria-label="Chat message input">
+            <button class="chat-send-btn" id="chatSend" aria-label="Send message">
+                <i class="fa-solid fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         SCRIPTS
+    ═══════════════════════════════════════════════════ -->
+    <script>
+        // ── CHAT FAB ────────────────────────────────────
+        const chatFab   = document.getElementById('chatFab');
+        const chatPanel = document.getElementById('chatPanel');
+        const chatClose = document.getElementById('chatClose');
+        const chatInput = document.getElementById('chatInput');
+        const chatSend  = document.getElementById('chatSend');
+        const chatMsgs  = document.getElementById('chatMessages');
+
+        function toggleChat(open) {
+            if (open) {
+                chatPanel.classList.remove('hidden');
+                chatFab.setAttribute('aria-expanded', 'true');
+                chatInput.focus();
+            } else {
+                chatPanel.classList.add('hidden');
+                chatFab.setAttribute('aria-expanded', 'false');
+            }
+        }
+
+        chatFab.addEventListener('click', () => toggleChat(chatPanel.classList.contains('hidden')));
+        chatClose.addEventListener('click', () => toggleChat(false));
+
+        const botResponses = {
+            'troop': "Focus on ONE troop type — Infantry, Cavalry, or Ranged. Never split research between types. Infantry is most forgiving for new players.",
+            'infantry': "Infantry beats Cavalry, loses to Ranged. Best for beginners — highest survivability reduces permanent troop death while your Infirmary builds up.",
+            'cavalry': "Cavalry beats Ranged, loses to Infantry. Excellent march speed for gathering and KVK mobility. Strong in well-coordinated alliances.",
+            'ranged': "Ranged beats Infantry, loses to Cavalry. Highest DPS ceiling but needs significant hero investment (Mina/Aditya) and top-tier gear to shine.",
+            'horus': "Horus is essential — at Level 131, he adds +200,000 Infirmary capacity. This prevents massive permanent troop death. Prioritize him early.",
+            'ryska': "Ryska reduces troop training cost by 25% at key skill levels. Essential for F2P — more troops per resource spent. Get her early.",
+            'infirmary': "Build multiple Infirmaries and max them all! Wounded troops heal cheaply; troops that exceed Infirmary capacity die permanently and cost 5× more to replace.",
+            'diamond': "Spend diamonds on VIP first — always. VIP 6 unlocks the 2nd build queue, which is worth ~50% more progress per day forever.",
+            'vip': "VIP is your #1 diamond investment. VIP 6 = 2nd build queue. VIP 8 = extra march slots. No other diamond spend matches this long-term value.",
+            'alliance': "Join an alliance on Day 1. Alliance Tech provides free permanent stat buffs. Alliance Help cuts build timers. Alliance Gifts give free daily items.",
+            'event': "Align your actions to the event calendar. Train troops on Training Event day. Start long builds on Building/Research day. Don't waste actions between events.",
+            'research': "Development Tree first (construction + research speed), then Military Tree focused on your chosen troop type only. Never split between types.",
+            'building': "Priority: 1. HQ, 2. Infirmary (multiple), 3. Training Grounds (multiple), 4. Research Lab, 5. Resources, 6. Wall. HQ is always #1.",
+            'shield': "Never attack another player while your Beginner's Shield is active — attacking breaks it permanently. Use the shield period to grow safely.",
+            'f2p': "Key F2P rules: diamonds go to VIP only, collect Alliance Gifts daily, save speed-ups for Training Events, never miss daily missions, farm monsters daily.",
+            'talent': "Switch talent sets situationally! Production Set during building/research, Combat Set during battles, Gathering Set when sending resource marches. Takes 10 seconds.",
+            'default': "Great question! The key principles for beginners are: upgrade HQ first always, pick one troop type and commit, max Infirmaries, join a strong alliance, and align your actions to the weekly event calendar."
+        };
+
+        function getBotReply(msg) {
+            const lower = msg.toLowerCase();
+            for (const [key, reply] of Object.entries(botResponses)) {
+                if (key !== 'default' && lower.includes(key)) return reply;
+            }
+            return botResponses.default;
+        }
+
+        function appendMsg(text, isUser) {
+            const div = document.createElement('div');
+            div.className = `chat-msg ${isUser ? 'chat-msg-user' : 'chat-msg-bot'}`;
+            if (!isUser) {
+                const sender = document.createElement('span');
+                sender.className = 'msg-sender';
+                sender.textContent = 'NOYZZING // BOT';
+                div.appendChild(sender);
+            }
+            div.appendChild(document.createTextNode(text));
+            chatMsgs.appendChild(div);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            appendMsg(text, true);
+            chatInput.value = '';
+            setTimeout(() => appendMsg(getBotReply(text), false), 420);
+        }
+
+        chatSend.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+
+        // ── SMOOTH ACTIVE TOC HIGHLIGHT ─────────────────
+        const sections = document.querySelectorAll('section[id]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+
+        function updateActiveToc() {
+            let current = '';
+            sections.forEach(section => {
+                const top = section.getBoundingClientRect().top;
+                if (top <= 120) current = section.id;
+            });
+            tocLinks.forEach(link => {
+                const href = link.getAttribute('href').substring(1);
+                if (href === current) {
+                    link.style.color = 'var(--gold)';
+                    link.style.paddingLeft = '6px';
+                } else {
+                    link.style.color = '';
+                    link.style.paddingLeft = '';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', updateActiveToc, { passive: true });
+        updateActiveToc();
+    </script>
+
+</body>
+</html>
